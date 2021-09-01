@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.UI.Interfaces
 {
-    interface ISpeedListener
+    interface IResistanceListener
     {
-        void OnSpeedChanged(double speed);
+        void OnResistanceChanged(int resistance);
     }
 }

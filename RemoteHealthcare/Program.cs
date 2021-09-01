@@ -14,6 +14,8 @@ namespace RemoteHealthcare
             dataSimulator.SetHeartBeatListener(consoleWindow);
             dataSimulator.SetSpeedListener(consoleWindow);
             dataSimulator.SetRPMListener(consoleWindow);
+            dataSimulator.SetResitanceListener(consoleWindow);
+            dataSimulator.SetDistanceListener(consoleWindow);
 
             consoleWindow.PrintData();
             dataSimulator.Start();

@@ -9,11 +9,13 @@ namespace RemoteHealthcare.UI
         RPMLine = 2,
         SpeedLine = 3,
         HeartLine = 4,
+        ResitanceLine = 5,
+        DistanceLine = 6,
         InputLine = 10,
         OutputLine = 12
     }
 
-    class ConsoleWindow : ISpeedListener, IHeartbeatListener, IRPMListener
+    class ConsoleWindow : ISpeedListener, IHeartbeatListener, IRPMListener, IResistanceListener, IDistanceListener
     {
         private readonly string enterCommandMsg = "Enter a command: ";
         public ConsoleWindow()
@@ -67,7 +69,7 @@ namespace RemoteHealthcare.UI
             Console.SetCursorPosition(0, line);
         }
 
-        public void OnSpeedChanged(int speed)
+        public void OnSpeedChanged(double speed)
         {
             //ClearLine(7, (int) Line.SpeedLine);
             Console.SetCursorPosition(0, (int) Line.SpeedLine);
@@ -86,6 +88,18 @@ namespace RemoteHealthcare.UI
             //ClearLine(5, (int)Line.RPMLine);
             Console.SetCursorPosition(0, (int) Line.RPMLine);
             Console.Write("RPM: {0}          ", rpm);
+        }
+
+        public void OnResistanceChanged(int resistance)
+        {
+            Console.SetCursorPosition(0, (int)Line.ResitanceLine);
+            Console.Write("Reistance: {0} %   ", resistance);
+        }
+
+        public void OnDistanceChanged(int distance)
+        {
+            Console.SetCursorPosition(0, (int)Line.DistanceLine);
+            Console.Write("Distance: {0} m         ", distance);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace RemoteHealthcare.Simulator
         private IHeartbeatListener heartBeatListener;
         private ISpeedListener speedListener;
         private IRPMListener rpmListener;
+        private IResistanceListener resistanceListener;
+        private IDistanceListener distanceListener;
 
         private Random random = new Random();
 
@@ -40,6 +42,16 @@ namespace RemoteHealthcare.Simulator
                     this.rpmListener.OnRPMChanged(this.random.Next(1000));
                 }
 
+                if (this.resistanceListener != null)
+                {
+                    this.resistanceListener.OnResistanceChanged(this.random.Next(100));
+                }
+
+                if (this.distanceListener != null)
+                {
+                    this.distanceListener.OnDistanceChanged(i);
+                }
+
                 Thread.Sleep(500);
             }
         }
@@ -57,6 +69,16 @@ namespace RemoteHealthcare.Simulator
         public void SetRPMListener(IRPMListener listener)
         {
             this.rpmListener = listener;
+        }
+
+        public void SetResitanceListener(IResistanceListener listener)
+        {
+            this.resistanceListener = listener;
+        }
+
+        public void SetDistanceListener(IDistanceListener listener)
+        {
+            this.distanceListener = listener;
         }
     }
 }
