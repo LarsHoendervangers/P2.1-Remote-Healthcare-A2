@@ -58,10 +58,12 @@ namespace RemoteHealthcare
 
         private static void BleBike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-            Console.WriteLine("Received from {0}: {1}, {2}, {3}", e.ServiceName,
-                BitConverter.ToString(e.Data).Replace("-", " "),
-                Encoding.UTF8.GetString(e.Data), ShowValue(DataToPayload(e.Data)
-                ));
+            //Console.WriteLine("Received from {0}: {1}, {2}, {3}", e.ServiceName,
+            //   BitConverter.ToString(e.Data).Replace("-", " "),
+            //   Encoding.UTF8.GetString(e.Data), ShowValue(DataToPayload(e.Data)
+            //   ));
+
+            ShowValue(DataToPayload(e.Data));
 
 
         }
@@ -90,9 +92,18 @@ namespace RemoteHealthcare
         {
             byte pagenumber = PageChecker(payload);
 
-            if (pagenumber == 16) return payload[4];
+            if (pagenumber == 16)
+            {
+                //  Console.WriteLine("Distance traveled {0}", payload[3]);
+                Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[4], payload[5]) / 10 * 3.6);
+                return payload[3];
+            }
 
-            if (pagenumber == 25) return payload[2];
+            if (pagenumber == 25)
+            {
+                //Console.WriteLine("Rpm: {0}", payload[2]);
+                return payload[2];
+            }
 
             return (byte)0xFF;
         }
@@ -110,6 +121,15 @@ namespace RemoteHealthcare
                 toReturn[i - 4] = data[i];
             }
             return toReturn;
+        }
+
+        private static short CombineBits(byte byte1, byte byte2)
+        {
+            //Bit shift first bit 8 to the left
+            byte1 = (byte)(byte1 << 8);
+
+            //Or both bytes
+            return (short)(byte1 | byte2);
         }
 
     }
