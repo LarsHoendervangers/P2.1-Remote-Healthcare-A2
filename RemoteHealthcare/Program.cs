@@ -81,7 +81,7 @@ namespace RemoteHealthcare
         private static byte PageChecker(byte[] payload)
         {
             //Filter on byte array size, should be redundant
-            if (payload.Length != 8) return (byte)0xFF;
+            //if (payload.Length != 8) return (byte)0xFF;
 
             return payload[0];
         }
@@ -101,7 +101,7 @@ namespace RemoteHealthcare
         //Payload size is 8, contains the information obtained by the sensor
         private static byte[] DataToPayload(byte[] data)
         {
-            if (data.Length != 13) return null;
+            if (data.Length != 13) return new byte[8];
 
             byte[] toReturn = new byte[8];
 
