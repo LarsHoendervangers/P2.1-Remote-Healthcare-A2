@@ -1,4 +1,6 @@
 ﻿using System;
+using RemoteHealthcare.UI;
+using RemoteHealthcare.Simulator;
 
 namespace RemoteHealthcare
 {
@@ -6,7 +8,15 @@ namespace RemoteHealthcare
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ConsoleWindow consoleWindow = new ConsoleWindow();
+            DataSimulator dataSimulator = new DataSimulator();
+
+            dataSimulator.SetHeartBeatListener(consoleWindow);
+            dataSimulator.SetSpeedListener(consoleWindow);
+            dataSimulator.SetRPMListener(consoleWindow);
+
+            consoleWindow.PrintData();
+            dataSimulator.Start();
         }
     }
 }
