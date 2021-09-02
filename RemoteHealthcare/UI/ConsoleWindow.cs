@@ -3,6 +3,7 @@ using RemoteHealthcare.UI.Interfaces;
 
 namespace RemoteHealthcare.UI
 {
+    // Definition of the line numbers in the console.
     enum Line : int
     {
         BrandLine = 0,
@@ -47,7 +48,7 @@ namespace RemoteHealthcare.UI
             //Console.Write(this.enterCommandMsg);
         }
 
-        private void PrintBikeData()
+        private static void PrintBikeData()
         {
             Console.SetCursorPosition(0, (int) Line.RPMLine);
             Console.Write("Power: 5000 Watt");
@@ -73,7 +74,7 @@ namespace RemoteHealthcare.UI
         {
             //ClearLine(7, (int) Line.SpeedLine);
             Console.SetCursorPosition(0, (int) Line.SpeedLine);
-            Console.Write("Speed: {0} km/h     ", speed);
+            Console.Write("Speed: {0} m/s     ", speed);
         }
 
         public void OnHeartBeatChanged(int heartBeat)
