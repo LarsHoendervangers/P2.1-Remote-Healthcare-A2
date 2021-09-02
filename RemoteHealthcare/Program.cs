@@ -5,29 +5,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Avans.TI.BLE;
-using RemoteHealthcare.Simulator;
 using RemoteHealthcare.UI;
-using RemoteHealthcare.UI.Interfaces;
-using RemoteHealthcare.UI;
-using RemoteHealthcare.Simulator;
 
 namespace RemoteHealthcare
 {
     class Program
 
     {
-
-        private IHeartbeatListener heartBeatListener;
-        private ISpeedListener speedListener;
-        private IRPMListener rpmListener;
-        private IResistanceListener resistanceListener;
-        private IDistanceListener distanceListener;
-
         static async Task Main(string[] args)
         {
-            dataSimulator.Start();
-            
-            
             int errorCode = 0;
             BLE bleBike = new BLE();
             BLE bleHeart = new BLE();
@@ -66,25 +52,11 @@ namespace RemoteHealthcare
             await bleHeart.SetService("HeartRate");
 
             bleHeart.SubscriptionValueChanged += BleBike_SubscriptionValueChanged;
-            await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");     
+            await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");
 
             Console.Read();
-            
-            // From feature-gui
-            ConsoleWindow consoleWindow = new ConsoleWindow();
-            DataSimulator dataSimulator = new DataSimulator();
-
-            dataSimulator.SetHeartBeatListener(consoleWindow);
-            dataSimulator.SetSpeedListener(consoleWindow);
-            dataSimulator.SetRPMListener(consoleWindow);
-            dataSimulator.SetResitanceListener(consoleWindow);
-            dataSimulator.SetDistanceListener(consoleWindow);
-
-            consoleWindow.PrintData();
-            dataSimulator.Start();
         }
         
-        // End of feature-gui
 
         private static void BleBike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {
@@ -94,8 +66,6 @@ namespace RemoteHealthcare
             //   ));
 
             ShowValue(DataToPayload(e.Data));
-
-
         }
 
         private static String ByteArrayToString(byte[] array)
@@ -167,11 +137,7 @@ namespace RemoteHealthcare
         public void Start()
         {
             ConsoleWindow consoleWindow = new ConsoleWindow();
-
-
-
             consoleWindow.PrintData();
         }
-
     }
 }
