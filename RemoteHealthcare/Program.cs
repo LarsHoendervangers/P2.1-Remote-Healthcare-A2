@@ -8,6 +8,8 @@ using Avans.TI.BLE;
 using RemoteHealthcare.Simulator;
 using RemoteHealthcare.UI;
 using RemoteHealthcare.UI.Interfaces;
+using RemoteHealthcare.UI;
+using RemoteHealthcare.Simulator;
 
 namespace RemoteHealthcare
 {
@@ -23,6 +25,9 @@ namespace RemoteHealthcare
 
         static async Task Main(string[] args)
         {
+            dataSimulator.Start();
+            
+            
             int errorCode = 0;
             BLE bleBike = new BLE();
             BLE bleHeart = new BLE();
@@ -64,7 +69,22 @@ namespace RemoteHealthcare
             await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");     
 
             Console.Read();
+            
+            // From feature-gui
+            ConsoleWindow consoleWindow = new ConsoleWindow();
+            DataSimulator dataSimulator = new DataSimulator();
+
+            dataSimulator.SetHeartBeatListener(consoleWindow);
+            dataSimulator.SetSpeedListener(consoleWindow);
+            dataSimulator.SetRPMListener(consoleWindow);
+            dataSimulator.SetResitanceListener(consoleWindow);
+            dataSimulator.SetDistanceListener(consoleWindow);
+
+            consoleWindow.PrintData();
+            dataSimulator.Start();
         }
+        
+        // End of feature-gui
 
         private static void BleBike_SubscriptionValueChanged(object sender, BLESubscriptionValueChangedEventArgs e)
         {

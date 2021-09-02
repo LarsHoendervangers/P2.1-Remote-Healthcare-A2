@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using RemoteHealthcare.UI.Interfaces;
 
 namespace RemoteHealthcare.Simulator
@@ -17,10 +13,13 @@ namespace RemoteHealthcare.Simulator
         private IDistanceListener distanceListener;
 
         private Random random = new Random();
+        private RandomNoise randomHeart = new RandomNoise(70, 250, 2);
+        private RandomNoise randomSpeed = new RandomNoise(0, 40, 5);
+        private RandomNoise randomRPM = new RandomNoise(0, 400, 5);
+        private RandomNoise randomResistance = new RandomNoise(0, 100, 2);
 
         public DataSimulator()
         {
-
         }
 
         public void Start()
@@ -29,22 +28,22 @@ namespace RemoteHealthcare.Simulator
             {
                 if (this.heartBeatListener != null)
                 {
-                    this.heartBeatListener.OnHeartBeatChanged(this.random.Next(200));
+                    this.heartBeatListener.OnHeartBeatChanged(this.randomHeart.Next());
                 }
                 
                 if (this.speedListener != null)
                 {
-                    this.speedListener.OnSpeedChanged(this.random.Next(60));
+                    this.speedListener.OnSpeedChanged(this.randomSpeed.Next());
                 }
 
                 if (this.rpmListener != null)
                 {
-                    this.rpmListener.OnRPMChanged(this.random.Next(1000));
+                    this.rpmListener.OnRPMChanged(this.randomRPM.Next());
                 }
 
                 if (this.resistanceListener != null)
                 {
-                    this.resistanceListener.OnResistanceChanged(this.random.Next(100));
+                    this.resistanceListener.OnResistanceChanged(this.randomResistance.Next());
                 }
 
                 if (this.distanceListener != null)
@@ -82,3 +81,4 @@ namespace RemoteHealthcare.Simulator
         }
     }
 }
+

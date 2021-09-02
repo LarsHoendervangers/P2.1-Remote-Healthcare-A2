@@ -3,6 +3,7 @@ using RemoteHealthcare.UI.Interfaces;
 
 namespace RemoteHealthcare.UI
 {
+    // Definition of the line numbers in the console.
     enum Line : int
     {
         BrandLine = 0,
@@ -17,7 +18,6 @@ namespace RemoteHealthcare.UI
 
     class ConsoleWindow : ISpeedListener, IHeartbeatListener, IRPMListener, IResistanceListener, IDistanceListener
     {
-        private readonly string enterCommandMsg = "Enter a command: ";
         public ConsoleWindow()
         {
             Console.CursorVisible = false;
@@ -40,14 +40,9 @@ namespace RemoteHealthcare.UI
                 Console.SetCursorPosition(x, (int) Line.InputLine - 1);
                 Console.Write("-");
             }
-
-            // Clear the input line and reset the cursor. After that print a msg.
-            // USER INPUT IS CURRENTLY DISABLED
-            //Console.SetCursorPosition(0, (int) Line.InputLine);
-            //Console.Write(this.enterCommandMsg);
         }
 
-        private void PrintBikeData()
+        private static void PrintBikeData()
         {
             Console.SetCursorPosition(0, (int) Line.RPMLine);
             Console.Write("Power: 5000 Watt");
@@ -71,21 +66,18 @@ namespace RemoteHealthcare.UI
 
         public void OnSpeedChanged(double speed)
         {
-            //ClearLine(7, (int) Line.SpeedLine);
             Console.SetCursorPosition(0, (int) Line.SpeedLine);
-            Console.Write("Speed: {0} km/h     ", speed);
+            Console.Write("Speed: {0} m/s     ", speed);
         }
 
         public void OnHeartBeatChanged(int heartBeat)
         {
-            //ClearLine(11, (int) Line.HeartLine);
             Console.SetCursorPosition(0, (int) Line.HeartLine);
             Console.Write("Heartbeat: {0} BPM     ", heartBeat);
         }
 
         public void OnRPMChanged(int rpm)
         {
-            //ClearLine(5, (int)Line.RPMLine);
             Console.SetCursorPosition(0, (int) Line.RPMLine);
             Console.Write("RPM: {0}          ", rpm);
         }
@@ -93,7 +85,7 @@ namespace RemoteHealthcare.UI
         public void OnResistanceChanged(int resistance)
         {
             Console.SetCursorPosition(0, (int)Line.ResitanceLine);
-            Console.Write("Reistance: {0} %   ", resistance);
+            Console.Write("Resistance: {0} %   ", resistance);
         }
 
         public void OnDistanceChanged(int distance)
