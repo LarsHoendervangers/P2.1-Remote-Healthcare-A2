@@ -5,29 +5,40 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Avans.TI.BLE;
+using RemoteHealthcare.Simulator;
+using RemoteHealthcare.UI;
+using RemoteHealthcare.UI.Interfaces;
 
 namespace RemoteHealthcare
 {
     class Program
 
     {
+
+        private IHeartbeatListener heartBeatListener;
+        private ISpeedListener speedListener;
+        private IRPMListener rpmListener;
+        private IResistanceListener resistanceListener;
+        private IDistanceListener distanceListener;
+
         static async Task Main(string[] args)
         {
             int errorCode = 0;
             BLE bleBike = new BLE();
             BLE bleHeart = new BLE();
+
             Thread.Sleep(1000); // We need some time to list available devices
 
             // List available devices
             List<String> bleBikeList = bleBike.ListDevices();
-            Console.WriteLine("Devices found: ");
+            //Console.WriteLine("Devices found: ");
             foreach (var name in bleBikeList)
             {
                 Console.WriteLine($"Device: {name}");
             }
 
             // Connecting
-            errorCode = errorCode = await bleBike.OpenDevice("Tacx Flux 24517");
+            errorCode = errorCode = await bleBike.OpenDevice("Tacx Flux 01249");
             // __TODO__ Error check
 
             var services = bleBike.GetServices;
@@ -50,8 +61,7 @@ namespace RemoteHealthcare
             await bleHeart.SetService("HeartRate");
 
             bleHeart.SubscriptionValueChanged += BleBike_SubscriptionValueChanged;
-            await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");
-
+            await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");     
 
             Console.Read();
         }
@@ -88,14 +98,15 @@ namespace RemoteHealthcare
             return payload[0];
         }
 
+        //TODO make method so we can give multiple parameters for pagenumber and payloadnumber 
         private static byte ShowValue(byte[] payload)
         {
             byte pagenumber = PageChecker(payload);
 
             if (pagenumber == 16)
             {
-                //  Console.WriteLine("Distance traveled {0}", payload[3]);
-                Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[4], payload[5]) / 10 * 3.6);
+                  //Console.WriteLine(" {0}", payload[3]);
+                Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
                 return payload[3];
             }
 
@@ -123,13 +134,23 @@ namespace RemoteHealthcare
             return toReturn;
         }
 
-        private static short CombineBits(byte byte1, byte byte2)
+        private static ushort CombineBits(byte byte1, byte byte2)
         {
             //Bit shift first bit 8 to the left
-            byte1 = (byte)(byte1 << 8);
+            ushort combined = byte1;
+            combined = (ushort)(combined << 8);
 
             //Or both bytes
-            return (short)(byte1 | byte2);
+            return (ushort)(combined | byte2);
+        }
+
+        public void Start()
+        {
+            ConsoleWindow consoleWindow = new ConsoleWindow();
+
+
+
+            consoleWindow.PrintData();
         }
 
     }
