@@ -1,4 +1,5 @@
 ﻿using Avans.TI.BLE;
+using RemoteHealthcare.Software;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,14 @@ namespace RemoteHealthcare.Hardware
     class BikeBLE : BLE
     {
 
+        public event EventHandler<Byte[]> onBikeData;
+        private readonly PhysicalDevice device;
         private readonly string BikeName;
         int errorcode = 0;
 
-        public BikeBLE(string BikeName) : base()
+        public BikeBLE(string BikeName, PhysicalDevice device) : base()
         {
+            this.device = device;
             this.BikeName = BikeName;
             // Waiting beforeinitializing
             Thread.Sleep(1000);
@@ -55,10 +59,7 @@ namespace RemoteHealthcare.Hardware
 
         private void onBikeMovement(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-
-            Console.WriteLine("Received from {0}: {1}, {2}", e.ServiceName,
-                BitConverter.ToString(e.Data).Replace("=", " "),
-                Encoding.UTF8.GetString(e.Data));
+            this.onBikeData?.Invoke(this, e.Data);
         }
 
     }

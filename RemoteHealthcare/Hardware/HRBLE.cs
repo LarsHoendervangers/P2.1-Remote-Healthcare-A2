@@ -1,4 +1,5 @@
 ﻿using Avans.TI.BLE;
+using RemoteHealthcare.Software;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,15 @@ namespace RemoteHealthcare.Hardware
     class HRBLE : BLE
     {
 
+        private readonly PhysicalDevice device;
         private readonly string hrMonitorname;
         int errorcode = 0;
 
-        public HRBLE(string hrMonitorname) : base()
+        public event EventHandler<Byte[]> onHRData;
+
+        public HRBLE(string hrMonitorname, PhysicalDevice device) : base()
         {
+            this.device = device;
             this.hrMonitorname = hrMonitorname;
             // Waiting beforeinitializing
             Thread.Sleep(1000);
@@ -55,10 +60,7 @@ namespace RemoteHealthcare.Hardware
 
         private void onHearthRate(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-
-            Console.WriteLine("Received from {0}: {1}, {2}", e.ServiceName,
-                BitConverter.ToString(e.Data).Replace("=", " "),
-                Encoding.UTF8.GetString(e.Data));
+            onHRData?.Invoke(this, e.Data);
         }
 
     }

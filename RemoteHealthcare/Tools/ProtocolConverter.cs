@@ -68,6 +68,15 @@ namespace RemoteHealthcare.Tools
             return -1;
         }
 
+
+        public static int ReadByte(byte[] data, int targetByte)
+        {
+            if(data.Length > targetByte) return data[targetByte];
+
+            Console.WriteLine("Error in reading from dataset, dataset too small");
+            return -1;
+        }
+
         //Data size is 13, this is the full dataset received by the device
         //Payload size is 8, contains the information obtained by the sensor
         public static byte[] DataToPayload(byte[] data)

@@ -8,15 +8,14 @@ namespace RemoteHealthcare.Software
 {
     abstract class Device
     {
-        public int Heartbeat { get; set; }
-        public int RPM { get; set; }
-        public double Speed { get; set; }
-        public double DistanceTravelled { get; set; }
         public DateTime StartTime { get; set; }
 
         public Device()
         {
-
+           
         }
+
+        public abstract void onHeartBeatReceived(Object sender, Byte[] data);
+        public abstract void onBikeReceived(Object sender, Byte[] data);
     }
 }
