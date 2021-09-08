@@ -1,20 +1,19 @@
-﻿using RemoteHealthcare.Tools;
+﻿using RemoteHealthcare.Hardware;
+using RemoteHealthcare.Software;
 using System;
 
 namespace RemoteHealthcare
 {
     class Program
     {
-        static void Main(string[] args)
+     /*   static void Main(string[] args)
         {
-            DrawLayout();
-        }
+            //HRBLE hr = new HRBLE("Decathlon Dual HR");
+            //BikeBLE bike = new BikeBLE("Tacx Flux 00438");
 
-        private static void DrawLayout()
-        {
-            Console.SetCursorPosition(0, 0);
-            Console.WriteLine("Remote Healthcare by A2");
-            GUITools.DrawHorizontalLine(1, 0, Console.BufferWidth);
-        }
+            Device device = new PhysicalDevice("Tacx Flux 00438", "Decathlon Dual HR");
+
+            Console.Read();
+        }*/
     }
 }
