@@ -41,7 +41,7 @@ namespace RemoteHealthcare.Software
             // Check for the pagenumber that 
             if(ProtocolConverter.PageChecker(payload) == 0x10)
             {
-                // Gettint the speed from the bike data
+                // Getting the speed from the bike data
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
                 speed = ProtocolConverter.toKMH(speed);
                 onSpeed?.Invoke(this, speed);
@@ -56,10 +56,11 @@ namespace RemoteHealthcare.Software
             
             }
 
+            // When the page is 0x19 these values are read;
             if (ProtocolConverter.PageChecker(payload) == 0x19)
             {
+                // Transforming the RPM from the bike
                 int RPM = ProtocolConverter.ReadDataSet(payload, 0x19, false, 2);
-                Console.WriteLine($"RPM: {RPM}");
 
                 onRPM?.Invoke(this, RPM);
             }
