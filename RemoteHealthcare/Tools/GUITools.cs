@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace RemoteHealthcare.Tools
 {
@@ -6,6 +7,21 @@ namespace RemoteHealthcare.Tools
     {
         private static string vertical = "│";
         private static string horizontal = "─";
+
+        public static void DrawBasicLayout(string title)
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(title);
+            DrawBasicValues();
+        }
+
+        private static void DrawBasicValues()
+        {
+            StringBuilder values = new StringBuilder("Values:");
+            values.Append("\nSpeed: 0 km/h");
+            values.Append("\nRPM: 0");
+            values.Append("\nHeartbeat: 0 BPM");
+        }
 
         // Clear the specified line in the console.
         public static void ClearLine(int line)
@@ -33,6 +49,7 @@ namespace RemoteHealthcare.Tools
             Console.SetCursorPosition(0, line);
         }
 
+        // Draw a vertical line from startY to endY on line x.
         public static void DrawVerticalLine(int x, int startY, int endY)
         {
             // Reverse start and end position if they are in the wrong order.
@@ -54,6 +71,7 @@ namespace RemoteHealthcare.Tools
             }
         }
 
+        // Draw a horizontal line from startX to endX on line.
         public static void DrawHorizontalLine(int line, int startX, int endX)
         {
             // Reverse start and end position if they are in the wrong order.
