@@ -9,7 +9,7 @@ namespace RemoteHealthcare.Tools
     class ProtocolConverter
     {
         //Converts a bytearray to a string, this can be used for displaying the contents of the array.
-        private static String ByteArrayToString(byte[] array)
+        public static String ByteArrayToString(byte[] array)
         {
             String toReturn = "";
 
@@ -21,7 +21,7 @@ namespace RemoteHealthcare.Tools
             return toReturn;
         }
 
-        private static byte PageChecker(byte[] payload)
+        public static byte PageChecker(byte[] payload)
         {
             //Filter on byte array size, should be redundant
             //if (payload.Length != 8) return (byte)0xFF;
@@ -30,7 +30,7 @@ namespace RemoteHealthcare.Tools
 
         //@deprecated
         //TODO make method so we can give multiple parameters for pagenumber and payloadnumber 
-        private static byte ShowValue(byte[] payload)
+        public static byte ShowValue(byte[] payload)
         {
             byte pagenumber = PageChecker(payload);
 
@@ -70,7 +70,7 @@ namespace RemoteHealthcare.Tools
 
         //Data size is 13, this is the full dataset received by the device
         //Payload size is 8, contains the information obtained by the sensor
-        private static byte[] DataToPayload(byte[] data)
+        public static byte[] DataToPayload(byte[] data)
         {
             if (data.Length != 13) return new byte[8];
 
@@ -83,7 +83,7 @@ namespace RemoteHealthcare.Tools
             return toReturn;
         }
 
-        private static ushort CombineBits(byte byte1, byte byte2)
+        public static ushort CombineBits(byte byte1, byte byte2)
         {
             //Bit shift first bit 8 to the left
             ushort combined = byte1;
