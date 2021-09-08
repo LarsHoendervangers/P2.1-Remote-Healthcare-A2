@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.Software
 {
-    abstract class Device
-    {
-        public DateTime StartTime { get; set; }
+    abstract class Device {
+
+
+    public abstract event EventHandler<double> onSpeed;
+    public abstract event EventHandler<int> onRPM;
+    public abstract event EventHandler<int> onHeartrate;
+    public abstract event EventHandler<double> onDistance;
+
+    public DateTime StartTime { get; set; }
 
         public Device()
         {
