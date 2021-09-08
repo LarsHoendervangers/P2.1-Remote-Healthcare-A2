@@ -35,13 +35,23 @@ namespace RemoteHealthcare.Software
 
         public override void OnBikeReceived(object sender, byte[] data)
         {
+            // transform the given data to a usefull payload
             Byte[] payload = ProtocolConverter.DataToPayload(data);
 
+            // Check for the pagenumber that 
             if(ProtocolConverter.PageChecker(payload) == 0x10)
             {
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
                 speed = ProtocolConverter.toKMH(speed);
                 onSpeed?.Invoke(this, speed);
+
+                double distance = ProtocolConverter.ReadDataSet(payload, 0x10, false, 3);
+                distance = ProtocolConverter.rollOver((int)distance, ref prevDistance, ref rollDistance);
+                Console.WriteLine(distance);
+
+                double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2); 
+
+                Console.WriteLine($"Speed: {speed}");
             }
 
             if (ProtocolConverter.PageChecker(payload) == 0x19)

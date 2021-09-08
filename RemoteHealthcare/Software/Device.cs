@@ -16,6 +16,11 @@ namespace RemoteHealthcare.Software
 
     public DateTime StartTime { get; set; }
 
+        public int rollDistance = 0;
+        public int prevDistance = 0;
+
+        public int rollTime = 0;
+        public int prevTime = 0;
         public Device()
         {
            

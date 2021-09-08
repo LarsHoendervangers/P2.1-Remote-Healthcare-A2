@@ -122,6 +122,15 @@ namespace RemoteHealthcare.Tools
             return false;
         }
 
+        public static int rollOver(int value, ref int oldValue, ref int valueCounter)
+        {
+            if (value < oldValue)  valueCounter++;
+            
+            int returnValue = valueCounter * 256 + value;
+            oldValue = value;
+
+            return returnValue;
+        }
         public static bool goodData(byte[] data) => data[0] == 0x16;
 
         public static double toKMH(double speed)
