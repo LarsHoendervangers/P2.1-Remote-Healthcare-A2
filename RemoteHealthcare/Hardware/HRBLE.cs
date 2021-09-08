@@ -1,5 +1,6 @@
 ﻿using Avans.TI.BLE;
 using RemoteHealthcare.Software;
+using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +61,7 @@ namespace RemoteHealthcare.Hardware
 
         private void onHearthRate(object sender, BLESubscriptionValueChangedEventArgs e)
         {
+            if (ProtocolConverter.goodData(e.Data))
             onHRData?.Invoke(this, e.Data);
         }
 

@@ -1,5 +1,6 @@
 ﻿using Avans.TI.BLE;
 using RemoteHealthcare.Software;
+using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,12 @@ namespace RemoteHealthcare.Hardware
 
         private void onBikeMovement(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-            this.onBikeData?.Invoke(this, e.Data);
+
+            if (ProtocolConverter.ChecksumContol(e.Data))
+            {
+                this.onBikeData?.Invoke(this, e.Data);
+            }
+
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avans.TI.BLE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -101,6 +102,27 @@ namespace RemoteHealthcare.Tools
             //Or both bytes
             return (ushort)(combined | byte2);
         }
+
+        public static bool ChecksumContol(byte[] data) {
+
+            if (data.Length == 13)
+            {
+                byte sendChecksum = data[12];
+                int temperoryChecksum = data[0];
+                for (int i = 1; i < 12; i++)
+                {
+                    temperoryChecksum = temperoryChecksum ^ data[i];
+                }
+                byte calcutedChecksum = (byte)temperoryChecksum;
+
+                return calcutedChecksum == sendChecksum;
+            }
+
+        
+            return false;
+        }
+
+        public static bool goodData(byte[] data) => data[0] == 0x16;
 
     }
 }
