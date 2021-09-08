@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.Graphics
+namespace RemoteHealthcare.Tools
 {
-    class SimGUI
+    class ProtocolConverter
     {
     }
 }
