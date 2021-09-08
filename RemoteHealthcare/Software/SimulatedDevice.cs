@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RemoteHealthcare.Debug;
+using RemoteHealthcare.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,11 @@ namespace RemoteHealthcare.Software
 {
     class SimulatedDevice
     {
+        private SimDataGenerator Generator{ get; set; }
+        private SimGUI User{ get; set; }
+
+        public SimulatedDevice()
+        {
+        }
     }
 }

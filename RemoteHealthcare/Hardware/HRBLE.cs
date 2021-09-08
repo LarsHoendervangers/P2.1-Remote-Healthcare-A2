@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.Hardware
 {
-    class Class1
+    class HRBLE
     {
     }
 }
