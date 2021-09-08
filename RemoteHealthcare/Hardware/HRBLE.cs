@@ -14,7 +14,8 @@ namespace RemoteHealthcare.Hardware
 
         private readonly PhysicalDevice device;
         private readonly string hrMonitorname;
-        int errorcode = 0;
+        int errorcode = 1;
+        private int connectionAttempts = 0;
 
         public event EventHandler<Byte[]> onHRData;
 
@@ -32,17 +33,23 @@ namespace RemoteHealthcare.Hardware
             {
                 Console.WriteLine(l);
             }
-            
+
 
             // ignore async problem, function can continue
-            Initialize();
+            _ = Initialize();
         }
 
         private async Task Initialize()
         {
             // Open the correct device
-            this.errorcode = await OpenDevice(hrMonitorname);
-
+            while (this.errorcode == 1)
+            {
+                this.errorcode = this.errorcode = await OpenDevice(hrMonitorname);
+                Console.WriteLine("Connectionattempts: {0}", this.connectionAttempts);
+                Console.WriteLine($"Error code bike: {this.errorcode}");
+                this.connectionAttempts += 1;
+                if (this.errorcode == 0) continue;
+            }
             // Try to set the required service to heartRate
             await SetService("HeartRate");
 
