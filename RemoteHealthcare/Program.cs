@@ -7,7 +7,7 @@ namespace RemoteHealthcare
     class Program
 
     {
-        static void Main(string[] args)
+     /*   static void Main(string[] args)
         {
             //HRBLE hr = new HRBLE("Decathlon Dual HR");
             //BikeBLE bike = new BikeBLE("Tacx Flux 00438");
@@ -15,6 +15,6 @@ namespace RemoteHealthcare
             Device device = new PhysicalDevice("Tacx Flux 00438", "Decathlon Dual HR");
 
             Console.Read();
-        }
+        }*/
     }
 }

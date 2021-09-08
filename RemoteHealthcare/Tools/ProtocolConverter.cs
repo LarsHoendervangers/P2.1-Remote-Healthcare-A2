@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avans.TI.BLE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,20 +52,20 @@ namespace RemoteHealthcare.Tools
         }
 
         //TO BE TESTED
-        public static int ReadDataSet(byte[] payload, byte targetPageNumber, bool mustCombine, params byte[] targetByte)
+        public static int ReadDataSet(byte[] payload, byte targetPageNumber, bool mustCombine, params int[] targetIndex)
         {
             //Check if we're reading the correct page
             byte pageNumberReceived = PageChecker(payload);
             if(pageNumberReceived == targetPageNumber)
             {
                 //received bits to combine
-                if(mustCombine && targetByte.Length == 2)  return CombineBits(payload[targetByte[0]], payload[targetByte[1]]);
+                if(mustCombine && targetIndex.Length == 2)  return CombineBits(payload[targetIndex[1]], payload[targetIndex[0]]);
 
                 //received one bit and returns payload contents
-                if (targetByte.Length == 1) return payload[targetByte[0]];
+                if (targetIndex.Length == 1) return payload[targetIndex[0]];
 
             }
-            Console.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", payload, targetPageNumber, targetByte[0]);
+            //Console.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", ByteArrayToString(payload), targetPageNumber, targetByte[0]);
             return -1;
         }
 
@@ -100,6 +101,32 @@ namespace RemoteHealthcare.Tools
 
             //Or both bytes
             return (ushort)(combined | byte2);
+        }
+
+        public static bool ChecksumContol(byte[] data) {
+
+            if (data.Length == 13)
+            {
+                byte sendChecksum = data[12];
+                int temperoryChecksum = data[0];
+                for (int i = 1; i < 12; i++)
+                {
+                    temperoryChecksum = temperoryChecksum ^ data[i];
+                }
+                byte calcutedChecksum = (byte)temperoryChecksum;
+
+                return calcutedChecksum == sendChecksum;
+            }
+
+        
+            return false;
+        }
+
+        public static bool goodData(byte[] data) => data[0] == 0x16;
+
+        public static double toKMH(double speed)
+        {
+            return speed * 0.0036;
         }
 
     }

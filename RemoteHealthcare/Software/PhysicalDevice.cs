@@ -13,22 +13,46 @@ namespace RemoteHealthcare.Software
         private HRBLE HRMonitor { get; set; }
         private BikeBLE Bike{ get; set; }
 
+        public override event EventHandler<double> onSpeed;
+        public override event EventHandler<int> onRPM;
+        public override event EventHandler<int> onHeartrate;
+        public override event EventHandler<double> onDistance;
+
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
             Bike = new BikeBLE(BikeName, this);
             HRMonitor = new HRBLE(HRName, this);
 
-            HRMonitor.onHRData += onHeartBeatReceived;
+            HRMonitor.onHRData += OnHeartBeatReceived;
+            Bike.onBikeData += OnBikeReceived;
         }
 
-        public override void onHeartBeatReceived(object sender, byte[] data)
+        public override void OnHeartBeatReceived(object sender, byte[] data)
         {
-            Console.WriteLine(ProtocolConverter.ReadByte(data, 1));
+            int heartbeat = ProtocolConverter.ReadByte(data, 1);
+            onHeartrate?.Invoke(this, heartbeat);
         }
 
-        public override void onBikeReceived(object sender, byte[] data)
+        public override void OnBikeReceived(object sender, byte[] data)
         {
+            Byte[] payload = ProtocolConverter.DataToPayload(data);
+
+            if(ProtocolConverter.PageChecker(payload) == 0x10)
+            {
+                double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
+                speed = ProtocolConverter.toKMH(speed);
+                onSpeed?.Invoke(this, speed);
+            }
+
+            if (ProtocolConverter.PageChecker(payload) == 0x19)
+            {
+                int RPM = ProtocolConverter.ReadDataSet(payload, 0x19, false, 2);
+                Console.WriteLine($"RPM: {RPM}");
+
+                onRPM?.Invoke(this, RPM);
+            }
             
+
         }
     }
 }
