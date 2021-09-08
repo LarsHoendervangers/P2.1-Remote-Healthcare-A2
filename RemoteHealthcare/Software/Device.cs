@@ -15,7 +15,7 @@ namespace RemoteHealthcare.Software
            
         }
 
-        public abstract void onHeartBeatReceived(Object sender, Byte[] data);
-        public abstract void onBikeReceived(Object sender, Byte[] data);
+        public abstract void OnHeartBeatReceived(Object sender, Byte[] data);
+        public abstract void OnBikeReceived(Object sender, Byte[] data);
     }
 }
