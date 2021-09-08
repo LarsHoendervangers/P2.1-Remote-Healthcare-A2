@@ -41,17 +41,19 @@ namespace RemoteHealthcare.Software
             // Check for the pagenumber that 
             if(ProtocolConverter.PageChecker(payload) == 0x10)
             {
+                // Gettint the speed from the bike data
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
                 speed = ProtocolConverter.toKMH(speed);
                 onSpeed?.Invoke(this, speed);
 
+                // Getting the distance value from the data
                 double distance = ProtocolConverter.ReadDataSet(payload, 0x10, false, 3);
                 distance = ProtocolConverter.rollOver((int)distance, ref prevDistance, ref rollDistance);
-                Console.WriteLine(distance);
 
-                double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2); 
-
-                Console.WriteLine($"Speed: {speed}");
+                // Getting the elapsed time value from the data
+                double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);
+                elapsedTime = (int)(ProtocolConverter.rollOver((int)elapsedTime, ref prevTime, ref rollTime) * 0.25);
+            
             }
 
             if (ProtocolConverter.PageChecker(payload) == 0x19)
