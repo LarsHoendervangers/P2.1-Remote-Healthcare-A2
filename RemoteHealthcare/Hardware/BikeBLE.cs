@@ -28,17 +28,16 @@ namespace RemoteHealthcare.Hardware
 
 
             // TODO remove
-            List<string> list = ListDevices();
+           /* List<string> list = ListDevices();
             foreach (string l in list)
             {
                 Console.WriteLine(l);
-            }
+            }*/
 
 
             // ignore async problem, function can continue
             Console.WriteLine("Initializing...");
             Initialize();
-            Console.WriteLine("jow");
         }
 
         private async Task Initialize()
@@ -49,7 +48,7 @@ namespace RemoteHealthcare.Hardware
                 this.connectionAttempts += 1;
                 //Console.WriteLine("Connectionattempts: {0}", this.connectionAttempts);
                 this.errorcode = await OpenDevice(BikeName);
-                Console.WriteLine($"Error code bike: {this.errorcode}");
+                //Console.WriteLine($"Error code bike: {this.errorcode}");
                 if (this.errorcode == 0) continue;
             }
 

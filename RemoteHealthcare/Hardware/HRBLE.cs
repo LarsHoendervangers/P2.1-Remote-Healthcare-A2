@@ -29,11 +29,11 @@ namespace RemoteHealthcare.Hardware
             
 
             // TODO remove
-            List<string> list = ListDevices();
+           /* List<string> list = ListDevices();
             foreach (string l in list)
             {
                 Console.WriteLine(l);
-            }
+            }*/
 
 
             // ignore async problem, function can continue
@@ -57,8 +57,6 @@ namespace RemoteHealthcare.Hardware
             // Set the method called on data receive to onHeartRate()
             SubscriptionValueChanged += onHearthRate;
             await SubscribeToCharacteristic("HeartRateMeasurement");
-
-            
         }
 
         private bool checkReceivedHR() 
@@ -71,6 +69,5 @@ namespace RemoteHealthcare.Hardware
             if (ProtocolConverter.goodData(e.Data))
             onHRData?.Invoke(this, e.Data);
         }
-
     }
 }

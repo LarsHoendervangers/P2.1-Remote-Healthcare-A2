@@ -1,4 +1,6 @@
-﻿using RemoteHealthcare.Software;
+﻿using RemoteHealthcare.Hardware;
+using RemoteHealthcare.Software;
+using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,46 +15,45 @@ namespace RemoteHealthcare.Graphics
         public DataGUI()
         {
             Device device = new PhysicalDevice("Tacx Flux 00438", "Decathlon Dual HR");
-            device.onHeartrate += drawHeartrate;
-            device.onRPM += drawRPM;
-            device.onSpeed += drawSpeed;
-            device.onDistance += drawDistance;
-            device.onElapsedTime += drawElapsedTime;
+            device.onHeartrate += DrawHeartrate;
+            device.onRPM += DrawRPM;
+            device.onSpeed += DrawSpeed;
+            device.onDistance += DrawDistance;
+            device.onElapsedTime += DrawElapsedTime;
         }
 
         static void Main(string[] args)
         {
             new DataGUI();
+
+
             Console.Read();
         }
 
-
-
-        private void drawHeartrate(Object sender, int heartrate)
-        {
-            Console.WriteLine($"GUI BPM: {heartrate}");
-
-        }
-
-
-        private void drawRPM(object sender, int e)
+        private void DrawRPM(object sender, int e)
         {
             
         }
-        private void drawSpeed(object sender, double e)
+        private void DrawSpeed(object sender, double e)
         {
       
         }
 
-        private void drawDistance(object sender, double e)
+        public void DrawHeartrate(Object sender, int heartrate)
         {
 
+            Console.WriteLine($"GUI BPM: {heartrate}");
         }
 
 
-        private void drawElapsedTime(object sender, int e)
+        private void DrawElapsedTime(object sender, int e)
         {
        
+        }
+
+        private void DrawDistance(object sender, double e)
+        {
+
         }
 
     }
