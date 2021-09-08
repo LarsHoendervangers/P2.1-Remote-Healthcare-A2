@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.UI.Interfaces
 {
-    interface IResistanceListener
+    interface ITimeListener
     {
-        void OnResistanceChanged(int resistance);
+        void OnElapsedTime(int time);
     }
 }

@@ -10,13 +10,12 @@ namespace RemoteHealthcare.UI
         RPMLine = 2,
         SpeedLine = 3,
         HeartLine = 4,
-        ResitanceLine = 5,
-        DistanceLine = 6,
+        DistanceLine = 5,
         InputLine = 10,
         OutputLine = 12
     }
 
-    class ConsoleWindow : ISpeedListener, IHeartbeatListener, IRPMListener, IResistanceListener, IDistanceListener
+    class ConsoleWindow : ISpeedListener, IHeartbeatListener, IRPMListener, IDistanceListener, ITimeListener
     {
         public ConsoleWindow()
         {
@@ -44,9 +43,6 @@ namespace RemoteHealthcare.UI
 
         private static void PrintBikeData()
         {
-            Console.SetCursorPosition(0, (int) Line.RPMLine);
-            Console.Write("Power: 5000 Watt");
-            Console.SetCursorPosition(0, (int) Line.HeartLine + 1);
         }
 
         private void ClearLine(int line)
@@ -67,7 +63,7 @@ namespace RemoteHealthcare.UI
         public void OnSpeedChanged(double speed)
         {
             Console.SetCursorPosition(0, (int) Line.SpeedLine);
-            Console.Write("Speed: {0} m/s     ", speed);
+            Console.Write("Speed: {0} km/h     ", speed);
         }
 
         public void OnHeartBeatChanged(int heartBeat)
@@ -82,16 +78,16 @@ namespace RemoteHealthcare.UI
             Console.Write("RPM: {0}          ", rpm);
         }
 
-        public void OnResistanceChanged(int resistance)
-        {
-            Console.SetCursorPosition(0, (int)Line.ResitanceLine);
-            Console.Write("Resistance: {0} %   ", resistance);
-        }
-
         public void OnDistanceChanged(int distance)
         {
             Console.SetCursorPosition(0, (int)Line.DistanceLine);
             Console.Write("Distance: {0} m         ", distance);
+        }
+
+        public void OnElapsedTime(int time)
+        {
+            Console.SetCursorPosition(0, (int)Line.DistanceLine + 1);
+            Console.Write("Time elapsed: {0} s         ", time);
         }
     }
 }
