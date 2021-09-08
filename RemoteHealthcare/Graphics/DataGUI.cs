@@ -9,33 +9,51 @@ namespace RemoteHealthcare.Graphics
 {
     class DataGUI
     {
-        private static EventHandler<int> drawSpeed;
 
         public DataGUI()
         {
             Device device = new PhysicalDevice("Tacx Flux 00438", "Decathlon Dual HR");
             device.onHeartrate += drawHeartrate;
+            device.onRPM += drawRPM;
+            device.onSpeed += drawSpeed;
+            device.onDistance += drawDistance;
+            device.onElapsedTime += drawElapsedTime;
         }
 
         static void Main(string[] args)
         {
-            //HRBLE hr = new HRBLE("Decathlon Dual HR");
-            //BikeBLE bike = new BikeBLE("Tacx Flux 00438");
-
-            
-
             new DataGUI();
-
-
             Console.Read();
         }
 
 
 
-        public void drawHeartrate(Object sender, int heartrate)
+        private void drawHeartrate(Object sender, int heartrate)
         {
             Console.WriteLine($"GUI BPM: {heartrate}");
 
         }
+
+
+        private void drawRPM(object sender, int e)
+        {
+            
+        }
+        private void drawSpeed(object sender, double e)
+        {
+      
+        }
+
+        private void drawDistance(object sender, double e)
+        {
+
+        }
+
+
+        private void drawElapsedTime(object sender, int e)
+        {
+       
+        }
+
     }
 }

@@ -49,6 +49,7 @@ namespace RemoteHealthcare.Software
                 // Getting the distance value from the data
                 double distance = ProtocolConverter.ReadDataSet(payload, 0x10, false, 3);
                 distance = ProtocolConverter.rollOver((int)distance, ref prevDistance, ref rollDistance);
+                onDistance?.Invoke(this, distance);
 
                 // Getting the elapsed time value from the data
                 double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);

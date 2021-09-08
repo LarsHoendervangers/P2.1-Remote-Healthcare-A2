@@ -13,6 +13,7 @@ namespace RemoteHealthcare.Software
     public abstract event EventHandler<int> onRPM;
     public abstract event EventHandler<int> onHeartrate;
     public abstract event EventHandler<double> onDistance;
+    public abstract event EventHandler<int> onElapsedTime;
 
     public DateTime StartTime { get; set; }
 
