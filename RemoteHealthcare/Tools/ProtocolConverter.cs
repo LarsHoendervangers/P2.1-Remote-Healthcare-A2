@@ -62,7 +62,7 @@ namespace RemoteHealthcare.Tools
                 //received one bit and returns payload contents
                 if (targetIndex.Length == 1) return payload[targetIndex[0]];
             }
-            System.Diagnostics.Debug.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", ByteArrayToString(payload), targetPageNumber, targetByte[0]);
+            System.Diagnostics.Debug.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", ByteArrayToString(payload), targetPageNumber, targetIndex[0]);
             return -1;
         }
 

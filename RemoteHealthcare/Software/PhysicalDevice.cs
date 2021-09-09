@@ -15,13 +15,13 @@ namespace RemoteHealthcare.Software
         private BikeBLE Bike{ get; set; }
 
         // Event handler attributes
-        public override event EventHandler<double> onSpeed;
-        public override event EventHandler<int> onRPM;
-        public override event EventHandler<int> onHeartrate;
-        public override event EventHandler<double> onDistance;
-        public override event EventHandler<double> onElapsedTime;
-        public override event EventHandler<int> onTotalPower;
-        public override event EventHandler<int> onCurrentPower;
+        public override event EventHandler<double> OnSpeed;
+        public override event EventHandler<int> OnRPM;
+        public override event EventHandler<int> OnHeartrate;
+        public override event EventHandler<double> OnDistance;
+        public override event EventHandler<double> OnElapsedTime;
+        public override event EventHandler<int> OnTotalPower;
+        public override event EventHandler<int> OnCurrentPower;
 
 
         // Value's to handle rollover and start value
@@ -65,7 +65,7 @@ namespace RemoteHealthcare.Software
         public void OnHeartBeatReceived(object sender, byte[] data)
         {
             int heartbeat = ProtocolConverter.ReadByte(data, 1);
-            onHeartrate?.Invoke(this, heartbeat);
+            OnHeartrate?.Invoke(this, heartbeat);
         }
 
         /*
@@ -82,19 +82,19 @@ namespace RemoteHealthcare.Software
                 // Getting the speed from the bike data
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
                 speed = ProtocolConverter.toKMH(speed);
-                onSpeed?.Invoke(this, speed);
+                OnSpeed?.Invoke(this, speed);
 
                 // Getting the distance value from the data
                 double distance = ProtocolConverter.ReadDataSet(payload, 0x10, false, 3);
                 distance = ProtocolConverter.rollOver((int)distance, ref prevDistance, ref rollDistance);
                 distance = InitialValueComp(distance, ref initialValueDistance);
-                onDistance?.Invoke(this, distance);
+                OnDistance?.Invoke(this, distance);
 
                 // Getting the elapsed time value from the data
                 double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);
                 elapsedTime = (int)(ProtocolConverter.rollOver((int)elapsedTime, ref prevTime, ref rollTime) * 0.25);
                 elapsedTime = InitialValueComp(elapsedTime, ref this.initialValueTime);
-                onElapsedTime?.Invoke(this, elapsedTime);
+                OnElapsedTime?.Invoke(this, elapsedTime);
             }
 
             // When the page is 0x19 these values are read;
@@ -102,18 +102,18 @@ namespace RemoteHealthcare.Software
             {
                 // Transforming the RPM from the bike
                 int RPM = ProtocolConverter.ReadDataSet(payload, 0x19, false, 2);
-                onRPM?.Invoke(this, RPM);
+                OnRPM?.Invoke(this, RPM);
 
                 // Transforming the totalWattage from the bike
                 int totalWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 3, 4);
                 totalWattage = (int)(ProtocolConverter.rollOverTotalPower(totalWattage, ref prevTotalPower, ref rollTotalPower));
                 totalWattage = (int)InitialValueComp(totalWattage, ref initialValueWatt);
-                onTotalPower?.Invoke(this, totalWattage);
+                OnTotalPower?.Invoke(this, totalWattage);
 
                 // Transforming the currentWattage from the bike
                 payload[6] = (byte)(payload[6] & 0b00001111);
                 int currentWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 5, 6);
-                onCurrentPower?.Invoke(this, currentWattage);
+                OnCurrentPower?.Invoke(this, currentWattage);
             }
 
         }

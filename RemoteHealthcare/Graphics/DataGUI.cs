@@ -29,13 +29,13 @@ namespace RemoteHealthcare.Graphics
 
         public DataGUI()
         {
-            device.onHeartrate += DrawHeartrate;
-            device.onRPM += DrawRPM;
-            device.onSpeed += DrawSpeed;
-            device.onDistance += DrawDistance;
-            device.onElapsedTime += DrawElapsedTime;
-            device.onTotalPower += DrawTotalPower;
-            device.onCurrentPower += DrawCurrentPower;
+            device.OnHeartrate += DrawHeartrate;
+            device.OnRPM += DrawRPM;
+            device.OnSpeed += DrawSpeed;
+            device.OnDistance += DrawDistance;
+            device.OnElapsedTime += DrawElapsedTime;
+            device.OnTotalPower += DrawTotalPower;
+            device.OnCurrentPower += DrawCurrentPower;
 
             PrepareGUI();
         }
