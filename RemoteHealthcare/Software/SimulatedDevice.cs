@@ -10,9 +10,10 @@ namespace RemoteHealthcare.Software
 {
     class SimulatedDevice : Device
     {
+        //The generator that makes the data.
         private SimDataGenerator Generator{ get; set; }
         
-
+        //The eventhandelers that send it to the gui
         public override event EventHandler<double> OnSpeed;
         public override event EventHandler<int> OnRPM;
         public override event EventHandler<int> OnHeartrate;
@@ -21,6 +22,12 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> OnTotalPower;
         public override event EventHandler<int> OnCurrentPower;
 
+
+        /// <summary>
+        /// Constructor that calls the simdatagenerator constuctor without parameters,
+        /// it also connects the eventhandelers to it's functions.
+        /// 
+        /// </summary>
         public SimulatedDevice()
         {
             Generator = new SimDataGenerator();
@@ -36,6 +43,14 @@ namespace RemoteHealthcare.Software
          
         }
 
+        /// <summary>
+        /// Constructor that calls the simdatagenerator constuctor with parameters,
+        /// it also connects the eventhandelers to it's functions.
+        /// </summary>
+        /// <param name="speedRange"></param>
+        /// <param name="rpmRange"></param>
+        /// <param name="hearbeatRange"></param>
+        /// <param name="powerRange"></param>
         public SimulatedDevice(double[] speedRange, int[] rpmRange, int[] hearbeatRange, int[] powerRange)
         {
             Generator = new SimDataGenerator(speedRange, rpmRange, hearbeatRange, powerRange);
