@@ -24,8 +24,8 @@ namespace RemoteHealthcare.Graphics
         // This keeps track of the longest name so that the vertical devider can be drawn on the correct position.
         private static int LongestDeviceName = 0;
 
-        //private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
-        private Device device = new SimulatedDevice();
+        private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+        //private Device device = new SimulatedDevice();
 
         public DataGUI()
         {
@@ -66,13 +66,15 @@ namespace RemoteHealthcare.Graphics
                 {
                     if (x < Console.BufferWidth)
                     { 
+                        // When an integer is pressed, add it to the 'value' string.
                         Console.SetCursorPosition(x, Input_Line);
                         Console.Write(character);
                         value += character;
                         x++;
                     }
-                } else if (Char.IsWhiteSpace(character))
+                } else if (character == (char) 13)
                 {
+                    // If the enter key is pressed.
                     x = resistance.Length;
                     GUITools.ClearLine(x, 50, Input_Line);
                     int res;
@@ -97,6 +99,8 @@ namespace RemoteHealthcare.Graphics
                 GUITools.DrawVerticalLine((Console.BufferWidth - 1) - (LongestDeviceName + 1), 0, CurrentDeviceLine);
                 Console.SetCursorPosition((Console.BufferWidth - 1) - LongestDeviceName, 0);
                 Console.Write("Devices");
+                Console.SetCursorPosition((Console.BufferWidth - 2) - LongestDeviceName, 1);
+                Console.Write(GUITools.crossing);
                 SetMessage("Connecting to devices...");
             } else
             {
