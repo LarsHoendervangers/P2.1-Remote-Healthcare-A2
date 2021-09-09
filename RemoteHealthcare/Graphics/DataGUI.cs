@@ -3,6 +3,7 @@ using RemoteHealthcare.Software;
 using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -20,6 +21,8 @@ namespace RemoteHealthcare.Graphics
         private static int Heart_Line = 4;
         private static int Time_Line = 5;
         private static int Distance_Line = 6;
+        private static int TotalPower_Line = 7;
+        private static int CurrentPower_Line = 8;
         private static int Input_Line = 8;
 
         private static int CurrentDeviceLine = 2;
@@ -28,6 +31,7 @@ namespace RemoteHealthcare.Graphics
         public DataGUI()
         {
             Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+            //Device device = new SimulatedDevice();
             device.onHeartrate += DrawHeartrate;
             device.onRPM += DrawRPM;
             device.onSpeed += DrawSpeed;
@@ -36,6 +40,8 @@ namespace RemoteHealthcare.Graphics
 
             SetMessage("Searching for devices");
             PrepareGUI();
+            device.onTotalPower += DrawTotalPower;
+            device.onCurrentPower += DrawCurrentPower;
         }
 
         static void Main(string[] args)
@@ -84,7 +90,12 @@ namespace RemoteHealthcare.Graphics
             Console.Write("Devices");
 
             SetMessage("Connecting to devices...");
+            Trace.Listeners.Add(new TextWriterTraceListener("debug.log"));
+            Trace.AutoFlush = true;
+
+            GUITools.DrawBasicLayout("Remote Healthcare by A2");
             Console.CursorVisible = false;
+
             Console.Read();
         }
 
@@ -136,6 +147,18 @@ namespace RemoteHealthcare.Graphics
                 Console.SetCursorPosition(0, Distance_Line);
                 Console.WriteLine($"Distance: {e} m     ");
             }
+        }
+
+        private void DrawTotalPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, TotalPower_Line);
+            Console.WriteLine($"Total power: {e} Watt     ");
+        }
+
+        private void DrawCurrentPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, CurrentPower_Line);
+            Console.WriteLine($"Current power: {e} Watt     ");
         }
 
         // Prints device on the right side of the console.

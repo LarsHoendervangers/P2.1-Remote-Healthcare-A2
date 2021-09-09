@@ -1,6 +1,7 @@
 ﻿using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,10 @@ namespace RemoteHealthcare.Graphics
         private static int Input_line = 10;
         public void Start()
         {
+            //Start logger
+            Trace.Listeners.Add(new TextWriterTraceListener("debug.log"));
+            Trace.AutoFlush = true;
+
             // Set up the GUI.
             GUITools.DrawBasicLayout("Remote Healthcare by A2 - Simulator");
             PrintCommands();
