@@ -20,21 +20,40 @@ namespace RemoteHealthcare
 
         static async Task Main(string[] args)
         {
-
             Console.Clear();
             consoleWindow.PrintData();
 
             int errorCode = 0;
             BLE bleBike = new BLE();
             BLE bleHeart = new BLE();
+            byte[] payload = new byte[13];
+            payload[0] = 0xA4;
+            payload[1] = 0x09;
+            payload[2] = 0x4E;
+            payload[3] = 0x05;
+            payload[4] = 0x30;
+            payload[5] = 0xFF;
+            payload[6] = 0xFF;
+            payload[7] = 0xFF;
+            payload[8] = 0xFF;
+            payload[9] = 0xFF;
+            payload[10] = 0xFF;
+            payload[11] = 0x00; 
 
+            int newByte = payload[0];
+            for(int i = 1; i < 12; i++)
+            {
+                newByte = newByte ^ payload[i];
+            }
+            payload[12] = (byte)newByte;
+            
             Thread.Sleep(1000); // We need some time to list available devices
 
             // List available devices
             List<String> bleBikeList = bleBike.ListDevices();
 
             // Connecting
-            errorCode = errorCode = await bleBike.OpenDevice("Tacx Flux 01249");
+            errorCode = errorCode = await bleBike.OpenDevice("Tacx Flux 00438");
             // __TODO__ Error check
 
             var services = bleBike.GetServices;
@@ -47,6 +66,8 @@ namespace RemoteHealthcare
             bleBike.SubscriptionValueChanged += BleBike_SubscriptionValueChanged;
             errorCode = await bleBike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
 
+            await bleBike.WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", payload);
+
             // Heart rate
             errorCode = await bleHeart.OpenDevice("Decathlon Dual HR");
 
@@ -54,6 +75,8 @@ namespace RemoteHealthcare
 
             bleHeart.SubscriptionValueChanged += BleBike_SubscriptionValueChanged;
             await bleHeart.SubscribeToCharacteristic("HeartRateMeasurement");
+            
+            
 
             Console.Read();
         }
