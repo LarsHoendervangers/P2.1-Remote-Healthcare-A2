@@ -10,26 +10,41 @@ namespace RemoteHealthcare.Tools
         public static string crossing = "┼";
         private object _lock = new object();
 
-        // Draw the basic UI
+        /// <summary>
+        /// Draw the basic UI
+        /// </summary>
+        /// <param name="title"></param>
         public static void DrawBasicLayout(string title)
         {
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(title);
         }
 
-        // Clear the specified line in the console.
+        /// <summary>
+        /// Clear the specified line in the console.
+        /// </summary>
+        /// <param name="line"></param>
         public static void ClearLine(int line)
         {
             ClearLine(0, line);
         }
 
-        // Clear the specified line in the console from the 'fromX' position.
+        /// <summary>
+        /// Clear the specified line in the console from the 'fromX' position.
+        /// </summary>
+        /// <param name="fromX"></param>
+        /// <param name="line"></param>
         public static void ClearLine(int fromX, int line)
         {
             ClearLine(fromX, Console.BufferWidth, line);
         }
 
-        // Clear the line from 'fromX' to 'toX' on the line 'line'.
+        /// <summary>
+        /// Clear the line from 'fromX' to 'toX' on the line 'line'.
+        /// </summary>
+        /// <param name="fromX"></param>
+        /// <param name="toX"></param>
+        /// <param name="line"></param>
         public static void ClearLine(int fromX, int toX, int line)
         {
             for (int x = fromX; x < toX; x++)
@@ -43,7 +58,12 @@ namespace RemoteHealthcare.Tools
             Console.SetCursorPosition(0, line);
         }
 
-        // Draw a vertical line from startY to endY on line x.
+        /// <summary>
+        /// Draw a vertical line from position x, startY to x, endY.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="startY"></param>
+        /// <param name="endY"></param>
         public static void DrawVerticalLine(int x, int startY, int endY)
         {
             // Reverse start and end position if they are in the wrong order.
@@ -65,7 +85,12 @@ namespace RemoteHealthcare.Tools
             }
         }
 
-        // Draw a horizontal line from startX to endX on line.
+        /// <summary>
+        /// Draw a horizontal line from startX to endX on line.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="startX"></param>
+        /// <param name="endX"></param>
         public static void DrawHorizontalLine(int line, int startX, int endX)
         {
             // Reverse start and end position if they are in the wrong order.

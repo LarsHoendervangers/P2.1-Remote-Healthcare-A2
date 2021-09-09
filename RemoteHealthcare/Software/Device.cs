@@ -30,8 +30,12 @@ namespace RemoteHealthcare.Software
 
         public int rollCurrentPower = 0;
         public int prevCurrentPower = 0;
-        
-        // Event that is called by DataGUI when a user enters a resistance value.
+
+        /// <summary>
+        /// Event that is called by DataGUI when a user enters a resistance value.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         public virtual void OnResistanceCall(Object sender, int data)
         {
             System.Diagnostics.Debug.WriteLine($"Resistance of the bike set to {data}");

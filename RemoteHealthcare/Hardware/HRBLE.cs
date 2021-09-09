@@ -27,7 +27,7 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-            Task task = device.Initialize(errorcode, connectionAttempts, hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);            
+            Task task = device.Initialize(hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);            
         }
 
         private async Task Initialize()
@@ -47,14 +47,36 @@ namespace RemoteHealthcare.Hardware
             await SubscribeToCharacteristic("HeartRateMeasurement");
         }
 
-        /*
-         * Event method that is called when the BLE receives data.
-         * The method checks if the data is correct and sends it to the device class for decoding.
-         */
+        /// <summary>
+        /// Event method that is called when the BLE receives data.
+        /// The method checks if the data is correct and sends it to the device class for decoding.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-            if (ProtocolConverter.goodData(e.Data))
+            if (ProtocolConverter.ConfirmPageData(e.Data))
             onHRData?.Invoke(this, e.Data);
+        }
+
+        public void SetErrorCode(int errorcode)
+        {
+            this.errorcode = errorcode;
+        }
+
+        public void SetConnectionAttempts(int connectionAttempts)
+        {
+            this.connectionAttempts = connectionAttempts;
+        }
+
+        public int GetErrorCode()
+        {
+            return this.errorcode;
+        }
+
+        public int GetConnectionAttempts()
+        {
+            return this.connectionAttempts;
         }
     }
 }

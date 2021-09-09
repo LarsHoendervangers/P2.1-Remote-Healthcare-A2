@@ -28,35 +28,20 @@ namespace RemoteHealthcare.Tools
         /// Returns the pagenumber for a given payload
         /// </summary>
         /// <param name="payload"></param>
-        /// <returns></returns>
+        /// <returns>returns the pagenumber as byte</returns>
         public static byte PageChecker(byte[] payload)
         {
             return payload[0];
         }
 
-        //@deprecated
-        //TODO make method so we can give multiple parameters for pagenumber and payloadnumber 
-        public static byte ShowValue(byte[] payload)
-        {
-            byte pagenumber = PageChecker(payload);
-
-            if (pagenumber == 16)
-            {
-                System.Diagnostics.Debug.WriteLine(" {0}", payload[3]);
-                System.Diagnostics.Debug.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
-                return payload[3];
-            }
-
-            if (pagenumber == 25)
-            {
-                System.Diagnostics.Debug.WriteLine("Rpm: {0}", payload[2]);
-                return payload[2];
-            }
-
-            return (byte)0xFF;
-        }
-
-        //TO BE TESTED
+        /// <summary>
+        /// Given a payload the method gives the value for the asked indexes
+        /// </summary>
+        /// <param name="payload">The payload to extract the data from</param>
+        /// <param name="targetPageNumber">The page that needs to be read</param>
+        /// <param name="mustCombine">true if the data to be read is greater than 1 byte</param>
+        /// <param name="targetIndex">A array of the indexes from the payload to be combined</param>
+        /// <returns>Returns the requested data as int</returns>
         public static int ReadDataSet(byte[] payload, byte targetPageNumber, bool mustCombine, params int[] targetIndex)
         {
             //Check if we're reading the correct page
@@ -73,7 +58,12 @@ namespace RemoteHealthcare.Tools
             return -1;
         }
 
-
+        /// <summary>
+        /// Returns a
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="targetByte"></param>
+        /// <returns>returns the asked byte as int</returns>
         public static int ReadByte(byte[] data, int targetByte)
         {
             if (data.Length > targetByte) return data[targetByte];
@@ -82,8 +72,12 @@ namespace RemoteHealthcare.Tools
             return -1;
         }
 
-        //Data size is 13, this is the full dataset received by the device
-        //Payload size is 8, contains the information obtained by the sensor
+        /// <summary>
+        /// Data size is 13, this is the full dataset received by the device
+        /// Payload size is 8, contains the information obtained by the sensor
+        /// </summary>
+        /// <param name="data">The data that needs to be converted</param>
+        /// <returns>The payload from the data</returns>
         public static byte[] DataToPayload(byte[] data)
         {
             if (data.Length != 13) return new byte[8];
@@ -97,6 +91,12 @@ namespace RemoteHealthcare.Tools
             return toReturn;
         }
 
+        /// <summary>
+        /// Combines two bytes into one byte
+        /// </summary>
+        /// <param name="byte1"></param>
+        /// <param name="byte2"></param>
+        /// <returns></returns>
         public static ushort CombineBits(byte byte1, byte byte2)
         {
             //Bit shift first bit 8 to the left
@@ -107,6 +107,11 @@ namespace RemoteHealthcare.Tools
             return (ushort)(combined | byte2);
         }
 
+        /// <summary>
+        /// Checks the checksum from the given data
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static bool ChecksumContol(byte[] data) {
 
             if (data.Length == 13)
@@ -125,7 +130,7 @@ namespace RemoteHealthcare.Tools
         }
 
         //Calculates checksum from given byte array.
-        public static int calculateChecksum(byte[] data)
+        public static int CalculateChecksum(byte[] data)
         {
             int checksum = data[0];
            
@@ -166,7 +171,7 @@ namespace RemoteHealthcare.Tools
         /// <param name="value"></param>
         /// <param name="oldValue"></param>
         /// <param name="valueCounter"></param>
-        /// <returns></returns>
+        /// <returns>Int for new value</returns>
         public static int rollOverTotalPower(int value, ref int oldValue, ref int valueCounter)
         {
             if (value < oldValue) valueCounter++;
@@ -177,9 +182,19 @@ namespace RemoteHealthcare.Tools
             return returnValue;
         }
 
-        public static bool goodData(byte[] data) => data[0] == 0x16;
+        /// <summary>
+        /// Confirms the page number to be working in page 0x16
+        /// </summary>
+        /// <param name="data">The given payload</param>
+        /// <returns>true if number is correct</returns>
+        public static bool ConfirmPageData(byte[] data) => data[0] == 0x16;
 
-        public static double toKMH(double speed)
+        /// <summary>
+        /// Transforms the given data to km/h
+        /// </summary>
+        /// <param name="speed">The speed inn 1000th of mp/h</param>
+        /// <returns>The speed in km/h</returns>
+        public static double TransformtoKMH(double speed)
         {
             return speed * 0.0036;
         }

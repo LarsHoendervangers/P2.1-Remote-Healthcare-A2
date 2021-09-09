@@ -115,29 +115,45 @@ namespace RemoteHealthcare.Graphics
 
             Console.Read();
         }
-
-        // Called by onRPM event.
+        
+        /// <summary>
+        /// Called by onRPM event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawRPM(object sender, int e)
         {
             Console.SetCursorPosition(0, RPM_Line);
             Console.WriteLine($"RPM: {e}     ");
         }
-
-        // Called by onSpeed event.
+        
+        /// <summary>
+        /// Called by onSpeed event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawSpeed(object sender, double e)
         {
             Console.SetCursorPosition(0, Speed_Line);
             Console.WriteLine($"Speed: {e.ToString("0.##")} KM/H     ");
         }
 
-        // Called by onHeartrate event.
+        /// <summary>
+        /// Called by onHeartrate event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="heartrate"></param>
         public void DrawHeartrate(Object sender, int heartrate)
         {
             Console.SetCursorPosition(0, Heart_Line);
             Console.WriteLine($"Heartrate: {heartrate} BPM     ");
         }
 
-        // Called by onElapsedTime event.
+        /// <summary>
+        /// Called by onElapsedTime event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawElapsedTime(object sender, double e)
         {
             TimeSpan t = TimeSpan.FromSeconds(e);
@@ -147,28 +163,43 @@ namespace RemoteHealthcare.Graphics
             Console.WriteLine($"Elapsed time: {time}");
         }
 
-        // Called by onDistance event.
+        /// <summary>
+        /// Called by onDistance event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawDistance(object sender, double e)
         {
             Console.SetCursorPosition(0, Distance_Line);
             Console.WriteLine($"Distance: {e} m     ");
         }
 
-        // Called by onTotalPower event.
+        /// <summary>
+        /// Called by onTotalPower event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawTotalPower(object sender, int e)
         {
             Console.SetCursorPosition(0, TotalPower_Line);
             Console.WriteLine($"Total power: {e} Watt     ");
         }
 
-        // Called by onCurrentPower event.
+        /// <summary>
+        /// Called by onCurrentPower event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DrawCurrentPower(object sender, int e)
         {
             Console.SetCursorPosition(0, CurrentPower_Line);
             Console.WriteLine($"Current power: {e} Watt     ");
         }
 
-        // Prints device on the right side of the console.
+        /// <summary>
+        /// Prints device on the right side of the console.
+        /// </summary>
+        /// <param name="device"></param>
         public static void AddDeviceToList(string device)
         {
             int x = Console.BufferWidth - 1;
@@ -190,7 +221,10 @@ namespace RemoteHealthcare.Graphics
             CurrentDeviceLine++;
         }
 
-        // Print a message to the top of the screen.
+        /// <summary>
+        /// Print a message to the top of the screen.
+        /// </summary>
+        /// <param name="msg"></param>
         public static void SetMessage(string msg)
         {
             String prefix = "Message: ";
