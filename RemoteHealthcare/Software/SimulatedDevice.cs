@@ -11,8 +11,7 @@ namespace RemoteHealthcare.Software
     class SimulatedDevice : Device
     {
         private SimDataGenerator Generator{ get; set; }
-        
-
+       
         public override event EventHandler<double> onSpeed;
         public override event EventHandler<int> onRPM;
         public override event EventHandler<int> onHeartrate;
@@ -38,7 +37,7 @@ namespace RemoteHealthcare.Software
 
         /*
          * Mulitple methods which get updated when data from the
-         * bike or the heart rate monitor has been received
+         * bike or the heart rate monitor has been received.
         */
         private void OnGeneratedTotalPower(object sender, int e)
         {
