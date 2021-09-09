@@ -24,8 +24,6 @@ namespace RemoteHealthcare.Tools
 
         public static byte PageChecker(byte[] payload)
         {
-            //Filter on byte array size, should be redundant
-            //if (payload.Length != 8) return (byte)0xFF;
             return payload[0];
         }
 
@@ -37,14 +35,14 @@ namespace RemoteHealthcare.Tools
 
             if (pagenumber == 16)
             {
-                //Console.WriteLine(" {0}", payload[3]);
-                //Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
+                System.Diagnostics.Debug.WriteLine(" {0}", payload[3]);
+                System.Diagnostics.Debug.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
                 return payload[3];
             }
 
             if (pagenumber == 25)
             {
-                //Console.WriteLine("Rpm: {0}", payload[2]);
+                System.Diagnostics.Debug.WriteLine("Rpm: {0}", payload[2]);
                 return payload[2];
             }
 
@@ -63,9 +61,8 @@ namespace RemoteHealthcare.Tools
 
                 //received one bit and returns payload contents
                 if (targetIndex.Length == 1) return payload[targetIndex[0]];
-
             }
-            //Console.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", ByteArrayToString(payload), targetPageNumber, targetByte[0]);
+            System.Diagnostics.Debug.WriteLine("Could not read dataset {0} from page {1} with first targetbyte {2}", ByteArrayToString(payload), targetPageNumber, targetByte[0]);
             return -1;
         }
 
@@ -117,8 +114,6 @@ namespace RemoteHealthcare.Tools
 
                 return calcutedChecksum == sendChecksum;
             }
-
-        
             return false;
         }
 
@@ -181,6 +176,5 @@ namespace RemoteHealthcare.Tools
         {
             return speed * 0.0036;
         }
-
     }
 }
