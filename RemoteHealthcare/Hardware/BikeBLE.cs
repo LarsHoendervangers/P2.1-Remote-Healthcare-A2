@@ -16,7 +16,7 @@ namespace RemoteHealthcare.Hardware
         public event EventHandler<Byte[]> OnBikeData;
         private readonly PhysicalDevice device;
         private readonly string bikeName;
-        int errorcode = 1;
+        private int errorcode = 1;
         private int connectionAttempts = 0;
 
         public BikeBLE(string BikeName, PhysicalDevice device) : base()
@@ -27,7 +27,7 @@ namespace RemoteHealthcare.Hardware
             Thread.Sleep(1000);
 
             Console.WriteLine("Initializing...");
-            Task task = device.Initialize(errorcode, connectionAttempts, bikeName,
+            Task task = device.Initialize(bikeName,
                 "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e", this, this);
         }
 
@@ -77,6 +77,26 @@ namespace RemoteHealthcare.Hardware
             // calculating the checksum 
             data[12] = (byte)ProtocolConverter.CalculateChecksum(data);
             WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", data);
+        }
+
+        public void SetErrorCode(int errorcode)
+        {
+            this.errorcode = errorcode;
+        }
+
+        public void SetConnectionAttempts(int connectionAttempts)
+        {
+            this.connectionAttempts = connectionAttempts;
+        }
+
+        public int GetErrorCode()
+        {
+            return this.errorcode;
+        }
+
+        public int GetConnectionAttempts()
+        {
+            return this.connectionAttempts;
         }
     }
     

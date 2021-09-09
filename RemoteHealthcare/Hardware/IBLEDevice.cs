@@ -14,5 +14,10 @@ namespace RemoteHealthcare.Hardware
         Task<int> SubscribeToCharacteristic(string param);
         //BLESubscriptionValueChangedEventHandler SubscriptionValueChanged;
         void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e);
+
+        void SetErrorCode(int errorcode);
+        void SetConnectionAttempts(int connectionAttempts);
+        int GetErrorCode();
+        int GetConnectionAttempts();
     }
 }
