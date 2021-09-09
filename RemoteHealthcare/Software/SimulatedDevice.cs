@@ -11,7 +11,6 @@ namespace RemoteHealthcare.Software
     class SimulatedDevice : Device
     {
         private SimDataGenerator Generator{ get; set; }
-        private SimGUI User{ get; set; }
         
 
         public override event EventHandler<double> onSpeed;
@@ -37,6 +36,10 @@ namespace RemoteHealthcare.Software
          
         }
 
+        /*
+         * Mulitple methods which get updated when data from the
+         * bike or the heart rate monitor has been received
+        */
         private void OnGeneratedTotalPower(object sender, int e)
         {
             onTotalPower?.Invoke(this, e);
@@ -71,13 +74,6 @@ namespace RemoteHealthcare.Software
         {
             onDistance?.Invoke(this, e);
         }
-
-
-
-
-
-      
-
         public override void OnResistanceCall(object sender, int data)
         {
             throw new NotImplementedException();

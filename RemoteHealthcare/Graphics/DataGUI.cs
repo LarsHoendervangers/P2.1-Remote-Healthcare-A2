@@ -139,13 +139,14 @@ namespace RemoteHealthcare.Graphics
             Console.WriteLine($"Distance: {e} m     ");
         }
 
-        // Called by 
+        // Called by onTotalPower event.
         private void DrawTotalPower(object sender, int e)
         {
             Console.SetCursorPosition(0, TotalPower_Line);
             Console.WriteLine($"Total power: {e} Watt     ");
         }
 
+        // Called by onCurrentPower event.
         private void DrawCurrentPower(object sender, int e)
         {
             Console.SetCursorPosition(0, CurrentPower_Line);

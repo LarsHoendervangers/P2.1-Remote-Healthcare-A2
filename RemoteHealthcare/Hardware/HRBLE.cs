@@ -48,11 +48,10 @@ namespace RemoteHealthcare.Hardware
             await SubscribeToCharacteristic("HeartRateMeasurement");
         }
 
-        private bool checkReceivedHR() 
-        {
-            return true; //TODO not implemented
-        }
-
+        /*
+         * Event method that is called when the BLE receives data.
+         * The method checks if the data is correct and sends it to the device class for decoding.
+         */
         private void onHearthRate(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             if (ProtocolConverter.goodData(e.Data))

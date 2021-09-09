@@ -38,8 +38,7 @@ namespace RemoteHealthcare.Debug
 
             new Thread(() =>
             {
-                //Needs signaling but so it also works i guesss
-                //TODO Maybe fix with signaling.
+                //Warning: Needed for the console to run the correct way
                 Thread.Sleep(3000);
 
 
@@ -49,6 +48,10 @@ namespace RemoteHealthcare.Debug
             
         }
 
+        /// <summary>
+        /// Method which updates the text in the GUI and waits for a second
+        /// after checking all the values
+        /// </summary>
         private void Simulation()
         {
 
