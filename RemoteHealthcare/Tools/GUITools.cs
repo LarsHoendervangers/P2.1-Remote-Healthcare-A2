@@ -7,6 +7,7 @@ namespace RemoteHealthcare.Tools
     {
         private static string vertical = "│";
         private static string horizontal = "─";
+        public static string crossing = "┼";
         private object _lock = new object();
 
         // Draw the basic UI
