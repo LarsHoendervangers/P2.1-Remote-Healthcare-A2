@@ -21,6 +21,8 @@ namespace RemoteHealthcare.Software
 
         public int rollTime = 0;
         public int prevTime = 0;
+
+        public event EventHandler<int> SetBikeResistence;
         public Device()
         {
            
