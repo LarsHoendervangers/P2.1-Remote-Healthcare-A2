@@ -38,7 +38,7 @@ namespace RemoteHealthcare.Tools
             if (pagenumber == 16)
             {
                 //Console.WriteLine(" {0}", payload[3]);
-                Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
+                //Console.WriteLine("Speed: {0} km/h", (double)CombineBits(payload[5], payload[4]) * 0.001 * 3.6);
                 return payload[3];
             }
 
@@ -56,10 +56,10 @@ namespace RemoteHealthcare.Tools
         {
             //Check if we're reading the correct page
             byte pageNumberReceived = PageChecker(payload);
-            if(pageNumberReceived == targetPageNumber)
+            if (pageNumberReceived == targetPageNumber)
             {
                 //received bits to combine
-                if(mustCombine && targetIndex.Length == 2)  return CombineBits(payload[targetIndex[1]], payload[targetIndex[0]]);
+                if (mustCombine && targetIndex.Length == 2)  return CombineBits(payload[targetIndex[1]], payload[targetIndex[0]]);
 
                 //received one bit and returns payload contents
                 if (targetIndex.Length == 1) return payload[targetIndex[0]];
@@ -72,7 +72,7 @@ namespace RemoteHealthcare.Tools
 
         public static int ReadByte(byte[] data, int targetByte)
         {
-            if(data.Length > targetByte) return data[targetByte];
+            if (data.Length > targetByte) return data[targetByte];
 
             Console.WriteLine("Error in reading from dataset, dataset too small");
             return -1;

@@ -26,15 +26,6 @@ namespace RemoteHealthcare.Hardware
             this.hrMonitorname = hrMonitorname;
             // Waiting beforeinitializing
             Thread.Sleep(1000);
-            
-
-            // TODO remove
-           /* List<string> list = ListDevices();
-            foreach (string l in list)
-            {
-                Console.WriteLine(l);
-            }*/
-
 
             // ignore async problem, function can continue
             _ = Initialize();
@@ -46,8 +37,6 @@ namespace RemoteHealthcare.Hardware
             while (this.errorcode == 1)
             {
                 this.errorcode = this.errorcode = await OpenDevice(hrMonitorname);
-                Console.WriteLine("Connectionattempts: {0}", this.connectionAttempts);
-                Console.WriteLine($"Error code bike: {this.errorcode}");
                 this.connectionAttempts += 1;
                 if (this.errorcode == 0) continue;
             }

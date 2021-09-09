@@ -8,19 +8,11 @@ namespace RemoteHealthcare.Tools
         private static string vertical = "│";
         private static string horizontal = "─";
 
+        // Draw the basic UI
         public static void DrawBasicLayout(string title)
         {
             Console.SetCursorPosition(0, 0);
             Console.WriteLine(title);
-            DrawBasicValues();
-        }
-
-        private static void DrawBasicValues()
-        {
-            StringBuilder values = new StringBuilder("Values:");
-            values.Append("\nSpeed: 0 km/h");
-            values.Append("\nRPM: 0");
-            values.Append("\nHeartbeat: 0 BPM");
         }
 
         // Clear the specified line in the console.

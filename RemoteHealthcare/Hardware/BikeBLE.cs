@@ -26,15 +26,6 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-
-            // TODO remove
-           /* List<string> list = ListDevices();
-            foreach (string l in list)
-            {
-                Console.WriteLine(l);
-            }*/
-
-
             // ignore async problem, function can continue
             Console.WriteLine("Initializing...");
             Initialize();
@@ -46,9 +37,7 @@ namespace RemoteHealthcare.Hardware
             while(this.errorcode != 0)
             {
                 this.connectionAttempts += 1;
-                //Console.WriteLine("Connectionattempts: {0}", this.connectionAttempts);
                 this.errorcode = await OpenDevice(BikeName);
-                //Console.WriteLine($"Error code bike: {this.errorcode}");
                 if (this.errorcode == 0) continue;
             }
 
@@ -58,8 +47,6 @@ namespace RemoteHealthcare.Hardware
             // Set the method called on data receive to onHeartRate()
             SubscriptionValueChanged += onBikeMovement;
             this.errorcode = await SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
-
-
         }
 
         private bool checkReceivedBike()
@@ -74,8 +61,6 @@ namespace RemoteHealthcare.Hardware
             {
                 this.onBikeData?.Invoke(this, e.Data);
             }
-
         }
-
     }
 }

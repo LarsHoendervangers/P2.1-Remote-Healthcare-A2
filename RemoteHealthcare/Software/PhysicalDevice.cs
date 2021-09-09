@@ -17,6 +17,7 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onRPM;
         public override event EventHandler<int> onHeartrate;
         public override event EventHandler<double> onDistance;
+        public override event EventHandler<double> onElapsedTime;
 
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
@@ -54,7 +55,7 @@ namespace RemoteHealthcare.Software
                 // Getting the elapsed time value from the data
                 double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);
                 elapsedTime = (int)(ProtocolConverter.rollOver((int)elapsedTime, ref prevTime, ref rollTime) * 0.25);
-            
+                onElapsedTime?.Invoke(this, elapsedTime);
             }
 
             // When the page is 0x19 these values are read;
@@ -62,11 +63,8 @@ namespace RemoteHealthcare.Software
             {
                 // Transforming the RPM from the bike
                 int RPM = ProtocolConverter.ReadDataSet(payload, 0x19, false, 2);
-
                 onRPM?.Invoke(this, RPM);
             }
-            
-
         }
     }
 }

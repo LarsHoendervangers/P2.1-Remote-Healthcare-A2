@@ -8,12 +8,11 @@ namespace RemoteHealthcare.Software
 {
     abstract class Device {
 
-
     public abstract event EventHandler<double> onSpeed;
     public abstract event EventHandler<int> onRPM;
     public abstract event EventHandler<int> onHeartrate;
     public abstract event EventHandler<double> onDistance;
-    public abstract event EventHandler<int> onElapsedTime;
+    public abstract event EventHandler<double> onElapsedTime;
 
     public DateTime StartTime { get; set; }
 
