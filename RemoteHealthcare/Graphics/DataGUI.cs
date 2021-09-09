@@ -3,6 +3,7 @@ using RemoteHealthcare.Software;
 using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,9 @@ namespace RemoteHealthcare.Graphics
         static void Main(string[] args)
         {
             new DataGUI();
+
+            Trace.Listeners.Add(new TextWriterTraceListener("debug.log"));
+            Trace.AutoFlush = true;
 
             GUITools.DrawBasicLayout("Remote Healthcare by A2");
             Console.CursorVisible = false;
