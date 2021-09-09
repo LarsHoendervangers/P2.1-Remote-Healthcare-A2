@@ -19,7 +19,7 @@ namespace RemoteHealthcare.Graphics
 
         public DataGUI()
         {
-            Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+            Device device = new PhysicalDevice("Tacx Flux 00472", "Decathlon Dual HR");
             device.onHeartrate += DrawHeartrate;
             device.onRPM += DrawRPM;
             device.onSpeed += DrawSpeed;
@@ -48,7 +48,7 @@ namespace RemoteHealthcare.Graphics
         private void DrawSpeed(object sender, double e)
         {
             Console.SetCursorPosition(0, Speed_Line);
-            Console.WriteLine($"Speed: {e} KM/H     ");
+            Console.WriteLine($"Speed: {e.ToString("0.##")} KM/H     ");
         }
 
         // Called by onHeartrate event.
