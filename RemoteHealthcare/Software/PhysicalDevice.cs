@@ -24,6 +24,7 @@ namespace RemoteHealthcare.Software
 
         private double initialValueDistance = -1;
         private double initialValueTime = -1;
+        private double initialValueWatt = -1;
 
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
@@ -82,6 +83,7 @@ namespace RemoteHealthcare.Software
                 // Transforming the totalWattage from the bike
                 int totalWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 3, 4);
                 totalWattage = (int)(ProtocolConverter.rollOverTotalPower(totalWattage, ref prevTotalPower, ref rollTotalPower));
+                totalWattage = (int)InitialValueComp(totalWattage, ref initialValueWatt);
                 onTotalPower?.Invoke(this, totalWattage);
 
                 // Transforming the currentWattage from the bike
