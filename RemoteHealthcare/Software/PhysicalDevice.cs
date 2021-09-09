@@ -1,4 +1,5 @@
-﻿using RemoteHealthcare.Hardware;
+﻿using RemoteHealthcare.Graphics;
+using RemoteHealthcare.Hardware;
 using RemoteHealthcare.Tools;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,12 @@ namespace RemoteHealthcare.Software
 
             HRMonitor.onHRData += OnHeartBeatReceived;
             Bike.onBikeData += OnBikeReceived;
+
+            List<string> list = Bike.ListDevices();
+            foreach (string l in list)
+            {
+                DataGUI.AddDeviceToList(l);
+            }
         }
 
         public override void OnHeartBeatReceived(object sender, byte[] data)
