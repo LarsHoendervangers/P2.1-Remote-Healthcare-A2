@@ -74,9 +74,5 @@ namespace RemoteHealthcare.Software
         {
             onDistance?.Invoke(this, e);
         }
-        public override void OnResistanceCall(object sender, int data)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
