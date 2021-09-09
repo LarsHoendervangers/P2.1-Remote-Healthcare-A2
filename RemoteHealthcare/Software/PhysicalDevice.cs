@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avans.TI.BLE;
 
 namespace RemoteHealthcare.Software
 {
@@ -22,6 +23,24 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<double> OnElapsedTime;
         public override event EventHandler<int> OnTotalPower;
         public override event EventHandler<int> OnCurrentPower;
+
+        public async Task Initialize(int errorcode, int connectionAttempts, string deviceName, string serviceName, string characteristic, BLE Device, IBLEDevice IDevice)
+        {
+            // Open the correct device, when connection failed it retries to connect
+            while (errorcode != 0)
+            {
+                connectionAttempts += 1;
+                errorcode = await Device.OpenDevice(deviceName);
+                if (errorcode == 0) continue;
+            }
+
+            // Try to set the required service to heartRate
+            errorcode = await Device.SetService(serviceName);
+
+            // Set the method called on data receive to onHeartRate()
+            Device.SubscriptionValueChanged += IDevice.OnDataReceived;
+            errorcode = await Device.SubscribeToCharacteristic(characteristic);
+        }
 
 
         // Value's to handle rollover and start value
