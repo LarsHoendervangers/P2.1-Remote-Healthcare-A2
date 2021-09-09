@@ -11,14 +11,15 @@ namespace RemoteHealthcare.Software
     class SimulatedDevice : Device
     {
         private SimDataGenerator Generator{ get; set; }
-       
-        public override event EventHandler<double> OnSpeed;
-        public override event EventHandler<int> OnRPM;
-        public override event EventHandler<int> OnHeartrate;
-        public override event EventHandler<double> OnDistance;
-        public override event EventHandler<double> OnElapsedTime;
-        public override event EventHandler<int> OnTotalPower;
-        public override event EventHandler<int> OnCurrentPower;
+        
+
+        public override event EventHandler<double> onSpeed;
+        public override event EventHandler<int> onRPM;
+        public override event EventHandler<int> onHeartrate;
+        public override event EventHandler<double> onDistance;
+        public override event EventHandler<double> onElapsedTime;
+        public override event EventHandler<int> onTotalPower;
+        public override event EventHandler<int> onCurrentPower;
 
         public SimulatedDevice()
         {
@@ -35,43 +36,49 @@ namespace RemoteHealthcare.Software
          
         }
 
-        /*
-         * Mulitple methods which get updated when data from the
-         * bike or the heart rate monitor has been received.
-        */
+        /// <summary>
+        /// Mulitple methods which get updated when data from the
+        /// bike or the heart rate monitor has been received
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnGeneratedTotalPower(object sender, int e)
         {
-            OnTotalPower?.Invoke(this, e);
+            onTotalPower?.Invoke(this, e);
         }
 
         private void OnGeneratedCurrentPower(object sender, int e)
         {
-            OnCurrentPower?.Invoke(this, e);
+            onCurrentPower?.Invoke(this, e);
         }
 
         private void OnGeneratedSpeed(object sender, double e)
         {
-            OnSpeed?.Invoke(this, e);
+            onSpeed?.Invoke(this, e);
         }
 
         private void OnGenerateTime(object sender, double e)
         {
-            OnElapsedTime?.Invoke(this, e);
+            onElapsedTime?.Invoke(this, e);
         }
 
         private void OnGeneratedRPM(object sender, int e)
         {
-            OnRPM?.Invoke(this, e);
+            onRPM?.Invoke(this, e);
         }
 
         private void OnGeneratedHeartRate(object sender, int e)
         {
-            OnHeartrate?.Invoke(this, e);
+            onHeartrate?.Invoke(this, e);
         }
 
         private void OnGeneratedDistance(object sender, double e)
         {
-            OnDistance?.Invoke(this, e);
+            onDistance?.Invoke(this, e);
+        }
+        public override void OnResistanceCall(object sender, int data)
+        {
+            throw new NotImplementedException();
         }
     }
 }
