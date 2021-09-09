@@ -26,6 +26,9 @@ namespace RemoteHealthcare.Graphics
         // This keeps track of the longest name so that the vertical devider can be drawn on the correct position.
         private static int LongestDeviceName = 0;
 
+        //private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+        private Device device = new SimulatedDevice();
+
         public DataGUI()
         {
             Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
@@ -37,8 +40,11 @@ namespace RemoteHealthcare.Graphics
             device.onElapsedTime += DrawElapsedTime;
             device.onTotalPower += DrawTotalPower;
             device.onCurrentPower += DrawCurrentPower;
+
+            PrepareGUI();
         }
 
+        // Main code entry point.
         static void Main(string[] args)
         {
             DataGUI gui = new DataGUI();
@@ -86,13 +92,21 @@ namespace RemoteHealthcare.Graphics
         // Draw the basic layout in the console.
         private void PrepareGUI()
         {
+            Console.Title = Title;
             GUITools.DrawBasicLayout(Title);
             GUITools.DrawHorizontalLine(1, 0, Console.BufferWidth - 1);
-            GUITools.DrawVerticalLine((Console.BufferWidth - 1) - (LongestDeviceName + 1), 0, CurrentDeviceLine);
-            Console.SetCursorPosition((Console.BufferWidth - 1) - LongestDeviceName, 0);
-            Console.Write("Devices");
 
-            SetMessage("Connecting to devices...");
+            if (LongestDeviceName != 0)
+            {
+                GUITools.DrawVerticalLine((Console.BufferWidth - 1) - (LongestDeviceName + 1), 0, CurrentDeviceLine);
+                Console.SetCursorPosition((Console.BufferWidth - 1) - LongestDeviceName, 0);
+                Console.Write("Devices");
+                SetMessage("Connecting to devices...");
+            } else
+            {
+                SetMessage("Simulation running");
+            }
+
             Trace.Listeners.Add(new TextWriterTraceListener("debug.log"));
             Trace.AutoFlush = true;
 
