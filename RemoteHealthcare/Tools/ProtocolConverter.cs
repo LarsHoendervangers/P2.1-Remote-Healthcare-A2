@@ -9,7 +9,9 @@ namespace RemoteHealthcare.Tools
 {
     class ProtocolConverter
     {
-        //Converts a bytearray to a string, this can be used for displaying the contents of the array.
+        /// <summary>
+        /// Converts a bytearray to a string, this can be used for displaying the contents of the array.
+        /// </summary>
         public static String ByteArrayToString(byte[] array)
         {
             String toReturn = "";
@@ -22,6 +24,11 @@ namespace RemoteHealthcare.Tools
             return toReturn;
         }
 
+        /// <summary>
+        /// Returns the pagenumber for a given payload
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         public static byte PageChecker(byte[] payload)
         {
             return payload[0];
