@@ -38,7 +38,11 @@ namespace RemoteHealthcare.Debug
 
             new Thread(() =>
             {
+                //Needs signaling but so it also works i guesss
+                //TODO Maybe fix with signaling.
                 Thread.Sleep(3000);
+
+
                 Simulation();
              
             }).Start();
@@ -47,7 +51,6 @@ namespace RemoteHealthcare.Debug
 
         private void Simulation()
         {
-           
 
             while (this.running)
             {
