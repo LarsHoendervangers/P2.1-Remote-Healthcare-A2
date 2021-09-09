@@ -20,12 +20,7 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onRPM;
         public override event EventHandler<int> onHeartrate;
         public override event EventHandler<double> onDistance;
-        public override event EventHandler<int> onElapsedTime;
-
-
-
-
-
+        public override event EventHandler<double> onElapsedTime;
 
         public override void OnHeartBeatReceived(object sender, byte[] data)
         {
