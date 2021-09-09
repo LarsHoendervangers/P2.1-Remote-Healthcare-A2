@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace RemoteHealthcare.Software
 {
@@ -29,10 +30,10 @@ namespace RemoteHealthcare.Software
 
         public int rollCurrentPower = 0;
         public int prevCurrentPower = 0;
-        public Device()
+        
+        public virtual void OnResistanceCall(Object sender, int data)
         {
-           
+            System.Diagnostics.Debug.WriteLine($"Resistance of the bike set to {data}");
         }
-        public abstract void OnResistanceCall(Object sender, int data);
     }
 }
