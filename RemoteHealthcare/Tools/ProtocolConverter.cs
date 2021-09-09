@@ -145,9 +145,13 @@ namespace RemoteHealthcare.Tools
         /// <returns></returns>
         public static int rollOver(int value, ref int oldValue, ref int valueCounter)
         {
-            if (value < oldValue)  valueCounter++;
+
+            if (value < oldValue)
+            {
+                valueCounter++;
+            }  
             
-            int returnValue = valueCounter * 256 + value;
+            int returnValue = ((valueCounter * 256) + value);
             oldValue = value;
 
             return returnValue;

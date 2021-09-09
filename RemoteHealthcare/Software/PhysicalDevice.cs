@@ -22,6 +22,9 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onTotalPower;
         public override event EventHandler<int> onCurrentPower;
 
+        private double initialValueDistance = -1;
+        private double initialValueTime = -1;
+
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
             Bike = new BikeBLE(BikeName, this);
@@ -59,11 +62,13 @@ namespace RemoteHealthcare.Software
                 // Getting the distance value from the data
                 double distance = ProtocolConverter.ReadDataSet(payload, 0x10, false, 3);
                 distance = ProtocolConverter.rollOver((int)distance, ref prevDistance, ref rollDistance);
+                distance = InitialValueComp(distance, ref initialValueDistance);
                 onDistance?.Invoke(this, distance);
 
                 // Getting the elapsed time value from the data
                 double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);
                 elapsedTime = (int)(ProtocolConverter.rollOver((int)elapsedTime, ref prevTime, ref rollTime) * 0.25);
+                elapsedTime = InitialValueComp(elapsedTime, ref this.initialValueTime);
                 onElapsedTime?.Invoke(this, elapsedTime);
             }
 
@@ -83,6 +88,14 @@ namespace RemoteHealthcare.Software
                 payload[6] = (byte)(payload[6] & 0b00001111);
                 int currentWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 5, 6);
                 onCurrentPower?.Invoke(this, currentWattage);
+            }
+
+            double InitialValueComp(double value, ref double initialValue)
+            {
+                if (initialValue == -1)
+                    initialValue = value;
+
+                return value - initialValue;
             }
         }
 
