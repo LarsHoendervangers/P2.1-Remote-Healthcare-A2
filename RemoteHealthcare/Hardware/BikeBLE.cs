@@ -75,7 +75,7 @@ namespace RemoteHealthcare.Hardware
             byte[] data = new byte[13] {0xA4, 0x09, 0x4E, 0x05, 0x30, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, (byte)resistance,0};
 
             // calculating the checksum 
-            data[12] = (byte)ProtocolConverter.calculateChecksum(data);
+            data[12] = (byte)ProtocolConverter.CalculateChecksum(data);
             WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", data);
         }
     }

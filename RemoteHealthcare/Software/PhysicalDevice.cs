@@ -100,7 +100,7 @@ namespace RemoteHealthcare.Software
             {
                 // Getting the speed from the bike data
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
-                speed = ProtocolConverter.toKMH(speed);
+                speed = ProtocolConverter.TransformtoKMH(speed);
                 OnSpeed?.Invoke(this, speed);
 
                 // Getting the distance value from the data
