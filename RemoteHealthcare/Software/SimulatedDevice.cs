@@ -29,8 +29,13 @@ namespace RemoteHealthcare.Software
             Generator.GeneratedDistance += OnGeneratedDistance;
             Generator.GeneratedHeartrate += OnGeneratedHeartRate;
             Generator.GeneratedRPM += OnGeneratedRPM;
-            Generator.GeneratedDistance += OnGeneratedDistance;
+            Generator.GeneratedSpeed += OnGeneratedSpeed;
             Generator.GeneratedTime += OnGenerateTime;
+        }
+
+        private void OnGeneratedSpeed(object sender, double e)
+        {
+            onSpeed?.Invoke(this, e);
         }
 
         private void OnGenerateTime(object sender, double e)
@@ -52,6 +57,10 @@ namespace RemoteHealthcare.Software
         {
             onDistance?.Invoke(this, e);
         }
+
+
+
+
 
       
     }
