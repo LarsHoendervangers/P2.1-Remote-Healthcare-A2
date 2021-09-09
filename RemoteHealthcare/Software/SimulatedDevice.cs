@@ -35,6 +35,19 @@ namespace RemoteHealthcare.Software
          
         }
 
+        public SimulatedDevice(double[] speedRange, int[] rpmRange, int[] hearbeatRange, int[] powerRange)
+        {
+            Generator = new SimDataGenerator(speedRange, rpmRange, hearbeatRange, powerRange);
+
+            Generator.GeneratedDistance += OnGeneratedDistance;
+            Generator.GeneratedHeartrate += OnGeneratedHeartRate;
+            Generator.GeneratedRPM += OnGeneratedRPM;
+            Generator.GeneratedSpeed += OnGeneratedSpeed;
+            Generator.GeneratedTime += OnGenerateTime;
+            Generator.GeneratedCurrentPower += OnGeneratedCurrentPower;
+            Generator.GeneratedTotalPower += OnGeneratedTotalPower;
+        }
+
         /*
          * Mulitple methods which get updated when data from the
          * bike or the heart rate monitor has been received.
