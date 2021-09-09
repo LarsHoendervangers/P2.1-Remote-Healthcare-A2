@@ -25,6 +25,8 @@ namespace RemoteHealthcare.Debug
         public event EventHandler<double> GeneratedDistance;
         public event EventHandler<double> GeneratedTime;
 
+        private object _lock = new object();
+
         public SimDataGenerator()
         {
             this.running = true;
@@ -32,7 +34,7 @@ namespace RemoteHealthcare.Debug
 
             new Thread(() =>
             {
-                Simulation();   
+                Simulation();
             }).Start();
             
         }
@@ -41,21 +43,32 @@ namespace RemoteHealthcare.Debug
         {
             while (this.running)
             {
-                this.speed = this.random.NextDouble() * 40;
-                GeneratedSpeed?.Invoke(this, speed);
-      
+                lock(_lock){
+                    this.speed = this.random.NextDouble() * 40;
+                    GeneratedSpeed?.Invoke(this, speed);
 
-                this.RPM = (int)(this.random.NextDouble() * 120);
-                GeneratedRPM?.Invoke(this, RPM);
 
-                this.heartRate = (int)(50 + this.random.NextDouble() * 200);
-                GeneratedHeartrate?.Invoke(this, heartRate);
 
-                this.distance += this.speed / 3.6;
-                GeneratedDistance?.Invoke(this, distance);
+                    this.RPM = (int)(this.random.NextDouble() * 120);
+                  
+                        GeneratedRPM?.Invoke(this, RPM);
+                    
 
-                this.elapsedTime += 1;
-                GeneratedTime?.Invoke(this, elapsedTime);
+                    this.heartRate = (int)(50 + this.random.NextDouble() * 200);
+                  
+                        GeneratedHeartrate?.Invoke(this, heartRate);
+                    
+
+                    this.distance += this.speed / 3.6;
+                
+                        GeneratedDistance?.Invoke(this, distance);
+                    
+
+                    this.elapsedTime += 1;
+
+                        GeneratedTime?.Invoke(this, elapsedTime);
+                    
+                }
 
                 Thread.Sleep(1000);
             }

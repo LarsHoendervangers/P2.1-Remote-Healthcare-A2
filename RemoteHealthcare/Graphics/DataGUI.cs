@@ -50,6 +50,7 @@ namespace RemoteHealthcare.Graphics
         {
             Console.SetCursorPosition(0, Speed_Line);
             Console.WriteLine($"Speed: {e} KM/H     ");
+     
         }
 
         // Called by onHeartrate event.
