@@ -18,6 +18,8 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onHeartrate;
         public override event EventHandler<double> onDistance;
         public override event EventHandler<double> onElapsedTime;
+        public override event EventHandler<int> onTotalPower;
+        public override event EventHandler<int> onCurrentPower;
 
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
@@ -28,13 +30,13 @@ namespace RemoteHealthcare.Software
             Bike.OnBikeData += OnBikeReceived;
         }
 
-        public override void OnHeartBeatReceived(object sender, byte[] data)
+        public void OnHeartBeatReceived(object sender, byte[] data)
         {
             int heartbeat = ProtocolConverter.ReadByte(data, 1);
             onHeartrate?.Invoke(this, heartbeat);
         }
 
-        public override void OnBikeReceived(object sender, byte[] data)
+        public void OnBikeReceived(object sender, byte[] data)
         {
             // transform the given data to a usefull payload
             Byte[] payload = ProtocolConverter.DataToPayload(data);
@@ -64,6 +66,16 @@ namespace RemoteHealthcare.Software
                 // Transforming the RPM from the bike
                 int RPM = ProtocolConverter.ReadDataSet(payload, 0x19, false, 2);
                 onRPM?.Invoke(this, RPM);
+
+                // Transforming the totalWattage from the bike
+                int totalWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 3, 4);
+                totalWattage = (int)(ProtocolConverter.rollOverTotalPower(totalWattage, ref prevTotalPower, ref rollTotalPower));
+                onTotalPower?.Invoke(this, totalWattage);
+
+                // Transforming the currentWattage from the bike
+                payload[6] = (byte)(payload[6] & 0b00001111);
+                int currentWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 5, 6);
+                onCurrentPower?.Invoke(this, currentWattage);
             }
         }
 

@@ -17,15 +17,21 @@ namespace RemoteHealthcare.Graphics
         private static int Heart_Line = 4;
         private static int Time_Line = 5;
         private static int Distance_Line = 6;
+        private static int TotalPower_Line = 7;
+        private static int CurrentPower_Line = 8;
+
 
         public DataGUI()
         {
-            Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+            //Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+            Device device = new SimulatedDevice();
             device.onHeartrate += DrawHeartrate;
             device.onRPM += DrawRPM;
             device.onSpeed += DrawSpeed;
             device.onDistance += DrawDistance;
             device.onElapsedTime += DrawElapsedTime;
+            device.onTotalPower += DrawTotalPower;
+            device.onCurrentPower += DrawCurrentPower;
         }
 
         static void Main(string[] args)
@@ -37,6 +43,7 @@ namespace RemoteHealthcare.Graphics
 
             GUITools.DrawBasicLayout("Remote Healthcare by A2");
             Console.CursorVisible = false;
+       
 
             Console.Read();
         }
@@ -53,6 +60,7 @@ namespace RemoteHealthcare.Graphics
         {
             Console.SetCursorPosition(0, Speed_Line);
             Console.WriteLine($"Speed: {e} KM/H     ");
+     
         }
 
         // Called by onHeartrate event.
@@ -74,6 +82,18 @@ namespace RemoteHealthcare.Graphics
         {
             Console.SetCursorPosition(0, Distance_Line);
             Console.WriteLine($"Distance: {e} m     ");
+        }
+
+        private void DrawTotalPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, TotalPower_Line);
+            Console.WriteLine($"Total power: {e} Watt     ");
+        }
+
+        private void DrawCurrentPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, CurrentPower_Line);
+            Console.WriteLine($"Current power: {e} Watt     ");
         }
     }
 }
