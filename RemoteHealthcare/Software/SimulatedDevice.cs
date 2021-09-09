@@ -31,6 +31,20 @@ namespace RemoteHealthcare.Software
             Generator.GeneratedRPM += OnGeneratedRPM;
             Generator.GeneratedSpeed += OnGeneratedSpeed;
             Generator.GeneratedTime += OnGenerateTime;
+            Generator.GeneratedCurrentPower += OnGeneratedCurrentPower;
+            Generator.GeneratedTotalPower += OnGeneratedTotalPower;
+
+         
+        }
+
+        private void OnGeneratedTotalPower(object sender, int e)
+        {
+            onTotalPower?.Invoke(this, e);
+        }
+
+        private void OnGeneratedCurrentPower(object sender, int e)
+        {
+            onCurrentPower?.Invoke(this, e);
         }
 
         private void OnGeneratedSpeed(object sender, double e)

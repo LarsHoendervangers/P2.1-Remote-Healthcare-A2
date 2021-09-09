@@ -17,6 +17,8 @@ namespace RemoteHealthcare.Debug
         private double elapsedTime = 0;
         private bool running;
         private Random random;
+        private int powerlevel;
+        private int totalpower;
 
         //Event handlers
         public event EventHandler<double> GeneratedSpeed;
@@ -24,6 +26,8 @@ namespace RemoteHealthcare.Debug
         public event EventHandler<int> GeneratedHeartrate;
         public event EventHandler<double> GeneratedDistance;
         public event EventHandler<double> GeneratedTime;
+        public event EventHandler<int> GeneratedCurrentPower;
+        public event EventHandler<int> GeneratedTotalPower;
 
         private object _lock = new object();
 
@@ -34,41 +38,46 @@ namespace RemoteHealthcare.Debug
 
             new Thread(() =>
             {
+                Thread.Sleep(3000);
                 Simulation();
+             
             }).Start();
             
         }
 
         private void Simulation()
         {
+           
+
             while (this.running)
             {
-                lock(_lock){
-                    this.speed = this.random.NextDouble() * 40;
-                    GeneratedSpeed?.Invoke(this, speed);
+              
+                this.speed = this.random.NextDouble() * 40;
+                GeneratedSpeed?.Invoke(this, speed);
+                 
+                this.RPM = (int)(this.random.NextDouble() * 120);
+                GeneratedRPM?.Invoke(this, RPM);
 
-
-
-                    this.RPM = (int)(this.random.NextDouble() * 120);
-                  
-                        GeneratedRPM?.Invoke(this, RPM);
+                this.heartRate = (int)(50 + this.random.NextDouble() * 200);
+                GeneratedHeartrate?.Invoke(this, heartRate);
                     
 
-                    this.heartRate = (int)(50 + this.random.NextDouble() * 200);
-                  
-                        GeneratedHeartrate?.Invoke(this, heartRate);
+                this.distance += this.speed / 3.6;
+                GeneratedDistance?.Invoke(this, distance);
                     
 
-                    this.distance += this.speed / 3.6;
-                
-                        GeneratedDistance?.Invoke(this, distance);
-                    
+                this.elapsedTime += 1;
+                GeneratedTime?.Invoke(this, elapsedTime);
 
-                    this.elapsedTime += 1;
 
-                        GeneratedTime?.Invoke(this, elapsedTime);
-                    
-                }
+                this.powerlevel = (int)(150 + this.random.NextDouble() * 200);
+                GeneratedCurrentPower?.Invoke(this, powerlevel);
+
+                this.totalpower = totalpower + powerlevel;
+                GeneratedTotalPower?.Invoke(this, totalpower);
+
+
+
 
                 Thread.Sleep(1000);
             }

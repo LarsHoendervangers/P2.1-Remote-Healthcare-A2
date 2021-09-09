@@ -19,6 +19,7 @@ namespace RemoteHealthcare.Graphics
         private static int TotalPower_Line = 7;
         private static int CurrentPower_Line = 8;
 
+
         public DataGUI()
         {
             //Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
@@ -36,8 +37,10 @@ namespace RemoteHealthcare.Graphics
         {
             new DataGUI();
 
+
             GUITools.DrawBasicLayout("Remote Healthcare by A2");
             Console.CursorVisible = false;
+       
 
             Console.Read();
         }
