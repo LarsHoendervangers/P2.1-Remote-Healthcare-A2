@@ -1,4 +1,5 @@
-﻿using RemoteHealthcare.Graphics;
+﻿using RemoteHealthcare.Debug;
+using RemoteHealthcare.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,7 @@ namespace RemoteHealthcare.Software
     {
         private SimDataGenerator Generator{ get; set; }
         private SimGUI User{ get; set; }
-
-        public SimulatedDevice()
-        {
-        }
+        
 
         public override event EventHandler<double> onSpeed;
         public override event EventHandler<int> onRPM;
@@ -22,14 +20,37 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<double> onDistance;
         public override event EventHandler<double> onElapsedTime;
 
-        public override void OnHeartBeatReceived(object sender, byte[] data)
+        public SimulatedDevice()
         {
-            throw new NotImplementedException();
+            Generator = new SimDataGenerator();
+
+            Generator.GeneratedDistance += OnGeneratedDistance;
+            Generator.GeneratedHeartrate += OnGeneratedHeartRate;
+            Generator.GeneratedRPM += OnGeneratedRPM;
+            Generator.GeneratedDistance += OnGeneratedDistance;
+            Generator.GeneratedTime += OnGenerateTime;
         }
 
-        public override void OnBikeReceived(object sender, byte[] data)
+        private void OnGenerateTime(object sender, double e)
         {
-            throw new NotImplementedException();
+            onElapsedTime?.Invoke(this, e);
         }
+
+        private void OnGeneratedRPM(object sender, int e)
+        {
+            onRPM?.Invoke(this, e);
+        }
+
+        private void OnGeneratedHeartRate(object sender, int e)
+        {
+            onHeartrate?.Invoke(this, e);
+        }
+
+        private void OnGeneratedDistance(object sender, double e)
+        {
+            onDistance?.Invoke(this, e);
+        }
+
+      
     }
 }

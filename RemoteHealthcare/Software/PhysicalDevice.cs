@@ -28,13 +28,13 @@ namespace RemoteHealthcare.Software
             Bike.onBikeData += OnBikeReceived;
         }
 
-        public override void OnHeartBeatReceived(object sender, byte[] data)
+        public void OnHeartBeatReceived(object sender, byte[] data)
         {
             int heartbeat = ProtocolConverter.ReadByte(data, 1);
             onHeartrate?.Invoke(this, heartbeat);
         }
 
-        public override void OnBikeReceived(object sender, byte[] data)
+        public void OnBikeReceived(object sender, byte[] data)
         {
             // transform the given data to a usefull payload
             Byte[] payload = ProtocolConverter.DataToPayload(data);
