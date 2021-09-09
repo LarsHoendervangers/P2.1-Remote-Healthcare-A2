@@ -26,10 +26,18 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-            Console.WriteLine("Initializing...");
+            Start();
 
+            
             // ignore async problem, function can continue 
-            Initialize();
+            //Initialize();
+        }
+
+        private void Start()
+        {
+            Console.WriteLine("Initializing...");
+            Task task = device.Initialize(errorcode, connectionAttempts, bikeName, this);
+            task.Wait();
         }
 
         /*
@@ -57,7 +65,7 @@ namespace RemoteHealthcare.Hardware
          * Event method that is called when the BLE receives data.
          * The method checks if the data is correct and sends it to the device class for decoding.
          */
-        private void onBikeMovement(object sender, BLESubscriptionValueChangedEventArgs e)
+        public void onBikeMovement(object sender, BLESubscriptionValueChangedEventArgs e)
         {
 
             // check if the date was received correct, by checking the checksum

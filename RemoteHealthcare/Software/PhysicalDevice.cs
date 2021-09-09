@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avans.TI.BLE;
 
 namespace RemoteHealthcare.Software
 {
@@ -21,6 +22,24 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<double> onElapsedTime;
         public override event EventHandler<int> onTotalPower;
         public override event EventHandler<int> onCurrentPower;
+
+        public async Task Initialize(int errorcode, int connectionAttempts, string bikeName, BikeBLE Bike)
+        {
+            // Open the correct device, when connection failed it retries to connect
+            while (errorcode != 0)
+            {
+                connectionAttempts += 1;
+                errorcode = await Bike.OpenDevice(bikeName);
+                if (errorcode == 0) continue;
+            }
+
+            // Try to set the required service to heartRate
+            errorcode = await Bike.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
+
+            // Set the method called on data receive to onHeartRate()
+            Bike.SubscriptionValueChanged += Bike.onBikeMovement;
+            errorcode = await Bike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+        }
 
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
