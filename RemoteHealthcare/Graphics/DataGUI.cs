@@ -77,12 +77,7 @@ namespace RemoteHealthcare.Graphics
                     x = resistance.Length;
                     value = "";
                     GUITools.ClearLine(x, 50, Input_Line);
-                    int res;
-                    if (int.TryParse(value, out res))
-                    {
-                        device.OnResistanceCall(this, res);
-                    }
-
+                    // TODO: Implement an event with 'value'.
                 }
             } while (true);
         }
@@ -156,12 +151,14 @@ namespace RemoteHealthcare.Graphics
             }
         }
 
+        // Called by onTotalPower event.
         private void DrawTotalPower(object sender, int e)
         {
             Console.SetCursorPosition(0, TotalPower_Line);
             Console.WriteLine($"Total power: {e} Watt     ");
         }
 
+        // Called by onCurrentPower event.
         private void DrawCurrentPower(object sender, int e)
         {
             Console.SetCursorPosition(0, CurrentPower_Line);

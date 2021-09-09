@@ -135,6 +135,14 @@ namespace RemoteHealthcare.Tools
             return checksum;
         }
 
+        /// <summary>
+        /// Method which makes a calculation with the amount of rollovers there have been
+        /// since the connection was made so the distance and time have the right values
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="valueCounter"></param>
+        /// <returns></returns>
         public static int rollOver(int value, ref int oldValue, ref int valueCounter)
         {
             if (value < oldValue)  valueCounter++;
@@ -145,6 +153,14 @@ namespace RemoteHealthcare.Tools
             return returnValue;
         }
 
+        /// <summary>
+        /// Method which makes a calculation with the amount of rollovers there have been
+        /// since the connection was made so the total power has the right values
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="valueCounter"></param>
+        /// <returns></returns>
         public static int rollOverTotalPower(int value, ref int oldValue, ref int valueCounter)
         {
             if (value < oldValue) valueCounter++;
