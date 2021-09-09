@@ -25,7 +25,7 @@ namespace RemoteHealthcare.Software
             HRMonitor = new HRBLE(HRName, this);
 
             HRMonitor.onHRData += OnHeartBeatReceived;
-            Bike.OnBikeData += OnBikeReceived;
+            Bike.onBikeData += OnBikeReceived;
         }
 
         public override void OnHeartBeatReceived(object sender, byte[] data)
@@ -69,7 +69,7 @@ namespace RemoteHealthcare.Software
 
         public override void OnResistanceCall(object sender, int data)
         {
-            throw new NotImplementedException();
+            Bike.ChangeResistance(data);
         }
     }
 }
