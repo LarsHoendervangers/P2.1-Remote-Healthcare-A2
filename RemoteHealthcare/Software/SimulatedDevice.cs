@@ -31,5 +31,10 @@ namespace RemoteHealthcare.Software
         {
             throw new NotImplementedException();
         }
+
+        public override void OnResistanceCall(object sender, int data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

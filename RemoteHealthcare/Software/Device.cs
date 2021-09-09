@@ -22,7 +22,6 @@ namespace RemoteHealthcare.Software
         public int rollTime = 0;
         public int prevTime = 0;
 
-        public event EventHandler<int> SetBikeResistence;
         public Device()
         {
            
@@ -30,5 +29,6 @@ namespace RemoteHealthcare.Software
 
         public abstract void OnHeartBeatReceived(Object sender, Byte[] data);
         public abstract void OnBikeReceived(Object sender, Byte[] data);
+        public abstract void OnResistanceCall(Object sender, int data);
     }
 }
