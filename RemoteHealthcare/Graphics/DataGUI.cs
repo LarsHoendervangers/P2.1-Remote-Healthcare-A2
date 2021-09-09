@@ -151,7 +151,7 @@ namespace RemoteHealthcare.Graphics
         private void DrawDistance(object sender, double e)
         {
             Console.SetCursorPosition(0, Distance_Line);
-            Console.WriteLine($"Distance: {e} m     ");
+            Console.WriteLine($"Distance: {(int) e} m     ");
         }
 
         // Called by onTotalPower event.
