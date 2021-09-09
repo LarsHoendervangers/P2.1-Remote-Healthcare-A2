@@ -14,6 +14,7 @@ namespace RemoteHealthcare.Software
         private HRBLE HRMonitor { get; set; }
         private BikeBLE Bike{ get; set; }
 
+        // Event handler attributes
         public override event EventHandler<double> onSpeed;
         public override event EventHandler<int> onRPM;
         public override event EventHandler<int> onHeartrate;
@@ -22,10 +23,27 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onTotalPower;
         public override event EventHandler<int> onCurrentPower;
 
+
+        // Value's to handle rollover and start value
         private double initialValueDistance = -1;
         private double initialValueTime = -1;
         private double initialValueWatt = -1;
 
+        public int rollDistance = 0;
+        public int prevDistance = 0;
+
+        public int rollTime = 0;
+        public int prevTime = 0;
+
+        public int rollTotalPower = 0;
+        public int prevTotalPower = 0;
+
+        public int rollCurrentPower = 0;
+        public int prevCurrentPower = 0;
+
+        /*
+         * Constructor for PhysicalDevice, taking the names of the devices to connect to
+         */
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
             Bike = new BikeBLE(BikeName, this);
@@ -41,12 +59,18 @@ namespace RemoteHealthcare.Software
             }
         }
 
+        /*
+         * Event call that handles the translation of the data from the heartrate monitor
+         */
         public void OnHeartBeatReceived(object sender, byte[] data)
         {
             int heartbeat = ProtocolConverter.ReadByte(data, 1);
             onHeartrate?.Invoke(this, heartbeat);
         }
 
+        /*
+         * Event call that handles the translation of the data from the bike
+         */
         public void OnBikeReceived(object sender, byte[] data)
         {
             // transform the given data to a usefull payload
@@ -92,18 +116,25 @@ namespace RemoteHealthcare.Software
                 onCurrentPower?.Invoke(this, currentWattage);
             }
 
-            double InitialValueComp(double value, ref double initialValue)
-            {
-                if (initialValue == -1)
-                    initialValue = value;
-
-                return value - initialValue;
-            }
         }
 
+        /*
+         * Event method for setting the resistance on the bike 
+         */
         public override void OnResistanceCall(object sender, int data)
         {
-            Bike.ChangeResistance(data);
+            Bike.ChangeResistance(data); // Telling the bike to change the resistance
+        }
+
+        /*
+         * Method that handles the initial value's
+         */
+        double InitialValueComp(double value, ref double initialValue)
+        {
+            if (initialValue == -1)
+                initialValue = value;
+
+            return value - initialValue;
         }
     }
 }
