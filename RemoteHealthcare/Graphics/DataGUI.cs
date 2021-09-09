@@ -40,7 +40,7 @@ namespace RemoteHealthcare.Graphics
             PrepareGUI();
         }
 
-        // Main code entry point.
+        // Main code entry point
         static void Main(string[] args)
         {
             DataGUI gui = new DataGUI();
