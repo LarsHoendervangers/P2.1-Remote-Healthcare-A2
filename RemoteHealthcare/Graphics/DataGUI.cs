@@ -26,7 +26,7 @@ namespace RemoteHealthcare.Graphics
 
         private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
         //private Device device = new SimulatedDevice();
-
+        
         public DataGUI()
         {
             device.OnHeartrate += DrawHeartrate;
@@ -165,7 +165,10 @@ namespace RemoteHealthcare.Graphics
             Console.WriteLine($"Current power: {e} Watt     ");
         }
 
-        // Prints device on the right side of the console.
+        /// <summary>
+        /// Prints device on the right side of the console.
+        /// </summary>
+        /// <param name="device"></param>
         public static void AddDeviceToList(string device)
         {
             int x = Console.BufferWidth - 1;
@@ -187,7 +190,10 @@ namespace RemoteHealthcare.Graphics
             CurrentDeviceLine++;
         }
 
-        // Print a message to the top of the screen.
+        /// <summary>
+        /// Print a message to the top of the screen.
+        /// </summary>
+        /// <param name="msg"></param>
         public static void SetMessage(string msg)
         {
             String prefix = "Message: ";

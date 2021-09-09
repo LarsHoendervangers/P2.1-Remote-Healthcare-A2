@@ -23,8 +23,9 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> OnTotalPower;
         public override event EventHandler<int> OnCurrentPower;
 
-
-        // Value's to handle rollover and start value
+        /// <summary>
+        /// Value's to handle rollover and start value
+        /// </summary>
         private double initialValueDistance = -1;
         private double initialValueTime = -1;
         private double initialValueWatt = -1;
