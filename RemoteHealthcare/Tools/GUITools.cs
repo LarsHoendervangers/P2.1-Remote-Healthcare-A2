@@ -5,10 +5,9 @@ namespace RemoteHealthcare.Tools
 {
     class GUITools
     {
-        private static string vertical = "│";
-        private static string horizontal = "─";
-        public static string crossing = "┼";
-        private object _lock = new object();
+        private static readonly string vertical = "│";
+        private static readonly string horizontal = "─";
+        public static readonly string crossing = "┼";
 
         /// <summary>
         /// Draw the basic UI
