@@ -23,8 +23,8 @@ namespace RemoteHealthcare.Graphics
 
         public DataGUI()
         {
-            //Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
-            Device device = new SimulatedDevice();
+            Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+            //Device device = new SimulatedDevice();
             device.onHeartrate += DrawHeartrate;
             device.onRPM += DrawRPM;
             device.onSpeed += DrawSpeed;
