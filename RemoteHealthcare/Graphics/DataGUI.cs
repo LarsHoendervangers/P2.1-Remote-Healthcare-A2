@@ -28,20 +28,21 @@ namespace RemoteHealthcare.Graphics
         private static int CurrentDeviceLine = 2;
         private static int LongestDeviceName = 0;
 
+        private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+        //private Device device = new SimulatedDevice();
+
         public DataGUI()
         {
-            Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
-            //Device device = new SimulatedDevice();
             device.onHeartrate += DrawHeartrate;
             device.onRPM += DrawRPM;
             device.onSpeed += DrawSpeed;
             device.onDistance += DrawDistance;
             device.onElapsedTime += DrawElapsedTime;
+            device.onTotalPower += DrawTotalPower;
+            device.onCurrentPower += DrawCurrentPower;
 
             SetMessage("Searching for devices");
             PrepareGUI();
-            device.onTotalPower += DrawTotalPower;
-            device.onCurrentPower += DrawCurrentPower;
         }
 
         static void Main(string[] args)
@@ -74,8 +75,14 @@ namespace RemoteHealthcare.Graphics
                 {
                     IsTyping = false;
                     x = resistance.Length;
+                    value = "";
                     GUITools.ClearLine(x, 50, Input_Line);
-                    // TODO: Implement an event with 'value'.
+                    int res;
+                    if (int.TryParse(value, out res))
+                    {
+                        device.OnResistanceCall(this, res);
+                    }
+
                 }
             } while (true);
         }
