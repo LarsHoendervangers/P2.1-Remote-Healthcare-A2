@@ -13,13 +13,13 @@ namespace RemoteHealthcare.Software
         private SimDataGenerator Generator{ get; set; }
         
 
-        public override event EventHandler<double> onSpeed;
-        public override event EventHandler<int> onRPM;
-        public override event EventHandler<int> onHeartrate;
-        public override event EventHandler<double> onDistance;
-        public override event EventHandler<double> onElapsedTime;
-        public override event EventHandler<int> onTotalPower;
-        public override event EventHandler<int> onCurrentPower;
+        public override event EventHandler<double> OnSpeed;
+        public override event EventHandler<int> OnRPM;
+        public override event EventHandler<int> OnHeartrate;
+        public override event EventHandler<double> OnDistance;
+        public override event EventHandler<double> OnElapsedTime;
+        public override event EventHandler<int> OnTotalPower;
+        public override event EventHandler<int> OnCurrentPower;
 
         public SimulatedDevice()
         {
@@ -44,37 +44,37 @@ namespace RemoteHealthcare.Software
         /// <param name="e"></param>
         private void OnGeneratedTotalPower(object sender, int e)
         {
-            onTotalPower?.Invoke(this, e);
+            OnTotalPower?.Invoke(this, e);
         }
 
         private void OnGeneratedCurrentPower(object sender, int e)
         {
-            onCurrentPower?.Invoke(this, e);
+            OnCurrentPower?.Invoke(this, e);
         }
 
         private void OnGeneratedSpeed(object sender, double e)
         {
-            onSpeed?.Invoke(this, e);
+            OnSpeed?.Invoke(this, e);
         }
 
         private void OnGenerateTime(object sender, double e)
         {
-            onElapsedTime?.Invoke(this, e);
+            OnElapsedTime?.Invoke(this, e);
         }
 
         private void OnGeneratedRPM(object sender, int e)
         {
-            onRPM?.Invoke(this, e);
+            OnRPM?.Invoke(this, e);
         }
 
         private void OnGeneratedHeartRate(object sender, int e)
         {
-            onHeartrate?.Invoke(this, e);
+            OnHeartrate?.Invoke(this, e);
         }
 
         private void OnGeneratedDistance(object sender, double e)
         {
-            onDistance?.Invoke(this, e);
+            OnDistance?.Invoke(this, e);
         }
         public override void OnResistanceCall(object sender, int data)
         {
