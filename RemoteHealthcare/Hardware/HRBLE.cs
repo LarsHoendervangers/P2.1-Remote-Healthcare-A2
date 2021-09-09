@@ -53,7 +53,7 @@ namespace RemoteHealthcare.Hardware
          */
         public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-            if (ProtocolConverter.goodData(e.Data))
+            if (ProtocolConverter.ConfirmPageData(e.Data))
             onHRData?.Invoke(this, e.Data);
         }
     }
