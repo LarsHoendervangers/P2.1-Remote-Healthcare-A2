@@ -24,6 +24,15 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> OnTotalPower;
         public override event EventHandler<int> OnCurrentPower;
 
+        /// <summary>
+        /// Starts the connection to the BT devices
+        /// </summary>
+        /// <param name="deviceName">The name of the device</param>
+        /// <param name="serviceName">The service to connect to</param>
+        /// <param name="characteristic">The characteristic to subscribe to</param>
+        /// <param name="Device">The BLE device created</param>
+        /// <param name="IDevice">The IDevice create</param>
+        /// <returns>Task</returns>
         public async Task Initialize(string deviceName, string serviceName, string characteristic, BLE Device, IBLEDevice IDevice)
         {
             // Open the correct device, when connection failed it retries to connect
@@ -70,9 +79,11 @@ namespace RemoteHealthcare.Software
         public int rollCurrentPower = 0;
         public int prevCurrentPower = 0;
 
-        /*
-         * Constructor for PhysicalDevice, taking the names of the devices to connect to
-         */
+        /// <summary>
+        /// Constructor for PhysicalDevice, taking the names of the devices to connect to
+        /// </summary>
+        /// <param name="BikeName">The name of the BT bike</param>
+        /// <param name="HRName">The name of the BT HR monitor</param>
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
             Bike = new BikeBLE(BikeName, this);
@@ -88,18 +99,23 @@ namespace RemoteHealthcare.Software
             }
         }
 
-        /*
-         * Event call that handles the translation of the data from the heartrate monitor
-         */
+
+        /// <summary>
+        /// Event call that handles the translation of the data from the heartrate monitor
+        /// </summary>
+        /// <param name="sender">The object that called the event</param>
+        /// <param name="data">THe data from the event</param>
         public void OnHeartBeatReceived(object sender, byte[] data)
         {
             int heartbeat = ProtocolConverter.ReadByte(data, 1);
             OnHeartrate?.Invoke(this, heartbeat);
         }
 
-        /*
-         * Event call that handles the translation of the data from the bike
-         */
+        /// <summary>
+        /// Event call that handles the translation of the data from the bike
+        /// </summary>
+        /// <param name="sender">The object that called the event</param>
+        /// <param name="data">The data received through the event</param>
         public void OnBikeReceived(object sender, byte[] data)
         {
             // transform the given data to a usefull payload
@@ -147,17 +163,22 @@ namespace RemoteHealthcare.Software
 
         }
 
-        /*
-         * Event method for setting the resistance on the bike 
-         */
+        /// <summary>
+        /// Event method for setting the resistance on the bike 
+        /// </summary>
+        /// <param name="sender">The object that called the event</param>
+        /// <param name="data">The data given in the event</param>
         public override void OnResistanceCall(object sender, int data)
         {
             Bike.ChangeResistance(data); // Telling the bike to change the resistance
         }
 
-        /*
-         * Method that handles the initial value's
-         */
+        /// <summary>
+        /// Method that handles the initial value's
+        /// </summary>
+        /// <param name="value">The value to be checked</param>
+        /// <param name="initialValue">Reference to double where in initial is stored</param>
+        /// <returns>The adjusted value</returns>
         double InitialValueComp(double value, ref double initialValue)
         {
             if (initialValue == -1)
