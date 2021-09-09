@@ -19,18 +19,6 @@ namespace RemoteHealthcare.Software
 
     public DateTime StartTime { get; set; }
 
-        public int rollDistance = 0;
-        public int prevDistance = 0;
-
-        public int rollTime = 0;
-        public int prevTime = 0;
-
-        public int rollTotalPower = 0;
-        public int prevTotalPower = 0;
-
-        public int rollCurrentPower = 0;
-        public int prevCurrentPower = 0;
-
         /// <summary>
         /// Event that is called by DataGUI when a user enters a resistance value.
         /// </summary>
