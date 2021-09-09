@@ -23,22 +23,22 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onTotalPower;
         public override event EventHandler<int> onCurrentPower;
 
-        public async Task Initialize(int errorcode, int connectionAttempts, string bikeName, BikeBLE Bike)
+        public async Task Initialize(int errorcode, int connectionAttempts, string deviceName, string serviceName, string characteristic, BLE Device, IBLEDevice IDevice)
         {
             // Open the correct device, when connection failed it retries to connect
             while (errorcode != 0)
             {
                 connectionAttempts += 1;
-                errorcode = await Bike.OpenDevice(bikeName);
+                errorcode = await Device.OpenDevice(deviceName);
                 if (errorcode == 0) continue;
             }
 
             // Try to set the required service to heartRate
-            errorcode = await Bike.SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
+            errorcode = await Device.SetService(serviceName);
 
             // Set the method called on data receive to onHeartRate()
-            Bike.SubscriptionValueChanged += Bike.onBikeMovement;
-            errorcode = await Bike.SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
+            Device.SubscriptionValueChanged += IDevice.OnDataReceived;
+            errorcode = await Device.SubscribeToCharacteristic(characteristic);
         }
 
         public PhysicalDevice(string BikeName, string HRName) : base()

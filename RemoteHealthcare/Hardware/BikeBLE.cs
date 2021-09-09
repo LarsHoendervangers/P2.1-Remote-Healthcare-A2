@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.Hardware
 {
-    class BikeBLE : BLE
+    class BikeBLE : BLE, IBLEDevice
     {
 
         public event EventHandler<Byte[]> OnBikeData;
@@ -26,19 +26,11 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-            Start();
-
-            
-            // ignore async problem, function can continue 
-            //Initialize();
-        }
-
-        private void Start()
-        {
             Console.WriteLine("Initializing...");
-            Task task = device.Initialize(errorcode, connectionAttempts, bikeName, this);
-            task.Wait();
+            Task task = device.Initialize(errorcode, connectionAttempts, bikeName,
+                "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e", this, this);
         }
+
 
         /*
          * Starts the connection to the bike and subscribes to the correct value's
@@ -57,7 +49,7 @@ namespace RemoteHealthcare.Hardware
             this.errorcode = await SetService("6e40fec1-b5a3-f393-e0a9-e50e24dcca9e");
 
             // Set the method called on data receive to onHeartRate()
-            SubscriptionValueChanged += onBikeMovement;
+            SubscriptionValueChanged += OnDataReceived;
             this.errorcode = await SubscribeToCharacteristic("6e40fec2-b5a3-f393-e0a9-e50e24dcca9e");
         }
 
@@ -65,7 +57,7 @@ namespace RemoteHealthcare.Hardware
          * Event method that is called when the BLE receives data.
          * The method checks if the data is correct and sends it to the device class for decoding.
          */
-        public void onBikeMovement(object sender, BLESubscriptionValueChangedEventArgs e)
+        public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
 
             // check if the date was received correct, by checking the checksum
