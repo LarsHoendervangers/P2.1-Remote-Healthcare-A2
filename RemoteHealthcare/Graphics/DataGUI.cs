@@ -23,7 +23,7 @@ namespace RemoteHealthcare.Graphics
         private static int Distance_Line = 6;
         private static int TotalPower_Line = 7;
         private static int CurrentPower_Line = 8;
-        private static int Input_Line = 8;
+        private static int Input_Line = 9;
 
         private static int CurrentDeviceLine = 2;
         private static int LongestDeviceName = 0;
