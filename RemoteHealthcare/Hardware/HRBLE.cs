@@ -51,7 +51,7 @@ namespace RemoteHealthcare.Hardware
          * Event method that is called when the BLE receives data.
          * The method checks if the data is correct and sends it to the device class for decoding.
          */
-        private void onHearthRate(object sender, BLESubscriptionValueChangedEventArgs e)
+        public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             if (ProtocolConverter.goodData(e.Data))
             onHRData?.Invoke(this, e.Data);
