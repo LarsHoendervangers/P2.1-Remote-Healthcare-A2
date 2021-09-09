@@ -122,6 +122,19 @@ namespace RemoteHealthcare.Tools
             return false;
         }
 
+        //Calculates checksum from given byte array.
+        public static int calculateChecksum(byte[] data)
+        {
+            int checksum = data[0];
+           
+            for (int i = 1; i < 12; i++)
+            {
+                checksum = checksum ^ data[i];
+            }
+
+            return checksum;
+        }
+
         public static int rollOver(int value, ref int oldValue, ref int valueCounter)
         {
             if (value < oldValue)  valueCounter++;
