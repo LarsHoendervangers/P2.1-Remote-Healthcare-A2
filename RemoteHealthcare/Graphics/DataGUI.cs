@@ -16,6 +16,8 @@ namespace RemoteHealthcare.Graphics
         private static int Heart_Line = 4;
         private static int Time_Line = 5;
         private static int Distance_Line = 6;
+        private static int TotalPower_Line = 7;
+        private static int CurrentPower_Line = 8;
 
         public DataGUI()
         {
@@ -26,6 +28,8 @@ namespace RemoteHealthcare.Graphics
             device.onSpeed += DrawSpeed;
             device.onDistance += DrawDistance;
             device.onElapsedTime += DrawElapsedTime;
+            device.onTotalPower += DrawTotalPower;
+            device.onCurrentPower += DrawCurrentPower;
         }
 
         static void Main(string[] args)
@@ -71,6 +75,18 @@ namespace RemoteHealthcare.Graphics
         {
             Console.SetCursorPosition(0, Distance_Line);
             Console.WriteLine($"Distance: {e} m     ");
+        }
+
+        private void DrawTotalPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, TotalPower_Line);
+            Console.WriteLine($"Total power: {e} Watt     ");
+        }
+
+        private void DrawCurrentPower(object sender, int e)
+        {
+            Console.SetCursorPosition(0, CurrentPower_Line);
+            Console.WriteLine($"Current power: {e} Watt     ");
         }
     }
 }

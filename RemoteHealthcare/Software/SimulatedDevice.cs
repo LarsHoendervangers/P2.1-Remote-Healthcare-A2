@@ -19,6 +19,8 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> onHeartrate;
         public override event EventHandler<double> onDistance;
         public override event EventHandler<double> onElapsedTime;
+        public override event EventHandler<int> onTotalPower;
+        public override event EventHandler<int> onCurrentPower;
 
         public SimulatedDevice()
         {
