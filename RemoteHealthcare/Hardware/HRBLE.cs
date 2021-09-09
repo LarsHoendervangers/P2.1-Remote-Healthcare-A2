@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare.Hardware
 {
-    class HRBLE : BLE
+    class HRBLE : BLE, IBLEDevice
     {
 
         private readonly PhysicalDevice device;
@@ -27,8 +27,7 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-            // ignore async problem, function can continue
-            _ = Initialize();
+            Task task = device.Initialize(errorcode, connectionAttempts, hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);            
         }
 
         private async Task Initialize()
@@ -44,7 +43,7 @@ namespace RemoteHealthcare.Hardware
             await SetService("HeartRate");
 
             // Set the method called on data receive to onHeartRate()
-            SubscriptionValueChanged += onHearthRate;
+            SubscriptionValueChanged += OnDataReceived;
             await SubscribeToCharacteristic("HeartRateMeasurement");
         }
 

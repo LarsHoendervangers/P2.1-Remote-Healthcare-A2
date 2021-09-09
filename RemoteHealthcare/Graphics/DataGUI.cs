@@ -24,7 +24,7 @@ namespace RemoteHealthcare.Graphics
         // This keeps track of the longest name so that the vertical devider can be drawn on the correct position.
         private static int LongestDeviceName = 0;
 
-        private Device device = new PhysicalDevice("Tacx Flux 00457", "Decathlon Dual HR");
+        private Device device = new PhysicalDevice("Tacx Flux 00472", "Decathlon Dual HR");
         //private Device device = new SimulatedDevice();
         
         public DataGUI()
@@ -140,8 +140,11 @@ namespace RemoteHealthcare.Graphics
         // Called by onElapsedTime event.
         private void DrawElapsedTime(object sender, double e)
         {
+            TimeSpan t = TimeSpan.FromSeconds(e);
+            string time = t.ToString(@"mm\:ss");
+
             Console.SetCursorPosition(0, Time_Line);
-            Console.WriteLine($"Elapsed time: {e} seconds     ");
+            Console.WriteLine($"Elapsed time: {time}");
         }
 
         // Called by onDistance event.
