@@ -24,20 +24,30 @@ namespace RemoteHealthcare.Software
         public override event EventHandler<int> OnTotalPower;
         public override event EventHandler<int> OnCurrentPower;
 
-        public async Task Initialize(int errorcode, int connectionAttempts, string deviceName, string serviceName, string characteristic, BLE Device, IBLEDevice IDevice)
+        public async Task Initialize(string deviceName, string serviceName, string characteristic, BLE Device, IBLEDevice IDevice)
         {
             // Open the correct device, when connection failed it retries to connect
+            int errorcode = IDevice.GetErrorCode();
             while (errorcode != 0)
             {
+                int connectionAttempts = IDevice.GetConnectionAttempts();
                 connectionAttempts += 1;
+                IDevice.SetConnectionAttempts(connectionAttempts);
+                errorcode = IDevice.GetErrorCode();
                 errorcode = await Device.OpenDevice(deviceName);
-                if (errorcode == 0) continue;
+                IDevice.SetErrorCode(errorcode);
+                if (errorcode == 0)
+                {
+                    DataGUI.SetMessage($"Succesfully connected to device {deviceName}");
+                    continue;
+                }
+                DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
             }
 
-            // Try to set the required service to heartRate
+            // Try to set the required service to devices' servicename
             errorcode = await Device.SetService(serviceName);
 
-            // Set the method called on data receive to onHeartRate()
+            // Set the method called on data receive to eventhandler
             Device.SubscriptionValueChanged += IDevice.OnDataReceived;
             errorcode = await Device.SubscribeToCharacteristic(characteristic);
         }
