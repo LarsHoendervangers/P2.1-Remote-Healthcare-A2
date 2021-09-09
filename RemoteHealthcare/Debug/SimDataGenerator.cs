@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace RemoteHealthcare.Debug
 {
 
     public class SimDataGenerator
     {
+        //Variables.
         private double speed;
         private int RPM;
         private int heartRate;
@@ -20,6 +22,12 @@ namespace RemoteHealthcare.Debug
         private int powerlevel;
         private int totalpower;
 
+        //Ranges for the variables
+        private double[] speedRange;
+        private int[] rpmRange;
+        private int[] heartrateRange;
+        private int[] powerlevelRange;
+
         //Event handlers
         public event EventHandler<double> GeneratedSpeed;
         public event EventHandler<int> GeneratedRPM;
@@ -29,18 +37,31 @@ namespace RemoteHealthcare.Debug
         public event EventHandler<int> GeneratedCurrentPower;
         public event EventHandler<int> GeneratedTotalPower;
 
-        private object _lock = new object();
-
+        
+        /// <summary>
+        /// This is the constuctor SimDataGenetor with no need for ranges.
+        /// 
+        /// This constructor sets the ranges and starts a seperate thread that will send events,
+        /// so it emulates the real devices it's replacing.
+        /// </summary>
         public SimDataGenerator()
         {
+            //Variables for working
             this.running = true;
             this.random = new Random();
 
+            //Setting up ranges.
+            speedRange = new double[] { 0, 50 };
+            rpmRange = new int[] { 0, 120 };
+            heartrateRange = new int[] {50, 200};
+            powerlevelRange = new int[] { 150, 350 };
+
+
             new Thread(() =>
             {
-                //Warning: Needed for the console to run the correct way
+                //Needs signaling but it also works with a wait i guesss
+                //TODO Maybe fix with signaling because it can give some potential issues.
                 Thread.Sleep(3000);
-
 
                 Simulation();
              
@@ -49,44 +70,90 @@ namespace RemoteHealthcare.Debug
         }
 
         /// <summary>
-        /// Method which updates the text in the GUI and waits for a second
-        /// after checking all the values
+        ///  This is the constuctor SimDataGenetor with parameters for ranges.
+        ///  
+        /// <param name="speedParam"></param>
+        /// <param name="rpmParam"></param>
+        /// <param name="heartrateParam"></param>
+        /// <param name="powerParam"></param>
+        /// 
+        /// This constructor sets the ranges and starts a seperate thread that will send events,
+        /// so it emulates the real devices it's replacing.
+        /// <summery>
+        public SimDataGenerator(double[] speedParam, int[] rpmParam, int[] heartrateParam, int[] powerParam)
+        {
+            //Variables for working
+            this.running = true;
+            this.random = new Random();
+
+            new Thread(() =>
+            {
+                //Needs signaling but it also works with a wait i guesss
+                //TODO Maybe fix with signaling because it can give some potential issues.
+                Thread.Sleep(3000);
+
+
+                Simulation();
+
+            }).Start();
+
+        }
+
+
+        /// <summary>
+        /// This the simulation that sends data to the simulation device.
+        /// It does this with Simplex Noise generated values each second.
+        /// 
         /// </summary>
         private void Simulation()
         {
-
+            //Random starting point in noise space.
+            int randomSpeedSeed = (int)(random.NextDouble() * 100000);
+            int randomHeartSeed = (int)(random.NextDouble() * 100000);
+        
+            //Loop for generating each value each second
             while (this.running)
             {
-              
-                this.speed = this.random.NextDouble() * 40;
+                this.elapsedTime += 1;
+                GeneratedTime?.Invoke(this, elapsedTime);
+
+
+                this.speed = this.speedRange[0] + SimplexNoiseGenerator(randomSpeedSeed, 0.01f) * this.speedRange[1];
                 GeneratedSpeed?.Invoke(this, speed);
                  
-                this.RPM = (int)(this.random.NextDouble() * 120);
+                this.RPM = this.rpmRange[0] + (int)(SimplexNoiseGenerator(randomSpeedSeed, 0.01f) * this.rpmRange[1]);
                 GeneratedRPM?.Invoke(this, RPM);
 
-                this.heartRate = (int)(50 + this.random.NextDouble() * 200);
+                this.heartRate = (int)(this.heartrateRange[0] + SimplexNoiseGenerator(randomHeartSeed, 0.1f) * heartrateRange[1]);
                 GeneratedHeartrate?.Invoke(this, heartRate);
                     
 
                 this.distance += this.speed / 3.6;
                 GeneratedDistance?.Invoke(this, distance);
-                    
-
-                this.elapsedTime += 1;
-                GeneratedTime?.Invoke(this, elapsedTime);
-
-
-                this.powerlevel = (int)(150 + this.random.NextDouble() * 200);
+    
+                this.powerlevel = (int)(this.powerlevelRange[0] + SimplexNoiseGenerator(randomSpeedSeed, 0.01f) * this.powerlevelRange[1]);
                 GeneratedCurrentPower?.Invoke(this, powerlevel);
 
                 this.totalpower = totalpower + powerlevel;
                 GeneratedTotalPower?.Invoke(this, totalpower);
 
-
-
-
                 Thread.Sleep(1000);
             }
+        }
+
+        /// <summary>
+        /// This the simplex noise generator that use the library from WardBenjamin
+        /// It calls the function CalcPixel1D for a value and it needs the parameters scale and x for it,
+        /// the x is generated as a seed + the time passed.
+        /// 
+        /// </summary>
+        /// <param name="startingpoint"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        private float SimplexNoiseGenerator(int startingpoint, float scale)
+        {
+            float output = SimplexNoise.Noise.CalcPixel1D(startingpoint + (int)elapsedTime, scale);
+            return output / 255;
         }
 
     }
