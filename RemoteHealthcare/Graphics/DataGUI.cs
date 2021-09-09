@@ -24,8 +24,8 @@ namespace RemoteHealthcare.Graphics
         // This keeps track of the longest name so that the vertical devider can be drawn on the correct position.
         private static int LongestDeviceName = 0;
 
-        //private Device device = new PhysicalDevice("Tacx Flux 00472", "Decathlon Dual HR");
-        private Device device = new SimulatedDevice();
+        private Device device = new PhysicalDevice("Tacx Flux 00472", "Decathlon Dual HR");
+        //private Device device = new SimulatedDevice();
 
         public DataGUI()
         {
