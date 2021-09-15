@@ -58,15 +58,15 @@ namespace TestVREnginge
             byte[] lenghtArray = new byte[4];
 
             networkStream.Read(lenghtArray, 0, 4);
-            int lenght = BitConverter.ToInt32(lenghtArray, 0);
+            int length = BitConverter.ToInt32(lenghtArray, 0);
 
             //Console.WriteLine(lenght);
 
-            byte[] buffer = new byte[lenght];
+            byte[] buffer = new byte[length];
             int totalRead = 0;
 
             //read bytes until stream indicates there are no more
-            while (totalRead < lenght)
+            while (totalRead < length)
             {
                 int read = networkStream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
