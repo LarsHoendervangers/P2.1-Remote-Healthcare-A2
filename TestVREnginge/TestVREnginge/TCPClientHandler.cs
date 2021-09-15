@@ -11,32 +11,34 @@ namespace TestVREnginge.TCP
     class TCPClientHandler
     {
         
-        public event EventHandler<NetworkStream> OnMessageReceived;
+        public event EventHandler<string> OnMessageReceived;
+
+        private readonly NetworkStream stream;
         private bool running = false;
 
         public TCPClientHandler()
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
-            NetworkStream stream = client.GetStream();
+            this.stream = client.GetStream();
 
 
             Thread listener = new Thread(
-                () => HandleIncoming(stream));
+                () => HandleIncoming());
             listener.Start();
         }
 
-        private void HandleIncoming(NetworkStream stream)
+        private void HandleIncoming()
         {
             running = true;
            
             while (running)
             {
-                string message = ReadMessage(stream);
-                this.OnMessageReceived.Invoke(this, stream);
+                string message = ReadMessage(this.stream);
+                this.OnMessageReceived.Invoke(this, message);
             }
         }
 
-        public void WriteMessage(NetworkStream networkStream, string message)
+        public void WriteMessage(string message)
         {
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
@@ -46,8 +48,8 @@ namespace TestVREnginge.TCP
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            networkStream.Write(final, 0, message.Length + 4);
-            networkStream.Flush();
+            this.stream.Write(final, 0, message.Length + 4);
+            this.stream.Flush();
         }
 
         private string ReadMessage(NetworkStream networkStream)
@@ -60,7 +62,6 @@ namespace TestVREnginge.TCP
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
             //Console.WriteLine(lenght);
-
             byte[] buffer = new byte[lenght];
             int totalRead = 0;
 
@@ -83,7 +84,7 @@ namespace TestVREnginge.TCP
             return bytes;
         }
 
-        public void close()
+        public void Close()
         {
             this.running = false;
         }

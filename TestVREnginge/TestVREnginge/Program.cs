@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using TestVREnginge.TCP;
 
 namespace TestVREnginge
 {
@@ -12,7 +13,8 @@ namespace TestVREnginge
     {
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient("145.48.6.10", 6666);
+            TCPClientHandler client = new TCPClientHandler(); 
+            /*TcpClient client = new TcpClient("145.48.6.10", 6666);
             NetworkStream stream = client.GetStream();
 
             string startingCode = "{\r\n\"id\" : \"session/list\"\r\n}";
@@ -58,7 +60,7 @@ namespace TestVREnginge
 
             //Shutting down
             stream.Close();
-            client.Close();
+            client.Close();*/
         }
 
 
