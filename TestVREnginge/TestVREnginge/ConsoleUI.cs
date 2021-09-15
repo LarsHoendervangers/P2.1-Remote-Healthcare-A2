@@ -13,11 +13,14 @@ namespace TestVREnginge
 
         static void Main(string[] args)
         {
+            // Getting the data for all the available clients
             List<ClientData> clients =  Handler.GetAvailableClients();
+
             Console.WriteLine("Avaliable clients:");
-            foreach(ClientData c in clients)
+            for (int i = 0; i < clients.Count; i++)
             {
-                Console.WriteLine(c.ToString());
+                ClientData c = clients[i];
+                Console.WriteLine("{0}: {1}",i + 1, c.ToString());
             }
 
             int userinput = 0;

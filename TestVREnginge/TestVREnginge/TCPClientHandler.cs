@@ -13,18 +13,15 @@ namespace TestVREnginge.TCP
         
         public event EventHandler<string> OnMessageReceived;
         private bool running = false;
-        private NetworkStream stream;
+        private readonly NetworkStream stream;
 
         public TCPClientHandler()
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
             stream = client.GetStream();
-
-
-            
         }
 
-        public void startIncoming()
+        public void StartIncoming()
         {
             Thread listener = new Thread(
                 () => HandleIncoming(stream));
