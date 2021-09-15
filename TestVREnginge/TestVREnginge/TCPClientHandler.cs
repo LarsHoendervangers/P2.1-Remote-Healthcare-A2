@@ -21,22 +21,20 @@ namespace TestVREnginge.TCP
             stream = client.GetStream();
         }
 
-        public void StartIncoming()
+        private void HandleIncoming()
         {
-            Thread listener = new Thread(
-                () => HandleIncoming(stream));
-            listener.Start();
-        }
+            new Thread(
+                () => {
 
-        private void HandleIncoming(NetworkStream incomingStream)
-        {
-            running = true;
-           
-            while (running)
-            {
-                string message = ReadMessage();
-                this.OnMessageReceived.Invoke(this, message);
-            }
+                    running = true;
+
+                    while (running)
+                    {
+                        string message = ReadMessage();
+                        this.OnMessageReceived.Invoke(this, message);
+                    }
+
+                }).Start();
         }
 
         public void WriteMessage(string message)
@@ -86,9 +84,17 @@ namespace TestVREnginge.TCP
             return bytes;
         }
 
-        public void close()
+        public void SetRunning(Boolean state)
         {
-            this.running = false;
+            if(state)
+            {
+
+                HandleIncoming();
+
+            } else
+            {
+                this.running = false;
+            }
         }
 
     }

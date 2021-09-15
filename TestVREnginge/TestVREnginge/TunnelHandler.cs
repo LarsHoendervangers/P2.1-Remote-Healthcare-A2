@@ -19,7 +19,10 @@ namespace TestVREnginge
             this.SerialMap = new Dictionary<string, Action>();
             this.tcpHandler = new TCPClientHandler();
 
+            this.tcpHandler.OnMessageReceived += onMessageReceived;
+
         }
+
 
         /// <summary>
         /// gives a list of all the available clients.
@@ -81,6 +84,7 @@ namespace TestVREnginge
             }
             else { 
                 string id = jsonFile.GetValue("id").ToString();
+                this.tcpHandler.SetRunning(true);
                 return (true, id);
             }
         }
@@ -92,7 +96,10 @@ namespace TestVREnginge
             this.tcpHandler.WriteMessage(json);
         }
 
-
+        private void onMessageReceived(object sender, string e)
+        {
+            Console.WriteLine(e);
+        }
 
     }
 

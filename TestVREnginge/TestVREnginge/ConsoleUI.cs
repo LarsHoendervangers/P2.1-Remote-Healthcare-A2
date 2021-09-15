@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TestVREnginge
@@ -36,7 +37,17 @@ namespace TestVREnginge
 
             //Example for controlling vr network enigine 
             //TODO: Delete when there is a proper implementetation
-            Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \""+ id +"\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"data\" :{\"time\" : 24}}}}");
+
+            while (true)
+            {
+                for (double i = 0; i < 24; i+= 0.05)
+                {
+                    Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
+
+                    Thread.Sleep(50);
+                }
+
+            }
 
 
         }
