@@ -26,65 +26,14 @@ namespace TestVREnginge
             stream.Write(final, 0, test.Length + 4);
             stream.Flush();
 
-            //REad spagget
-
-           
-                if (stream.DataAvailable)
-                {
 
 
-                    Console.WriteLine("New Packet loaded: ");
-                    byte[] size = new byte[4];
-
-                    stream.Read(size, 0, 4);
-                    int message = BitConverter.ToInt32(size);
-                    Console.WriteLine(message);
-
-
-                 
-                    byte[] received = new byte[message];
-                    int bytesLength = 0;
-
-                    while (bytesLength < message)
-                    {
-                        
-                        stream.Read(received);
-                    }
-
-
-                    string dataReceived = Encoding.ASCII.GetString(received);
-
-                    Console.WriteLine(dataReceived);
-
-                    //dynamic jsonData = JsonConvert.DeserializeObject(dataReceived);
-
-                    //Console.WriteLine(jsonData.ToString());
-
-
-
-
-
-
-                }
-            
-            //Console.WriteLine(ReadMessage(stream));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            //Reading
+            Console.WriteLine(  ReadMessage(stream));
         }
+
+
+       
 
         public static byte[] Combine(byte[] first, byte[] second)
         {
@@ -109,12 +58,12 @@ namespace TestVREnginge
             int totalRead = 0;
 
             //read bytes until stream indicates there are no more
-            do
+            while (totalRead < lenght)
             {
                 int read = networkStream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
                 Console.WriteLine("ReadMessage: " + read);
-            } while (networkStream.DataAvailable);
+            } 
 
             return Encoding.ASCII.GetString(buffer, 0, totalRead);
         }
