@@ -10,7 +10,7 @@ namespace TestVREnginge
 {
     class Program
     {
-        static void Main(string[] args)
+       /* static void Main(string[] args)
         {
             ConsoleUI ui = new ConsoleUI();
             ui.start();
@@ -61,7 +61,7 @@ namespace TestVREnginge
             ////Shutting down
             //stream.Close();
             //client.Close();
-        }
+        }*/
 
 
 

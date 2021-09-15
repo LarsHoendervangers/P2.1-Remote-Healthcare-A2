@@ -26,6 +26,7 @@ namespace TestVREnginge
             List<ClientData> clients = new List<ClientData>();
 
             //Writing for connection
+            //TODO fixing hardcode json.
             string startingCode = "{\r\n\"id\" : \"session/list\"\r\n}";
             tcpHandler.WriteMessage(startingCode);
 
@@ -53,10 +54,27 @@ namespace TestVREnginge
 
 
 
-        public void SetUpConnection(string id)
+        public (bool, string) SetUpConnection(string connection)
         {
-            string requestingCode = "{\r\n\"id\" : \"tunnel/create\",\r\n\"data\" :\r\n	{\r\n\"session\" : \"" + id + "\"\r\n}\r\n}";
-            Console.WriteLine(requestingCode);
+            //Sending tunneling request to vps
+            //TODO fixing hardcode json.
+            string requestingCode = "{\r\n\"id\" : \"tunnel/create\",\r\n\"data\" :\r\n	{\r\n\"session\" : \"" + connection + "\"\r\n}\r\n}";
+            this.tcpHandler.WriteMessage(requestingCode);
+
+            //Receiving ok or error
+            string jsonString = this.tcpHandler.ReadMessage();
+            JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
+
+           
+            JObject jsonFile = (JObject)jsonData.GetValue("data");
+            if (jsonFile.GetValue("status").ToString() != "ok")
+            {
+                return (false, null);
+            }
+            else { 
+                string id = jsonFile.GetValue("id").ToString();
+                return (true, id);
+            }
         }
 
 

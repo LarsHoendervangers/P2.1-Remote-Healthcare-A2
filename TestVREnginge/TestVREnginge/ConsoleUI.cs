@@ -8,10 +8,10 @@ namespace TestVREnginge
 {
     class ConsoleUI
     {
-        private BasicScene Scene = new BasicScene();
-        private TunnelHandler Handler = new TunnelHandler();
+        private static BasicScene Scene = new BasicScene();
+        private static TunnelHandler Handler = new TunnelHandler();
 
-        public void start()
+        static void Main(string[] args)
         {
             List<ClientData> clients =  Handler.GetAvailableClients();
             Console.WriteLine("Avaliable clients:");
@@ -27,7 +27,7 @@ namespace TestVREnginge
                 userinput = int.Parse(Console.ReadLine());
             }
 
-            Handler.SetUpConnection(clients[userinput - 1].Id);
+            Console.WriteLine("ID that was returend: "  + Handler.SetUpConnection(clients[userinput - 1].Adress).Item2);
         }
     }
 }

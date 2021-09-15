@@ -8,22 +8,24 @@ namespace TestVREnginge
 {
     struct ClientData
     {
-        public string Id { get; set; }
+        public string Adress { get; set; }
         public string Host { get; set; }
         public string User { get; set; }
         public string GPU { get; set; }
 
         public ClientData(string id, string host, string user, string gpu)
         {
-            this.Id = id;
+            this.Adress = id;
             this.Host = host;
             this.User = user;
             this.GPU = gpu;
         }
 
+
+        override
         public string ToString()
         {
-            return $"User: {User} - Host: {Host} - GPU: {GPU} - ID: {Id} ";
+            return ($"Adress: {this.Adress}, Host: {this.Host}, User: {this.User}, GPU: {this.GPU}");
         }
     }
 }
