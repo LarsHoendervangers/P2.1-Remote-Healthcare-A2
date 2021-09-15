@@ -24,7 +24,7 @@ namespace TestVREnginge
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             List<string> availableComputers = new List<string>();
-            Console.WriteLine("Available Computers: ");
+            System.Console.WriteLine("Available Computers: ");
 
             JArray computers = (JArray)jsonData.GetValue("data");
             int selection = 1;
@@ -36,7 +36,7 @@ namespace TestVREnginge
                 string pcUser = clientinfo.GetValue("user").ToString();
                 string pcGPU = clientinfo.GetValue("renderer").ToString();
 
-                Console.WriteLine($"Selection: {selection}, ID: {id}, PC: {pcName}, User: {pcUser}, GPU: {pcGPU}");
+                System.Console.WriteLine($"Selection: {selection}, ID: {id}, PC: {pcName}, User: {pcUser}, GPU: {pcGPU}");
 
                 
                 availableComputers.Add(id);
@@ -46,15 +46,15 @@ namespace TestVREnginge
             int userinput = 0;
             while (userinput < 1 || userinput > availableComputers.Count)
             {
-                Console.WriteLine("\nGive a selection number for a tunnel: ");
-                userinput = int.Parse(Console.ReadLine());
+                System.Console.WriteLine("\nGive a selection number for a tunnel: ");
+                userinput = int.Parse(System.Console.ReadLine());
             }
 
             string requestingCode = "{\r\n\"id\" : \"tunnel/create\",\r\n\"data\" :\r\n	{\r\n\"session\" : \""+ availableComputers[userinput-1]+ "\"\r\n}\r\n}";
             Communication.WriteMessage(stream, requestingCode);
 
 
-            Console.WriteLine(Communication.ReadMessage(stream));
+            System.Console.WriteLine(Communication.ReadMessage(stream));
 
             //Shutting down
             stream.Close();

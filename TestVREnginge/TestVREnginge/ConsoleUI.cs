@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace TestVREnginge
 {
-    class Class1
+    class ConsoleUI
     {
+        private BasicScene Scene = new BasicScene();
+        private TunnelHandler Handler = new TunnelHandler();
+
+        static void Main(string[] args)
+        {
+
+        }
     }
 }
