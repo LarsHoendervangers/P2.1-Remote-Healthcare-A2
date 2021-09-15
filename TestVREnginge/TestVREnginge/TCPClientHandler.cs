@@ -11,32 +11,38 @@ namespace TestVREnginge.TCP
     class TCPClientHandler
     {
         
-        public event EventHandler<NetworkStream> OnMessageReceived;
+        public event EventHandler<string> OnMessageReceived;
         private bool running = false;
+        private NetworkStream stream;
 
         public TCPClientHandler()
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
-            NetworkStream stream = client.GetStream();
+            stream = client.GetStream();
 
 
+            
+        }
+
+        public void startIncoming()
+        {
             Thread listener = new Thread(
                 () => HandleIncoming(stream));
             listener.Start();
         }
 
-        private void HandleIncoming(NetworkStream stream)
+        private void HandleIncoming(NetworkStream incomingStream)
         {
             running = true;
            
             while (running)
             {
-                string message = ReadMessage(stream);
-                this.OnMessageReceived.Invoke(this, stream);
+                string message = ReadMessage(incomingStream);
+                this.OnMessageReceived.Invoke(this, message);
             }
         }
 
-        public void WriteMessage(NetworkStream networkStream, string message)
+        public void WriteMessage(string message)
         {
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
@@ -46,17 +52,17 @@ namespace TestVREnginge.TCP
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            networkStream.Write(final, 0, message.Length + 4);
-            networkStream.Flush();
+            this.stream.Write(final, 0, message.Length + 4);
+            this.stream.Flush();
         }
 
-        private string ReadMessage(NetworkStream networkStream)
+        public string ReadMessage()
         {
 
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
-            networkStream.Read(lenghtArray, 0, 4);
+            stream.Read(lenghtArray, 0, 4);
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
             //Console.WriteLine(lenght);
@@ -67,7 +73,7 @@ namespace TestVREnginge.TCP
             //read bytes until stream indicates there are no more
             while (totalRead < lenght)
             {
-                int read = networkStream.Read(buffer, totalRead, buffer.Length - totalRead);
+                int read = stream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
                 //Console.WriteLine("ReadMessage: " + read);
             }
