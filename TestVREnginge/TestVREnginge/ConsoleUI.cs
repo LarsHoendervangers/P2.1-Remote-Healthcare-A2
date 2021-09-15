@@ -11,9 +11,23 @@ namespace TestVREnginge
         private BasicScene Scene = new BasicScene();
         private TunnelHandler Handler = new TunnelHandler();
 
-        static void Main(string[] args)
+        public void start()
         {
+            List<ClientData> clients =  Handler.GetAvailableClients();
+            Console.WriteLine("Avaliable clients:");
+            foreach(ClientData c in clients)
+            {
+                Console.WriteLine(c.ToString());
+            }
 
+            int userinput = 0;
+            while (userinput < 1 || userinput > clients.Count)
+            {
+                Console.WriteLine("\nGive a selection number for a tunnel: ");
+                userinput = int.Parse(Console.ReadLine());
+            }
+
+            Handler.SetUpConnection(clients[userinput - 1].Id);
         }
     }
 }

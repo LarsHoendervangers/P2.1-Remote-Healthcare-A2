@@ -55,11 +55,12 @@ namespace TestVREnginge
 
         public void SetUpConnection(string id)
         {
-
+            string requestingCode = "{\r\n\"id\" : \"tunnel/create\",\r\n\"data\" :\r\n	{\r\n\"session\" : \"" + id + "\"\r\n}\r\n}";
+            Console.WriteLine(requestingCode);
         }
 
 
-      
+
     }
 
     

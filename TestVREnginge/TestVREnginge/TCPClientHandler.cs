@@ -37,7 +37,7 @@ namespace TestVREnginge.TCP
            
             while (running)
             {
-                string message = ReadMessage(incomingStream);
+                string message = ReadMessage();
                 this.OnMessageReceived.Invoke(this, message);
             }
         }

@@ -19,7 +19,11 @@ namespace TestVREnginge
             this.Host = host;
             this.User = user;
             this.GPU = gpu;
+        }
 
+        public string ToString()
+        {
+            return $"User: {User} - Host: {Host} - GPU: {GPU} - ID: {Id} ";
         }
     }
 }
