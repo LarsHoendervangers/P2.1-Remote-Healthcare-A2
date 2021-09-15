@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31229.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteHealthcare", "RemoteHealthcare.csproj", "{98746803-3D43-48D4-BC64-3C98D866BA64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteHealthcare", "RemoteHealthcare.csproj", "{98746803-3D43-48D4-BC64-3C98D866BA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VR-Domainresearch", "..\VR-Domainresearch\VR-Domainresearch.csproj", "{4711850A-AC51-410C-BBA7-29F304DEEF98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{98746803-3D43-48D4-BC64-3C98D866BA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98746803-3D43-48D4-BC64-3C98D866BA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98746803-3D43-48D4-BC64-3C98D866BA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4711850A-AC51-410C-BBA7-29F304DEEF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4711850A-AC51-410C-BBA7-29F304DEEF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4711850A-AC51-410C-BBA7-29F304DEEF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4711850A-AC51-410C-BBA7-29F304DEEF98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
