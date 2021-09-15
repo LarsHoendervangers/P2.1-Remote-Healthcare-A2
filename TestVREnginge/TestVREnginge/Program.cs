@@ -12,7 +12,7 @@ namespace TestVREnginge
     {
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient("145.48.6.10", 6666);
+            /*TcpClient client = new TcpClient("145.48.6.10", 6666);
             NetworkStream stream = client.GetStream();
 
             string startingCode = "{\r\n\"id\" : \"session/list\"\r\n}";
@@ -58,7 +58,7 @@ namespace TestVREnginge
 
             //Shutting down
             stream.Close();
-            client.Close();
+            client.Close();*/
         }
 
 
