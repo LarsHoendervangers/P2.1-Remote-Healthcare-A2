@@ -27,7 +27,15 @@ namespace TestVREnginge
                 userinput = int.Parse(Console.ReadLine());
             }
 
-            Console.WriteLine("ID that was returend: "  + Handler.SetUpConnection(clients[userinput - 1].Adress).Item2);
+            string id = Handler.SetUpConnection(clients[userinput - 1].Adress).Item2;
+            Console.WriteLine("ID that was returend: "  +  id);
+
+
+            //Example for controlling vr network enigine 
+            //TODO: Delete when there is a proper implementetation
+            Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \""+ id +"\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"data\" :{\"time\" : 24}}}}");
+
+
         }
     }
 }

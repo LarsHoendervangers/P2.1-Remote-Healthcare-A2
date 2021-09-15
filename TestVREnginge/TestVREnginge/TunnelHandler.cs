@@ -21,6 +21,10 @@ namespace TestVREnginge
 
         }
 
+        /// <summary>
+        /// gives a list of all the available clients.
+        /// </summary>
+        /// <returns></returns>
         public List<ClientData> GetAvailableClients()
         {
             List<ClientData> clients = new List<ClientData>();
@@ -53,7 +57,11 @@ namespace TestVREnginge
         }
 
 
-
+        /// <summary>
+        /// setup up the connection and returns the id.
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <returns></returns>
         public (bool, string) SetUpConnection(string connection)
         {
             //Sending tunneling request to vps
@@ -75,6 +83,13 @@ namespace TestVREnginge
                 string id = jsonFile.GetValue("id").ToString();
                 return (true, id);
             }
+        }
+
+
+        //Example function for controlling the appliction
+        public void exampleFunction(string json)
+        {
+            this.tcpHandler.WriteMessage(json);
         }
 
 
