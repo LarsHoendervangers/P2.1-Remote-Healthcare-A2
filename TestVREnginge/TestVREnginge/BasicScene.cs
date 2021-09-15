@@ -17,6 +17,9 @@ namespace TestVREnginge
 
         }
 
+        /// <summary>
+        /// This method is called and will execute the next step in the exercise.
+        /// </summary>
         public void ExecuteNext()
         {
 
