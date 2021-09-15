@@ -14,11 +14,15 @@ namespace TestVREnginge
         {
             String test = "{\r\n\"id\" : \"session/list\"\r\n}";
 
+            //Sendable byte arrays
             byte[] payload = Encoding.ASCII.GetBytes(test);
-            byte[] lenght = new byte[] { 0x1B, 0x00, 0x00, 0x00 };
+            byte[] lenght = new byte[4];
+            lenght = BitConverter.GetBytes(test.Length);
             byte[] final = Combine(lenght, payload);
 
+            //Debug print of data that is send
             Console.WriteLine(BitConverter.ToString(final));
+
 
             TcpClient client = new TcpClient("145.48.6.10", 6666);
             NetworkStream stream = client.GetStream();
@@ -30,6 +34,10 @@ namespace TestVREnginge
 
             //Reading
             Console.WriteLine(  ReadMessage(stream));
+
+            //Shutting down
+            stream.Close();
+            client.Close();
         }
 
 
