@@ -89,6 +89,26 @@ namespace TestVREnginge
             }
         }
 
+        private int serialNumber = 0;
+
+        //TODO discuss if it should be JOBject or else
+        public void SendToTunnel(JObject message, Action action)
+        {
+            this.serialNumber += 1;
+
+            string serial = this.serialNumber.ToString();
+
+            message.Add("serial", message);
+            this.SerialMap.Add(serial, action);
+
+            SentToTunnel(message);
+        }
+
+        public void SentToTunnel(JObject message)
+        {
+
+        }
+
 
         //Example function for controlling the appliction
         public void exampleFunction(string json)
