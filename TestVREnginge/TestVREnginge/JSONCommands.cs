@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,19 @@ namespace TestVREngine
 {
     class JSONCommands
     {
-        public static string SendTunnel(string id, object data, string serverId)
+        public static string GetJson(string id, object data, string serverId)
         {
             return JsonConvert.SerializeObject(MainJson(id, data, serverId));
         }
 
-        public static string SendTunnel(string id, object data, int serial, string serverId)
+        public static string GetJson(string id, object data, int serial, string serverId)
         {
             return JsonConvert.SerializeObject(MainJson(id, data, serverId));
         }
 
-        public static object MainJson(string id, object data, string serverId)
+        private static object MainJson(string id, object data, string serverId)
         {
+
             return new
             {
                 id = "tunnel/send",
