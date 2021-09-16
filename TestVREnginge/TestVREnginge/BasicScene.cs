@@ -20,9 +20,9 @@ namespace TestVREngine
         /// <summary>
         /// This method is called and will execute the next step in the exercise.
         /// </summary>
-        public void ExecuteNext()
+        public string ExecuteNext(int index)
         {
-
+            return "";
         }
 
         // TODO: Test if the heights attribute is necessary

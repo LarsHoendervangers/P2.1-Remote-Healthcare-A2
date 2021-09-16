@@ -38,7 +38,12 @@ namespace TestVREngine
             //Example for controlling vr network enigine 
             //TODO: Delete when there is a proper implementetation
 
-            Scene.ExecuteNext();
+            for (int i = 0; i < 7; i++)
+            {
+                Console.WriteLine(Scene.ExecuteNext(i));
+                Console.ReadKey();
+            }
+            
         }
     }
 }
