@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,8 +68,19 @@ namespace TestVREngine
 
         public void RemoveGroundPlaneTwo(string jsonString)
         {
-            
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
+            JObject jObject = JObject.Parse(jsonString);
+            JArray array = (JArray)jObject.SelectToken("data.data.data.children");
+
+            foreach (JObject o in array)
+            {
+                Console.WriteLine(o.GetValue("name"));
+                if (o.GetValue("name").ToString() == "GroundPlane")
+                {
+                    Console.WriteLine("Found groundplane");
+                    this.Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
+                    return;
+                }
+            }
         }
 
         /// <summary>

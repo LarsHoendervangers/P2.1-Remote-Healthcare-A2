@@ -46,9 +46,6 @@ namespace TestVREngine
             Console.WriteLine(handler.destinationID);
             Console.WriteLine("ID that was returend: "  +  id);
 
-            handler.SendToTunnel(JSONCommandHelper.GetAllNodes());
-            Console.ReadKey();
-
             //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
             for (int i = 0; i < 7; i++)
             {
