@@ -320,6 +320,26 @@ namespace TestVREngine
                 id = "scene/reset"
             };
         }
+
+        public static object WrapRequest()
+        {
+            return new
+            {
+                id = "session/list"
+            };
+        }
+
+        public static object WrapTunnel(string adress)
+        {
+            return new
+            {
+                id = "tunnel/create",
+                data = new
+                {
+                    session = adress,
+                }
+            };
+        }
     }
     /// <summary>
     /// Struct used to contain a PositionVector. This is needed to make an array of these PosVectors.

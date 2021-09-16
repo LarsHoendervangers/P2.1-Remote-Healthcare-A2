@@ -14,11 +14,13 @@ namespace TestVREngine
         public string destinationID;
         private Dictionary<string, Action<string>> SerialMap;
         private TCPClientHandler tcpHandler;
+        private int serialNumber;
 
         public TunnelHandler()
         {
             this.SerialMap = new Dictionary<string, Action<string>>();
             this.tcpHandler = new TCPClientHandler();
+            this.serialNumber = 0;
 
             this.tcpHandler.OnMessageReceived += OnMessageReceived;
 
@@ -33,8 +35,7 @@ namespace TestVREngine
             List<ClientData> clients = new List<ClientData>();
 
             //Writing for connection
-            //TODO fixing hardcode json.
-            string startingCode = "{\r\n\"id\" : \"session/list\"\r\n}";
+            string startingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapRequest());
             tcpHandler.WriteMessage(startingCode);
 
             //Reading for clients
@@ -68,20 +69,17 @@ namespace TestVREngine
         public bool SetUpConnection(string connection)
         {
             //Sending tunneling request to vps
-            //TODO fixing hardcode json.
-            string requestingCode = "{\r\n\"id\" : \"tunnel/create\",\r\n\"data\" :\r\n	{\r\n\"session\" : \"" + connection + "\"\r\n}\r\n}";
+            string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
+            Console.WriteLine(requestingCode);
             this.tcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error
             string jsonString = this.tcpHandler.ReadMessage();
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
-           
+            //verifying connection.
             JObject jsonFile = (JObject)jsonData.GetValue("data");
-            if (jsonFile.GetValue("status").ToString() != "ok")
-            {
-                return false ;
-            }
+            if (jsonFile.GetValue("status").ToString() != "ok") return false ;
             else { 
                 //Getting destination
                 string id = jsonFile.GetValue("id").ToString();
@@ -94,9 +92,12 @@ namespace TestVREngine
             }
         }
 
-        private int serialNumber = 0;
-
-        //TODO discuss if it should be JOBject or else
+      
+        /// <summary>
+        /// Sends a message to the server with a serial id.
+        /// </summary>
+        /// <param name="message"></param> object as json that is send to the server
+        /// <param name="action"></param> the method that is used as action.
         public void SendToTunnel(object message, Action<string> action)
         {
 
@@ -116,64 +117,38 @@ namespace TestVREngine
             SendToTunnel(encoded);
         }
 
+        /// <summary>
+        /// Sends a message to the server without a id.
+        /// </summary>
+        /// <param name="message"></param> object as json that is send to the server
         public void SendToTunnel(object message)
         {
             object totalStream = JSONCommandHelper.WrapHeader(this.destinationID, message);
             tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
-
-        //Example function for controlling the appliction
-        public void exampleFunction(string json)
+        /// <summary>
+        /// If a message is received than it will try to check what message serialnumber is and return it contents to a action delegate
+        /// </summary>
+        /// <param name="sender"></param> is the class that send the object
+        /// <param name="input"></param> is the content that is send.
+        private void OnMessageReceived(object sender, string input)
         {
+            //Reading input
+            JObject message = JsonConvert.DeserializeObject(input) as JObject;
 
-            this.tcpHandler.WriteMessage(json);
-        }
+            //Check if serial exist if so then...
+            JToken token = message.SelectToken("data.data.serial");
+            if (token is null)
+                return;
 
-        private void OnMessageReceived(object sender, string e)
-        {
-            //Reading serial ID
-            JObject message = JsonConvert.DeserializeObject(e) as JObject;
-
-      
-
-            JToken data1;
-            bool data1Check = message.TryGetValue("data", out data1);
-            if (data1Check)
+            //Sending to the action delegate if found and deleting it for memory usage..
+            if (SerialMap.ContainsKey(token.ToString()))
             {
-                JToken data2;
-                JObject data1object = data1 as JObject;
-                bool data2check = data1object.TryGetValue("data", out data2);
-
-                if (data2check)
-                {
-                    JToken serial;
-                    JObject data2object = data2 as JObject;
-                    bool serialCheck = data2object.TryGetValue("serial", out serial);
-                    if (serialCheck)
-                    {
-                        string serialID = serial.ToString();
-                        Console.WriteLine(serialID);
-                        if (SerialMap.ContainsKey(serialID))
-                        {
-                            SerialMap[serialID].Invoke(e);
-                        }
-                    } else
-                    {
-                        Console.WriteLine("No ID found");
-
-                    }
-
-                }
-
-
+                SerialMap[token.ToString()].Invoke(input);
+                SerialMap.Remove(token.ToString());
             }
 
-
         }
-
     }
-
-    
-
 }
