@@ -413,6 +413,24 @@ namespace TestVREngine
                 }
             };
         }
+
+
+        public static object WrapAddTexture(string uuId, string pathNormal, string pathDiffuse, int minHeight, int maxHeight, int fadeDistance)
+        {
+            return new
+            {
+                id = "scene/node/addlayer",
+                data = new
+                {
+                    id = uuId,
+                    diffuse = pathDiffuse,
+                    normal = pathNormal,
+                    minHeight = minHeight,
+                    maxHeight = maxHeight,
+                    fadeDist = fadeDistance
+                }
+            };
+        }
     }
 
 

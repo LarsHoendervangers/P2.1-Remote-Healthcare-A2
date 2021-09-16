@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TestVREngine
 {
@@ -11,28 +12,15 @@ namespace TestVREngine
     {
         public static string GetId(string returnedData)
         {
-            var data = JsonConvert.DeserializeObject<Id>(returnedData);
-            Console.WriteLine(data.data.uuid);
-            return data.data.uuid;
+            Console.WriteLine(returnedData);
+            JObject data =(JObject) JsonConvert.DeserializeObject(returnedData);
+            string uuID = data.SelectToken("data.data.data.uuid").ToString(); 
+            Console.WriteLine(uuID);
+            return uuID;
         }
       
      
     }
 
-    class Id
-    {
-        public Data data
-        {
-            get;
-            set;
-        }
-    }
-    class Data
-    {
-        public string uuid
-        {
-            get;
-            set;
-        }
-    }
+
 }

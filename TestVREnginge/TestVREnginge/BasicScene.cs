@@ -11,15 +11,15 @@ namespace TestVREngine
     class BasicScene
     {
         private List<Func<string>> CommandList;
-        private TunnelHandler Handler;
+        private static TunnelHandler Handler;
 
         private string uuidRoute;
         private string uuidModel;
 
-        public BasicScene(TunnelHandler Handler)
+        public BasicScene(TunnelHandler HandlerIncoming)
         {
             this.CommandList = new List<Func<string>>();
-            this.Handler = Handler;
+            Handler = HandlerIncoming;
 
             // Add methods to queue.
             this.CommandList.Add(CreateTerrain);
@@ -55,10 +55,11 @@ namespace TestVREngine
             height = generator.generateTerrain(256, 256, 3, 0.01f);
 
 
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
 
-            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
+
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
 
             return "Created a new terrain with size: 256 x 256.";
         }
@@ -68,7 +69,7 @@ namespace TestVREngine
         /// </summary>
         public string RemoveGroundPlane()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneResult));
+            Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneResult));
 
             return "Removed the terrain.";
         }
@@ -83,7 +84,7 @@ namespace TestVREngine
                 Console.WriteLine(o.GetValue("name"));
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
-                    this.Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
+                    Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
                     return;
                 }
             }
@@ -94,7 +95,7 @@ namespace TestVREngine
         /// </summary>
         private string ChangeTime()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
+            Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
             return "Changed the time.";
         }
 
@@ -104,7 +105,7 @@ namespace TestVREngine
         private string AddModels()
         {
             //Set time back to mid-day
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
+            Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
             //Normal bike rotation (270, 270, 0).
             this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1 , new int[3] { 0, 5, 0}, new int[3] { 270, 270, 0 })), new Action<string>(onObjectReceived));
@@ -137,7 +138,7 @@ namespace TestVREngine
             new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
         };
             
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
             return "Added a route.";
         }
 
@@ -168,5 +169,13 @@ namespace TestVREngine
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute,uuidModel));
             return "The bike is now moving over the route.";
         }
+
+        private static void Textureplacer(string json)
+        {
+
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));
+        }
     }
+
+    
 }
