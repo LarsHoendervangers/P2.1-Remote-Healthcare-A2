@@ -33,9 +33,10 @@ namespace TestVREngine
                 Userinput = int.Parse(Console.ReadLine());
             }
 
-            //Call method which sets up a connection
-            string ID = handler.SetUpConnection(Clients[Userinput - 1].Adress).Item2;
-            Console.WriteLine("ID that was returend: "  +  ID);
+            Handler.SetUpConnection(clients[userinput - 1].Adress);
+            string id = Handler.destinationID;
+            Console.WriteLine(Handler.destinationID);
+            Console.WriteLine("ID that was returend: "  +  id);
 
             //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
             for (int i = 0; i < 7; i++)
@@ -46,6 +47,11 @@ namespace TestVREngine
 
             Console.WriteLine("All methods have been executed...");
             
+        }
+
+        static void testExample(string dat)
+        {
+            Console.WriteLine("Hello micheal checksum");
         }
     }
 }
