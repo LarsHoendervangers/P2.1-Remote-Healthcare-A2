@@ -106,10 +106,7 @@ namespace TestVREngine
         /// </summary>
         private void MoveModelOverRoad()
         {
-            /*JSONCommands.SendTunnel("route/follow", new
-            {
-
-            });*/
+           // Handler.SendToTunnel(JSONCommandHelper.WrapFollow());
         }
     }
 }
