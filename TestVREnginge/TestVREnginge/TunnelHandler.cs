@@ -124,6 +124,7 @@ namespace TestVREngine
         public void SendToTunnel(object message)
         {
             object totalStream = JSONCommandHelper.WrapHeader(this.destinationID, message);
+            Console.WriteLine(JsonConvert.SerializeObject(totalStream));
             tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 

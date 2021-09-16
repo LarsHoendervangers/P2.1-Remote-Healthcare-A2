@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,17 +49,26 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
+            int[] height = new int[256*256];
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));
             return "Created a new terrain with size: 256 x 256.";
         }
 
         /// <summary>
         /// Step 2. Remove the terrain.
         /// </summary>
-        private string RemoveGroundPlane()
+        public string RemoveGroundPlane()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
+            this.Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneTwo));
+
             return "Removed the terrain.";
+        }
+
+        public void RemoveGroundPlaneTwo(string jsonString)
+        {
+            
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
         }
 
         /// <summary>
@@ -75,8 +85,9 @@ namespace TestVREngine
         /// </summary>
         private string AddModels()
         {
-            //this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.fbx", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 270, 0, 270 })), uuidModel);
-            return "Spawned a house.";
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 270, 270, 0 })));
+            return "Spawned a bike.";
         }
 
         /// <summary>
@@ -85,12 +96,12 @@ namespace TestVREngine
         private string ChangeTerrainHeight()
         {
             //TODO: Maybe perlin noise generation?
-            /*int[] terrainHeight = new int[256 * 256];
+            int[] terrainHeight = new int[256 * 256];
             for (int i = 0; i < terrainHeight.Length; i++)
             {
                 terrainHeight[i] = i;
             }
-            this.Handler.SendToTunnel(JSONCommandHelper.UpdateTerrainHeight(terrainHeight));*/
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapUpdateTerrainHeight(terrainHeight));
             return "Changed terrain height.";
         }
 

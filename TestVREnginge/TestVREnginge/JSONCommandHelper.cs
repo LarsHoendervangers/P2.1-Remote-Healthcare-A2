@@ -10,6 +10,38 @@ namespace TestVREngine
 {
     public class JSONCommandHelper
     {
+        public static object GetAllNodes()
+        {
+            return new
+            {
+                id = "scene/get"
+            };
+        }
+
+        public static object FindNode(string name)
+        {
+            return new
+            {
+                id = "scene/node/find",
+                data = new
+                {
+                    name = name
+                }
+            };
+        }
+
+        public static object RemoveNode(string uuid)
+        {
+            return new
+            {
+                id = "scene/node/delete",
+                data = new
+                {
+                    id = uuid
+                }
+            };
+        }
+
         /// <summary>
         /// Method which creates a basic header where the payload is a object returned by the methods below
         /// </summary>
@@ -65,6 +97,32 @@ namespace TestVREngine
                 }
             };
         }
+
+        /// <summary>
+        /// This method will show the terrain.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="transform"></param>
+        /// <returns></returns>
+        public static object WrapShowTerrain(string name, Transform transform)
+        {
+            return new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name = name,
+                    components = new
+                    {
+                        transform = transform,
+                        terrain = new
+                        {
+                        }
+                    }
+                }
+            };
+        }
+
         /// <summary>
         /// Sends an empty terrain object to delete the existing terrain
         /// </summary>
@@ -111,7 +169,7 @@ namespace TestVREngine
                 data = new
                 {
                     name = name,
-                    component = new
+                    components = new
                     {
                         transform = transform,
                         model = new
@@ -139,7 +197,7 @@ namespace TestVREngine
                 {
                     name = name,
                     parent = parentName,
-                    component = new
+                    components = new
                     {
                         transform = transform,
                         model = new
@@ -193,7 +251,7 @@ namespace TestVREngine
         {
             return new
             {
-                id = "scene/Update/add",
+                id = "scene/update/add",
                 data = new
                 {
                     heights = height
