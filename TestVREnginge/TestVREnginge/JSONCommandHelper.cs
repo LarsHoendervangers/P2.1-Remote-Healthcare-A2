@@ -10,7 +10,12 @@ namespace TestVREngine
 {
     public class JSONCommandHelper
     {
-
+        /// <summary>
+        /// Method which creates a basic header where the payload is a object returned by the methods below
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         public static object WrapHeader(string destination, object payload)
         {
             return new
@@ -27,6 +32,11 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Method which returns an object which can be added to the Header and adds a terrain
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static object WrapTerrain(int[] size)
         {
             return new
