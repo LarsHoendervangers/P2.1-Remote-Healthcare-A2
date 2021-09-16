@@ -10,6 +10,9 @@ namespace TestVREngine
     {
         private Queue<Func<string>> CommandList;
         private TunnelHandler Handler;
+        private string uuidRoute;
+
+        private string uuidModel;
         //private TunnelHandler Handler;
 
         public BasicScene(TunnelHandler Handler)
@@ -68,7 +71,7 @@ namespace TestVREngine
         /// </summary>
         private string AddModels()
         {
-            //this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("house", "data/NetworkEngine/models/houses/set1/house1.obj"));
+            //this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("house", "data/NetworkEngine/models/houses/set1/house1.obj"), uuidModel);
             return "Spawned a house.";
         }
 
@@ -92,6 +95,13 @@ namespace TestVREngine
         /// </summary>
         private string AddRoute()
         {
+            
+            PosVector[] posVectors = new PosVector[];
+            for (int i = 0; i < 6; i++)
+            {
+                posVectors[i] = new PosVector(new[] {i, i + 1, i + 2}, new[] {i, i + 1, i + 2});
+            }
+            //this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), uuidRoute);
             return "";
         }
 
@@ -99,7 +109,8 @@ namespace TestVREngine
         /// Step 7.
         /// </summary>
         private string AddRoad()
-        {
+        { 
+            //Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
             return "";
         }
 
@@ -108,7 +119,7 @@ namespace TestVREngine
         /// </summary>
         private string MoveModelOverRoad()
         {
-           // Handler.SendToTunnel(JSONCommandHelper.WrapFollow());
+            //Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute,uuidModel));
             return "";
         }
     }
