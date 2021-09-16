@@ -34,6 +34,8 @@ namespace TestVREngine.TCP
                         this.OnMessageReceived.Invoke(this, message);
                     }
 
+                    this.stream.Close();
+
                 }).Start();
         }
 
@@ -88,9 +90,7 @@ namespace TestVREngine.TCP
         {
             if(state)
             {
-
                 HandleIncoming();
-
             } else
             {
                 this.running = false;
