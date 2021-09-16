@@ -80,8 +80,8 @@ namespace TestVREngine
         /// <summary>
         /// Method which returns an object which can be added to the Header and adds a terrain without heigt specified
         /// </summary>
-        /// <param name="size"></param>
-        /// <returns></returns>
+        /// <param name="size">The x and y size of the plain</param>
+        /// <returns>The json text needed to add new terrain</returns>
         public static object WrapTerrain(int[] size)
         {
             return new
@@ -97,9 +97,9 @@ namespace TestVREngine
         /// <summary>
         /// Method wich returns an object which can be added to the Header and adds a terrain with height specified
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
+        /// <param name="size">The size of the plain</param>
+        /// <param name="height">The height points of the plain</param>
+        /// <returns>The json text needed to add new terrain with height</returns>
         public static object WrapTerrain(int[] size, float[] height)
         {
             return new
@@ -114,11 +114,11 @@ namespace TestVREngine
         }
 
         /// <summary>
-        /// This method will show the terrain.
+        /// This method will return the JSON data to show the terrain.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="transform"></param>
-        /// <returns></returns>
+        /// <param name="name">The name the terrain will be given</param>
+        /// <param name="transform">The transform applied to the terrain</param>
+        /// <returns>The json text needed to display the terrain</returns>
         public static object WrapShowTerrain(string name, Transform transform)
         {
             return new
@@ -139,9 +139,9 @@ namespace TestVREngine
         }
 
         /// <summary>
-        /// Sends an empty terrain object to delete the existing terrain
+        /// Returns the JSON to delete the current terrain
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Returns the JSON to delete the current terrain</returns>
         public static object WrapDeleteTerrain()
         {
             return new
@@ -156,8 +156,8 @@ namespace TestVREngine
         /// <summary>
         /// Method to set the time to the given parameter "time"
         /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
+        /// <param name="time">The time to set to, in fractions</param>
+        /// <returns>Returns the object to ga to set the time on the server</returns>
         public static object WrapTime(double time)
         {
             return new
@@ -172,10 +172,10 @@ namespace TestVREngine
         /// <summary>
         /// Adds a 3D object to the map, at the location of the given Transform. The filePath leads to the .obj file you want to spawn.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="filePath"></param>
-        /// <param name="transform"></param>
-        /// <returns></returns>
+        /// <param name="name">The name of the 3d object</param>
+        /// <param name="filePath">The file where the object is stored</param>
+        /// <param name="transform">the transform applied to the object</param>
+        /// <returns>The JSON object to add a 3d object</returns>
         public static object Wrap3DObject(string name, string filePath, Transform transform)
         {
             return new
@@ -195,14 +195,15 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
-        /// Same as the method above, now including a given parent.
+        /// Same as the method above, now including the parent name attribute.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="fileName"></param>
-        /// <param name="parentName"></param>
-        /// <param name="transform"></param>
-        /// <returns></returns>
+        /// <param name="name">The name of the 3d object</param>
+        /// <param name="fileName">The name where the file can be found</param>
+        /// <param name="parentName">the name of the parent node</param>
+        ///< param name="transform">the transform applied to the object</param>
+        /// <returns>The JSON object to add a 3d object</returns>
         public static object Wrap3DObject(string name, string fileName, string parentName, Transform transform)
         {
             return new
