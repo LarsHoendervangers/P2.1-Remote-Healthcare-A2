@@ -14,6 +14,10 @@ namespace TestVREngine
 
         static void Main(string[] args)
         {
+            TerrainHightmapGenerator generator = new TerrainHightmapGenerator();
+            generator.generateTerrain(256, 256, 3, 0.01f);
+
+
             VRUTil.GetId("{" + $"\"id\":\"route/road/add\",\"data\":" + "{" + "\"uuid\":\"nodeid\"}}");
             // Getting the data for all the available clients
             List<ClientData> Clients =  handler.GetAvailableClients();
