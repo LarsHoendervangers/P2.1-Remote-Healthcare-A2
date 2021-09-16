@@ -24,7 +24,6 @@ namespace TestVREngine
 
         }
 
-
         /// <summary>
         /// gives a list of all the available clients.
         /// </summary>

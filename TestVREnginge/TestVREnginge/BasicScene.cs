@@ -36,7 +36,7 @@ namespace TestVREngine
         public string ExecuteNext(int index)
         {
             if (index < this.CommandList.Count) {
-                return this.CommandList[index].ToString();
+                return this.CommandList[index].Invoke();
             } else
             {
                 return "There is nothing left to do.";
@@ -48,7 +48,7 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            //this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
             return "Created a new terrain with size: 256 x 256.";
         }
 
@@ -57,7 +57,7 @@ namespace TestVREngine
         /// </summary>
         private string RemoveGroundPlane()
         {
-            //this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
             return "Removed the terrain.";
         }
 
@@ -66,7 +66,7 @@ namespace TestVREngine
         /// </summary>
         private string ChangeTime()
         {
-            //this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
             return "Changed the time.";
         }
 
