@@ -1,9 +1,0 @@
-[{"data":{"size":[256,256]},"id":"scene/terrain/add"}
-,
-
-{"data":{"components":{"terrain":{},"transform":{"position":[0,0,0],"rotation":[0,0,0],"scale":1}},"name":"ground"},"id":"scene/node/add","serial":1}
-,
-
-{"data":{"size":[256,256]},"id":"scene/terrain/add"}
-,
-
