@@ -41,7 +41,7 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
+            //this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
             return "Created a new terrain with size: 256 x 256.";
         }
 
@@ -50,7 +50,7 @@ namespace TestVREngine
         /// </summary>
         private string RemoveGroundPlane()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
+            //this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
             return "Removed the terrain.";
         }
 
@@ -59,7 +59,7 @@ namespace TestVREngine
         /// </summary>
         private string ChangeTime()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
+            //this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
             return "Changed the time.";
         }
 
@@ -68,7 +68,7 @@ namespace TestVREngine
         /// </summary>
         private string AddModels()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("house", "data/NetworkEngine/models/houses/set1/house1.obj"));
+            //this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("house", "data/NetworkEngine/models/houses/set1/house1.obj"));
             return "Spawned a house.";
         }
 
@@ -78,12 +78,12 @@ namespace TestVREngine
         private string ChangeTerrainHeight()
         {
             //TODO: Maybe perlin noise generation?
-            int[] terrainHeight = new int[256 * 256];
+            /*int[] terrainHeight = new int[256 * 256];
             for (int i = 0; i < terrainHeight.Length; i++)
             {
                 terrainHeight[i] = i;
             }
-            this.Handler.SendToTunnel(JSONCommandHelper.UpdateTerrainHeight(terrainHeight));
+            this.Handler.SendToTunnel(JSONCommandHelper.UpdateTerrainHeight(terrainHeight));*/
             return "Changed terrain height";
         }
 
@@ -92,10 +92,6 @@ namespace TestVREngine
         /// </summary>
         private string AddRoute()
         {
-            /*JSONCommands.SendTunnel("route/add", new
-            {
-
-            });*/
             return "";
         }
 
@@ -104,10 +100,6 @@ namespace TestVREngine
         /// </summary>
         private string AddRoad()
         {
-            /*JSONCommands.SendTunnel("scene/road/add", new
-            {
-
-            });*/
             return "";
         }
 
@@ -116,10 +108,7 @@ namespace TestVREngine
         /// </summary>
         private string MoveModelOverRoad()
         {
-            /*JSONCommands.SendTunnel("route/follow", new
-            {
-
-            });*/
+           // Handler.SendToTunnel(JSONCommandHelper.WrapFollow());
             return "";
         }
     }

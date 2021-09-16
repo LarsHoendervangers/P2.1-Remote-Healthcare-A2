@@ -11,9 +11,10 @@ namespace TestVREngine
     {
         private static TunnelHandler Handler = new TunnelHandler();
         private static BasicScene Scene = new BasicScene(Handler);
-
+        
         static void Main(string[] args)
         {
+            VRUTil.GetId("{" + $"\"id\":\"route/road/add\",\"data\":" + "{" + "\"uuid\":\"nodeid\"}}");
             // Getting the data for all the available clients
             List<ClientData> clients =  Handler.GetAvailableClients();
 
