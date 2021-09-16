@@ -14,6 +14,7 @@ namespace TestVREngine
 
         static void Main(string[] args)
         {
+            VRUTil.GetId("{" + $"\"id\":\"route/road/add\",\"data\":" + "{" + "\"uuid\":\"nodeid\"}}");
             // Getting the data for all the available clients
             List<ClientData> Clients =  handler.GetAvailableClients();
 
