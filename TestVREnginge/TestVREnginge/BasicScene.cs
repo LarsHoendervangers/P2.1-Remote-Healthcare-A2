@@ -49,12 +49,11 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            double[] height = new double[256*256];
+            float[] height = new float[256*256];
 
-            for (int i = 0; i < height.Length; i++)
-            {
-                height[i] = i / 100000;
-            }
+            TerrainHightmapGenerator generator = new TerrainHightmapGenerator();
+            height = generator.generateTerrain(256, 256, 3, 0.01f);
+
 
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
             this.Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));

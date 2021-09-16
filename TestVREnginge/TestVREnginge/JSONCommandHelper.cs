@@ -97,7 +97,7 @@ namespace TestVREngine
         /// <param name="size"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static object WrapTerrain(int[] size, double[] height)
+        public static object WrapTerrain(int[] size, float[] height)
         {
             return new
             {
@@ -411,6 +411,8 @@ namespace TestVREngine
             };
         }
     }
+
+
     /// <summary>
     /// Struct used to contain a PositionVector. This is needed to make an array of these PosVectors.
     /// </summary>

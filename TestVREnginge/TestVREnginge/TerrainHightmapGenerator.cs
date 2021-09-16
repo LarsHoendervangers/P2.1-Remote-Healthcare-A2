@@ -10,7 +10,7 @@ namespace TestVREngine
     {
 
 
-        public void generateTerrain(int width, int height, int range,  float multiplier)
+        public float[] generateTerrain(int width, int height, int range,  float multiplier)
         {
             Random random = new Random();
             int randomSeedX = width + random.Next(0, 1000);
@@ -28,9 +28,9 @@ namespace TestVREngine
             }
 
 
-            printMatirx(terrain, 5);
+            
 
-
+            return terrain;
         }
 
         public void printMatirx(float[] input, int CutOffPoint)
