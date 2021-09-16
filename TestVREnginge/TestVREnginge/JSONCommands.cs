@@ -9,19 +9,19 @@ namespace TestVREngine
 {
     class JSONCommands
     {
-        public static string serverId = "server id";
+        //public static string serverId = "server id";
 
-        public static string SendTunnel(string id, object data)
+        public static string SendTunnel(string id, object data, string serverId)
         {
-            return JsonConvert.SerializeObject(MainJson(id, data));
+            return JsonConvert.SerializeObject(MainJson(id, data, serverId));
         }
 
-        public static string SendTunnel(string id, object data, int serial)
+        public static string SendTunnel(string id, object data, string serverId, int serial)
         {
-            return JsonConvert.SerializeObject(MainJson(id, data));
+            return JsonConvert.SerializeObject(MainJson(id, data, serverId));
         }
 
-        public static object MainJson(string id, object data)
+        public static object MainJson(string id, object data, string serverId)
         {
             return new
             {

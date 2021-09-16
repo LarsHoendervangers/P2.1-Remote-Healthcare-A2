@@ -10,7 +10,7 @@ namespace TestVREngine
     class ConsoleUI
     {
         private static TunnelHandler Handler = new TunnelHandler();
-        private static BasicScene Scene = new BasicScene(Handler);
+        //private static BasicScene Scene = new BasicScene(Handler);
 
         static void Main(string[] args)
         {
@@ -38,10 +38,30 @@ namespace TestVREngine
             //Example for controlling vr network enigine 
             //TODO: Delete when there is a proper implementetation
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 1; i++)
             {
-                Console.WriteLine(Scene.ExecuteNext(i));
-                Console.ReadKey();
+                Handler.exampleFunction(JSONCommands.SendTunnel("scene/node/add",
+                    new
+                    {
+                        name = "house",
+                        components = new
+                        {
+                            transform = new
+                            {
+                                position = new[] { 0, 30, 0 },
+                                scale = 1,
+                                rotation = new[] { 0, 0, 0 }
+                            },
+                            model = new
+                            {
+                                file = $"data/NetworkEngine/models/tatooine_test/tatooine_test.obj",
+                                cullbackfaces = false
+                            }
+                        }
+                    }, id
+                ));
+                //Console.WriteLine(Scene.ExecuteNext(i));
+                //Console.ReadKey();
             }
             
         }
