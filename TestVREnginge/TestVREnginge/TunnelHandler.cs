@@ -127,54 +127,26 @@ namespace TestVREngine
         //Example function for controlling the appliction
         public void exampleFunction(string json)
         {
-
             this.tcpHandler.WriteMessage(json);
         }
 
-        private void OnMessageReceived(object sender, string e)
+        private void OnMessageReceived(object sender, string input)
         {
-            //Reading serial ID
-            JObject message = JsonConvert.DeserializeObject(e) as JObject;
+            //Reading input
+            JObject message = JsonConvert.DeserializeObject(input) as JObject;
 
-      
+            //Check if serial exist if so then...
+            JToken token = message.SelectToken("data.data.serial");
+            if (token is null)
+                return;
 
-            JToken data1;
-            bool data1Check = message.TryGetValue("data", out data1);
-            if (data1Check)
+            //Sending to the action delegate if found and deleting it for memory usage..
+            if (SerialMap.ContainsKey(token.ToString()))
             {
-                JToken data2;
-                JObject data1object = data1 as JObject;
-                bool data2check = data1object.TryGetValue("data", out data2);
-
-                if (data2check)
-                {
-                    JToken serial;
-                    JObject data2object = data2 as JObject;
-                    bool serialCheck = data2object.TryGetValue("serial", out serial);
-                    if (serialCheck)
-                    {
-                        string serialID = serial.ToString();
-                        Console.WriteLine(serialID);
-                        if (SerialMap.ContainsKey(serialID))
-                        {
-                            SerialMap[serialID].Invoke(e);
-                        }
-                    } else
-                    {
-                        Console.WriteLine("No ID found");
-
-                    }
-
-                }
-
-
+                SerialMap[token.ToString()].Invoke(input);
+                SerialMap.Remove(token.ToString());
             }
 
-
         }
-
     }
-
-    
-
 }
