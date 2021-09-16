@@ -108,7 +108,7 @@ namespace TestVREngine
             //Magic thing for adding a object
             JObject decode = JObject.FromObject(message);
             decode.Add("serial", serialNumber);
-            Object encoded = JsonConvert.SerializeObject(decode, Formatting.Indented);
+            object encoded = decode.ToObject<object>();
             Console.WriteLine(encoded.ToString());
 
             //Putting it in the hashmap
