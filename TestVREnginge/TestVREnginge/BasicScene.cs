@@ -58,6 +58,9 @@ namespace TestVREngine
 
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
             this.Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));
+
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+
             return "Created a new terrain with size: 256 x 256.";
         }
 
@@ -102,8 +105,8 @@ namespace TestVREngine
         private string AddModels()
         {
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
-            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 270, 270, 0 })));
-            return "Spawned a bike.";
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
+            return "Spawned a podracer.";
         }
 
 
