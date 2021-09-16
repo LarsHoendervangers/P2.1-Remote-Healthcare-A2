@@ -19,10 +19,8 @@ namespace TestVREngine
                 data = new
                 {
                     dest = destination,
-                    data = new
-                    {
-                        payload
-                    }
+                    data =  payload
+                    
                 }
             };
         }

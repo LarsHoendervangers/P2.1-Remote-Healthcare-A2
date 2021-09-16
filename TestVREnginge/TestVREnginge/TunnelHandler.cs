@@ -11,13 +11,13 @@ namespace TestVREngine
 {
     class TunnelHandler
     {
-        public string ConnectionID;
-        private Dictionary<string, Action> SerialMap;
+        public string destinationID;
+        private Dictionary<string, Action<string>> SerialMap;
         private TCPClientHandler tcpHandler;
 
         public TunnelHandler()
         {
-            this.SerialMap = new Dictionary<string, Action>();
+            this.SerialMap = new Dictionary<string, Action<string>>();
             this.tcpHandler = new TCPClientHandler();
 
             this.tcpHandler.OnMessageReceived += OnMessageReceived;
@@ -86,7 +86,7 @@ namespace TestVREngine
             else { 
                 //Getting destination
                 string id = jsonFile.GetValue("id").ToString();
-                this.ConnectionID = id;
+                this.destinationID = id;
 
                 //Setting reader on.
                 this.tcpHandler.SetRunning(true);
@@ -98,27 +98,38 @@ namespace TestVREngine
         private int serialNumber = 0;
 
         //TODO discuss if it should be JOBject or else
-        public void SendToTunnel(JObject message, Action action)
+        public void SendToTunnel(object message, Action<string> action)
         {
-            this.serialNumber += 1;
 
+            //Number for serialID
+            this.serialNumber += 1;
             string serial = this.serialNumber.ToString();
 
-            message.Add("serial", message);
+            //Magic thing for adding a object
+            JObject decode = JObject.FromObject(message);
+            decode.Add("serial", serialNumber);
+            Object encoded = JsonConvert.SerializeObject(decode, Formatting.Indented);
+            Console.WriteLine(encoded.ToString());
+
+            //Putting it in the hashmap
             this.SerialMap.Add(serial, action);
 
-            SentToTunnel(message);
+            //Sending the message.
+            SentToTunnel(encoded);
         }
 
-        public void SentToTunnel(JObject message)
+        public void SentToTunnel(object message)
         {
-
+            object totalStream = JSONCommandHelper.WrapHeader(this.destinationID, message);
+            Console.WriteLine(JsonConvert.SerializeObject(totalStream));
+            tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
 
         //Example function for controlling the appliction
         public void exampleFunction(string json)
         {
+
             this.tcpHandler.WriteMessage(json);
         }
 
