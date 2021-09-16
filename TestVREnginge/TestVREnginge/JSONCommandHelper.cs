@@ -225,6 +225,27 @@ namespace TestVREngine
                 id = "scene/reset"
             };
         }
+
+        public static object WrapRequest()
+        {
+            return new
+            {
+                id = "session/list"
+            };
+        }
+
+        public static object WrapTunnel(string adress)
+        {
+            return new
+            {
+                id = "tunnel/create",
+                data = new
+                {
+                    id = adress,
+                    data = new { }
+                }
+            };
+        }
     }
 
     public struct PosVector

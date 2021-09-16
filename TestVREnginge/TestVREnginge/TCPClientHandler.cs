@@ -10,7 +10,6 @@ namespace TestVREngine.TCP
 {
     class TCPClientHandler
     {
-        
         public event EventHandler<string> OnMessageReceived;
         private bool running = false;
         private readonly NetworkStream stream;
@@ -19,8 +18,12 @@ namespace TestVREngine.TCP
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
             stream = client.GetStream();
+            HandleIncoming();
         }
 
+        /// <summary>
+        /// Starts a thread with a loop that receives all the data en envokes it up.
+        /// </summary>
         private void HandleIncoming()
         {
             new Thread(
@@ -39,6 +42,10 @@ namespace TestVREngine.TCP
                 }).Start();
         }
 
+        /// <summary>
+        /// Writes the message as a string as input.
+        /// </summary>
+        /// <param name="message"></param> the message that is send to the server
         public void WriteMessage(string message)
         {
             //Console.WriteLine(message);
@@ -53,9 +60,12 @@ namespace TestVREngine.TCP
             this.stream.Flush();
         }
 
+        /// <summary>
+        /// Reads the message once.
+        /// </summary>
+        /// <returns></returns> the message as a string
         public string ReadMessage()
         {
-
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
@@ -78,6 +88,12 @@ namespace TestVREngine.TCP
             return Encoding.ASCII.GetString(buffer, 0, totalRead);
         }
 
+        /// <summary>
+        /// Combines two byte[] together
+        /// </summary>
+        /// <param name="first"></param> first byte[]
+        /// <param name="second"></param> second byte[]
+        /// <returns></returns>
         private byte[] Combine(byte[] first, byte[] second)
         {
             byte[] bytes = new byte[first.Length + second.Length];
@@ -86,15 +102,16 @@ namespace TestVREngine.TCP
             return bytes;
         }
 
-        public void SetRunning(Boolean state)
+        /// <summary>
+        /// Sets the read function on or of
+        /// </summary>
+        /// <param name="state"></param> boolean for state.
+        public void SetRunning(bool state)
         {
             if(state)
-            {
-                HandleIncoming();
-            } else
-            {
-                this.running = false;
-            }
+            HandleIncoming();
+            else
+            this.running = false;
         }
 
     }
