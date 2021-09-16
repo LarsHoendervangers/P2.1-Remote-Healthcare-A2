@@ -9,8 +9,8 @@ namespace TestVREngine
 {
     class ConsoleUI
     {
-        private static BasicScene Scene = new BasicScene();
         private static TunnelHandler Handler = new TunnelHandler();
+        private static BasicScene Scene = new BasicScene(Handler);
 
         static void Main(string[] args)
         {
@@ -38,18 +38,14 @@ namespace TestVREngine
             //Example for controlling vr network enigine 
             //TODO: Delete when there is a proper implementetation
 
-            while (true)
+            for (int i = 0; i < 7; i++)
             {
-                for (double i = 0; i < 24; i+= 0.05)
-                {
-                    Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
-
-                    Thread.Sleep(50);
-                }
-
+                Console.WriteLine(Scene.ExecuteNext(i));
+                Console.ReadKey();
             }
 
-
+            Console.WriteLine("All methods have been executed...");
+            
         }
     }
 }

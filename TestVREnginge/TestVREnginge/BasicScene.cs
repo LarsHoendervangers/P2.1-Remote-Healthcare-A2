@@ -9,20 +9,21 @@ namespace TestVREngine
     class BasicScene
     {
         private List<string> CommandList;
+        private TunnelHandler Handler;
         //private TunnelHandler Handler;
 
-        public BasicScene()
+        public BasicScene(TunnelHandler Handler)
         {
-            CommandList = new List<string>();
-
+            this.CommandList = new List<string>();
+            this.Handler = Handler;
         }
 
         /// <summary>
         /// This method is called and will execute the next step in the exercise.
         /// </summary>
-        public void ExecuteNext()
+        public string ExecuteNext(int index)
         {
-
+            return "";
         }
 
         // TODO: Test if the heights attribute is necessary
