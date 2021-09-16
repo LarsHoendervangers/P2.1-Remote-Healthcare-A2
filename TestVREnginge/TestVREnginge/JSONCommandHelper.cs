@@ -10,7 +10,12 @@ namespace TestVREngine
 {
     public class JSONCommandHelper
     {
-
+        /// <summary>
+        /// Method which creates a basic header where the payload is a object returned by the methods below
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
         public static object WrapHeader(string destination, object payload)
         {
             return new
@@ -25,6 +30,11 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Method which returns an object which can be added to the Header and adds a terrain without heigt specified
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static object WrapTerrain(int[] size)
         {
             return new
@@ -37,6 +47,12 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Method wich returns an object which can be added to the Header and adds a terrain with height specified
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public static object WrapTerrain(int[] size, int[] height)
         {
             return new
@@ -49,7 +65,10 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Sends an empty terrain object to delete the existing terrain
+        /// </summary>
+        /// <returns></returns>
         public static object WrapDeleteTerrain()
         {
             return new
@@ -61,7 +80,11 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Method to set the time to the given parameter "time"
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
         public static object WrapTime(double time)
         {
             return new
@@ -73,8 +96,14 @@ namespace TestVREngine
                 }
             };
         }
-
-        public static object Wrap3DObject(string name, string fileName, Transform transform)
+        /// <summary>
+        /// Adds a 3D object to the map, at the location of the given Transform. The filePath leads to the .obj file you want to spawn.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="filePath"></param>
+        /// <param name="transform"></param>
+        /// <returns></returns>
+        public static object Wrap3DObject(string name, string filePath, Transform transform)
         {
             return new
             {
@@ -87,13 +116,20 @@ namespace TestVREngine
                         transform = transform,
                         model = new
                         {
-                            file = fileName
+                            file = filePath
                         }
                     }
                 }
             };
         }
-
+        /// <summary>
+        /// Same as the method above, now including a given parent.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="fileName"></param>
+        /// <param name="parentName"></param>
+        /// <param name="transform"></param>
+        /// <returns></returns>
         public static object Wrap3DObject(string name, string fileName, string parentName, Transform transform)
         {
             return new
@@ -114,7 +150,18 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Sends a node containing a new panel.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="transform"></param>
+        /// <param name="sizeX"></param>
+        /// <param name="sizeY"></param>
+        /// <param name="resolutionX"></param>
+        /// <param name="resolutionY"></param>
+        /// <param name="color"></param>
+        /// <param name="castShadow"></param>
+        /// <returns></returns>
         public static object WrapPanel(string name, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, Color color, bool castShadow)
         {
             return new
@@ -137,7 +184,11 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Length of the int[] is length * width of the terrain you want to update the height from.
+        /// </summary>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public static object WrapUpdateTerrainHeight(int[] height)
         {
             return new
@@ -149,7 +200,11 @@ namespace TestVREngine
                 }
             };
         }
-      
+        /// <summary>
+        /// Sends a route containing of nodes which are positions (in vectors) to the map.
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <returns></returns>
         public static object WrapAddRoute(PosVector[] nodes)
         {
             return new
@@ -161,7 +216,14 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Sends a route like the method above, but now including a texture.
+        /// </summary>
+        /// <param name="routeId"></param>
+        /// <param name="diffuse"></param>
+        /// <param name="normal"></param>
+        /// <param name="specular"></param>
+        /// <returns></returns>
         public static object WrapAddRouteTerrain(string routeId, string diffuse, string normal, string specular)
         {
             return new
@@ -177,7 +239,11 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Sends a new route, only using a routeId
+        /// </summary>
+        /// <param name="routeId"></param>
+        /// <returns></returns>
         public static object WrapAddRouteTerrain(string routeId)
         {
             return new
@@ -190,7 +256,12 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Method used to make the object from the given objectId follow the given route.
+        /// </summary>
+        /// <param name="routeId"></param>
+        /// <param name="objectId"></param>
+        /// <returns></returns>
         public static object WrapFollow(string routeId, string objectId)
         {
             return new
@@ -204,7 +275,12 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Updates the speed of the object following a route.
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="speed"></param>
+        /// <returns></returns>
         public static object WrapUpdateFollow(string objectId, double speed)
         {
             return new
@@ -217,7 +293,26 @@ namespace TestVREngine
                 }
             };
         }
-
+        /// <summary>
+        /// Sends a boolean to either show or hide the active route.
+        /// </summary>
+        /// <param name="showRoute"></param>
+        /// <returns></returns>
+        public static object WrapShowRoute(bool showRoute)
+        {
+            return new
+            {
+                id = "route/show",
+                data = new
+                {
+                    show = showRoute
+                }
+            };
+        }
+        /// <summary>
+        /// Sends a command to reset the entire scene
+        /// </summary>
+        /// <returns></returns>
         public static object WrapReset()
         {
             return new
@@ -226,7 +321,9 @@ namespace TestVREngine
             };
         }
     }
-
+    /// <summary>
+    /// Struct used to contain a PositionVector. This is needed to make an array of these PosVectors.
+    /// </summary>
     public struct PosVector
     {
         int[] position;

@@ -30,12 +30,19 @@ namespace TestVREngine
             while (Userinput < 1 || Userinput > Clients.Count)
             {
                 Console.WriteLine("\nGive a selection number for a tunnel: ");
-                Userinput = int.Parse(Console.ReadLine());
+                
+                try 
+                {
+                    Userinput = int.Parse(Console.ReadLine());    
+                } catch (Exception e)
+                {
+                    Console.WriteLine("Please give just a number");
+                }
             }
 
-            Handler.SetUpConnection(clients[userinput - 1].Adress);
-            string id = Handler.destinationID;
-            Console.WriteLine(Handler.destinationID);
+            handler.SetUpConnection(Clients[Userinput - 1].Adress);
+            string id = handler.destinationID;
+            Console.WriteLine(handler.destinationID);
             Console.WriteLine("ID that was returend: "  +  id);
 
             //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
