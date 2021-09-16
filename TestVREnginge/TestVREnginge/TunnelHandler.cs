@@ -11,6 +11,7 @@ namespace TestVREngine
 {
     class TunnelHandler
     {
+        public string ConnectionID;
         private Dictionary<string, Action> SerialMap;
         private TCPClientHandler tcpHandler;
 
@@ -19,7 +20,7 @@ namespace TestVREngine
             this.SerialMap = new Dictionary<string, Action>();
             this.tcpHandler = new TCPClientHandler();
 
-            this.tcpHandler.OnMessageReceived += onMessageReceived;
+            this.tcpHandler.OnMessageReceived += OnMessageReceived;
 
         }
 
@@ -65,7 +66,7 @@ namespace TestVREngine
         /// </summary>
         /// <param name="connection"></param>
         /// <returns></returns>
-        public (bool, string) SetUpConnection(string connection)
+        public bool SetUpConnection(string connection)
         {
             //Sending tunneling request to vps
             //TODO fixing hardcode json.
@@ -80,12 +81,17 @@ namespace TestVREngine
             JObject jsonFile = (JObject)jsonData.GetValue("data");
             if (jsonFile.GetValue("status").ToString() != "ok")
             {
-                return (false, null);
+                return false ;
             }
             else { 
+                //Getting destination
                 string id = jsonFile.GetValue("id").ToString();
+                this.ConnectionID = id;
+
+                //Setting reader on.
                 this.tcpHandler.SetRunning(true);
-                return (true, id);
+
+                return true;
             }
         }
 
@@ -116,9 +122,41 @@ namespace TestVREngine
             this.tcpHandler.WriteMessage(json);
         }
 
-        private void onMessageReceived(object sender, string e)
+        private void OnMessageReceived(object sender, string e)
         {
+            //Reading serial ID
+            JObject message = JsonConvert.DeserializeObject(e) as JObject;
+
             Console.WriteLine(e);
+
+            JToken data1;
+            bool data1Check = message.TryGetValue("data", out data1);
+            if (data1Check)
+            {
+                JToken data2;
+                JObject data1object = data1 as JObject;
+                bool data2check = data1object.TryGetValue("data", out data2);
+
+                if (data2check)
+                {
+                    JToken serial;
+                    JObject data2object = data2 as JObject;
+                    bool serialCheck = data2object.TryGetValue("serial", out serial);
+                    if (serialCheck)
+                    {
+                        string serialID = serial.ToString();
+                        Console.WriteLine(serialID);
+                    } else
+                    {
+                        Console.WriteLine("No ID found");
+                    }
+
+                }
+
+
+            }
+
+
         }
 
     }

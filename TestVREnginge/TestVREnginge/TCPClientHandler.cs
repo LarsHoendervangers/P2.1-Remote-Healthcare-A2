@@ -76,7 +76,7 @@ namespace TestVREngine.TCP
             return Encoding.ASCII.GetString(buffer, 0, totalRead);
         }
 
-        public byte[] Combine(byte[] first, byte[] second)
+        private byte[] Combine(byte[] first, byte[] second)
         {
             byte[] bytes = new byte[first.Length + second.Length];
             Buffer.BlockCopy(first, 0, bytes, 0, first.Length);

@@ -31,7 +31,9 @@ namespace TestVREngine
                 userinput = int.Parse(Console.ReadLine());
             }
 
-            string id = Handler.SetUpConnection(clients[userinput - 1].Adress).Item2;
+            Handler.SetUpConnection(clients[userinput - 1].Adress);
+            string id = Handler.ConnectionID;
+            Console.WriteLine(Handler.ConnectionID);
             Console.WriteLine("ID that was returend: "  +  id);
 
 
@@ -42,7 +44,7 @@ namespace TestVREngine
             {
                 for (double i = 0; i < 24; i+= 0.05)
                 {
-                    Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
+                    Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"serial\" : \"123\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
 
                     Thread.Sleep(50);
                 }
