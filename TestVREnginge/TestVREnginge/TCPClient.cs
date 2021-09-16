@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestVREnginge
 {
-    class ConsoleUI
+    class Class1
     {
     }
 }
