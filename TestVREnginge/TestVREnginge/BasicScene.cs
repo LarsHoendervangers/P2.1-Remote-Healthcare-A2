@@ -26,7 +26,6 @@ namespace TestVREngine
             this.CommandList.Add(RemoveGroundPlane);
             this.CommandList.Add(ChangeTime);
             this.CommandList.Add(AddModels);
-            this.CommandList.Add(ChangeTerrainHeight);
             this.CommandList.Add(AddRoute);
             this.CommandList.Add(AddRoad);
             this.CommandList.Add(MoveModelOverRoad);
@@ -50,7 +49,13 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            int[] height = new int[256*256];
+            double[] height = new double[256*256];
+
+            for (int i = 0; i < height.Length; i++)
+            {
+                height[i] = i / 100000;
+            }
+
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
             this.Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));
 
@@ -64,12 +69,12 @@ namespace TestVREngine
         /// </summary>
         public string RemoveGroundPlane()
         {
-            this.Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneTwo));
+            this.Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneResult));
 
             return "Removed the terrain.";
         }
 
-        public void RemoveGroundPlaneTwo(string jsonString)
+        public void RemoveGroundPlaneResult(string jsonString)
         {
             JObject jObject = JObject.Parse(jsonString);
             JArray array = (JArray)jObject.SelectToken("data.data.data.children");
@@ -79,7 +84,6 @@ namespace TestVREngine
                 Console.WriteLine(o.GetValue("name"));
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
-                    Console.WriteLine("Found groundplane");
                     this.Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
                     return;
                 }
@@ -105,33 +109,22 @@ namespace TestVREngine
             return "Spawned a podracer.";
         }
 
-        /// <summary>
-        /// Step 5. Change the terrain height to a linear incline (does not look great)
-        /// </summary>
-        private string ChangeTerrainHeight()
-        {
-            //TODO: Maybe perlin noise generation?
-            int[] terrainHeight = new int[256 * 256];
-            for (int i = 0; i < terrainHeight.Length; i++)
-            {
-                terrainHeight[i] = i;
-            }
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapUpdateTerrainHeight(terrainHeight));
-            return "Changed terrain height.";
-        }
 
         /// <summary>
         /// Step 6. Create a new route.
         /// </summary>
         private string AddRoute()
         {
-            
-            PosVector[] posVectors = new PosVector[7];
-            for (int i = 0; i < 6; i++)
+
+            PosVector[] posVectors = new PosVector[] 
             {
-                posVectors[i] = new PosVector(new[] {i, i + 1, i + 2}, new[] {i, i + 1, i + 2});
-            }
-            //this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), uuidRoute);
+            new PosVector(new int[]{0,0,0 }, new int[]{0,0,0}),
+            new PosVector(new int[]{4,0,0 }, new int[]{0,0,0}),
+            new PosVector(new int[]{4,0,4 }, new int[]{0,0,0}),
+            new PosVector(new int[]{0,0,4 }, new int[]{0,0,0}),
+        };
+            
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors));
             return "Added a route.";
         }
 
