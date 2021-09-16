@@ -31,10 +31,10 @@ namespace TestVREngine
         /// </summary>
         private void CreateTerrain()
         {
-            JSONCommands.SendTunnel("scene/terrain/add", new
+            /*JSONCommands.SendTunnel("scene/terrain/add", new
                 {
                     size = new int[] {256, 256}
-                });
+                });*/
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace TestVREngine
         /// </summary>
         private void RemoveGroundPlane()
         {
-            JSONCommands.SendTunnel("scene/terrain/delete", new {});
+            //JSONCommands.SendTunnel("scene/terrain/delete", new {});
         }
 
         /// <summary>
@@ -50,10 +50,10 @@ namespace TestVREngine
         /// </summary>
         private void ChangeTime()
         {
-            JSONCommands.SendTunnel("scene/skybox/settime", new
+            /*JSONCommands.SendTunnel("scene/skybox/settime", new
             {
                 time = 5
-            });
+            });*/
         }
 
         /// <summary>
@@ -61,10 +61,10 @@ namespace TestVREngine
         /// </summary>
         private void AddModels()
         {
-            JSONCommands.SendTunnel("scene/terrain/add", new
+            /*JSONCommands.SendTunnel("scene/terrain/add", new
                 {
                     
-                });
+                });*/
         }
 
         /// <summary>
@@ -72,10 +72,10 @@ namespace TestVREngine
         /// </summary>
         private void ChangeTerrainHeight()
         {
-            JSONCommands.SendTunnel("scene/terrain/update", new
+           /* JSONCommands.SendTunnel("scene/terrain/update", new
             {
                 
-            });
+            });*/
         }
 
         /// <summary>
@@ -83,10 +83,10 @@ namespace TestVREngine
         /// </summary>
         private void AddRoute()
         {
-            JSONCommands.SendTunnel("route/add", new
+            /*JSONCommands.SendTunnel("route/add", new
             {
 
-            });
+            });*/
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace TestVREngine
         /// </summary>
         private void AddRoad()
         {
-            JSONCommands.SendTunnel("scene/road/add", new
+            /*JSONCommands.SendTunnel("scene/road/add", new
             {
 
-            });
+            });*/
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace TestVREngine
         /// </summary>
         private void MoveModelOverRoad()
         {
-            JSONCommands.SendTunnel("route/follow", new
+            /*JSONCommands.SendTunnel("route/follow", new
             {
 
-            });
+            });*/
         }
     }
 }
