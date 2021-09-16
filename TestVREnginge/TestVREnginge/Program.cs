@@ -6,7 +6,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Text;
 
-namespace TestVREnginge
+namespace TestVREngine
 {
     class Program
     {
