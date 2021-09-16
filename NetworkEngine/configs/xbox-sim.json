@@ -1,0 +1,133 @@
+{
+	"devices" :
+	[
+		{
+			"name" : "LeftThumbStickMagnitude",
+			"type" : "analog",
+			"driver" : "XBOX",
+			"src" : "LeftThumbStickMagnitude"
+		},
+		{
+			"name" : "RightThumbStickMagnitude",
+			"type" : "analog",
+			"driver" : "XBOX",
+			"src" : "RightThumbStickMagnitude"
+		},
+		{
+			"name" : "RightThumbStickAngle",
+			"type" : "analog",
+			"driver" : "XBOX",
+			"src" : "RightThumbStickAngle"
+		},
+		{
+			"name" : "RightThumbPos",
+			"type" : "twodimension",
+			"driver" : "XBOX",
+			"src" : "RightThumbPos"
+		},
+		{
+			"name" : "LeftThumbPos",
+			"type" : "twodimension",
+			"driver" : "Sim2d",
+			"src" : "LeftThumbPos"
+		},
+		{
+			"name" : "LeftThumbStickAngle",
+			"type" : "analog",
+			"driver" : "Sim2d",
+			"src" : "LeftThumbStickAngle"
+		},
+		{
+			"name" : "DPadUp",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "DPadUp"
+		},
+		{
+			"name" : "DPadDown",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "DPadDown"
+		},
+		{
+			"name" : "DPadRight",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "DPadRight"
+		},
+		{
+			"name" : "DPadLeft",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "DPadLeft"
+		},
+		{
+			"name" : "LeftTrigger",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "LeftTrigger"
+		},
+		{
+			"name" : "StartButton",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "StartButton"
+		},
+		{
+			"name" : "BackButton",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "BackButton"
+		},
+		{
+			"name" : "XButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "u"
+		},
+		{
+			"name" : "YButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "y"
+		},
+		{
+			"name" : "AButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "h"
+		},
+		{
+			"name" : "BButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "j"
+		},
+		{
+			"name" : "RightTrigger",
+			"type" : "digital",
+			"driver" : "XBOX",
+			"src" : "RightTrigger"
+		}
+	],
+	"driverconfig" : 
+	{
+		"Sim2d" : 
+		{
+			"LeftThumbPos" : 
+			{
+				"xneg" : "arrowleft",
+				"xpos" : "arrowright",
+				"yneg" : "arrowdown",
+				"ypos" : "arrowup"
+			},
+			"RightThumbPos" : 
+			{
+				"xneg" : "j",
+				"xpos" : "l",
+				"yneg" : "k",
+				"ypos" : "i"
+			}
+		}
+	}
+}

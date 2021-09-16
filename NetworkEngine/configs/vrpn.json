@@ -1,0 +1,80 @@
+{
+	"devices" :
+	[
+		{
+			"name" : "MainUserHead",
+			"type" : "positional",
+			"driver" : "vrpn",
+			"src" : "1"
+		},
+		{
+			"name" : "WandPosition",
+			"type" : "positional",
+			"driver" : "vrpn",
+			"src" : "0"
+		},
+		{
+			"name" : "CameraPosition",
+			"type" : "positional",
+			"driver" : "SimPosition",
+			"src" : "Camera"
+		},
+				{
+			"name" : "LeftButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "pageup"
+		},
+		{
+			"name" : "RightButton",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "pagedown"
+		},
+		{
+			"name" : "alt1",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "f5"
+		},
+		{
+			"name" : "alt2",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "."
+		}
+	],
+	"driverconfig" :
+	{
+		"SimPosition" :
+		{
+			"Camera" :
+			{
+				"initial" : [ 0.0, -0.5, 3.5 ],
+				"xneg" : "a",
+				"xpos" : "d",
+				"yneg" : "z",
+				"ypos" : "q",
+				"zneg" : "w",
+				"zpos" : "s",
+				"rotxneg" : "numpad7",
+				"rotxpos" : "numpad9",
+				"rotyneg" : "numpad4",
+				"rotypos" : "numpad6",
+				"rotzneg" : "numpad1",
+				"rotzpos" : "numpad3",
+				"camera" : true
+			}
+		},
+		"vrpn" :
+		[
+			{
+				"id" : 1,
+				"transform" :
+				{
+					"rot" : [ 0, 0, 90.0]
+				}
+			}
+		]
+	}
+}

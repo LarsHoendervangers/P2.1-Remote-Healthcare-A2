@@ -1,0 +1,97 @@
+{
+	"devices" :
+	[
+		{
+			"name" : "WandPositionLeft",
+			"type" : "position",
+			"driver" : "SimPosition",
+			"src" : "Wand2"
+		},
+		{
+			"name" : "buttonLeftMenu",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "1"
+		},
+		{
+			"name" : "buttonLeftGrip",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "1"
+		},
+		{
+			"name" : "buttonLeftTouch",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "2"
+		},
+		{
+			"name" : "buttonLeftTrigger",
+			"type" : "digital",
+			"driver" : "mouse",
+			"src" : "left"
+		},
+		{
+			"name" : "buttonRightMenu",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "1"
+		},
+		{
+			"name" : "buttonRightGrip",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "1"
+		},
+		{
+			"name" : "buttonRightTouch",
+			"type" : "digital",
+			"driver" : "keyboard",
+			"src" : "1"
+		},
+		{
+			"name" : "buttonRightTrigger",
+			"type" : "digital",
+			"driver" : "mouse",
+			"src" : "right"
+		},
+		{
+			"name": "RightThumbPos",
+			"type" : "twodimension",
+			"driver" : "Sim2d",
+			"src" :  "thumbpad"
+		}
+	],
+	"driverconfig" :
+	{
+		"SimPosition" :
+		{
+			"Wand2" :
+			{
+				"initial" : [ -0.25, 1.0, -0.25 ],
+				"xneg" : "ctrl+a",
+				"xpos" : "ctrl+d",
+				"yneg" : "ctrl+z",
+				"ypos" : "ctrl+q",
+				"zneg" : "ctrl+w",
+				"zpos" : "ctrl+s",
+				"rotxneg" : "ctrl+numpad7",
+				"rotxpos" : "ctrl+numpad9",
+				"rotyneg" : "ctrl+numpad4",
+				"rotypos" : "ctrl+numpad6",
+				"rotzneg" : "ctrl+numpad1",
+				"rotzpos" : "ctrl+numpad3"			}
+		},
+		"Sim2d" : 
+		{
+			"thumbpad" : 
+			{
+				"initial" :  [ 0, 0 ],
+				"xneg" : "ctrl+j",
+				"xpos" : "ctrl+l",
+				"yneg" : "ctrl+i",
+				"ypos" : "ctrl+k"
+			}
+		}
+	}
+}
