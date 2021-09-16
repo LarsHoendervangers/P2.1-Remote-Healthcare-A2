@@ -28,7 +28,14 @@ namespace TestVREngine
             while (userinput < 1 || userinput > clients.Count)
             {
                 Console.WriteLine("\nGive a selection number for a tunnel: ");
-                userinput = int.Parse(Console.ReadLine());
+                
+                try 
+                {
+                    userinput = int.Parse(Console.ReadLine());    
+                } catch (Exception e)
+                {
+                    Console.WriteLine("Please give just a number");
+                }
             }
 
             string id = Handler.SetUpConnection(clients[userinput - 1].Adress).Item2;
