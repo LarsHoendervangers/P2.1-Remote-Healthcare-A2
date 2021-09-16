@@ -9,38 +9,38 @@ namespace TestVREngine
 {
     class ConsoleUI
     {
-        private static TunnelHandler Handler = new TunnelHandler();
-        private static BasicScene Scene = new BasicScene(Handler);
+        private static TunnelHandler handler = new TunnelHandler();
+        private static BasicScene scene = new BasicScene(handler);
 
         static void Main(string[] args)
         {
             // Getting the data for all the available clients
-            List<ClientData> clients =  Handler.GetAvailableClients();
+            List<ClientData> Clients =  handler.GetAvailableClients();
 
+            //Lists all the avalable clients and adds the corresponding number in the list
             Console.WriteLine("Avaliable clients:");
-            for (int i = 0; i < clients.Count; i++)
+            for (int i = 0; i < Clients.Count; i++)
             {
-                ClientData c = clients[i];
-                Console.WriteLine("{0}: {1}",i + 1, c.ToString());
+                ClientData C = Clients[i];
+                Console.WriteLine("{0}: {1}",i + 1, C.ToString());
             }
 
-            int userinput = 0;
-            while (userinput < 1 || userinput > clients.Count)
+            //Ask for userinput
+            int Userinput = 0;
+            while (Userinput < 1 || Userinput > Clients.Count)
             {
                 Console.WriteLine("\nGive a selection number for a tunnel: ");
-                userinput = int.Parse(Console.ReadLine());
+                Userinput = int.Parse(Console.ReadLine());
             }
 
-            string id = Handler.SetUpConnection(clients[userinput - 1].Adress).Item2;
-            Console.WriteLine("ID that was returend: "  +  id);
+            //Call method which sets up a connection
+            string ID = handler.SetUpConnection(Clients[Userinput - 1].Adress).Item2;
+            Console.WriteLine("ID that was returend: "  +  ID);
 
-
-            //Example for controlling vr network enigine 
-            //TODO: Delete when there is a proper implementetation
-
+            //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
             for (int i = 0; i < 7; i++)
             {
-                Console.WriteLine(Scene.ExecuteNext(i));
+                Console.WriteLine(scene.ExecuteNext(i));
                 Console.ReadKey();
             }
 
