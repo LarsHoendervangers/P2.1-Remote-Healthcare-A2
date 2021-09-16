@@ -341,7 +341,10 @@ namespace TestVREngine
                 {
                     route = routeId,
                     node = objectId,
-                    speed = 1.0
+                    speed = 3.0,
+                    rotate = "XZ",
+                    rotateOffset = new int[] {-90, 0, 0},
+                    followHeight = true
                 }
             };
         }

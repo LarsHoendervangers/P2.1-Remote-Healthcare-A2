@@ -106,8 +106,11 @@ namespace TestVREngine
             //Set time back to mid-day
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
-            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })), new Action<string>(onObjectReceived));
-            return "Spawned a podracer.";
+            //Normal bike rotation (270, 270, 0).
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1 , new int[3] { 0, 5, 0}, new int[3] { 270, 270, 0 })), new Action<string>(onObjectReceived));
+            return "Spawned a bike.";
+           // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
+           //  return "Spawned a podracer.";
         }
 
         private void onObjectReceived(string message)
@@ -128,10 +131,10 @@ namespace TestVREngine
 
             PosVector[] posVectors = new PosVector[] 
             {
-            new PosVector(new int[]{0,0,0 }, new int[]{0,0,0}),
-            new PosVector(new int[]{20,0,0 }, new int[]{0,0,0}),
-            new PosVector(new int[]{20,0,20 }, new int[]{0,0,0}),
-            new PosVector(new int[]{0,0,20 }, new int[]{0,0,0}),
+            new PosVector(new int[]{0,0,0 }, new int[]{5,0,-5}),
+            new PosVector(new int[]{20,0,0 }, new int[]{5,0,5}),
+            new PosVector(new int[]{20,0,20 }, new int[]{-5,0,5}),
+            new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
         };
             
             this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
