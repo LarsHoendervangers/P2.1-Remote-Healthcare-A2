@@ -43,6 +43,8 @@ namespace TestVREngine
                 Console.WriteLine(Scene.ExecuteNext(i));
                 Console.ReadKey();
             }
+
+            Console.WriteLine("All methods have been executed...");
             
         }
     }
