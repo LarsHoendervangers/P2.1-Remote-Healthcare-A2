@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestVREngine
 {
-    class Transform
+    public class Transform
     {
         public int Scale { get; set; }
         public int[] Pos { get; set; }
