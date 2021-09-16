@@ -9,12 +9,13 @@ namespace TestVREngine
     class BasicScene
     {
         private List<string> CommandList;
+        private TunnelHandler Handler;
         //private TunnelHandler Handler;
 
-        public BasicScene()
+        public BasicScene(TunnelHandler Handler)
         {
-            CommandList = new List<string>();
-
+            this.CommandList = new List<string>();
+            this.Handler = Handler;
         }
 
         /// <summary>

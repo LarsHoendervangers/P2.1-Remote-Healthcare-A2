@@ -9,8 +9,8 @@ namespace TestVREngine
 {
     class ConsoleUI
     {
-        private static BasicScene Scene = new BasicScene();
         private static TunnelHandler Handler = new TunnelHandler();
+        private static BasicScene Scene = new BasicScene(Handler);
 
         static void Main(string[] args)
         {
