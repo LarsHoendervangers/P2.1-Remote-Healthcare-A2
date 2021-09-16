@@ -103,9 +103,20 @@ namespace TestVREngine
         /// </summary>
         private string AddModels()
         {
+            //Set time back to mid-day
             this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
-            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
+
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })), new Action<string>(onObjectReceived));
             return "Spawned a podracer.";
+        }
+
+        private void onObjectReceived(string message)
+        {
+            JObject jObject = JObject.Parse(message);
+            JObject id = (JObject)jObject.SelectToken("data.data.data");
+
+            string idValue = id.GetValue("uuid").ToString();
+            this.uuidModel = idValue;
         }
 
 
@@ -118,13 +129,23 @@ namespace TestVREngine
             PosVector[] posVectors = new PosVector[] 
             {
             new PosVector(new int[]{0,0,0 }, new int[]{0,0,0}),
-            new PosVector(new int[]{4,0,0 }, new int[]{0,0,0}),
-            new PosVector(new int[]{4,0,4 }, new int[]{0,0,0}),
-            new PosVector(new int[]{0,0,4 }, new int[]{0,0,0}),
+            new PosVector(new int[]{20,0,0 }, new int[]{0,0,0}),
+            new PosVector(new int[]{20,0,20 }, new int[]{0,0,0}),
+            new PosVector(new int[]{0,0,20 }, new int[]{0,0,0}),
         };
             
-            this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors));
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
             return "Added a route.";
+        }
+
+        private void OnRouteReceived(string message)
+        {
+            JObject jObject = JObject.Parse(message);
+            JObject id = (JObject)jObject.SelectToken("data.data.data");
+
+            string idValue = id.GetValue("uuid").ToString();
+            this.uuidRoute = idValue;
+            Console.WriteLine(idValue);
         }
 
         /// <summary>
@@ -132,7 +153,7 @@ namespace TestVREngine
         /// </summary>
         private string AddRoad()
         { 
-            //Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
             return "Added a road to the previous route.";
         }
 
@@ -141,7 +162,7 @@ namespace TestVREngine
         /// </summary>
         private string MoveModelOverRoad()
         {
-            //Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute,uuidModel));
+            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute,uuidModel));
             return "The bike is now moving over the route.";
         }
     }

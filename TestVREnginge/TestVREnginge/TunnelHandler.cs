@@ -117,6 +117,11 @@ namespace TestVREngine
             SendToTunnel(encoded);
         }
 
+        internal void SendToTunnel(object v, Action<string> action, object onRouteReceived)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sends a message to the server without a id.
         /// </summary>
