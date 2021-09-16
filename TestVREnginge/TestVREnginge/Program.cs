@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using TestVREnginge.TCP;
+using TestVREngine.TCP;
 
-namespace TestVREnginge
+namespace TestVREngine
 {
     class Program
     {
