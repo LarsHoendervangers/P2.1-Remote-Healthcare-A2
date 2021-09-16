@@ -8,14 +8,24 @@ namespace TestVREngine
 {
     class BasicScene
     {
-        private List<Action> CommandList;
+        private Queue<Func<string>> CommandList;
         private TunnelHandler Handler;
         //private TunnelHandler Handler;
 
         public BasicScene(TunnelHandler Handler)
         {
-            this.CommandList = new List<Action>();
+            this.CommandList = new Queue<Func<string>>();
             this.Handler = Handler;
+
+            // Add methods to queue.
+            this.CommandList.Enqueue(CreateTerrain);
+            this.CommandList.Enqueue(RemoveGroundPlane);
+            this.CommandList.Enqueue(ChangeTime);
+            this.CommandList.Enqueue(AddModels);
+            this.CommandList.Enqueue(ChangeTerrainHeight);
+            this.CommandList.Enqueue(AddRoute);
+            this.CommandList.Enqueue(AddRoad);
+            this.CommandList.Enqueue(MoveModelOverRoad);
         }
 
         /// <summary>
@@ -23,93 +33,94 @@ namespace TestVREngine
         /// </summary>
         public string ExecuteNext(int index)
         {
-            return "";
+            return this.CommandList.Dequeue().ToString();
         }
 
-        // TODO: Test if the heights attribute is necessary
         /// <summary>
         /// Step 1.
         /// </summary>
-        private void CreateTerrain()
+        private string CreateTerrain()
         {
-            /*JSONCommands.SendTunnel("scene/terrain/add", new
-                {
-                    size = new int[] {256, 256}
-                });*/
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }));
+            return "Created a new terrain with size: 256 x 256.";
         }
 
         /// <summary>
         /// Step 2.
         /// </summary>
-        private void RemoveGroundPlane()
+        private string RemoveGroundPlane()
         {
-            //JSONCommands.SendTunnel("scene/terrain/delete", new {});
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapDeleteTerrain());
+            return "Removed the terrain.";
         }
 
         /// <summary>
         /// Step 3.
         /// </summary>
-        private void ChangeTime()
+        private string ChangeTime()
         {
-            /*JSONCommands.SendTunnel("scene/skybox/settime", new
-            {
-                time = 5
-            });*/
+            this.Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
+            return "Changed the time.";
         }
 
         /// <summary>
         /// Step 4.
         /// </summary>
-        private void AddModels()
+        private string AddModels()
         {
-            /*JSONCommands.SendTunnel("scene/terrain/add", new
-                {
-                    
-                });*/
+            this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("house", "data/NetworkEngine/models/houses/set1/house1.obj"));
+            return "Spawned a house.";
         }
 
         /// <summary>
         /// Step 5.
         /// </summary>
-        private void ChangeTerrainHeight()
+        private string ChangeTerrainHeight()
         {
-           /* JSONCommands.SendTunnel("scene/terrain/update", new
+            //TODO: Maybe perlin noise generation?
+            int[] terrainHeight = new int[256 * 256];
+            for (int i = 0; i < terrainHeight.Length; i++)
             {
-                
-            });*/
+                terrainHeight[i] = i;
+            }
+            this.Handler.SendToTunnel(JSONCommandHelper.UpdateTerrainHeight(terrainHeight));
+            return "Changed terrain height";
         }
 
         /// <summary>
         /// Step 6.
         /// </summary>
-        private void AddRoute()
+        private string AddRoute()
         {
             /*JSONCommands.SendTunnel("route/add", new
             {
 
             });*/
+            return "";
         }
 
         /// <summary>
         /// Step 7.
         /// </summary>
-        private void AddRoad()
+        private string AddRoad()
         {
             /*JSONCommands.SendTunnel("scene/road/add", new
             {
 
             });*/
+            return "";
         }
 
         /// <summary>
         /// Step 8.
         /// </summary>
-        private void MoveModelOverRoad()
+        private string MoveModelOverRoad()
         {
             /*JSONCommands.SendTunnel("route/follow", new
             {
 
             });*/
+            return "";
         }
     }
 }
