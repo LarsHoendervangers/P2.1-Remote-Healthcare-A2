@@ -206,6 +206,27 @@ namespace TestVREngine
                 }
             };
         }
+
+        public static object WrapUpdateFollow(string objectId, double speed)
+        {
+            return new
+            {
+                id = "route/update",
+                data = new
+                {
+                    node = objectId,
+                    speed = speed
+                }
+            };
+        }
+
+        public static object WrapReset()
+        {
+            return new
+            {
+                id = "scene/reset"
+            };
+        }
     }
 
     public struct PosVector
