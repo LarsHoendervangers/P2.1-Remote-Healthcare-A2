@@ -10,6 +10,11 @@ namespace TestVREngine
 {
     public class JSONCommandHelper
     {
+
+        /// <summary>
+        /// Returns the JSON object needed to return all nodes in the file
+        /// </summary>
+        /// <returns>anonymus object that represents JSON string</returns>
         public static object GetAllNodes()
         {
             return new
@@ -18,18 +23,11 @@ namespace TestVREngine
             };
         }
 
-        public static object FindNode(string name)
-        {
-            return new
-            {
-                id = "scene/node/find",
-                data = new
-                {
-                    name = name
-                }
-            };
-        }
-
+        /// <summary>
+        /// Returns the JSON object needed to remove a given node in the file
+        /// </summary>
+        /// <param name="uuid">The id of the noe to remove</param>
+        /// <returns>anonymus object that represents JSON string</returns>
         public static object RemoveNode(string uuid)
         {
             return new
@@ -42,6 +40,11 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Returns the JSON object needed to remove a given node in the file
+        /// </summary>
+        /// <param name="uuid">The id of the noe to update</param>
+        /// <returns>anonymus object that represents JSON string</returns>
         public static object UpdateNode(string uuid)
         {
             return new
@@ -55,11 +58,11 @@ namespace TestVREngine
         }
 
         /// <summary>
-        /// Method which creates a basic header where the payload is a object returned by the methods below
+        /// Wrap a given payload with the required header information.
         /// </summary>
-        /// <param name="destination"></param>
-        /// <param name="payload"></param>
-        /// <returns></returns>
+        /// <param name="destination">The destination ID of the tunnel</param>
+        /// <param name="payload">The payload of the message to send</param>
+        /// <returns>Returns the complete JSON data to return</returns>
         public static object WrapHeader(string destination, object payload)
         {
             return new
