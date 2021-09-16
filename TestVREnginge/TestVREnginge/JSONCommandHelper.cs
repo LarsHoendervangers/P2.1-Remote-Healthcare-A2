@@ -42,6 +42,18 @@ namespace TestVREngine
             };
         }
 
+        public static object UpdateNode(string uuid)
+        {
+            return new
+            {
+                id = "scene/node/delete",
+                data = new
+                {
+                    id = uuid
+                }
+            };
+        }
+
         /// <summary>
         /// Method which creates a basic header where the payload is a object returned by the methods below
         /// </summary>
@@ -85,7 +97,7 @@ namespace TestVREngine
         /// <param name="size"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static object WrapTerrain(int[] size, int[] height)
+        public static object WrapTerrain(int[] size, double[] height)
         {
             return new
             {
@@ -93,7 +105,7 @@ namespace TestVREngine
                 data = new
                 {
                     size = size,
-                    height = height
+                    heights = height
                 }
             };
         }
@@ -251,7 +263,7 @@ namespace TestVREngine
         {
             return new
             {
-                id = "scene/update/add",
+                id = "scene/update/update",
                 data = new
                 {
                     heights = height
@@ -404,13 +416,13 @@ namespace TestVREngine
     /// </summary>
     public struct PosVector
     {
-        int[] position;
-        int[] direction;
+        public int[] pos { get; set; }
+        public int[] dir { get; set; }
 
         public PosVector(int[] position, int[] direction)
         {
-            this.position = position;
-            this.direction = direction;
+            this.pos = position;
+            this.dir = direction;
         }
     }
 
