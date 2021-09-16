@@ -71,6 +71,7 @@ namespace TestVREngine
         {
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
+            Console.WriteLine(requestingCode);
             this.tcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error

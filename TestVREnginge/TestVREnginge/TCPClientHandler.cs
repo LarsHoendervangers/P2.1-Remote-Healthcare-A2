@@ -18,7 +18,7 @@ namespace TestVREngine.TCP
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
             stream = client.GetStream();
-            HandleIncoming();
+
         }
 
         /// <summary>

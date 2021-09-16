@@ -241,8 +241,7 @@ namespace TestVREngine
                 id = "tunnel/create",
                 data = new
                 {
-                    id = adress,
-                    data = new { }
+                    session = adress,
                 }
             };
         }
