@@ -109,19 +109,17 @@ namespace TestVREngine
             JObject decode = JObject.FromObject(message);
             decode.Add("serial", serialNumber);
             object encoded = decode.ToObject<object>();
-            Console.WriteLine(encoded.ToString());
 
             //Putting it in the hashmap
             this.SerialMap.Add(serial, action);
 
             //Sending the message.
-            SentToTunnel(encoded);
+            SendToTunnel(encoded);
         }
 
-        public void SentToTunnel(object message)
+        public void SendToTunnel(object message)
         {
             object totalStream = JSONCommandHelper.WrapHeader(this.destinationID, message);
-            Console.WriteLine(JsonConvert.SerializeObject(totalStream));
             tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
@@ -138,7 +136,7 @@ namespace TestVREngine
             //Reading serial ID
             JObject message = JsonConvert.DeserializeObject(e) as JObject;
 
-            Console.WriteLine(e);
+      
 
             JToken data1;
             bool data1Check = message.TryGetValue("data", out data1);
@@ -157,9 +155,14 @@ namespace TestVREngine
                     {
                         string serialID = serial.ToString();
                         Console.WriteLine(serialID);
+                        if (SerialMap.ContainsKey(serialID))
+                        {
+                            SerialMap[serialID].Invoke(e);
+                        }
                     } else
                     {
                         Console.WriteLine("No ID found");
+
                     }
 
                 }

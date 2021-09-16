@@ -45,7 +45,6 @@ namespace TestVREngine
                 for (double i = 0; i < 24; i+= 0.05)
                 {
                     //Handler.exampleFunction("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"serial\" : \"123\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
-                    Console.WriteLine("{\"id\" : \"tunnel/send\",\"data\" :	{\"dest\" : \"" + id + "\", \"data\" : {\"id\" : \"scene/skybox/settime\",\"serial\" : \"123\",\"data\" :{\"time\" : " + i.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) + "}}}}");
                     Action<string> action = new Action<string>(testExample);
                     Handler.SendToTunnel(JSONCommandHelper.WrapTime(i), action);
 
@@ -59,7 +58,7 @@ namespace TestVREngine
 
         static void testExample(string dat)
         {
-            Console.WriteLine(dat);
+            Console.WriteLine("Hello micheal checksum");
         }
     }
 }
