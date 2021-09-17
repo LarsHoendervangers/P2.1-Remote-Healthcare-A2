@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using TestVREngine.Scene;
 using TestVREngine.Tunnel;
 using TestVREngine.Util.Structs;
@@ -18,6 +15,12 @@ namespace TestVREngine.GUI
         /// </summary>
         public static void Run()
         {
+            //Start logger
+            string debugPath = $"DebugLogging/debug{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}.log";
+            Console.WriteLine(debugPath);
+            Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
+            Trace.AutoFlush = true;
+
             TunnelHandler handler = new TunnelHandler();
             GeneralScene scene = new LoaderScene(handler);
 
@@ -29,6 +32,7 @@ namespace TestVREngine.GUI
             for (int i = 0; i < Clients.Count; i++)
             {
                 ClientData C = Clients[i];
+                Debug.WriteLine("test2");
                 Console.WriteLine("{0}: {1}", i + 1, C.ToString());
             }
 
