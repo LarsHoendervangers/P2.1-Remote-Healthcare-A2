@@ -64,7 +64,7 @@ namespace TestVREngine.Scene
         {
             float[] height = new float[256 * 256];
 
-            VRUTil.GenerateTerrain(256, 256, 3, 0.01f);
+            height = VRUTil.GenerateTerrain(256, 256, 3, 0.01f);
 
 
             Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
