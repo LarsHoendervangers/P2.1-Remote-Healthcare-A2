@@ -11,7 +11,7 @@ using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Scene
 {
-    class BasicScene
+    class DemoScene : Scene
     {
         private List<Func<string>> CommandList;
         private static TunnelHandler Handler;
@@ -23,7 +23,9 @@ namespace TestVREngine.Scene
         /// Constructor for BasicScene
         /// </summary>
         /// <param name="HandlerIncoming">The TunnelHandler needed to send data to the server</param>
-        public BasicScene(TunnelHandler HandlerIncoming)
+        public DemoScene() : base() { }
+
+        public override void InitScene(TunnelHandler HandlerIncoming)
         {
             CommandList = new List<Func<string>>();
             Handler = HandlerIncoming;
@@ -36,6 +38,26 @@ namespace TestVREngine.Scene
             CommandList.Add(AddRoute);
             CommandList.Add(AddRoad);
             CommandList.Add(MoveModelOverRoad);
+        }
+
+        public override void LoadScene()
+        {
+            Console.WriteLine(
+                "\t--------------------------------" + "\n" +
+                "\t           DEMO SCENE           " + "\n" +
+                "\t  press a key to load the next  " + "\n" +
+                "\t        part of this demo       " + "\n" +
+                "\t--------------------------------"
+                );
+
+            //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
+            for (int i = 0; i < 7; i++)
+            {
+                Console.WriteLine(ExecuteNext(i));
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("All methods have been executed...");
         }
 
         /// <summary>
@@ -212,6 +234,8 @@ namespace TestVREngine.Scene
 
             Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));
         }
+
+        
     }
 
 

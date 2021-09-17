@@ -19,7 +19,7 @@ namespace TestVREngine.GUI
         public static void Run()
         {
             TunnelHandler handler = new TunnelHandler();
-            BasicScene scene = new BasicScene(handler);
+            DemoScene scene = new DemoScene();
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
@@ -53,14 +53,9 @@ namespace TestVREngine.GUI
             Console.WriteLine(handler.destinationID);
             Console.WriteLine("ID that was returend: " + id);
 
-            //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
-            for (int i = 0; i < 7; i++)
-            {
-                Console.WriteLine(scene.ExecuteNext(i));
-                Console.ReadKey();
-            }
+            scene.InitScene(handler);
 
-            Console.WriteLine("All methods have been executed...");
+            scene.LoadScene();
         }
     }
 }
