@@ -224,18 +224,19 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
-        /// Sends a node containing a new panel.
+        /// Wraps given variables to JSON wich can be used to create a panel
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="transform"></param>
-        /// <param name="sizeX"></param>
-        /// <param name="sizeY"></param>
-        /// <param name="resolutionX"></param>
-        /// <param name="resolutionY"></param>
-        /// <param name="color"></param>
-        /// <param name="castShadow"></param>
-        /// <returns></returns>
+        /// <param name="name">The name of the node</param>
+        /// <param name="transform">The transform applied to the node</param>
+        /// <param name="sizeX">The x size of the panel</param>
+        /// <param name="sizeY">The y size of the panel</param>
+        /// <param name="resolutionX">The x resolution of the panel</param>
+        /// <param name="resolutionY">The y resolution of the panel</param>
+        /// <param name="color">THe background color of the panel</param>
+        /// <param name="castShadow">true/false, panel casts a shadow</param>
+        /// <returns>The JSON pbject to create a panel</returns>
         public static object WrapPanel(string name, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, Color color, bool castShadow)
         {
             return new
@@ -258,11 +259,13 @@ namespace TestVREngine
                 }
             };
         }
+
+
         /// <summary>
         /// Length of the int[] is length * width of the terrain you want to update the height from.
         /// </summary>
-        /// <param name="height"></param>
-        /// <returns></returns>
+        /// <param name="height">The int array needed to set the height map of the terrain</param>
+        /// <returns>The JSON needed to update the terrain height</returns>
         public static object WrapUpdateTerrainHeight(int[] height)
         {
             return new
@@ -274,11 +277,12 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Sends a route containing of nodes which are positions (in vectors) to the map.
         /// </summary>
-        /// <param name="nodes"></param>
-        /// <returns></returns>
+        /// <param name="nodes">The different point in the route</param>
+        /// <returns>The JSON object needed to create a new route</returns>
         public static object WrapAddRoute(PosVector[] nodes)
         {
             return new
@@ -290,14 +294,15 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Sends a route like the method above, but now including a texture.
         /// </summary>
-        /// <param name="routeId"></param>
-        /// <param name="diffuse"></param>
-        /// <param name="normal"></param>
-        /// <param name="specular"></param>
-        /// <returns></returns>
+        /// <param name="routeId">The uuid of the route to add roads to</param>
+        /// <param name="diffuse">The diffuse map to add to the road</param>
+        /// <param name="normal">The normal map to add to the road</param>
+        /// <param name="specular">The specular map to add to the road</param>
+        /// <returns>The JSON Object needed to add a texture to a terrain</returns>
         public static object WrapAddRouteTerrain(string routeId, string diffuse, string normal, string specular)
         {
             return new
@@ -313,11 +318,12 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
-        /// Sends a new route, only using a routeId
+        /// Sends a route like the method above, with default textures
         /// </summary>
-        /// <param name="routeId"></param>
-        /// <returns></returns>
+        /// <param name="routeId">The uuid of the route </param>
+        /// <returns>The JSON object to add terrain to a route</returns>
         public static object WrapAddRouteTerrain(string routeId)
         {
             return new
@@ -330,12 +336,13 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Method used to make the object from the given objectId follow the given route.
         /// </summary>
-        /// <param name="routeId"></param>
-        /// <param name="objectId"></param>
-        /// <returns></returns>
+        /// <param name="routeId">The uuid of the route node</param>
+        /// <param name="objectId">The uuid of the object node</param>
+        /// <returns>The JSON object to make a node follow a route</returns>
         public static object WrapFollow(string routeId, string objectId)
         {
             return new
@@ -352,12 +359,13 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Updates the speed of the object following a route.
         /// </summary>
         /// <param name="objectId"></param>
         /// <param name="speed"></param>
-        /// <returns></returns>
+        /// <returns>The JSON object needed to update the speed of the following object</returns>
         public static object WrapUpdateFollow(string objectId, double speed)
         {
             return new
@@ -370,11 +378,12 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Sends a boolean to either show or hide the active route.
         /// </summary>
-        /// <param name="showRoute"></param>
-        /// <returns></returns>
+        /// <param name="showRoute">showRoute or not</param>
+        /// <returns>The JSON object needed the update the showRoute command</returns>
         public static object WrapShowRoute(bool showRoute)
         {
             return new
@@ -386,10 +395,11 @@ namespace TestVREngine
                 }
             };
         }
+
         /// <summary>
         /// Sends a command to reset the entire scene
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The JSON object needed to reset the scene</returns>
         public static object WrapReset()
         {
             return new
@@ -398,6 +408,10 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Method to create the JSON object needed to retrewive the session list from the server
+        /// </summary>
+        /// <returns>The JSON object needed to get the session list</returns>
         public static object WrapRequest()
         {
             return new
@@ -406,6 +420,11 @@ namespace TestVREngine
             };
         }
 
+        /// <summary>
+        /// Method to create the JSON object needed to create a tunnel to the server
+        /// </summary>
+        /// <param name="adress">The addresID of the tunnel to connect to</param>
+        /// <returns>The JSON object to create a tunnel with</returns>
         public static object WrapTunnel(string adress)
         {
             return new
@@ -419,6 +438,16 @@ namespace TestVREngine
         }
 
 
+        /// <summary>
+        /// Given the parameters this method wraps them to the correct JSON object to add a texture to a node
+        /// </summary>
+        /// <param name="uuId">The uuid of the node to add to</param>
+        /// <param name="pathNormal">The file of the normal map of the texture</param>
+        /// <param name="pathDiffuse">The file of the diffuse map of the texture</param>
+        /// <param name="minHeight">The min height of the texture</param>
+        /// <param name="maxHeight">The max height of the texture</param>
+        /// <param name="fadeDistance">The fade distance of the texture</param>
+        /// <returns>The JSON object needed to add a texture to a model</returns>
         public static object WrapAddTexture(string uuId, string pathNormal, string pathDiffuse, int minHeight, int maxHeight, int fadeDistance)
         {
             return new
