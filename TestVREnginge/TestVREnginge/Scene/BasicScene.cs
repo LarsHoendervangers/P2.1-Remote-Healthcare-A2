@@ -19,6 +19,10 @@ namespace TestVREngine.Scene
         private string uuidRoute;
         private string uuidModel;
 
+        /// <summary>
+        /// Constructor for BasicScene
+        /// </summary>
+        /// <param name="HandlerIncoming">The TunnelHandler needed to send data to the server</param>
         public BasicScene(TunnelHandler HandlerIncoming)
         {
             CommandList = new List<Func<string>>();
@@ -35,10 +39,13 @@ namespace TestVREngine.Scene
         }
 
         /// <summary>
-        /// This method is called and will execute the next step in the exercise.
+        ///  This method is called and will execute the next step in the exercise.
         /// </summary>
+        /// <param name="index">The index of the command needed to be performed</param>
+        /// <returns></returns>
         public string ExecuteNext(int index)
         {
+            // check if index is available
             if (index < CommandList.Count)
             {
                 return CommandList[index].Invoke();
@@ -52,6 +59,7 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 1. Create a new terrain with size: 256 x 256.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string CreateTerrain()
         {
             float[] height = new float[256 * 256];
@@ -72,14 +80,20 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 2. Remove the terrain.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         public string RemoveGroundPlane()
         {
-            Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneResult));
+            // asks the server for a list of all the commands
+            Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneCallback));
 
             return "Removed the terrain.";
         }
 
-        public void RemoveGroundPlaneResult(string jsonString)
+        /// <summary>
+        /// Callback method for step 2, contineus this step
+        /// </summary>
+        /// <param name="jsonString">The JSON command that is given back from the server</param>
+        public void RemoveGroundPlaneCallback(string jsonString)
         {
             JObject jObject = JObject.Parse(jsonString);
             JArray array = (JArray)jObject.SelectToken("data.data.data.children");
@@ -98,28 +112,36 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 3. Change the time to 5:30.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string ChangeTime()
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapTime(5.5));
+
             return "Changed the time.";
         }
 
         /// <summary>
         /// Step 4. Place a new house.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string AddModels()
         {
             //Set time back to mid-day
             Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
             //Normal bike rotation (270, 270, 0).
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(onObjectReceived));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(OnObjectCallback));
             return "Spawned a bike.";
             // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
             //  return "Spawned a podracer.";
         }
 
-        private void onObjectReceived(string message)
+
+        /// <summary>
+        /// Callback method for when the a message from the server comes back
+        /// </summary>
+        /// <param name="message">The message send from the server</param>
+        private void OnObjectCallback(string message)
         {
             JObject jObject = JObject.Parse(message);
             JObject id = (JObject)jObject.SelectToken("data.data.data");
@@ -132,6 +154,7 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 6. Create a new route.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string AddRoute()
         {
 
@@ -147,6 +170,10 @@ namespace TestVREngine.Scene
             return "Added a route.";
         }
 
+        /// <summary>
+        /// Callback method for when the a message from the server comes back
+        /// </summary>
+        /// <param name="message">The message send from the server</param>
         private void OnRouteReceived(string message)
         {
             JObject jObject = JObject.Parse(message);
@@ -160,6 +187,7 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 7. Add a road to the previous route.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string AddRoad()
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
@@ -169,12 +197,17 @@ namespace TestVREngine.Scene
         /// <summary>
         /// Step 8. Move a model over the route.
         /// </summary>
+        /// <returns>Returns a string of the status of the step</returns>
         private string MoveModelOverRoad()
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
             return "The bike is now moving over the route.";
         }
 
+        /// <summary>
+        /// Give the groundplane a ground texture
+        /// </summary>
+        /// <param name="json">The json</param>
         private static void Textureplacer(string json)
         {
 

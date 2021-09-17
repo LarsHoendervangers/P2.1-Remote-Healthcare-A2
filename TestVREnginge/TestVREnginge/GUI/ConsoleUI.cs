@@ -13,6 +13,9 @@ namespace TestVREngine.GUI
     class ConsoleUI
     {
 
+        /// <summary>
+        /// Runs the program of a scene and interacts with the user
+        /// </summary>
         public static void Run()
         {
             TunnelHandler handler = new TunnelHandler();
