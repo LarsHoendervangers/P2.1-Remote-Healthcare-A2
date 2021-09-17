@@ -5,8 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestVREngine.Structs;
+using TestVREngine.Tunnel;
+using TestVREngine.Util;
 
-namespace TestVREngine
+namespace TestVREngine.Scene
 {
     class BasicScene
     {
@@ -18,17 +21,17 @@ namespace TestVREngine
 
         public BasicScene(TunnelHandler HandlerIncoming)
         {
-            this.CommandList = new List<Func<string>>();
+            CommandList = new List<Func<string>>();
             Handler = HandlerIncoming;
 
             // Add methods to queue.
-            this.CommandList.Add(CreateTerrain);
-            this.CommandList.Add(RemoveGroundPlane);
-            this.CommandList.Add(ChangeTime);
-            this.CommandList.Add(AddModels);
-            this.CommandList.Add(AddRoute);
-            this.CommandList.Add(AddRoad);
-            this.CommandList.Add(MoveModelOverRoad);
+            CommandList.Add(CreateTerrain);
+            CommandList.Add(RemoveGroundPlane);
+            CommandList.Add(ChangeTime);
+            CommandList.Add(AddModels);
+            CommandList.Add(AddRoute);
+            CommandList.Add(AddRoad);
+            CommandList.Add(MoveModelOverRoad);
         }
 
         /// <summary>
@@ -36,9 +39,11 @@ namespace TestVREngine
         /// </summary>
         public string ExecuteNext(int index)
         {
-            if (index < this.CommandList.Count) {
-                return this.CommandList[index].Invoke();
-            } else
+            if (index < CommandList.Count)
+            {
+                return CommandList[index].Invoke();
+            }
+            else
             {
                 return "There is nothing left to do.";
             }
@@ -49,7 +54,7 @@ namespace TestVREngine
         /// </summary>
         private string CreateTerrain()
         {
-            float[] height = new float[256*256];
+            float[] height = new float[256 * 256];
 
             TerrainHightmapGenerator generator = new TerrainHightmapGenerator();
             height = generator.generateTerrain(256, 256, 3, 0.01f);
@@ -108,10 +113,10 @@ namespace TestVREngine
             Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
             //Normal bike rotation (270, 270, 0).
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1 , new int[3] { 0, 5, 0}, new int[3] { 270, 270, 0 })), new Action<string>(onObjectReceived));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(onObjectReceived));
             return "Spawned a bike.";
-           // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
-           //  return "Spawned a podracer.";
+            // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
+            //  return "Spawned a podracer.";
         }
 
         private void onObjectReceived(string message)
@@ -120,7 +125,7 @@ namespace TestVREngine
             JObject id = (JObject)jObject.SelectToken("data.data.data");
 
             string idValue = id.GetValue("uuid").ToString();
-            this.uuidModel = idValue;
+            uuidModel = idValue;
         }
 
 
@@ -130,14 +135,14 @@ namespace TestVREngine
         private string AddRoute()
         {
 
-            PosVector[] posVectors = new PosVector[] 
+            PosVector[] posVectors = new PosVector[]
             {
             new PosVector(new int[]{0,0,0 }, new int[]{5,0,-5}),
             new PosVector(new int[]{20,0,0 }, new int[]{5,0,5}),
             new PosVector(new int[]{20,0,20 }, new int[]{-5,0,5}),
             new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
         };
-            
+
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
             return "Added a route.";
         }
@@ -148,7 +153,7 @@ namespace TestVREngine
             JObject id = (JObject)jObject.SelectToken("data.data.data");
 
             string idValue = id.GetValue("uuid").ToString();
-            this.uuidRoute = idValue;
+            uuidRoute = idValue;
             Console.WriteLine(idValue);
         }
 
@@ -156,7 +161,7 @@ namespace TestVREngine
         /// Step 7. Add a road to the previous route.
         /// </summary>
         private string AddRoad()
-        { 
+        {
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
             return "Added a road to the previous route.";
         }
@@ -166,7 +171,7 @@ namespace TestVREngine
         /// </summary>
         private string MoveModelOverRoad()
         {
-            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute,uuidModel));
+            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
             return "The bike is now moving over the route.";
         }
 
@@ -177,5 +182,5 @@ namespace TestVREngine
         }
     }
 
-    
+
 }

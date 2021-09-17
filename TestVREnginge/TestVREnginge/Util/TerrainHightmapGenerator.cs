@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestVREngine
+namespace TestVREngine.Util
 {
     class TerrainHightmapGenerator
     {
 
 
-        public float[] generateTerrain(int width, int height, int range,  float multiplier)
+        public float[] generateTerrain(int width, int height, int range, float multiplier)
         {
             Random random = new Random();
             int randomSeedX = width + random.Next(0, 1000);
@@ -22,13 +22,13 @@ namespace TestVREngine
             {
                 for (int j = randomSeedY; j < randomSeedY + height; j++)
                 {
-                    terrain[(i - randomSeedX) * (width) + (j - randomSeedY)] = (SimplexNoise.Noise.CalcPixel2D(i, j, multiplier) / 255f)* range;
-                 
+                    terrain[(i - randomSeedX) * width + (j - randomSeedY)] = SimplexNoise.Noise.CalcPixel2D(i, j, multiplier) / 255f * range;
+
                 }
             }
 
 
-            
+
 
             return terrain;
         }
@@ -37,15 +37,15 @@ namespace TestVREngine
         {
             for (int i = 0; i < input.Length; i++)
             {
-                Console.Write( input[i]+"\t" );
-                
-                if ((i+1) % CutOffPoint == 0)
+                Console.Write(input[i] + "\t");
+
+                if ((i + 1) % CutOffPoint == 0)
                 {
                     Console.Write("\n");
                 }
 
             }
-            
+
         }
 
     }

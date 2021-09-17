@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestVREngine
+namespace TestVREngine.Structs
 {
     /// <summary>
     /// Struct used to contain a PositionVector. This is needed to make an array of these PosVectors.
@@ -16,8 +16,8 @@ namespace TestVREngine
 
         public PosVector(int[] position, int[] direction)
         {
-            this.pos = position;
-            this.dir = direction;
+            pos = position;
+            dir = direction;
         }
     }
 }

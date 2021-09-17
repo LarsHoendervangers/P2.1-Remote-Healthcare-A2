@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestVREngine.Structs;
 
-namespace TestVREngine
+namespace TestVREngine.Util
 {
     public class JSONCommandHelper
     {
@@ -71,8 +72,8 @@ namespace TestVREngine
                 data = new
                 {
                     dest = destination,
-                    data =  payload
-                    
+                    data = payload
+
                 }
             };
         }
@@ -89,7 +90,7 @@ namespace TestVREngine
                 id = "scene/terrain/add",
                 data = new
                 {
-                    size = size
+                    size
                 }
             };
         }
@@ -107,7 +108,7 @@ namespace TestVREngine
                 id = "scene/terrain/add",
                 data = new
                 {
-                    size = size,
+                    size,
                     heights = height
                 }
             };
@@ -126,10 +127,10 @@ namespace TestVREngine
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     components = new
                     {
-                        transform = transform,
+                        transform,
                         terrain = new
                         {
                         }
@@ -165,7 +166,7 @@ namespace TestVREngine
                 id = "scene/skybox/settime",
                 data = new
                 {
-                    time = time
+                    time
                 }
             };
         }
@@ -183,10 +184,10 @@ namespace TestVREngine
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     components = new
                     {
-                        transform = transform,
+                        transform,
                         model = new
                         {
                             file = filePath
@@ -211,11 +212,11 @@ namespace TestVREngine
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     parent = parentName,
                     components = new
                     {
-                        transform = transform,
+                        transform,
                         model = new
                         {
                             file = fileName
@@ -244,16 +245,16 @@ namespace TestVREngine
                 id = "scene/node/add",
                 data = new
                 {
-                    name = name,
+                    name,
                     component = new
                     {
-                        transform = transform,
+                        transform,
                         panel = new
                         {
                             size = new int[sizeX, sizeY],
                             resolution = new int[resolutionX, resolutionY],
                             background = new int[color.R, color.G, color.B, color.A],
-                            castShadow = castShadow
+                            castShadow
                         }
                     }
                 }
@@ -290,7 +291,7 @@ namespace TestVREngine
                 id = "route/add",
                 data = new
                 {
-                    nodes = nodes
+                    nodes
                 }
             };
         }
@@ -311,9 +312,9 @@ namespace TestVREngine
                 data = new
                 {
                     route = routeId,
-                    diffuse = diffuse,
-                    normal = normal,
-                    specular = specular,
+                    diffuse,
+                    normal,
+                    specular,
                     heightoffset = 0.01
                 }
             };
@@ -354,7 +355,7 @@ namespace TestVREngine
                     node = objectId,
                     speed = 3.0,
                     rotate = "XZ",
-                    rotateOffset = new int[] {-90, 0, 0},
+                    rotateOffset = new int[] { -90, 0, 0 },
                     followHeight = true
                 }
             };
@@ -374,7 +375,7 @@ namespace TestVREngine
                 data = new
                 {
                     node = objectId,
-                    speed = speed
+                    speed
                 }
             };
         }
@@ -458,8 +459,8 @@ namespace TestVREngine
                     id = uuId,
                     diffuse = pathDiffuse,
                     normal = pathNormal,
-                    minHeight = minHeight,
-                    maxHeight = maxHeight,
+                    minHeight,
+                    maxHeight,
                     fadeDist = fadeDistance
                 }
             };

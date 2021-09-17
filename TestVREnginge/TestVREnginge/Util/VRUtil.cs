@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace TestVREngine
+namespace TestVREngine.Util
 {
     class VRUTil
     {
         public static string GetId(string returnedData)
         {
             Console.WriteLine(returnedData);
-            JObject data =(JObject) JsonConvert.DeserializeObject(returnedData);
-            string uuID = data.SelectToken("data.data.data.uuid").ToString(); 
+            JObject data = (JObject)JsonConvert.DeserializeObject(returnedData);
+            string uuID = data.SelectToken("data.data.data.uuid").ToString();
             Console.WriteLine(uuID);
             return uuID;
         }
-      
-     
+
+
     }
 
 

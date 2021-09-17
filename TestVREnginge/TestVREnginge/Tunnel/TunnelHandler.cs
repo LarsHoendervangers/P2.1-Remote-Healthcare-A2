@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestVREngine.TCP;
+using TestVREngine.Structs;
+using TestVREngine.Tunnel.TCP;
+using TestVREngine.Util;
 
-namespace TestVREngine
+namespace TestVREngine.Tunnel
 {
     class TunnelHandler
     {
@@ -18,11 +20,11 @@ namespace TestVREngine
 
         public TunnelHandler()
         {
-            this.SerialMap = new Dictionary<string, Action<string>>();
-            this.tcpHandler = new TCPClientHandler();
-            this.serialNumber = 0;
+            SerialMap = new Dictionary<string, Action<string>>();
+            tcpHandler = new TCPClientHandler();
+            serialNumber = 0;
 
-            this.tcpHandler.OnMessageReceived += OnMessageReceived;
+            tcpHandler.OnMessageReceived += OnMessageReceived;
 
         }
 
@@ -39,7 +41,7 @@ namespace TestVREngine
             tcpHandler.WriteMessage(startingCode);
 
             //Reading for clients
-            string jsonString = this.tcpHandler.ReadMessage();
+            string jsonString = tcpHandler.ReadMessage();
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //Adding it to the list
@@ -71,28 +73,29 @@ namespace TestVREngine
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
             Console.WriteLine(requestingCode);
-            this.tcpHandler.WriteMessage(requestingCode);
+            tcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error
-            string jsonString = this.tcpHandler.ReadMessage();
+            string jsonString = tcpHandler.ReadMessage();
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //verifying connection.
             JObject jsonFile = (JObject)jsonData.GetValue("data");
-            if (jsonFile.GetValue("status").ToString() != "ok") return false ;
-            else { 
+            if (jsonFile.GetValue("status").ToString() != "ok") return false;
+            else
+            {
                 //Getting destination
                 string id = jsonFile.GetValue("id").ToString();
-                this.destinationID = id;
+                destinationID = id;
 
                 //Setting reader on.
-                this.tcpHandler.SetRunning(true);
+                tcpHandler.SetRunning(true);
 
                 return true;
             }
         }
 
-      
+
         /// <summary>
         /// Sends a message to the server with a serial id.
         /// </summary>
@@ -102,8 +105,8 @@ namespace TestVREngine
         {
 
             //Number for serialID
-            this.serialNumber += 1;
-            string serial = this.serialNumber.ToString();
+            serialNumber += 1;
+            string serial = serialNumber.ToString();
 
             //Magic thing for adding a object
             JObject decode = JObject.FromObject(message);
@@ -111,7 +114,7 @@ namespace TestVREngine
             object encoded = decode.ToObject<object>();
 
             //Putting it in the hashmap
-            this.SerialMap.Add(serial, action);
+            SerialMap.Add(serial, action);
 
             //Sending the message.
             SendToTunnel(encoded);
@@ -128,7 +131,7 @@ namespace TestVREngine
         /// <param name="message"></param> object as json that is send to the server
         public void SendToTunnel(object message)
         {
-            object totalStream = JSONCommandHelper.WrapHeader(this.destinationID, message);
+            object totalStream = JSONCommandHelper.WrapHeader(destinationID, message);
             Console.WriteLine(JsonConvert.SerializeObject(totalStream));
             tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }

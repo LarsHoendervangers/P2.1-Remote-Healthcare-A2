@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TestVREngine.TCP
+namespace TestVREngine.Tunnel.TCP
 {
     class TCPClientHandler
     {
@@ -27,17 +27,18 @@ namespace TestVREngine.TCP
         private void HandleIncoming()
         {
             new Thread(
-                () => {
+                () =>
+                {
 
                     running = true;
 
                     while (running)
                     {
                         string message = ReadMessage();
-                        this.OnMessageReceived.Invoke(this, message);
+                        OnMessageReceived.Invoke(this, message);
                     }
 
-                    this.stream.Close();
+                    stream.Close();
 
                 }).Start();
         }
@@ -56,8 +57,8 @@ namespace TestVREngine.TCP
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            this.stream.Write(final, 0, message.Length + 4);
-            this.stream.Flush();
+            stream.Write(final, 0, message.Length + 4);
+            stream.Flush();
         }
 
         /// <summary>
@@ -108,10 +109,10 @@ namespace TestVREngine.TCP
         /// <param name="state"></param> boolean for state.
         public void SetRunning(bool state)
         {
-            if(state)
-            HandleIncoming();
+            if (state)
+                HandleIncoming();
             else
-            this.running = false;
+                running = false;
         }
 
     }

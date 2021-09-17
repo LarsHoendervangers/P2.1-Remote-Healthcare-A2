@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestVREngine
+namespace TestVREngine.Structs
 {
     struct ClientData
     {
@@ -15,17 +15,17 @@ namespace TestVREngine
 
         public ClientData(string id, string host, string user, string gpu)
         {
-            this.Adress = id;
-            this.Host = host;
-            this.User = user;
-            this.GPU = gpu;
+            Adress = id;
+            Host = host;
+            User = user;
+            GPU = gpu;
         }
 
 
         override
         public string ToString()
         {
-            return ($"Adress: {this.Adress}, Host: {this.Host}, User: {this.User}, GPU: {this.GPU}");
+            return $"Adress: {Adress}, Host: {Host}, User: {User}, GPU: {GPU}";
         }
     }
 }
