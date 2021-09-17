@@ -12,11 +12,11 @@ namespace TestVREngine.GUI
 {
     class ConsoleUI
     {
-        private static TunnelHandler handler = new TunnelHandler();
-        private static BasicScene scene = new BasicScene(handler);
 
-        static void Main(string[] args)
+        public static void Run()
         {
+            TunnelHandler handler = new TunnelHandler();
+            BasicScene scene = new BasicScene(handler);
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
@@ -58,12 +58,6 @@ namespace TestVREngine.GUI
             }
 
             Console.WriteLine("All methods have been executed...");
-
-        }
-
-        static void testExample(string dat)
-        {
-            Console.WriteLine("Hello micheal checksum");
         }
     }
 }
