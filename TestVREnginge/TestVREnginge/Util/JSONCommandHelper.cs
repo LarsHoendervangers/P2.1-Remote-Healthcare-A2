@@ -465,6 +465,44 @@ namespace TestVREngine.Util
                 }
             };
         }
+
+        /// <summary>
+        /// Wrap the command to save the current scene of the server
+        /// </summary>
+        /// <param name="filename">The filename where the scene is stored</param>
+        /// <returns>The JSON object wrapped to save a scene</returns>
+        public static object WrapSaveScene(string filename)
+        {
+            return new
+            {
+                id = "scene/save",
+                data = new
+                {
+                    filename,
+                    overwrite = true
+
+                }
+            };
+        }
+
+        /// <summary>
+        /// Wrap the command to load a scene to  the server
+        /// </summary>
+        /// <param name="filename">The filename where the scene is stored</param>
+        /// <returns>The JSON object wrapped to load a scene</returns>
+        public static object WrapLoadScene(string filename)
+        {
+            return new
+            {
+                id = "scene/load",
+                data = new
+                {
+                    filename,
+                }
+            };
+        }
+
+
     }
 
 }

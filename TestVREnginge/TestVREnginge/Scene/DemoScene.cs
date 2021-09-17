@@ -14,7 +14,6 @@ namespace TestVREngine.Scene
     class DemoScene : Scene
     {
         private List<Func<string>> CommandList;
-        private static TunnelHandler Handler;
 
         private string uuidRoute;
         private string uuidModel;
@@ -23,12 +22,11 @@ namespace TestVREngine.Scene
         /// Constructor for BasicScene
         /// </summary>
         /// <param name="HandlerIncoming">The TunnelHandler needed to send data to the server</param>
-        public DemoScene() : base() { }
+        public DemoScene(TunnelHandler HandlerIncoming) : base(HandlerIncoming) { }
 
-        public override void InitScene(TunnelHandler HandlerIncoming)
+        public override void InitScene()
         {
             CommandList = new List<Func<string>>();
-            Handler = HandlerIncoming;
 
             // Add methods to queue.
             CommandList.Add(CreateTerrain);
@@ -42,6 +40,9 @@ namespace TestVREngine.Scene
 
         public override void LoadScene()
         {
+            // REMEMBER Method takes in user data and is not on seperated thread
+            // Not an issue for this demo
+
             Console.WriteLine(
                 "\t--------------------------------" + "\n" +
                 "\t           DEMO SCENE           " + "\n" +
@@ -229,7 +230,7 @@ namespace TestVREngine.Scene
         /// Give the groundplane a ground texture
         /// </summary>
         /// <param name="json">The json</param>
-        private static void Textureplacer(string json)
+        private void Textureplacer(string json)
         {
 
             Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));

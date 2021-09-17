@@ -19,7 +19,7 @@ namespace TestVREngine.GUI
         public static void Run()
         {
             TunnelHandler handler = new TunnelHandler();
-            DemoScene scene = new DemoScene();
+            DemoScene scene = new DemoScene(handler);
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
@@ -44,7 +44,7 @@ namespace TestVREngine.GUI
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Please give just a number");
+                    Console.WriteLine("Please give just a number {0}", e.Message);
                 }
             }
 
@@ -53,9 +53,12 @@ namespace TestVREngine.GUI
             Console.WriteLine(handler.destinationID);
             Console.WriteLine("ID that was returend: " + id);
 
-            scene.InitScene(handler);
+            scene.InitScene();
 
             scene.LoadScene();
+
+            scene.SaveScene("demoMap.json");
+
         }
     }
 }
