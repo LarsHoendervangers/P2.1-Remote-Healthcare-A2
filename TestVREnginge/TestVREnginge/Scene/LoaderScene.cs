@@ -50,6 +50,7 @@ namespace TestVREngine.Scene
 
         private void OnLoadCallback(string message)
         {
+            // TODO ask Senior Developer about return codes of engines, returns with no existing file
             Console.WriteLine("Server responded to load command");
         }
     }

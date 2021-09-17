@@ -61,8 +61,6 @@ namespace TestVREngine.GUI
 
             scene.LoadScene();
 
-            //scene.SaveScene("demoMap.json");
-
         }
     }
 }
