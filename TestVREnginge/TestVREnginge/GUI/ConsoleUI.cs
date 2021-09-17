@@ -22,7 +22,8 @@ namespace TestVREngine.GUI
             Trace.AutoFlush = true;
 
             TunnelHandler handler = new TunnelHandler();
-            GeneralScene scene = new LoaderScene(handler);
+            //GeneralScene scene = new LoaderScene(handler);
+            GeneralScene scene = new PodraceScene(handler);
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();

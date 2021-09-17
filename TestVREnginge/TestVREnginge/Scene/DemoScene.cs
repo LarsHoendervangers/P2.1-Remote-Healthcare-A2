@@ -94,7 +94,7 @@ namespace TestVREngine.Scene
 
             Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
 
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+            
 
             return "Created a new terrain with size: 256 x 256.";
         }

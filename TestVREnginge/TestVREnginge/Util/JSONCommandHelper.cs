@@ -197,6 +197,27 @@ namespace TestVREngine.Util
             };
         }
 
+        public static object Wrap3DObject(string name, string filePath)
+        {
+            Transform transform = new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 });
+            return new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name,
+                    components = new
+                    {
+                        transform,
+                        model = new
+                        {
+                            file = filePath
+                        }
+                    }
+                }
+            };
+        }
+
         /// <summary>
         /// Same as the method above, now including the parent name attribute.
         /// </summary>
