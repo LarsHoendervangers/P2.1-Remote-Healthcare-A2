@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestVREngine.Structs;
 using TestVREngine.Tunnel;
 using TestVREngine.Util;
 using TestVREngine.Util.Structs;
@@ -65,8 +64,7 @@ namespace TestVREngine.Scene
         {
             float[] height = new float[256 * 256];
 
-            TerrainHightmapGenerator generator = new TerrainHightmapGenerator();
-            height = generator.generateTerrain(256, 256, 3, 0.01f);
+            VRUTil.GenerateTerrain(256, 256, 3, 0.01f);
 
 
             Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
