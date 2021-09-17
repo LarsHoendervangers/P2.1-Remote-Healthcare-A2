@@ -11,7 +11,7 @@ using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Scene
 {
-    class DemoScene : Scene
+    class DemoScene : GeneralScene
     {
         private List<Func<string>> CommandList;
 

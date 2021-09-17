@@ -8,11 +8,11 @@ using TestVREngine.Util;
 
 namespace TestVREngine.Scene
 {
-    abstract class Scene
+    abstract class GeneralScene
     {
         protected TunnelHandler Handler;
 
-        protected Scene(TunnelHandler handler)
+        protected GeneralScene(TunnelHandler handler)
         {
             this.Handler = handler;
         }

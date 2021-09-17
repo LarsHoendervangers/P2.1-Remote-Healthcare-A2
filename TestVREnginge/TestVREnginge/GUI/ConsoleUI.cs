@@ -19,7 +19,7 @@ namespace TestVREngine.GUI
         public static void Run()
         {
             TunnelHandler handler = new TunnelHandler();
-            DemoScene scene = new DemoScene(handler);
+            GeneralScene scene = new LoaderScene(handler);
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
@@ -57,7 +57,7 @@ namespace TestVREngine.GUI
 
             scene.LoadScene();
 
-            scene.SaveScene("demoMap.json");
+            //scene.SaveScene("demoMap.json");
 
         }
     }
