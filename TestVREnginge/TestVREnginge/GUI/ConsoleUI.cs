@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestVREngine.Scene;
-using TestVREngine.Structs;
 using TestVREngine.Tunnel;
+using TestVREngine.Util.Structs;
 
 namespace TestVREngine.GUI
 {

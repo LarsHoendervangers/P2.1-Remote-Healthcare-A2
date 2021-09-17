@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestVREngine.Structs;
 using TestVREngine.Tunnel.TCP;
 using TestVREngine.Util;
+using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Tunnel
 {

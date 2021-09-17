@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestVREngine.Structs
+namespace TestVREngine.Util.Structs
 {
     struct ClientData
     {

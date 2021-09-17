@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TestVREngine.Structs;
 using TestVREngine.Tunnel;
 using TestVREngine.Util;
+using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Scene
 {
