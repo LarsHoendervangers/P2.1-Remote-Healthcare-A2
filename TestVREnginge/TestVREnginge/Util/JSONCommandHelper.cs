@@ -355,7 +355,7 @@ namespace TestVREngine.Util
                     node = objectId,
                     speed = 3.0,
                     rotate = "XZ",
-                    rotateOffset = new int[] { -90, 0, 0 },
+                    rotateOffset = new int[] { 0, 165, 0},
                     followHeight = true
                 }
             };

@@ -45,6 +45,7 @@ namespace TestVREngine.Scene
         /// <returns></returns>
         public string ExecuteNext(int index)
         {
+            
             // check if index is available
             if (index < CommandList.Count)
             {
@@ -62,16 +63,17 @@ namespace TestVREngine.Scene
         /// <returns>Returns a string of the status of the step</returns>
         private string CreateTerrain()
         {
+            Handler.SendToTunnel(JSONCommandHelper.WrapReset());
             float[] height = new float[256 * 256];
 
-            VRUTil.GenerateTerrain(256, 256, 3, 0.01f);
+            
 
 
-            Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
+            Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, VRUTil.GenerateTerrain(256, 256, 3, 0.01f)));
 
             Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
 
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 200, -2,50 }, new int[3] { 0, 0, 0 })));
 
             return "Created a new terrain with size: 256 x 256.";
         }
@@ -126,10 +128,10 @@ namespace TestVREngine.Scene
         private string AddModels()
         {
             //Set time back to mid-day
-            Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
+            Handler.SendToTunnel(JSONCommandHelper.WrapTime(12));
 
             //Normal bike rotation (270, 270, 0).
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(OnObjectCallback));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1, new int[3] { 0, 15, 0 }, new int[3] { 0, 0, 0 })), new Action<string>(OnObjectCallback));
             return "Spawned a bike.";
             // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
             //  return "Spawned a podracer.";
@@ -159,10 +161,15 @@ namespace TestVREngine.Scene
 
             PosVector[] posVectors = new PosVector[]
             {
-            new PosVector(new int[]{0,0,0 }, new int[]{5,0,-5}),
-            new PosVector(new int[]{20,0,0 }, new int[]{5,0,5}),
-            new PosVector(new int[]{20,0,20 }, new int[]{-5,0,5}),
-            new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
+            new PosVector(new int[]{-22,0,40 }, new int[]{5,0,5}),
+            new PosVector(new int[]{0,0,62}, new int[]{5,0,5}),
+            new PosVector(new int[]{42,0, 63}, new int[]{5,0,-5}),
+            new PosVector(new int[]{65,0,42 }, new int[]{5,0,-5}),
+            new PosVector(new int[]{75,0,10 }, new int[]{5,0,-5}),
+            new PosVector(new int[]{63,0,-30 }, new int[]{-5,0,5}),
+            new PosVector(new int[]{20,0,-40 }, new int[]{-5,0,-5}),
+            new PosVector(new int[]{-10,0,-30 }, new int[]{-5,0,5}),
+            new PosVector(new int[]{-25,0,-5 }, new int[]{-5,0,5})
         };
 
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
@@ -189,7 +196,8 @@ namespace TestVREngine.Scene
         /// <returns>Returns a string of the status of the step</returns>
         private string AddRoad()
         {
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute, "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Albedo.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Roughness.jpg"));
+            //"data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Albedo.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Roughness.jpg"
             return "Added a road to the previous route.";
         }
 
@@ -210,7 +218,7 @@ namespace TestVREngine.Scene
         private static void Textureplacer(string json)
         {
 
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Albedo.jpg", 0, 3, 1));
         }
     }
 
