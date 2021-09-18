@@ -11,6 +11,9 @@ using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Scene
 {
+    /// <summary>
+    /// Scene class that demo's all the parts of the school assignment
+    /// </summary>
     class DemoScene : GeneralScene
     {
         private List<Func<string>> CommandList;
