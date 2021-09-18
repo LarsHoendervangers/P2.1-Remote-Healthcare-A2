@@ -55,7 +55,7 @@ namespace TestVREngine.Scene
         /// <param name="message">The message received from the server</param>
         private void OnSaveCallback(string message)
         {
-            // TODO ask johan why message is always OK, even when incorrect file is given
+            //TODO handle error from server to user
             Console.WriteLine("Scene save command returned from server: {0}", message);
         }
     }
