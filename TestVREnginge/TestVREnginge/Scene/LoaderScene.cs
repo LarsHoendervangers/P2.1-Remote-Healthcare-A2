@@ -8,6 +8,7 @@ using TestVREngine.Util;
 
 namespace TestVREngine.Scene
 {
+ 
     class LoaderScene : GeneralScene
     {
         private string FileName;
