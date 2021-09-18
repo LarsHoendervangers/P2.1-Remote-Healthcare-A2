@@ -55,14 +55,8 @@ namespace TestVREngine.GUI
 
                 try
                 {
-<<<<<<< Updated upstream:TestVREnginge/TestVREnginge/GUI/ConsoleUI.cs
                     Userinput = int.Parse(Console.ReadLine());
-                }
-                catch (Exception e)
-=======
-                    Userinput = int.Parse(Console.ReadLine());    
-                } catch
->>>>>>> Stashed changes:TestVREnginge/TestVREnginge/ConsoleUI.cs
+                } catch (Exception e)
                 {
                     Console.WriteLine("Please give just a number {0}", e.Message);
                 }
