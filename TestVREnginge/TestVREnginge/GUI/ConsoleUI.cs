@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using TestVREngine.Scene;
 using TestVREngine.Tunnel;
 using TestVREngine.Util.Structs;
@@ -15,16 +16,23 @@ namespace TestVREngine.GUI
         /// </summary>
         public static void Run()
         {
-            //Start logger
-            string debugPath = $"DebugLogging/debug{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.log";
-            Console.WriteLine(debugPath);
-            Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
-            Trace.AutoFlush = true;
+            SetupLogging();
 
             TunnelHandler handler = new TunnelHandler();
             //GeneralScene scene = new LoaderScene(handler);
             GeneralScene scene = new DemoScene(handler);
+            GetConnection(handler);
 
+            // Initing the scene
+            scene.InitScene();
+
+            //Starting the scene
+            scene.LoadScene();
+
+        }
+
+        private static void GetConnection(TunnelHandler handler)
+        {
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
 
@@ -54,14 +62,20 @@ namespace TestVREngine.GUI
             }
 
             handler.SetUpConnection(Clients[Userinput - 1].Adress);
-            string id = handler.DestinationID;
-            Console.WriteLine(handler.DestinationID);
-            Console.WriteLine("ID that was returend: " + id);
+            Trace.WriteLine("Connecting to server: ID that was returend: " + handler.DestinationID);
+        }
 
-            scene.InitScene();
+        private static void SetupLogging()
+        {
+            //Creates the logging folder, if it already exists line is ignored
+            Directory.CreateDirectory("DebugLogging");
+            //Start logger
+            string debugPath = $"DebugLogging/debug{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.log";
+            Console.WriteLine(debugPath);
+            Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
+            Trace.AutoFlush = true;
 
-            scene.LoadScene();
-
+            Trace.WriteLine($"Started logging at: {DateTime.Now:dd-MM-yyyy-HH-mm-ss}");
         }
     }
 }
