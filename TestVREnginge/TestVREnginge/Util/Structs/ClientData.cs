@@ -29,7 +29,7 @@ namespace TestVREngine.Util.Structs
         public string ToString()
         {
             // return readable data of the client
-            return $"Adress: {Adress}, Host: {Host}, User: {User}, GPU: {GPU}";
+            return $"Host: {Host, -20}- User: {User, -8}- GPU: {GPU, -35}- Adress: {Adress}";
         }
     }
 }

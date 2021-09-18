@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,11 +58,16 @@ namespace TestVREngine.Scene
             //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
             for (int i = 0; i < 7; i++)
             {
-                Console.WriteLine(ExecuteNext(i));
+                string stepResponse = ExecuteNext(i);
+                Console.WriteLine(stepResponse);
+
+                Trace.WriteLine("DemoScene: method step number {0} called", stepResponse);
+                
                 Console.ReadKey();
             }
 
             Console.WriteLine("All methods have been executed...");
+            Trace.WriteLine("DemoScene: All methods have been executed");
         }
 
         /// <summary>
@@ -125,7 +131,7 @@ namespace TestVREngine.Scene
 
             foreach (JObject o in array)
             {
-                Console.WriteLine(o.GetValue("name"));
+                Trace.WriteLine("DemoScene: object name = {0}", o.GetValue("name").ToString());
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
                     Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));

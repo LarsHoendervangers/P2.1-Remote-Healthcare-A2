@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,8 @@ namespace TestVREngine.Scene
         private void OnSaveCallback(string message)
         {
             //TODO handle error from server to user
-            Console.WriteLine("Scene save command returned from server: {0}", message);
+            Trace.WriteLine("Scene: save command returned from server: {0}", message);
+            Console.WriteLine("Scene save command returned from server");
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,10 @@ namespace TestVREngine.Util
         {
             Console.WriteLine(returnedData);
             JObject data = (JObject)JsonConvert.DeserializeObject(returnedData);
-            string uuID = data.SelectToken("data.data.data.uuid").ToString();
-            Console.WriteLine(uuID);
+            string uuID = data.SelectToken("data.data.data.uuid").ToString(); //error handling nog needed, but is prefered TODO
+
+            Trace.WriteLine("VRutil: found uuID: {0}", uuID);
+
             return uuID;
         }
 
