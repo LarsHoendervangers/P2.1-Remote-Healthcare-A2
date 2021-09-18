@@ -152,24 +152,11 @@ namespace TestVREngine.Scene
             Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
             //Normal bike rotation (270, 270, 0).
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(OnObjectCallback));
+            // Ask the server to add the bike object, uuid of model is saved in this.uuidModel using lambda expression
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), (string message) => this.uuidModel = VRUTil.GetId(message));
             return "Spawned a bike.";
             // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
             //  return "Spawned a podracer.";
-        }
-
-
-        /// <summary>
-        /// Callback method for when the a message from the server comes back
-        /// </summary>
-        /// <param name="message">The message send from the server</param>
-        private void OnObjectCallback(string message)
-        {
-            JObject jObject = JObject.Parse(message);
-            JObject id = (JObject)jObject.SelectToken("data.data.data");
-
-            string idValue = id.GetValue("uuid").ToString();
-            uuidModel = idValue;
         }
 
 
@@ -188,22 +175,9 @@ namespace TestVREngine.Scene
             new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
         };
 
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
+            // Ask the server to add a route, uuid of route is saved in this.uuidModel using lambda expression
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), (string message) => this.uuidRoute = VRUTil.GetId(message));
             return "Added a route.";
-        }
-
-        /// <summary>
-        /// Callback method for when the a message from the server comes back
-        /// </summary>
-        /// <param name="message">The message send from the server</param>
-        private void OnRouteReceived(string message)
-        {
-            JObject jObject = JObject.Parse(message);
-            JObject id = (JObject)jObject.SelectToken("data.data.data");
-
-            string idValue = id.GetValue("uuid").ToString();
-            uuidRoute = idValue;
-            Console.WriteLine(idValue);
         }
 
         /// <summary>

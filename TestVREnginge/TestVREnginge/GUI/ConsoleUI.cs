@@ -16,14 +16,14 @@ namespace TestVREngine.GUI
         public static void Run()
         {
             //Start logger
-            string debugPath = $"DebugLogging/debug{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}.log";
+            string debugPath = $"DebugLogging/debug{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.log";
             Console.WriteLine(debugPath);
             Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
             Trace.AutoFlush = true;
 
             TunnelHandler handler = new TunnelHandler();
             //GeneralScene scene = new LoaderScene(handler);
-            GeneralScene scene = new PodraceScene(handler);
+            GeneralScene scene = new DemoScene(handler);
 
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
