@@ -61,13 +61,13 @@ namespace TestVREngine.Scene
                 string stepResponse = ExecuteNext(i);
                 Console.WriteLine(stepResponse);
 
-                Trace.WriteLine("DemoScene: method step number {0} called", stepResponse);
+                Trace.WriteLine($"DemoScene: method step number {stepResponse} called \n");
                 
                 Console.ReadKey();
             }
 
             Console.WriteLine("All methods have been executed...");
-            Trace.WriteLine("DemoScene: All methods have been executed");
+            Trace.WriteLine("DemoScene: All methods have been executed \n");
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace TestVREngine.Scene
 
             foreach (JObject o in array)
             {
-                Trace.WriteLine("DemoScene: object name = {0}", o.GetValue("name").ToString());
+                Trace.WriteLine($"DemoScene: object name = {o.GetValue("name")} \n");
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
                     Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));

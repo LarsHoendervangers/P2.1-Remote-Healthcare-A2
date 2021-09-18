@@ -77,7 +77,7 @@ namespace TestVREngine.Scene
         {
             // TODO ask Senior Developer about return codes of engines, returns with no existing file
             Console.WriteLine("Server responded to load command");
-            Trace.WriteLine("LoaderScene: Server responded to load command: {0}", message);
+            Trace.WriteLine($"LoaderScene: Server responded to load command: {message}");
         }
     } 
 }

@@ -57,7 +57,7 @@ namespace TestVREngine.Scene
         private void OnSaveCallback(string message)
         {
             //TODO handle error from server to user
-            Trace.WriteLine("Scene: save command returned from server: {0}", message);
+            Trace.WriteLine($"Scene: save command returned from server: {message} \n");
             Console.WriteLine("Scene save command returned from server");
         }
     }

@@ -87,7 +87,7 @@ namespace TestVREngine.Tunnel
         {
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
-            Trace.WriteLine("TunnelHandler: json to connect is {0} \n", requestingCode);
+            Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
             TcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error
@@ -147,7 +147,7 @@ namespace TestVREngine.Tunnel
         public void SendToTunnel(object message)
         {
             object totalStream = JSONCommandHelper.WrapHeader(DestinationID, message);
-            Trace.WriteLine("TunnelHandler: Sending data to server: {0} \n", JsonConvert.SerializeObject(totalStream));
+            Trace.WriteLine($"TunnelHandler: Sending data to server: {JsonConvert.SerializeObject(totalStream)} \n");
             TcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
