@@ -54,8 +54,8 @@ namespace TestVREngine.GUI
             }
 
             handler.SetUpConnection(Clients[Userinput - 1].Adress);
-            string id = handler.destinationID;
-            Console.WriteLine(handler.destinationID);
+            string id = handler.DestinationID;
+            Console.WriteLine(handler.DestinationID);
             Console.WriteLine("ID that was returend: " + id);
 
             scene.InitScene();
