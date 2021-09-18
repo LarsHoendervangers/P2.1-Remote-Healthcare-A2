@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,37 +12,51 @@ using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Tunnel
 {
+
+    /// <summary>
+    /// Class that handles the communication between the vr-server <br>
+    /// <ul>
+    ///     <li>Sets up connection to the vr-tunnel</li>
+    ///     <li>Sends given data</li>
+    ///     <li>Class provides callback for return messages from the server</li>
+    /// </ul>
+    /// </summary>
     class TunnelHandler
     {
-        public string destinationID;
-        private Dictionary<string, Action<string>> SerialMap;
-        private TCPClientHandler tcpHandler;
-        private int serialNumber;
+        public string DestinationID;
+        private readonly Dictionary<string, Action<string>> SerialMap;
+        private readonly TCPClientHandler TcpHandler;
+        private int SerialNumber;
 
+
+        /// <summary>
+        /// Constructor for Tunnelhandler
+        /// </summary>
         public TunnelHandler()
         {
             SerialMap = new Dictionary<string, Action<string>>();
-            tcpHandler = new TCPClientHandler();
-            serialNumber = 0;
+            TcpHandler = new TCPClientHandler();
+            SerialNumber = 0;
 
-            tcpHandler.OnMessageReceived += OnMessageReceived;
+            // Setting the method to be performed when data is received
+            TcpHandler.OnMessageReceived += OnMessageReceived;
 
         }
 
         /// <summary>
         /// gives a list of all the available clients.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of all the clients</returns>
         public List<ClientData> GetAvailableClients()
         {
             List<ClientData> clients = new List<ClientData>();
 
             //Writing for connection
             string startingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapRequest());
-            tcpHandler.WriteMessage(startingCode);
+            TcpHandler.WriteMessage(startingCode);
 
             //Reading for clients
-            string jsonString = tcpHandler.ReadMessage();
+            string jsonString = TcpHandler.ReadMessage();
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //Adding it to the list
@@ -58,25 +73,25 @@ namespace TestVREngine.Tunnel
             }
 
 
-            //Returning it.
+            //Returning the client list.
             return clients;
         }
 
 
         /// <summary>
-        /// setup up the connection and returns the id.
+        /// sets up up the connection and returns the id.
         /// </summary>
-        /// <param name="connection"></param>
-        /// <returns></returns>
+        /// <param name="connection">The ID of the client to connect to</param>
+        /// <returns>boolean if the connection succeded</returns>
         public bool SetUpConnection(string connection)
         {
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
-            Console.WriteLine(requestingCode);
-            tcpHandler.WriteMessage(requestingCode);
+            Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
+            TcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error
-            string jsonString = tcpHandler.ReadMessage();
+            string jsonString = TcpHandler.ReadMessage();
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //verifying connection.
@@ -86,10 +101,10 @@ namespace TestVREngine.Tunnel
             {
                 //Getting destination
                 string id = jsonFile.GetValue("id").ToString();
-                destinationID = id;
+                DestinationID = id;
 
                 //Setting reader on.
-                tcpHandler.SetRunning(true);
+                TcpHandler.SetRunning(true);
 
                 return true;
             }
@@ -99,18 +114,18 @@ namespace TestVREngine.Tunnel
         /// <summary>
         /// Sends a message to the server with a serial id.
         /// </summary>
-        /// <param name="message"></param> object as json that is send to the server
-        /// <param name="action"></param> the method that is used as action.
+        /// <param name="message">object as json that is send to the server</param>
+        /// <param name="action">the method that is used as action.</param>
         public void SendToTunnel(object message, Action<string> action)
         {
 
             //Number for serialID
-            serialNumber += 1;
-            string serial = serialNumber.ToString();
+            SerialNumber += 1;
+            string serial = SerialNumber.ToString();
 
             //Magic thing for adding a object
             JObject decode = JObject.FromObject(message);
-            decode.Add("serial", serialNumber);
+            decode.Add("serial", SerialNumber);
             object encoded = decode.ToObject<object>();
 
             //Putting it in the hashmap
@@ -128,19 +143,19 @@ namespace TestVREngine.Tunnel
         /// <summary>
         /// Sends a message to the server without a id.
         /// </summary>
-        /// <param name="message"></param> object as json that is send to the server
+        /// <param name="message">Object as json that is send to the server</param> 
         public void SendToTunnel(object message)
         {
-            object totalStream = JSONCommandHelper.WrapHeader(destinationID, message);
-            Console.WriteLine(JsonConvert.SerializeObject(totalStream));
-            tcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
+            object totalStream = JSONCommandHelper.WrapHeader(DestinationID, message);
+            Trace.WriteLine($"TunnelHandler: Sending data to server: {JsonConvert.SerializeObject(totalStream)} \n");
+            TcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
         /// <summary>
         /// If a message is received than it will try to check what message serialnumber is and return it contents to a action delegate
         /// </summary>
-        /// <param name="sender"></param> is the class that send the object
-        /// <param name="input"></param> is the content that is send.
+        /// <param name="sender">The class that send the object</param> 
+        /// <param name="input">The content that is send.</param> 
         private void OnMessageReceived(object sender, string input)
         {
             //Reading input

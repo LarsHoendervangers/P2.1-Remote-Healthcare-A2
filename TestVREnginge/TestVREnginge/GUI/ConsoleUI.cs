@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
 using TestVREngine.Scene;
 using TestVREngine.Tunnel;
 using TestVREngine.Util.Structs;
@@ -18,9 +16,26 @@ namespace TestVREngine.GUI
         /// </summary>
         public static void Run()
         {
-            TunnelHandler handler = new TunnelHandler();
-            BasicScene scene = new BasicScene(handler);
+            //Set the window to be a bit wider
+            Console.SetWindowSize(140, 40);
 
+            SetupLogging();
+
+            TunnelHandler handler = new TunnelHandler();
+            //GeneralScene scene = new LoaderScene(handler);
+            GeneralScene scene = new DemoScene(handler);
+            GetConnection(handler);
+
+            // Initing the scene
+            scene.InitScene();
+
+            //Starting the scene
+            scene.LoadScene();
+
+        }
+
+        private static void GetConnection(TunnelHandler handler)
+        {
             // Getting the data for all the available clients
             List<ClientData> Clients = handler.GetAvailableClients();
 
@@ -44,23 +59,29 @@ namespace TestVREngine.GUI
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Please give just a number");
+                    Console.WriteLine("Please give just a number {0}", e.Message);
                 }
             }
 
             handler.SetUpConnection(Clients[Userinput - 1].Adress);
-            string id = handler.destinationID;
-            Console.WriteLine(handler.destinationID);
-            Console.WriteLine("ID that was returend: " + id);
+            Trace.WriteLine("Connecting to server: ID that was returend: {0} \n", handler.DestinationID);
+        }
 
-            //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
-            for (int i = 0; i < 7; i++)
-            {
-                Console.WriteLine(scene.ExecuteNext(i));
-                Console.ReadKey();
-            }
+        private static void SetupLogging()
+        {
+            //Creates the logging folder, if it already exists line is ignored
+            Directory.CreateDirectory("DebugLogging");
+            //Start logger
+            string debugPath = $"DebugLogging/debug{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.log";
+            Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
+            Trace.AutoFlush = true;
 
-            Console.WriteLine("All methods have been executed...");
+            Trace.WriteLine(
+                $"-----------------------------------------" + "\n" +
+                $"             DEBUG LOGGING               " + "\n" +
+                $"Started logging at: {DateTime.Now:dd-MM-yyyy-HH-mm-ss}" + "\n" +
+                $"-----------------------------------------"
+                );
         }
     }
 }

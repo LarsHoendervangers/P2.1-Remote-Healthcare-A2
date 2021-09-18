@@ -197,6 +197,27 @@ namespace TestVREngine.Util
             };
         }
 
+        public static object Wrap3DObject(string name, string filePath)
+        {
+            Transform transform = new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 });
+            return new
+            {
+                id = "scene/node/add",
+                data = new
+                {
+                    name,
+                    components = new
+                    {
+                        transform,
+                        model = new
+                        {
+                            file = filePath
+                        }
+                    }
+                }
+            };
+        }
+
         /// <summary>
         /// Same as the method above, now including the parent name attribute.
         /// </summary>
@@ -465,6 +486,44 @@ namespace TestVREngine.Util
                 }
             };
         }
+
+        /// <summary>
+        /// Wrap the command to save the current scene of the server
+        /// </summary>
+        /// <param name="filename">The filename where the scene is stored</param>
+        /// <returns>The JSON object wrapped to save a scene</returns>
+        public static object WrapSaveScene(string filename)
+        {
+            return new
+            {
+                id = "scene/save",
+                data = new
+                {
+                    filename,
+                    overwrite = true
+
+                }
+            };
+        }
+
+        /// <summary>
+        /// Wrap the command to load a scene to  the server
+        /// </summary>
+        /// <param name="filename">The filename where the scene is stored</param>
+        /// <returns>The JSON object wrapped to load a scene</returns>
+        public static object WrapLoadScene(string filename)
+        {
+            return new
+            {
+                id = "scene/load",
+                data = new
+                {
+                    filename,
+                }
+            };
+        }
+
+
     }
 
 }

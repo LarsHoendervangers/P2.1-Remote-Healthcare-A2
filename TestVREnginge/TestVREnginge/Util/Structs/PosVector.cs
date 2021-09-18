@@ -11,6 +11,7 @@ namespace TestVREngine.Util.Structs
     /// </summary>
     public struct PosVector
     {
+        //Attributes NOT capitalized, to correstpond with server commands
         public int[] pos { get; set; }
         public int[] dir { get; set; }
 

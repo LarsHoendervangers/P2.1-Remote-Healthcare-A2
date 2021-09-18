@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,12 @@ using TestVREngine.Util.Structs;
 
 namespace TestVREngine.Scene
 {
-    class BasicScene
+    /// <summary>
+    /// Scene class that demo's all the parts of the school assignment
+    /// </summary>
+    class DemoScene : GeneralScene
     {
         private List<Func<string>> CommandList;
-        private static TunnelHandler Handler;
 
         private string uuidRoute;
         private string uuidModel;
@@ -23,10 +26,11 @@ namespace TestVREngine.Scene
         /// Constructor for BasicScene
         /// </summary>
         /// <param name="HandlerIncoming">The TunnelHandler needed to send data to the server</param>
-        public BasicScene(TunnelHandler HandlerIncoming)
+        public DemoScene(TunnelHandler HandlerIncoming) : base(HandlerIncoming) { }
+
+        public override void InitScene()
         {
             CommandList = new List<Func<string>>();
-            Handler = HandlerIncoming;
 
             // Add methods to queue.
             CommandList.Add(CreateTerrain);
@@ -36,6 +40,35 @@ namespace TestVREngine.Scene
             CommandList.Add(AddRoute);
             CommandList.Add(AddRoad);
             CommandList.Add(MoveModelOverRoad);
+            CommandList.Add(Reset);
+        }
+
+        public override void LoadScene()
+        {
+            // REMEMBER Method takes in user data and is not on seperated thread
+            // Not an issue for this demo
+
+            Console.WriteLine(
+                "\t--------------------------------" + "\n" +
+                "\t           DEMO SCENE           " + "\n" +
+                "\t  press a key to load the next  " + "\n" +
+                "\t        part of this demo       " + "\n" +
+                "\t--------------------------------" + "\n"
+                );
+
+            //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
+            for (int i = 0; i < this.CommandList.Count; i++)
+            {
+                string stepResponse = ExecuteNext(i);
+                Console.WriteLine($"step {i + 1}: {stepResponse}");
+
+                Trace.WriteLine($"DemoScene: method step number {stepResponse} called \n");
+                
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("All methods have been executed...");
+            Trace.WriteLine("DemoScene: All methods have been executed \n");
         }
 
         /// <summary>
@@ -71,7 +104,7 @@ namespace TestVREngine.Scene
 
             Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
 
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+            
 
             return "Created a new terrain with size: 256 x 256.";
         }
@@ -99,7 +132,7 @@ namespace TestVREngine.Scene
 
             foreach (JObject o in array)
             {
-                Console.WriteLine(o.GetValue("name"));
+                Trace.WriteLine($"DemoScene: object name = {o.GetValue("name")} \n");
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
                     Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
@@ -129,24 +162,11 @@ namespace TestVREngine.Scene
             Handler.SendToTunnel(JSONCommandHelper.WrapTime(14.5));
 
             //Normal bike rotation (270, 270, 0).
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), new Action<string>(OnObjectCallback));
+            // Ask the server to add the bike object, uuid of model is saved in this.uuidModel using lambda expression
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), (string message) => this.uuidModel = VRUTil.GetId(message));
             return "Spawned a bike.";
             // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
             //  return "Spawned a podracer.";
-        }
-
-
-        /// <summary>
-        /// Callback method for when the a message from the server comes back
-        /// </summary>
-        /// <param name="message">The message send from the server</param>
-        private void OnObjectCallback(string message)
-        {
-            JObject jObject = JObject.Parse(message);
-            JObject id = (JObject)jObject.SelectToken("data.data.data");
-
-            string idValue = id.GetValue("uuid").ToString();
-            uuidModel = idValue;
         }
 
 
@@ -165,22 +185,9 @@ namespace TestVREngine.Scene
             new PosVector(new int[]{0,0,20 }, new int[]{-5,0,-5}),
         };
 
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), new Action<string>(OnRouteReceived));
+            // Ask the server to add a route, uuid of route is saved in this.uuidModel using lambda expression
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors), (string message) => this.uuidRoute = VRUTil.GetId(message));
             return "Added a route.";
-        }
-
-        /// <summary>
-        /// Callback method for when the a message from the server comes back
-        /// </summary>
-        /// <param name="message">The message send from the server</param>
-        private void OnRouteReceived(string message)
-        {
-            JObject jObject = JObject.Parse(message);
-            JObject id = (JObject)jObject.SelectToken("data.data.data");
-
-            string idValue = id.GetValue("uuid").ToString();
-            uuidRoute = idValue;
-            Console.WriteLine(idValue);
         }
 
         /// <summary>
@@ -207,11 +214,28 @@ namespace TestVREngine.Scene
         /// Give the groundplane a ground texture
         /// </summary>
         /// <param name="json">The json</param>
-        private static void Textureplacer(string json)
+        private void Textureplacer(string json)
         {
 
             Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));
         }
+
+        private string Reset()
+        {
+            Console.Write("Do you want to reset the scene? (y/n)");
+            string userCommand = Console.ReadLine();
+
+            if(userCommand == "y")
+            {
+                Handler.SendToTunnel(JSONCommandHelper.WrapReset());
+
+                return "reset the scene";
+            }
+
+            return "Not reseting the scene";
+        }
+
+
     }
 
 

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestVREngine.Util.Structs
 {
+    /// <summary>
+    /// Struct that stores the useful data of a server client.
+    /// </summary>
     struct ClientData
     {
         public string Adress { get; set; }
@@ -25,7 +28,8 @@ namespace TestVREngine.Util.Structs
         override
         public string ToString()
         {
-            return $"Adress: {Adress}, Host: {Host}, User: {User}, GPU: {GPU}";
+            // return readable data of the client
+            return $"Host: {Host, -20}- User: {User, -8}- GPU: {GPU, -35}- Adress: {Adress}";
         }
     }
 }
