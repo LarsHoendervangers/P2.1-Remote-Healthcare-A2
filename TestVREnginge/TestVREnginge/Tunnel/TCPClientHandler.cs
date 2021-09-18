@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace TestVREngine.Tunnel.TCP
 {
+    /// <summary>
+    /// Class that handles the TCP connection between a other program, taking ip- and portadress
+    /// </summary>
     class TCPClientHandler
     {
         public event EventHandler<string> OnMessageReceived;
         private bool running = false;
         private readonly NetworkStream stream;
 
+        /// <summary>
+        /// Constructor for TCPClientHandler
+        /// </summary>
         public TCPClientHandler()
         {
             TcpClient client = new TcpClient("145.48.6.10", 6666);
@@ -26,6 +32,7 @@ namespace TestVREngine.Tunnel.TCP
         /// </summary>
         private void HandleIncoming()
         {
+            // Starting the reading loop in new thread
             new Thread(
                 () =>
                 {
@@ -34,10 +41,12 @@ namespace TestVREngine.Tunnel.TCP
 
                     while (running)
                     {
+                        // Call the event with the message received
                         string message = ReadMessage();
                         OnMessageReceived.Invoke(this, message);
                     }
 
+                    // Shutting down
                     stream.Close();
 
                 }).Start();
@@ -46,7 +55,7 @@ namespace TestVREngine.Tunnel.TCP
         /// <summary>
         /// Writes the message as a string as input.
         /// </summary>
-        /// <param name="message"></param> the message that is send to the server
+        /// <param name="message">the message that is send to the server</param>
         public void WriteMessage(string message)
         {
             //Console.WriteLine(message);
@@ -62,9 +71,9 @@ namespace TestVREngine.Tunnel.TCP
         }
 
         /// <summary>
-        /// Reads the message once.
+        /// Reads a message from the TCP connection
         /// </summary>
-        /// <returns></returns> the message as a string
+        /// <returns>The message as a string</returns> 
         public string ReadMessage()
         {
             // 4 bytes lenght == 32 bits, always positive unsigned
@@ -94,8 +103,8 @@ namespace TestVREngine.Tunnel.TCP
         /// </summary>
         /// <param name="first"></param> first byte[]
         /// <param name="second"></param> second byte[]
-        /// <returns></returns>
-        private byte[] Combine(byte[] first, byte[] second)
+        /// <returns>The byte array with both bytes added together</returns>
+        private static byte[] Combine(byte[] first, byte[] second)
         {
             byte[] bytes = new byte[first.Length + second.Length];
             Buffer.BlockCopy(first, 0, bytes, 0, first.Length);
@@ -106,10 +115,11 @@ namespace TestVREngine.Tunnel.TCP
         /// <summary>
         /// Sets the read function on or of
         /// </summary>
-        /// <param name="state"></param> boolean for state.
+        /// <param name="state">boolean to set the state to</param>
         public void SetRunning(bool state)
         {
             if (state)
+                // When running tis set true we start the loop for incoming messages
                 HandleIncoming();
             else
                 running = false;
