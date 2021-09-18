@@ -16,6 +16,9 @@ namespace TestVREngine.GUI
         /// </summary>
         public static void Run()
         {
+            //Set the window to be a bit wider
+            Console.SetWindowSize(140, 40);
+
             SetupLogging();
 
             TunnelHandler handler = new TunnelHandler();
@@ -41,7 +44,6 @@ namespace TestVREngine.GUI
             for (int i = 0; i < Clients.Count; i++)
             {
                 ClientData C = Clients[i];
-                Debug.WriteLine("test2");
                 Console.WriteLine("{0}: {1}", i + 1, C.ToString());
             }
 
@@ -62,7 +64,7 @@ namespace TestVREngine.GUI
             }
 
             handler.SetUpConnection(Clients[Userinput - 1].Adress);
-            Trace.WriteLine("Connecting to server: ID that was returend: " + handler.DestinationID);
+            Trace.WriteLine("Connecting to server: ID that was returend: {0} \n", handler.DestinationID);
         }
 
         private static void SetupLogging()
@@ -71,11 +73,15 @@ namespace TestVREngine.GUI
             Directory.CreateDirectory("DebugLogging");
             //Start logger
             string debugPath = $"DebugLogging/debug{DateTime.Now:dd-MM-yyyy-HH-mm-ss}.log";
-            Console.WriteLine(debugPath);
             Trace.Listeners.Add(new TextWriterTraceListener(debugPath));
             Trace.AutoFlush = true;
 
-            Trace.WriteLine($"Started logging at: {DateTime.Now:dd-MM-yyyy-HH-mm-ss}");
+            Trace.WriteLine(
+                $"-----------------------------------------" + "\n" +
+                $"             DEBUG LOGGING               " + "\n" +
+                $"Started logging at: {DateTime.Now:dd-MM-yyyy-HH-mm-ss}" + "\n" +
+                $"-----------------------------------------"
+                );
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,6 +77,7 @@ namespace TestVREngine.Scene
         {
             // TODO ask Senior Developer about return codes of engines, returns with no existing file
             Console.WriteLine("Server responded to load command");
+            Trace.WriteLine($"LoaderScene: Server responded to load command: {message}");
         }
     } 
 }

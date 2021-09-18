@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace TestVREngine.Scene
             CommandList.Add(AddRoute);
             CommandList.Add(AddRoad);
             CommandList.Add(MoveModelOverRoad);
+            CommandList.Add(Reset);
         }
 
         public override void LoadScene()
@@ -51,17 +53,22 @@ namespace TestVREngine.Scene
                 "\t           DEMO SCENE           " + "\n" +
                 "\t  press a key to load the next  " + "\n" +
                 "\t        part of this demo       " + "\n" +
-                "\t--------------------------------"
+                "\t--------------------------------" + "\n"
                 );
 
             //Loop which calls a method from the BasicScene class and starts the corresponding activity from teh list
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < this.CommandList.Count; i++)
             {
-                Console.WriteLine(ExecuteNext(i));
+                string stepResponse = ExecuteNext(i);
+                Console.WriteLine($"step {i + 1}: {stepResponse}");
+
+                Trace.WriteLine($"DemoScene: method step number {stepResponse} called \n");
+                
                 Console.ReadKey();
             }
 
             Console.WriteLine("All methods have been executed...");
+            Trace.WriteLine("DemoScene: All methods have been executed \n");
         }
 
         /// <summary>
@@ -125,7 +132,7 @@ namespace TestVREngine.Scene
 
             foreach (JObject o in array)
             {
-                Console.WriteLine(o.GetValue("name"));
+                Trace.WriteLine($"DemoScene: object name = {o.GetValue("name")} \n");
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
                     Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
@@ -213,7 +220,22 @@ namespace TestVREngine.Scene
             Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(VRUTil.GetId(json), "data/NetworkEngine/textures/tarmac_normal.png", "data/NetworkEngine/textures/tarmac_diffuse.png", 0, 3, 1));
         }
 
-        
+        private string Reset()
+        {
+            Console.Write("Do you want to reset the scene? (y/n)");
+            string userCommand = Console.ReadLine();
+
+            if(userCommand == "y")
+            {
+                Handler.SendToTunnel(JSONCommandHelper.WrapReset());
+
+                return "reset the scene";
+            }
+
+            return "Not reseting the scene";
+        }
+
+
     }
 
 

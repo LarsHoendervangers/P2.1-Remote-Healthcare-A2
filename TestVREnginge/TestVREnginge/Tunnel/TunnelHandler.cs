@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,7 +87,7 @@ namespace TestVREngine.Tunnel
         {
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
-            Console.WriteLine(requestingCode);
+            Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
             TcpHandler.WriteMessage(requestingCode);
 
             //Receiving ok or error
@@ -146,7 +147,7 @@ namespace TestVREngine.Tunnel
         public void SendToTunnel(object message)
         {
             object totalStream = JSONCommandHelper.WrapHeader(DestinationID, message);
-            Console.WriteLine(JsonConvert.SerializeObject(totalStream));
+            Trace.WriteLine($"TunnelHandler: Sending data to server: {JsonConvert.SerializeObject(totalStream)} \n");
             TcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
