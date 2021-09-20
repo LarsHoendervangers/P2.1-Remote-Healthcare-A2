@@ -32,7 +32,7 @@ namespace TestVREngine.Scene
 
             //Spawning map
             //Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracermap.obj"));
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 200, -2, 50 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] {0, 0, 0 }, new int[3] { 0, 0, 0 })));
 
             //Creating terrain
             Debug.WriteLine(CreateTerrain());

@@ -196,7 +196,12 @@ namespace TestVREngine.Util
                 }
             };
         }
-
+        /// <summary>
+        /// Same method as above but without transform
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static object Wrap3DObject(string name, string filePath)
         {
             Transform transform = new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 });
