@@ -112,7 +112,7 @@ namespace RemoteHealthcare.Tools
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static bool ChecksumContol(byte[] data) {
+        public static bool MichaelChecksum(byte[] data) {
 
             if (data.Length == 13)
             {

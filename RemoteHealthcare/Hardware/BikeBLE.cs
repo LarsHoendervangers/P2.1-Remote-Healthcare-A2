@@ -61,7 +61,7 @@ namespace RemoteHealthcare.Hardware
         {
 
             // check if the date was received correct, by checking the checksum
-            if (ProtocolConverter.ChecksumContol(e.Data))
+            if (ProtocolConverter.MichaelChecksum(e.Data))
             {
                 //Invoking the the event to sent the data to the Device class
                 this.OnBikeData?.Invoke(this, e.Data);
