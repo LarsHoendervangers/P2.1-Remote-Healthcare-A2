@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.Hardware
+namespace RemoteHealthcare.Ergometer.Hardware
 {
     interface IBLEDevice
     {
@@ -21,10 +21,10 @@ namespace RemoteHealthcare.Hardware
         /// <param name="serviceName"></param>
         /// <returns></returns>
         Task<int> SetService(string serviceName);/// <summary>
-        /// Probably unnessecary
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
+                                                 /// Probably unnessecary
+                                                 /// </summary>
+                                                 /// <param name="param"></param>
+                                                 /// <returns></returns>
         Task<int> SubscribeToCharacteristic(string param);
         /// <summary>
         /// Event used for sending data from 3rd layer to 2nd layer

@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace RemoteHealthcare.Software
+namespace RemoteHealthcare.Ergometer.Software
 {
-    abstract class Device {
+    abstract class Device
+    {
         //Event handelers for gui that need to implemented.
         public abstract event EventHandler<double> OnSpeed;
         public abstract event EventHandler<int> OnRPM;
@@ -23,7 +24,7 @@ namespace RemoteHealthcare.Software
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="data"></param>
-        public virtual void OnResistanceCall(Object sender, int data)
+        public virtual void OnResistanceCall(object sender, int data)
         {
             System.Diagnostics.Debug.WriteLine($"Resistance of the bike set to {data}");
         }

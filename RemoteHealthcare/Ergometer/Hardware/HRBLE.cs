@@ -1,6 +1,6 @@
 ﻿using Avans.TI.BLE;
-using RemoteHealthcare.Software;
-using RemoteHealthcare.Tools;
+using RemoteHealthcare.Ergometer.Software;
+using RemoteHealthcare.Ergometer.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.Hardware
+namespace RemoteHealthcare.Ergometer.Hardware
 {
     class HRBLE : BLE, IBLEDevice
     {
@@ -18,7 +18,7 @@ namespace RemoteHealthcare.Hardware
         int errorcode = 1;
         private int connectionAttempts = 0;
 
-        public event EventHandler<Byte[]> onHRData;
+        public event EventHandler<byte[]> onHRData;
 
         public HRBLE(string hrMonitorname, PhysicalDevice device) : base()
         {
@@ -27,17 +27,17 @@ namespace RemoteHealthcare.Hardware
             // Waiting beforeinitializing
             Thread.Sleep(1000);
 
-            Task task = device.Initialize(hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);            
+            Task task = device.Initialize(hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);
         }
 
         private async Task Initialize()
         {
             // Open the correct device
-            while (this.errorcode == 1)
+            while (errorcode == 1)
             {
-                this.errorcode = this.errorcode = await OpenDevice(hrMonitorname);
-                this.connectionAttempts += 1;
-                if (this.errorcode == 0) continue;
+                errorcode = errorcode = await OpenDevice(hrMonitorname);
+                connectionAttempts += 1;
+                if (errorcode == 0) continue;
             }
             // Try to set the required service to heartRate
             await SetService("HeartRate");
@@ -56,7 +56,7 @@ namespace RemoteHealthcare.Hardware
         public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
             if (ProtocolConverter.ConfirmPageData(e.Data))
-            onHRData?.Invoke(this, e.Data);
+                onHRData?.Invoke(this, e.Data);
         }
 
         public void SetErrorCode(int errorcode)
@@ -71,12 +71,12 @@ namespace RemoteHealthcare.Hardware
 
         public int GetErrorCode()
         {
-            return this.errorcode;
+            return errorcode;
         }
 
         public int GetConnectionAttempts()
         {
-            return this.connectionAttempts;
+            return connectionAttempts;
         }
     }
 }

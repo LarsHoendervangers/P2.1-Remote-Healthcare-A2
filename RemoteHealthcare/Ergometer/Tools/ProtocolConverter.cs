@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.Tools
+namespace RemoteHealthcare.Ergometer.Tools
 {
     class ProtocolConverter
     {
         /// <summary>
         /// Converts a bytearray to a string, this can be used for displaying the contents of the array.
         /// </summary>
-        public static String ByteArrayToString(byte[] array)
+        public static string ByteArrayToString(byte[] array)
         {
-            String toReturn = "";
+            string toReturn = "";
 
             foreach (var name in array)
             {
@@ -49,7 +49,7 @@ namespace RemoteHealthcare.Tools
             if (pageNumberReceived == targetPageNumber)
             {
                 //received bits to combine
-                if (mustCombine && targetIndex.Length == 2)  return CombineBits(payload[targetIndex[1]], payload[targetIndex[0]]);
+                if (mustCombine && targetIndex.Length == 2) return CombineBits(payload[targetIndex[1]], payload[targetIndex[0]]);
 
                 //received one bit and returns payload contents
                 if (targetIndex.Length == 1) return payload[targetIndex[0]];
@@ -112,7 +112,8 @@ namespace RemoteHealthcare.Tools
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static bool MichaelChecksum(byte[] data) {
+        public static bool MichaelChecksum(byte[] data)
+        {
 
             if (data.Length == 13)
             {
@@ -133,7 +134,7 @@ namespace RemoteHealthcare.Tools
         public static int CalculateChecksum(byte[] data)
         {
             int checksum = data[0];
-           
+
             for (int i = 1; i < 12; i++)
             {
                 checksum = checksum ^ data[i];
@@ -156,9 +157,9 @@ namespace RemoteHealthcare.Tools
             if (value < oldValue)
             {
                 valueCounter++;
-            }  
-            
-            int returnValue = ((valueCounter * 256) + value);
+            }
+
+            int returnValue = valueCounter * 256 + value;
             oldValue = value;
 
             return returnValue;

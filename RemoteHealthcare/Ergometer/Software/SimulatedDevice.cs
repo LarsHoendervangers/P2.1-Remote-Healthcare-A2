@@ -1,18 +1,18 @@
-﻿using RemoteHealthcare.Debug;
-using RemoteHealthcare.Graphics;
+﻿using RemoteHealthcare.Ergometer.Debug;
+using RemoteHealthcare.Ergometer.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.Software
+namespace RemoteHealthcare.Ergometer.Software
 {
     class SimulatedDevice : Device
     {
         //The generator that makes the data.
-        private SimDataGenerator Generator{ get; set; }
-        
+        private SimDataGenerator Generator { get; set; }
+
         //The eventhandelers that send it to the gui
         public override event EventHandler<double> OnSpeed;
         public override event EventHandler<int> OnRPM;
@@ -40,7 +40,7 @@ namespace RemoteHealthcare.Software
             Generator.GeneratedCurrentPower += OnGeneratedCurrentPower;
             Generator.GeneratedTotalPower += OnGeneratedTotalPower;
 
-         
+
         }
 
         /// <summary>

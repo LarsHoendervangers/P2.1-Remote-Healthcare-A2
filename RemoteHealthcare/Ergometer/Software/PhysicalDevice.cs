@@ -1,19 +1,19 @@
-﻿using RemoteHealthcare.Graphics;
-using RemoteHealthcare.Hardware;
-using RemoteHealthcare.Tools;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Avans.TI.BLE;
+using RemoteHealthcare.Ergometer.Tools;
+using RemoteHealthcare.Ergometer.Hardware;
+using RemoteHealthcare.Ergometer.Graphics;
 
-namespace RemoteHealthcare.Software
+namespace RemoteHealthcare.Ergometer.Software
 {
     class PhysicalDevice : Device
     {
         private HRBLE HRMonitor { get; set; }
-        private BikeBLE Bike{ get; set; }
+        private BikeBLE Bike { get; set; }
 
         // Event handler attributes
         public override event EventHandler<double> OnSpeed;
@@ -119,10 +119,10 @@ namespace RemoteHealthcare.Software
         public void OnBikeReceived(object sender, byte[] data)
         {
             // transform the given data to a usefull payload
-            Byte[] payload = ProtocolConverter.DataToPayload(data);
+            byte[] payload = ProtocolConverter.DataToPayload(data);
 
             // Check for the pagenumber that 
-            if(ProtocolConverter.PageChecker(payload) == 0x10)
+            if (ProtocolConverter.PageChecker(payload) == 0x10)
             {
                 // Getting the speed from the bike data
                 double speed = ProtocolConverter.ReadDataSet(payload, 0x10, true, 4, 5);
@@ -138,7 +138,7 @@ namespace RemoteHealthcare.Software
                 // Getting the elapsed time value from the data
                 double elapsedTime = ProtocolConverter.ReadDataSet(payload, 0x10, false, 2);
                 elapsedTime = (int)(ProtocolConverter.rollOver((int)elapsedTime, ref prevTime, ref rollTime) * 0.25);
-                elapsedTime = InitialValueComp(elapsedTime, ref this.initialValueTime);
+                elapsedTime = InitialValueComp(elapsedTime, ref initialValueTime);
                 OnElapsedTime?.Invoke(this, elapsedTime);
             }
 
@@ -151,7 +151,7 @@ namespace RemoteHealthcare.Software
 
                 // Transforming the totalWattage from the bike
                 int totalWattage = ProtocolConverter.ReadDataSet(payload, 0x19, true, 3, 4);
-                totalWattage = (int)(ProtocolConverter.rollOverTotalPower(totalWattage, ref prevTotalPower, ref rollTotalPower));
+                totalWattage = ProtocolConverter.rollOverTotalPower(totalWattage, ref prevTotalPower, ref rollTotalPower);
                 totalWattage = (int)InitialValueComp(totalWattage, ref initialValueWatt);
                 OnTotalPower?.Invoke(this, totalWattage);
 

@@ -1,9 +1,9 @@
-﻿using RemoteHealthcare.Software;
-using RemoteHealthcare.Tools;
+﻿using RemoteHealthcare.Ergometer.Software;
+using RemoteHealthcare.Ergometer.Tools;
 using System;
 using System.Diagnostics;
 
-namespace RemoteHealthcare.Graphics
+namespace RemoteHealthcare.Ergometer.Graphics
 {
     class DataGUI
     {
@@ -62,7 +62,7 @@ namespace RemoteHealthcare.Graphics
             while (true)
             {
                 char character = Console.ReadKey(true).KeyChar;
-                if (Char.IsNumber(character))
+                if (char.IsNumber(character))
                 {
                     if (x < Console.BufferWidth)
                     {
@@ -72,7 +72,8 @@ namespace RemoteHealthcare.Graphics
                         value += character;
                         x++;
                     }
-                } else if (character == (char)13)
+                }
+                else if (character == (char)13)
                 {
                     // If the enter key is pressed.
                     x = resistance.Length;
@@ -96,13 +97,14 @@ namespace RemoteHealthcare.Graphics
 
             if (LongestDeviceName != 0)
             {
-                GUITools.DrawVerticalLine((Console.BufferWidth - 1) - (LongestDeviceName + 1), 0, CurrentDeviceLine);
-                Console.SetCursorPosition((Console.BufferWidth - 1) - LongestDeviceName, 0);
+                GUITools.DrawVerticalLine(Console.BufferWidth - 1 - (LongestDeviceName + 1), 0, CurrentDeviceLine);
+                Console.SetCursorPosition(Console.BufferWidth - 1 - LongestDeviceName, 0);
                 Console.Write("Devices");
-                Console.SetCursorPosition((Console.BufferWidth - 2) - LongestDeviceName, 1);
+                Console.SetCursorPosition(Console.BufferWidth - 2 - LongestDeviceName, 1);
                 Console.Write(GUITools.crossing);
                 SetMessage("Connecting to devices...");
-            } else
+            }
+            else
             {
                 SetMessage("Simulation running");
             }
@@ -115,7 +117,7 @@ namespace RemoteHealthcare.Graphics
 
             Console.Read();
         }
-        
+
         /// <summary>
         /// Called by onRPM event.
         /// </summary>
@@ -126,7 +128,7 @@ namespace RemoteHealthcare.Graphics
             Console.SetCursorPosition(0, RPM_Line);
             Console.WriteLine($"RPM: {e}     ");
         }
-        
+
         /// <summary>
         /// Called by onSpeed event.
         /// </summary>
@@ -143,7 +145,7 @@ namespace RemoteHealthcare.Graphics
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="heartrate"></param>
-        public void DrawHeartrate(Object sender, int heartrate)
+        public void DrawHeartrate(object sender, int heartrate)
         {
             Console.SetCursorPosition(0, Heart_Line);
             Console.WriteLine($"Heartrate: {heartrate} BPM     ");
@@ -171,7 +173,7 @@ namespace RemoteHealthcare.Graphics
         private void DrawDistance(object sender, double e)
         {
             Console.SetCursorPosition(0, Distance_Line);
-            Console.WriteLine($"Distance: {(int) e} m     ");
+            Console.WriteLine($"Distance: {(int)e} m     ");
         }
 
         /// <summary>
@@ -227,11 +229,11 @@ namespace RemoteHealthcare.Graphics
         /// <param name="msg"></param>
         public static void SetMessage(string msg)
         {
-            String prefix = "Message: ";
+            string prefix = "Message: ";
 
             // Clear the line (just in case)
             int startX = Title.Length + prefix.Length;
-            GUITools.ClearLine(startX, (Console.BufferWidth - 1) - (LongestDeviceName + 1), 0);
+            GUITools.ClearLine(startX, Console.BufferWidth - 1 - (LongestDeviceName + 1), 0);
 
             // Print the new message.
             Console.SetCursorPosition(Title.Length + prefix.Length, 0);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace RemoteHealthcare.Tools
+namespace RemoteHealthcare.Ergometer.Tools
 {
     class GUITools
     {
@@ -76,7 +76,7 @@ namespace RemoteHealthcare.Tools
             // Draw the line.
             for (int y = startY; y < endY; y++)
             {
-                if (x < Console.BufferWidth && y < Console.BufferHeight) 
+                if (x < Console.BufferWidth && y < Console.BufferHeight)
                 {
                     Console.SetCursorPosition(x, y);
                     Console.Write(vertical);
