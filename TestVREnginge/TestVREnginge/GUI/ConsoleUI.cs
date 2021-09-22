@@ -23,7 +23,7 @@ namespace TestVREngine.GUI
 
             TunnelHandler handler = new TunnelHandler();
             //GeneralScene scene = new LoaderScene(handler);
-            GeneralScene scene = new DemoScene(handler);
+            GeneralScene scene = new LoaderScene(handler);
             GetConnection(handler);
 
             // Initing the scene

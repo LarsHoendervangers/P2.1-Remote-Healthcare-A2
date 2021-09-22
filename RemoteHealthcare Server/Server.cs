@@ -23,6 +23,14 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        public Host Host1
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         /// <summary>
         /// Metod which starts the server
         /// </summary>

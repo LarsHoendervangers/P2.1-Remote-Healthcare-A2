@@ -38,5 +38,13 @@ namespace RemoteHealthcare_Server
             {
             }
         }
+
+        public Host Host1
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

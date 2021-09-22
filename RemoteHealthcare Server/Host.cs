@@ -23,7 +23,7 @@ namespace RemoteHealthcare_Server
             }
         }
 
-        public Database Database
+        public FileProcessing Database
         {
             get => default;
             set

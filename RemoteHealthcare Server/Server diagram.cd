@@ -3,11 +3,11 @@
   <Class Name="RemoteHealthcare_Server.Server">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgACAAAAAAQAAEAAAAAAAAAAAABAQ=</HashCode>
+      <HashCode>AAAAAAAAAAABAAAgACAAAAAAQAAECAAAAAAAAAAABAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Client" />
+      <Property Name="Host1" />
     </ShowAsAssociation>
   </Class>
   <Class Name="RemoteHealthcare_Server.Host">
@@ -21,11 +21,11 @@
       <Property Name="JSONReader" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="RemoteHealthcare_Server.Database">
+  <Class Name="RemoteHealthcare_Server.FileProcessing">
     <Position X="2.75" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Database.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>FileProcessing.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.HRMeasurement">
@@ -69,11 +69,11 @@
   <Class Name="RemoteHealthcare_Server.Patient">
     <Position X="9.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAQAAAAAAAAAQAAAAAAAAAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAABAQAAAQAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
       <FileName>Patient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Client" />
+      <Property Name="Host1" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />

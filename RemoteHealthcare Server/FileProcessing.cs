@@ -5,9 +5,14 @@ using System.Text;
 
 namespace RemoteHealthcare_Server
 {
-    public class Database
+    public class FileProcessing
     {
-        public void SaveData()
+        public void SaveSession()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void LoadSession()
         {
             throw new System.NotImplementedException();
         }
