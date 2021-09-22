@@ -56,8 +56,7 @@ namespace TestVREngine.GUI
                 try
                 {
                     Userinput = int.Parse(Console.ReadLine());
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     Console.WriteLine("Please give just a number {0}", e.Message);
                 }

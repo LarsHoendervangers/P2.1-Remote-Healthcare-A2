@@ -222,7 +222,7 @@ namespace TestVREngine.Scene
 
         private string Reset()
         {
-            Console.Write("Do you want to reset the scene? (y/n)");
+            Console.Write("Do you want to reset the scene? (y/n) ");
             string userCommand = Console.ReadLine();
 
             if(userCommand == "y")
