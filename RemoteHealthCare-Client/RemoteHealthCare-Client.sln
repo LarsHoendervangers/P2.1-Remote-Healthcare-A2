@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31605.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteHealthCare-Client", "RemoteHealthCare-Client\RemoteHealthCare-Client.csproj", "{5722DF67-6CA5-4FD9-B8E6-17B87715F837}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5722DF67-6CA5-4FD9-B8E6-17B87715F837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5722DF67-6CA5-4FD9-B8E6-17B87715F837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5722DF67-6CA5-4FD9-B8E6-17B87715F837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5722DF67-6CA5-4FD9-B8E6-17B87715F837}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B12C40C7-585C-461E-94E1-523E9FA9574E}
+	EndGlobalSection
+EndGlobal
