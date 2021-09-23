@@ -42,7 +42,7 @@ namespace RemoteHealthcare_Server
             {
                 command = "message",
                 data = msg,
-                flag = 2
+                flag = 3
             };
 
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
