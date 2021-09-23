@@ -42,7 +42,18 @@ namespace RemoteHealthcare_Server
             {
                 command = "message",
                 data = msg,
-                flag = 3
+                flag = 2
+            };
+
+            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+        }
+
+        public static void ResistanceWrite(int resistance, TcpClient client)
+        {
+            Object o = new
+            {
+                command = "setresist",
+                data = resistance
             };
 
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
