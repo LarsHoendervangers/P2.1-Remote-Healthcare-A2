@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Tunnel;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RemoteHealthcare.ClientVREngine.Scene
 {

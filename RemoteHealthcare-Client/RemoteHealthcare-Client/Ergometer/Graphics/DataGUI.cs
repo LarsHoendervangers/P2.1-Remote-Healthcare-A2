@@ -42,7 +42,7 @@ namespace RemoteHealthcare_Client.Ergometer.Graphics
 
         // This method starts the user input listener.
         // When spacebar is pressed, the input will be sent automatically.
-        private void Start()
+        public void Start()
         {
             string resistance = "Resistance: ";
             int x = resistance.Length;

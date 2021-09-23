@@ -34,10 +34,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>RemoteHealthcare_Client.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="BLELibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Ergometer\BLELibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SimplexNoise, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplexNoise.2.0.0\lib\net472\SimplexNoise.dll</HintPath>
@@ -84,6 +90,7 @@
     <Compile Include="ClientVREngine\Util\Structs\PosVector.cs" />
     <Compile Include="ClientVREngine\Util\Structs\Transform.cs" />
     <Compile Include="ClientVREngine\Util\VRUtil.cs" />
+    <Compile Include="Ergometer\Program1.cs" />
     <Compile Include="Ergometer\Debug\SimDataGenerator.cs" />
     <Compile Include="Ergometer\Graphics\DataGUI.cs" />
     <Compile Include="Ergometer\Hardware\BikeBLE.cs" />

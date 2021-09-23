@@ -264,7 +264,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
         /// <param name="color">THe background color of the panel</param>
         /// <param name="castShadow">true/false, panel casts a shadow</param>
         /// <returns>The JSON pbject to create a panel</returns>
-        public static object WrapPanel(string name, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, Color color, bool castShadow)
+        public static object WrapPanel(string name, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, System.Windows.Media.Color color, bool castShadow)
         {
             return new
             {
