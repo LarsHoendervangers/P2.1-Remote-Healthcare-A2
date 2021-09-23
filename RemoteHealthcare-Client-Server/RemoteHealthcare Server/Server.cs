@@ -106,9 +106,6 @@ namespace RemoteHealthcare_Server
                 PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} disconnected.");
                 host.Stop();
                 this.Hosts.Remove(host);
-            } else
-            {
-                PrintToGUI("User disconnected.");
             }
         }
 
