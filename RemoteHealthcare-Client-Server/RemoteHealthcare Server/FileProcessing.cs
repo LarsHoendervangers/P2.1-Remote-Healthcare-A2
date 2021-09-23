@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -10,7 +13,7 @@ namespace RemoteHealthcare_Server
     {
         public void SaveSession(Patient p)
         {
-            string FolderPath = Directory.GetCurrentDirectory() + "/" + p.Username;
+            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
             if (!Directory.Exists(FolderPath))
             {
                 Directory.CreateDirectory(FolderPath);
@@ -24,7 +27,8 @@ namespace RemoteHealthcare_Server
 
         public JArray LoadSession(Session s)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "/" + s.Patient.Username + "/" + s.Patient.Username + s.StartTime;
+            string FileName = s.Patient.Username + "-" + s.StartTime;
+            string FilePath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.Username, FileName);
 
             JArray ReadData = JArray.Parse(File.ReadAllText(FilePath));
 
@@ -33,19 +37,23 @@ namespace RemoteHealthcare_Server
 
         public void CreateFile(string folderpath, Session s)
         {
+            string FileName = s.Patient.Username + "-" + s.StartTime;
+
             JArray BikeArray = JArray.FromObject(s.BikeMeasurements);
             JArray HeartArray = JArray.FromObject(s.HRMeasurements);
 
-            string FilePath = folderpath + "/" + s.Patient.Username + s.StartTime;
+            JArray Combined = new JArray(BikeArray.Union(HeartArray));
+
+            string FilePath = Path.Combine(folderpath, FileName);
 
             try
             {
-                File.WriteAllText(FilePath, BikeArray.ToString());
-                File.WriteAllText(FilePath, HeartArray.ToString());
+                File.WriteAllText(FilePath, Combined.ToString());
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
             }
         }
     }
