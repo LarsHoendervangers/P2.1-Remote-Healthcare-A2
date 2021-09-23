@@ -10,13 +10,6 @@
       <FileName>Ergometer\Software\Device.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RemoteHealthcare_Client.ClientVREngine.Scene.GeneralScene">
-    <Position X="5.5" Y="7" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAIAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAAAQA=</HashCode>
-      <FileName>ClientVREngine\Scene\GeneralScene.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="RemoteHealthcare_Client.ClientVREngine.Tunnel.TunnelHandler">
     <Position X="7.5" Y="7" Width="1.5" />
     <TypeIdentifier>
@@ -66,6 +59,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAQAAAABAAAgAAAAACAABAAAAAgA=</HashCode>
       <FileName>TCP\TCPClientHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Client.ClientVREngine.Scene.GeneralScene">
+    <Position X="5.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAAAQA=</HashCode>
+      <FileName>ClientVREngine\Scene\GeneralScene.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="RemoteHealthcare_Client.DataManager">

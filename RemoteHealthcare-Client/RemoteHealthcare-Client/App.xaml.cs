@@ -14,10 +14,12 @@ namespace RemoteHealthcare_Client
     /// </summary>
     public partial class App : Application
     {
+        IDataManager manager;
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            IDataManager manager = new ServerDataManager("145.49.40.199", 6969);
+            manager = new ServerDataManager("145.49.5.228", 6969);
+            //IDataManager manager = new ServerDataManager("145.49.53.124", 6969);
 
         }
 
