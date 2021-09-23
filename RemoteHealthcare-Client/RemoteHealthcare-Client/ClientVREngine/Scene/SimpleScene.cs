@@ -98,7 +98,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             uuidModel = VRUTil.GetId(json);
         }
 
-        public void getIdPanel(string json)
+        private void getIdPanel(string json)
         {
             uuidPanel = VRUTil.GetId(json);
             Console.WriteLine("Panel" + uuidPanel);
