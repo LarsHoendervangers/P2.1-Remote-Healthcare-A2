@@ -21,7 +21,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
     ///     <li>Class provides callback for return messages from the server</li>
     /// </ul>
     /// </summary>
-    class TunnelHandler
+    public class TunnelHandler
     {
         public string DestinationID;
         private readonly Dictionary<string, Action<string>> SerialMap;
