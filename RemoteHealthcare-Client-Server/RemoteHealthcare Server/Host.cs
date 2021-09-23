@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -29,9 +32,21 @@ namespace RemoteHealthcare_Server
 
         public void ReadData()
         {
-            throw new System.NotImplementedException();
+            while (true)
+            {
+                string data  = ComClass.ReadMessage(this.tcpClient.GetStream());
+                JObject json = (JObject) JsonConvert.DeserializeObject(data);
+
+                
+
+            }
+            
         }
 
+        public void Stop()
+        {
+
+        }
 
     }
 }

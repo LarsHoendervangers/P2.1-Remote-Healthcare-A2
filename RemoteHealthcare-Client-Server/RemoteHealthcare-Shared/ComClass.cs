@@ -10,7 +10,7 @@ namespace RemoteHealthcare_Shared
 {
     class ComClass
     {
-        public void WriteMessage(string message, NetworkStream stream)
+        public static void WriteMessage(string message, NetworkStream stream)
         {
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
@@ -36,7 +36,7 @@ namespace RemoteHealthcare_Shared
         /// Reads a message from the TCP connection
         /// </summary>
         /// <returns>The message as a string</returns> 
-        public string ReadMessage(NetworkStream stream)
+        public static string ReadMessage(NetworkStream stream)
         {
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];

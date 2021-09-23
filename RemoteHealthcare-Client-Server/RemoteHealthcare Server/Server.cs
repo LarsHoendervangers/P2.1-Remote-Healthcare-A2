@@ -76,6 +76,7 @@ namespace RemoteHealthcare_Server
         {
             PrintToGUI($"{host.tcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
             this.Hosts.Add(host);
+            
         }
 
         /// <summary>

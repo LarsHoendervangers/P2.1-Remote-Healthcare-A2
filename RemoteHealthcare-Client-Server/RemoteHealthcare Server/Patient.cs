@@ -15,7 +15,9 @@ namespace RemoteHealthcare_Server
 
         public Host Host { get; set; }
 
-        public Patient(string username, DateTime dateOfBirth, Session session, Host host)
+        public string password { get; set; }
+
+        public Patient(string username, string password, DateTime dateOfBirth, Session session, Host host)
         {
             this.Username = username;
             this.DateOfBirth = dateOfBirth;
