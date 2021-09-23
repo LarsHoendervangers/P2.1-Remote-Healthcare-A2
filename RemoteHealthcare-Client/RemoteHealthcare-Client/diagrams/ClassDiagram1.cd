@@ -34,15 +34,15 @@
   <Class Name="RemoteHealthcare_Client.ServerDataManager">
     <Position X="13.75" Y="6.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAACAAAAAAAAAAAAAAAABAAAAAAAk=</HashCode>
-      <FileName>network\ServerManager.cs</FileName>
+      <HashCode>AIAEAAAAAAAAAAAAACAAAAAAAAAAAAAACABAAAAAAgg=</HashCode>
+      <FileName>network\ServerDataManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.657" />
   </Class>
   <Class Name="RemoteHealthcare_Client.DeviceDataManager">
     <Position X="17.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAAgAAAAAAAAAAAAAAAAAgCAAAAAAAAQg=</HashCode>
+      <HashCode>AAAAAAAAQAAAAgAAACAAAAAAAAAAAAAgCAAAAAAAAQg=</HashCode>
       <FileName>network\DeviceDataManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -53,7 +53,7 @@
   <Class Name="RemoteHealthcare_Client.VRDataManager">
     <Position X="10" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACCAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAQAAAAAAAACAAAAAAAAAAAAACCAAAAAAAAAA=</HashCode>
       <FileName>network\VRDataManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

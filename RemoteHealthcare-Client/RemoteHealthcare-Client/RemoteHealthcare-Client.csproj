@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RemoteHealthcare_Client.ClientVREngine.Program</StartupObject>
+    <StartupObject>RemoteHealthcare_Client.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BLELibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -70,7 +70,7 @@
     </ApplicationDefinition>
     <Compile Include="network\IDataManager.cs" />
     <Compile Include="network\DeviceDataManager.cs" />
-    <Compile Include="network\ServerManager.cs" />
+    <Compile Include="network\ServerDataManager.cs" />
     <Compile Include="network\Startup.cs" />
     <Compile Include="network\VRDataManager.cs" />
     <Compile Include="TCP\TCPClientHandler.cs" />

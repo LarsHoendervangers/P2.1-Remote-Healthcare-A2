@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -25,6 +26,7 @@ namespace RemoteHealthcare_Client.TCP
             TcpClient client = new TcpClient(ip, port);
             stream = client.GetStream();
 
+            Trace.WriteLine("connected to server");
         }
 
         /// <summary>
@@ -58,6 +60,7 @@ namespace RemoteHealthcare_Client.TCP
         /// <param name="message">the message that is send to the server</param>
         public void WriteMessage(string message)
         {
+            Trace.WriteLine("VERSTUUUREN" + message);
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
             byte[] lenght = new byte[4];
