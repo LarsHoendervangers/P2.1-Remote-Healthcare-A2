@@ -9,7 +9,7 @@ namespace RemoteHealthcare_Server
 {
     public class JSONReader
     {
-
+        //Switch case for inputs
         public static void DecodeJsonObject(JObject jObject, Host host)
         {
             string command = jObject.GetValue("command").ToString();
@@ -17,26 +17,12 @@ namespace RemoteHealthcare_Server
             switch (command)
             {
                 case "login":
-                    LoginAction(jObject, host.TcpClient);
+                    LoginAction(jObject, host.TcpClient, host.ClientPatient);
                     break;
-                case "message":
-                    // code block
-                    break;
-
                 case "ergodata":
-                    // code block
-                    break;
-
-         
-
-
-
-                default:
-
-                    //code block
+                    ReceiveMeasurement(jObject, host.ClientPatient);
                     break;
             }
-
         }
 
 
@@ -51,6 +37,8 @@ namespace RemoteHealthcare_Server
             JSONWriter.LoginWrite(true, client);
         }
 
+
+        //TODO test
         private static void ReceiveMeasurement(JObject Jobject, Patient patient)
         {
             //Bike
@@ -76,13 +64,9 @@ namespace RemoteHealthcare_Server
                     , int.Parse(dist.ToString())));
             } else if (bpm != null)
             {
-                patient.Session.HRMeasurements.Add(new HRMeasurement(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
+                patient.Session.HRMeasurements.Add(new HRMeasurement(
+                    DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
             }
-
-
-
-
-
         }
 
        
