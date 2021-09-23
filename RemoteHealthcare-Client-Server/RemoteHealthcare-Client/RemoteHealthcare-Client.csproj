@@ -83,6 +83,7 @@
     <Compile Include="ClientVREngine\Scene\GeneralScene.cs" />
     <Compile Include="ClientVREngine\Scene\LoaderScene.cs" />
     <Compile Include="ClientVREngine\Scene\PodraceScene.cs" />
+    <Compile Include="ClientVREngine\Scene\SimpleScene.cs" />
     <Compile Include="ClientVREngine\Tunnel\TCPClientHandler.cs" />
     <Compile Include="ClientVREngine\Tunnel\TunnelHandler.cs" />
     <Compile Include="ClientVREngine\Util\JSONCommandHelper.cs" />
