@@ -124,7 +124,7 @@ namespace RemoteHealthcare_Server
                 if (this.Hosts.Count > i)
                 {
                     Host host = this.Hosts[i];
-                    host.WriteData(msg);
+                    JSONWriter.MessageWrite(msg, host.TcpClient);
                 } else
                 {
                     break;

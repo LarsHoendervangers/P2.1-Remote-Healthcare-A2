@@ -38,8 +38,8 @@ namespace RemoteHealthcare_Server
             while (true)
             {
                 string data  = ComClass.ReadMessage(this.TcpClient.GetStream());
-                JObject json = (JObject) JsonConvert.DeserializeObject(data);
-
+                //JObject json = (JObject) JsonConvert.DeserializeObject(data);
+                Trace.WriteLine(data);
                 
 
             }

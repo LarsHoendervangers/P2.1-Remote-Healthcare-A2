@@ -36,5 +36,16 @@ namespace RemoteHealthcare_Server
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
 
+        public static void MessageWrite(string msg, TcpClient client)
+        {
+            Object o = new
+            {
+                command = "message",
+                data = msg,
+                flag = 2
+            };
+
+            ComClass.WriteMessage(o.ToString(), client.GetStream());
+        }
     }
 }

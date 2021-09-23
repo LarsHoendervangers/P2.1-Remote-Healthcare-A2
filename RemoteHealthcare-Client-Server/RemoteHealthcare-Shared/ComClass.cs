@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -41,7 +42,12 @@ namespace RemoteHealthcare_Shared
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
-            stream.Read(lenghtArray, 0, 4);
+            try {
+                stream.Read(lenghtArray, 0, 4);
+            } catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
             //Console.WriteLine(lenght);
