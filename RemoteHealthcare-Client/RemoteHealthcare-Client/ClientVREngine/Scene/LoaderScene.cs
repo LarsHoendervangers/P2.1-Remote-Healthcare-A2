@@ -1,5 +1,5 @@
-﻿using RemoteHealthcare.ClientVREngine.Tunnel;
-using RemoteHealthcare.ClientVREngine.Util;
+﻿using RemoteHealthcare.ClientVREngine.Util;
+using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.ClientVREngine.Scene
+namespace RemoteHealthcare_Client.ClientVREngine.Scene
 {
 
     /// <summary>

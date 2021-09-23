@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-using RemoteHealthcare.ClientVREngine.Tunnel;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
+using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace RemoteHealthcare.ClientVREngine.Scene
+namespace RemoteHealthcare_Client.ClientVREngine.Scene
 {
     /// <summary>
     /// Scene class that demo's all the parts of the school assignment

@@ -1,12 +1,12 @@
-﻿using RemoteHealthcare.ClientVREngine.Scene;
-using RemoteHealthcare.ClientVREngine.Tunnel;
-using RemoteHealthcare.ClientVREngine.Util.Structs;
+﻿using RemoteHealthcare.ClientVREngine.Util.Structs;
+using RemoteHealthcare_Client.ClientVREngine.Scene;
+using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace RemoteHealthcare.ClientVREngine.GUI
+namespace RemoteHealthcare_Client.ClientVREngine.GUI
 {
     class ConsoleUI
     {

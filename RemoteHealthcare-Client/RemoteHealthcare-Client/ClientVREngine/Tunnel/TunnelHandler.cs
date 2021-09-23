@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare.ClientVREngine.Tunnel
+namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 {
 
     /// <summary>
