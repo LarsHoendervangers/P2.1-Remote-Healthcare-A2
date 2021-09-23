@@ -6,9 +6,9 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public interface DataManager
+    public interface IDataManager
     {
-         
-        void PrepareVRData(JObject data);
+
+        void ReceivedData(JObject data);
     }
 }

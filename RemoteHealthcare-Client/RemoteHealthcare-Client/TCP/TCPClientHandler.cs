@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
+namespace RemoteHealthcare_Client.TCP
 {
     /// <summary>
     /// Class that handles the TCP connection between a other program, taking ip- and portadress

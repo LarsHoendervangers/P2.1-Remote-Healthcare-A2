@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public class VRDataManager : DataManager
+    public class VRDataManager : IDataManager
     {
         internal ClientVREngine.Tunnel.TunnelHandler TunnelHandler
         {
@@ -22,6 +22,11 @@ namespace RemoteHealthcare_Client
         }
 
         public void PrepareVRData(JObject data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReceivedData(JObject data)
         {
             throw new NotImplementedException();
         }

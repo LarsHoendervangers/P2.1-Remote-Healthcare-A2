@@ -24,13 +24,6 @@
       <FileName>ClientVREngine\Tunnel\TunnelHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="RemoteHealthcare_Client.ClientVREngine.Tunnel.TCPClientHandler">
-    <Position X="14" Y="10" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAAAQAAAABAAAgAAAAACAABAAAAAgA=</HashCode>
-      <FileName>ClientVREngine\Tunnel\TCPClientHandler.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="RemoteHealthcare_Client.ClientViewModel">
     <Position X="14" Y="0.75" Width="1.5" />
     <TypeIdentifier>
@@ -41,19 +34,16 @@
   <Class Name="RemoteHealthcare_Client.ServerDataManager">
     <Position X="13.75" Y="6.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAIAAAAAAAAAAAAAAAACAABAAAABAAAAAAAg=</HashCode>
-      <FileName>ServerManager.cs</FileName>
+      <HashCode>AAAEAAAAAAAAAAAAACAAAAAAAAAAAAAAAABAAAAAAAk=</HashCode>
+      <FileName>network\ServerManager.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="TCPClientHandler" />
-    </ShowAsAssociation>
     <Lollipop Position="0.657" />
   </Class>
   <Class Name="RemoteHealthcare_Client.DeviceDataManager">
     <Position X="17.75" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAQg=</HashCode>
-      <FileName>DeviceDataManager.cs</FileName>
+      <HashCode>AAAAAAAAQAAAAgAAAAAAAAAAAAAAAAAgCAAAAAAAAQg=</HashCode>
+      <FileName>network\DeviceDataManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Device" />
@@ -63,13 +53,20 @@
   <Class Name="RemoteHealthcare_Client.VRDataManager">
     <Position X="10" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAABACAAAAAAAAAAA=</HashCode>
-      <FileName>VRDataManager.cs</FileName>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAACCAAAAAAAAAA=</HashCode>
+      <FileName>network\VRDataManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="TunnelHandler" />
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RemoteHealthcare_Client.TCP.TCPClientHandler">
+    <Position X="14" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAQAAAABAAAgAAAAACAABAAAAAgA=</HashCode>
+      <FileName>TCP\TCPClientHandler.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="RemoteHealthcare_Client.DataManager">
     <Position X="5.5" Y="3.75" Width="1.5" />

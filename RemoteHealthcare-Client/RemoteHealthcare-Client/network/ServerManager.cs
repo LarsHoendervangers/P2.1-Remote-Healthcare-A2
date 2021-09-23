@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,45 +7,29 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public class ServerDataManager : DataManager
+    public class ServerDataManager : IDataManager
     {
-        internal ClientVREngine.Tunnel.TCPClientHandler TCPClientHandler
+       
+        private TCPClientHandler TCPClientHandler { get; set; }
+
+        public IDataManager DeviceDataManager { get;  set; }
+
+        public IDataManager VRDataManager { get; set; }
+
+        public ServerDataManager(string ip, int port)
         {
-            get => default;
-            set
-            {
-            }
+            this.TCPClientHandler = new TCPClientHandler(ip, port);
+
+            this.TCPClientHandler.OnMessageReceived += OnMessagReceived;
         }
 
-        public RemoteHealthcare_Client.DataManager DeviceDataManager
+        private void OnMessagReceived(object sender, string e)
         {
-            get => default;
-            set
-            {
-            }
         }
 
-        public RemoteHealthcare_Client.DataManager VRDataManager
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public void PrepareVRData(JObject data)
+        public void ReceivedData(JObject data)
         {
             throw new NotImplementedException();
-        }
-
-        public void HandleIncoming(JObject data)
-        {
-            throw new NotImplementedException();
-        }
-
-        public JObject WrapMessage(object message)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

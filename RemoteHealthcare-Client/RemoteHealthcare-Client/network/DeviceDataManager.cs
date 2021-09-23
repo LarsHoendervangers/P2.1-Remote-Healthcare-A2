@@ -6,11 +6,11 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public class DeviceDataManager : DataManager
+    public class DeviceDataManager : IDataManager
     {
-        public DataManager ServerDataManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IDataManager ServerDataManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public RemoteHealthcare_Client.DataManager VRDataManager
+        public RemoteHealthcare_Client.IDataManager VRDataManager
         {
             get => default;
             set
@@ -36,7 +36,12 @@ namespace RemoteHealthcare_Client
             throw new NotImplementedException();
         }
 
-        private void PrepareDeviceData(object sender, var data)
+        public void ReceivedData(JObject data)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PrepareDeviceData(object sender, dynamic data)
         {
             throw new System.NotImplementedException();
         }

@@ -68,6 +68,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="network\IDataManager.cs" />
+    <Compile Include="network\DeviceDataManager.cs" />
+    <Compile Include="network\ServerManager.cs" />
+    <Compile Include="network\Startup.cs" />
+    <Compile Include="network\VRDataManager.cs" />
+    <Compile Include="TCP\TCPClientHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,7 +89,6 @@
     <Compile Include="ClientVREngine\Scene\GeneralScene.cs" />
     <Compile Include="ClientVREngine\Scene\LoaderScene.cs" />
     <Compile Include="ClientVREngine\Scene\PodraceScene.cs" />
-    <Compile Include="ClientVREngine\Tunnel\TCPClientHandler.cs" />
     <Compile Include="ClientVREngine\Tunnel\TunnelHandler.cs" />
     <Compile Include="ClientVREngine\Util\JSONCommandHelper.cs" />
     <Compile Include="ClientVREngine\Util\Structs\ClientData.cs" />
@@ -91,7 +96,6 @@
     <Compile Include="ClientVREngine\Util\Structs\Transform.cs" />
     <Compile Include="ClientVREngine\Util\VRUtil.cs" />
     <Compile Include="Ergometer\Program1.cs" />
-    <Compile Include="Ergometer\Debug\SimDataGenerator.cs" />
     <Compile Include="Ergometer\Graphics\DataGUI.cs" />
     <Compile Include="Ergometer\Hardware\BikeBLE.cs" />
     <Compile Include="Ergometer\Hardware\HRBLE.cs" />
@@ -125,6 +129,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="diagrams\ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -136,6 +141,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ergometer\BLELibrary.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ergometer\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

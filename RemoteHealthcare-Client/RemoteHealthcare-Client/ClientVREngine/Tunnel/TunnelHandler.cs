@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
+using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,7 +51,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         {
             List<ClientData> clients = new List<ClientData>();
 
-            //Writing for connection
+            //Writing for connection 
             string startingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapRequest());
             TcpHandler.WriteMessage(startingCode);
 
