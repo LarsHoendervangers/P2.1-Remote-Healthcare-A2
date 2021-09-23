@@ -54,11 +54,17 @@ namespace RemoteHealthcare_Server
 
         public void HandleClient(IAsyncResult ar)
         {
-            TcpClient tcpClient = this.tcpListener.EndAcceptTcpClient(ar);
-            Host host = new Host(Guid.NewGuid().ToString(), null, null, null, tcpClient);
+            try
+            {
+                TcpClient tcpClient = this.tcpListener.EndAcceptTcpClient(ar);
+                Host host = new Host(Guid.NewGuid().ToString(), null, null, null, tcpClient);
 
-            OnConnect(host);
-            this.tcpListener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+                OnConnect(host);
+                this.tcpListener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
+            } catch
+            {
+                OnDisconnect(null);
+            }
         }
 
         /// <summary>
@@ -66,6 +72,18 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StopServer()
         {
+            for (int i = this.Hosts.Count-1; i >= 0; i--)
+            {
+                if (this.Hosts.Count > i)
+                {
+                    Host host = this.Hosts[i];
+                    OnDisconnect(host);
+                } else
+                {
+                    break;
+                }
+            }
+            this.tcpListener.Stop();
             PrintToGUI("Server stopped.");
         }
 
@@ -74,7 +92,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void OnConnect(Host host)
         {
-            PrintToGUI($"{host.tcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
+            PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
             this.Hosts.Add(host);
             
         }
@@ -84,7 +102,12 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void OnDisconnect(Host host)
         {
-            PrintToGUI($"{host.ClientPatient.Username} disconnected.");
+            if (host != null)
+            {
+                PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} disconnected.");
+                host.Stop();
+                this.Hosts.Remove(host);
+            }
         }
 
         /// <summary>

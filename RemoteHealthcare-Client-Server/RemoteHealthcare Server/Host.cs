@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Server
 
         public JSONReader JSONReader { get; set; }
 
-        public TcpClient tcpClient { get; set; }
+        public TcpClient TcpClient { get; set; }
 
         public Host(string ID, Patient clientPatient, FileProcessing database, JSONReader jSONReader, TcpClient client)
         {
@@ -27,7 +27,7 @@ namespace RemoteHealthcare_Server
             this.ClientPatient = clientPatient;
             this.Database = database;
             this.JSONReader = jSONReader;
-            this.tcpClient = client;
+            this.TcpClient = client;
         }
 
         public void ReadData()
@@ -45,8 +45,7 @@ namespace RemoteHealthcare_Server
 
         public void Stop()
         {
-
+            this.TcpClient.Close();
         }
-
     }
 }
