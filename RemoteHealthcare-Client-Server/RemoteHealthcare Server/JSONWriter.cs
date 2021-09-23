@@ -38,13 +38,13 @@ namespace RemoteHealthcare_Server
 
         public static void MessageWrite(string msg, TcpClient client)
         {
-            Object o = new
+            object o = new
             {
                 command = "message",
                 data = msg,
                 flag = 2
             };
-
+            
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
     }
