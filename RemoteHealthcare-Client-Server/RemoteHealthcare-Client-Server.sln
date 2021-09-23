@@ -7,7 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteHealthcare-Client", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteHealthcare Server", "RemoteHealthcare Server\RemoteHealthcare Server.csproj", "{A520C21D-7BD4-42AA-9A50-FB5AC2CDD64B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RemoteHealthcare-Shared", "RemoteHealthcare-Shared\RemoteHealthcare-Shared.shproj", "{7E1BA417-E958-49CA-8C3B-4204368929C1}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{7e1ba417-e958-49ca-8c3b-4204368929c1}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
