@@ -38,5 +38,11 @@ namespace RemoteHealthcare_Server
         {
             this.server.StopServer();
         }
+
+        public void Button_SendMessage(object sender, RoutedEventArgs e)
+        {
+            string msg = ChatInputBox.Text;
+            this.server.Broadcast(msg);
+        }
     }
 }

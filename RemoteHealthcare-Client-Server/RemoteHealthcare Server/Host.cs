@@ -3,9 +3,11 @@ using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace RemoteHealthcare_Server
 {
@@ -28,19 +30,22 @@ namespace RemoteHealthcare_Server
             this.Database = database;
             this.JSONReader = jSONReader;
             this.TcpClient = client;
+            new Thread(ReadData).Start();
         }
 
         public void ReadData()
         {
             while (true)
             {
-                string data  = ComClass.ReadMessage(this.tcpClient.GetStream());
-                JObject json = (JObject) JsonConvert.DeserializeObject(data);
-
-                
-
+                string data  = ComClass.ReadMessage(this.TcpClient.GetStream());
+                //JObject json = (JObject) JsonConvert.DeserializeObject(data);
+                Trace.WriteLine(data);
             }
-            
+        }
+
+        public void WriteData(String message)
+        {
+            ComClass.WriteMessage(message, this.TcpClient.GetStream());
         }
 
         public void Stop()

@@ -14,5 +14,9 @@
         <ScrollViewer DockPanel.Dock="Left">
             <TextBlock Name="debugTextBlock" Text="Server Output" DockPanel.Dock="Left"/>
         </ScrollViewer>
+        <StackPanel Width="Auto" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="Send" Width="Auto" Click="Button_SendMessage"/>
+            <TextBox Text="Enter text to chat" TextWrapping="Wrap" Width="Auto" Name="ChatInputBox"/>
+        </StackPanel>
     </DockPanel>
 </Window>

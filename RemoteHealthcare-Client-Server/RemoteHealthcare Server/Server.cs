@@ -72,7 +72,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StopServer()
         {
-            for (int i = this.Hosts.Count-1; i >= 0; i--)
+            for (int i = this.Hosts.Count - 1; i >= 0; i--)
             {
                 if (this.Hosts.Count > i)
                 {
@@ -94,7 +94,6 @@ namespace RemoteHealthcare_Server
         {
             PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
             this.Hosts.Add(host);
-            
         }
 
         /// <summary>
@@ -116,6 +115,22 @@ namespace RemoteHealthcare_Server
         public void PrintToGUI(string msg)
         {
             this.window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+        }
+
+        public void Broadcast(string msg)
+        {
+            for (int i = this.Hosts.Count - 1; i >= 0; i--)
+            {
+                if (this.Hosts.Count > i)
+                {
+                    Host host = this.Hosts[i];
+                    host.WriteData(msg);
+                } else
+                {
+                    break;
+                }
+            }
+            PrintToGUI($"Server: {msg}");
         }
     }
 }
