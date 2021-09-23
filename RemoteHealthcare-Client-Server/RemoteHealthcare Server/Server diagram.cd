@@ -3,7 +3,7 @@
   <Class Name="RemoteHealthcare_Server.Server">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgACACAAAAQAAECAAIAAAAAAAABAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAgACACAAAAQAAEAAgIAAAgAAAABAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
   </Class>

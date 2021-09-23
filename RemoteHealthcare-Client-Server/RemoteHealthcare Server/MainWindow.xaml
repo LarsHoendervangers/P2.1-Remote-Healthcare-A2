@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:RemoteHealthcare_Server"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock Name="debugTextBlock" HorizontalAlignment="Left" Margin="27,71,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="268" Width="688"/>
-    </Grid>
+    <DockPanel LastChildFill="False">
+        <StackPanel Width="Auto" DockPanel.Dock="Top" Orientation="Horizontal">
+            <Button Content="Start" Width="Auto" Click="Button_StartServer"/>
+            <Button Content="Stop" Width="Auto" Click="Button_StopServer"/>
+        </StackPanel>
+        <ScrollViewer DockPanel.Dock="Left">
+            <TextBlock Name="debugTextBlock" Text="Server Output" DockPanel.Dock="Left"/>
+        </ScrollViewer>
+    </DockPanel>
 </Window>

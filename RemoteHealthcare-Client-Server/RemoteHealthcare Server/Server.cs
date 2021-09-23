@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace RemoteHealthcare_Server
@@ -8,14 +10,20 @@ namespace RemoteHealthcare_Server
     public class Server
     {
         private MainWindow window;
+
+        public IPAddress ip;
+        public int port;
+
         /// <summary>
         /// List of all the clients connected to the server
         /// </summary>
         public List<Host> Clients { get; set; }
 
-        public Server(MainWindow window)
+        public Server(MainWindow window, IPAddress ip, int port)
         {
             this.window = window;
+            this.ip = ip;
+            this.port = port;
         }
 
         /// <summary>
@@ -23,7 +31,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StartServer()
         {
-            PrintToGUI("Server started.");
+            PrintToGUI($"Server started on {this.ip}:{this.port}.");
         }
 
         /// <summary>
