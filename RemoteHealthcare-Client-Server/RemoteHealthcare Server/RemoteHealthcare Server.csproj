@@ -7,4 +7,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <Import Project="..\RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems" Label="Shared" />
+
 </Project>

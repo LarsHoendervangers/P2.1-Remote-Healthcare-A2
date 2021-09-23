@@ -12,6 +12,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{7e1ba417-e958-49ca-8c3b-4204368929c1}*SharedItemsImports = 13
+		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{a520c21d-7bd4-42aa-9a50-fb5ac2cdd64b}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
