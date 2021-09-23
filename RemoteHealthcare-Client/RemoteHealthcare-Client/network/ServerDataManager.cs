@@ -28,11 +28,11 @@ namespace RemoteHealthcare_Client
 
         private void OnMessageReceived(object sender, string message)
         {
+            // REMOVE
             Trace.WriteLine("---------------------" + message);
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-            
 
             HandleIncoming(jobject);
 
@@ -51,7 +51,7 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-
+            // Looking at the command and switching what behaviour is required
             switch(value.ToString())
             {
 
@@ -59,10 +59,10 @@ namespace RemoteHealthcare_Client
                     HandleMessageCommand(jobject);
                     break;
                 case "abort":
-                    this.VRDataManager.ReceivedData(jobject); //sending the data to the vr manager
+                    this.VRDataManager?.ReceivedData(jobject); //sending the data to the vr manager
                     break;
-
-                case "setresist": this.DeviceDataManager.ReceivedData(jobject);  //sending the data to the device manager
+                case "setresist": 
+                    this.DeviceDataManager?.ReceivedData(jobject);  //sending the data to the device manager
                     break;
 
                 default:
