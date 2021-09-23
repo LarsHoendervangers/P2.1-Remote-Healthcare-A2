@@ -264,7 +264,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
         /// <param name="color">THe background color of the panel</param>
         /// <param name="castShadow">true/false, panel casts a shadow</param>
         /// <returns>The JSON pbject to create a panel</returns>
-        public static object WrapPanel(string name, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, System.Windows.Media.Color color, bool castShadow)
+        public static object WrapPanel(string name,string parent, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, bool castShadow)
         {
             return new
             {
@@ -272,20 +272,65 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 data = new
                 {
                     name,
-                    component = new
+                    parent,
+                    components = new
                     {
                         transform,
                         panel = new
                         {
-                            size = new int[sizeX, sizeY],
-                            resolution = new int[resolutionX, resolutionY],
-                            background = new int[color.R, color.G, color.B, color.A],
+                            size = new int[] {sizeX,sizeY},
+                            resolution = new int[] {resolutionX,resolutionY},
+                            background = new int[] {1,1,1,1},
                             castShadow
                         }
                     }
                 }
             };
         }
+        
+        //to add text to a plain first add a panel with the panel WrapPanel method then do a clear with the WrapPanelClear method then do a swap 
+        //with the WrapPanelSwap method then draw the text with the WrapPanelText method and at last do a WrapPanelSwap agian.
+        public static object WrapPanelText(string id,string text, double[] position, double size, string font)
+        {
+            return new
+            {
+                id = "scene/panel/drawtext",
+                data = new
+                {
+                    id,
+                    text,
+                    position,
+                    size,
+                    color = new int [] {0,0,0,1},
+                    font
+                }
+            };
+        }
+
+        public static object WrapPanelClear(string id)
+        {
+            return new
+            {
+                id = "scene/panel/clear",
+                data = new
+                {
+                    id
+                }
+            };
+        }
+
+        public static object WrapPanelSwap(string id)
+        {
+            return new
+            {
+                id = "scene/panel/swap",
+                data = new
+                {
+                    id
+                }
+            };
+        }
+
 
 
         /// <summary>
