@@ -7,44 +7,20 @@ namespace RemoteHealthcare_Server
 {
     public class Patient
     {
-        public string Username
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public string Username { get; set; }
 
-        public Host Host
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public DateTime DateOfBirth { get; set; }
 
-        public DateTime DateOfBirth
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Session Session { get; set; }
 
-        public Session Session
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Host Host { get; set; }
 
-        public Host Host1
+        public Patient(string username, DateTime dateOfBirth, Session session, Host host)
         {
-            get => default;
-            set
-            {
-            }
+            this.Username = username;
+            this.DateOfBirth = dateOfBirth;
+            this.Session = session;
+            this.Host = host;
         }
     }
 }

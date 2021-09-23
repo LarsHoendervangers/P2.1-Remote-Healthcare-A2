@@ -1,42 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 
 namespace RemoteHealthcare_Server
 {
     public class Host
     {
-        public string ID
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public string ID { get; set; }
 
-        public Patient ClientPatient
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public Patient ClientPatient { get; set; }
 
-        public FileProcessing Database
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public FileProcessing Database { get; set; }
 
-        public JSONReader JSONReader
+        public JSONReader JSONReader { get; set; }
+
+        public TcpClient tcpClient { get; set; }
+
+        public Host(string ID, Patient clientPatient, FileProcessing database, JSONReader jSONReader, TcpClient client)
         {
-            get => default;
-            set
-            {
-            }
+            this.ID = ID;
+            this.ClientPatient = clientPatient;
+            this.Database = database;
+            this.JSONReader = jSONReader;
+            this.tcpClient = client;
         }
 
         public void ReadData()

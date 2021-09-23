@@ -3,7 +3,7 @@
   <Class Name="RemoteHealthcare_Server.Server">
     <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgACACAAAAQAAEAAgIAAAgAAAABAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAgAAACAAAASAAEAAAIAAAAAAAAJAA=</HashCode>
       <FileName>Server.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -66,11 +66,11 @@
   <Class Name="RemoteHealthcare_Server.Patient">
     <Position X="9.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAABAQAAAQAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAQAAAQAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
       <FileName>Patient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Host1" />
+      <Property Name="Host" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
