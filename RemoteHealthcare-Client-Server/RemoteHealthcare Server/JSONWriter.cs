@@ -21,8 +21,6 @@ namespace RemoteHealthcare_Server
                     command = "message",
                     data = "succesfull connect"
                 };
-
-       
             } else
             {
                 o = new
@@ -35,6 +33,7 @@ namespace RemoteHealthcare_Server
             //Writing answer...
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
+
 
         public static void MessageWrite(string msg, TcpClient client)
         {
@@ -50,12 +49,23 @@ namespace RemoteHealthcare_Server
 
         public static void ResistanceWrite(int resistance, TcpClient client)
         {
-            Object o = new
+            object o = new
             {
                 command = "setresist",
                 data = resistance
             };
             
+            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+        }
+
+        public static void AbortWrite(TcpClient client)
+        {
+            object o = new
+            {
+                command = "abort",
+                data = new { }
+            };
+
             ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
     }
