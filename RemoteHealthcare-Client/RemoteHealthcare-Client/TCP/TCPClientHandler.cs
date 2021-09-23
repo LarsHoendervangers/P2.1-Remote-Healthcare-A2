@@ -18,6 +18,16 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         private readonly NetworkStream stream;
 
         /// <summary>
+        /// Constructor for TCPClientHandler
+        /// </summary>
+        public TCPClientHandler(string ip, int port)
+        {
+            TcpClient client = new TcpClient(ip, port);
+            stream = client.GetStream();
+
+        }
+
+        /// <summary>
         /// Starts a thread with a loop that receives all the data en envokes it up.
         /// </summary>
         private void HandleIncoming()
