@@ -23,6 +23,8 @@ namespace RemoteHealthcare_Server
         public MainWindow()
         {
             InitializeComponent();
+            Server server = new Server(this);
+            server.StartServer();
         }
     }
 }

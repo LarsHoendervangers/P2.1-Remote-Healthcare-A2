@@ -7,28 +7,15 @@ namespace RemoteHealthcare_Server
 {
     public class Server
     {
+        private MainWindow window;
         /// <summary>
         /// List of all the clients connected to the server
         /// </summary>
-        public List<Host> Clients
-        {
-            get; set;
-        }
+        public List<Host> Clients { get; set; }
 
-        public Host Host
+        public Server(MainWindow window)
         {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Host Host1
-        {
-            get => default;
-            set
-            {
-            }
+            this.window = window;
         }
 
         /// <summary>
@@ -36,7 +23,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StartServer()
         {
-            throw new System.NotImplementedException();
+            PrintToGUI("Server started.");
         }
 
         /// <summary>
@@ -44,7 +31,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StopServer()
         {
-            throw new System.NotImplementedException();
+            PrintToGUI("Server stopped.");
         }
 
         /// <summary>
@@ -52,7 +39,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void OnConnect()
         {
-            throw new System.NotImplementedException();
+            PrintToGUI("Someone connected.");
         }
 
         /// <summary>
@@ -60,7 +47,12 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void OnDisconnect()
         {
-            throw new System.NotImplementedException();
+            PrintToGUI("Someone disconnected.");
+        }
+
+        public void PrintToGUI(string msg)
+        {
+            this.window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
         }
     }
 }
