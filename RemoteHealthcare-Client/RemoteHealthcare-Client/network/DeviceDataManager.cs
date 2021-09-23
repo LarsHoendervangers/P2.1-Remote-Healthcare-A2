@@ -1,6 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RemoteHealthcare.Ergometer.Software;
+using RemoteHealthcare_Client.Ergometer.Software;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -8,32 +12,76 @@ namespace RemoteHealthcare_Client
 {
     public class DeviceDataManager : IDataManager
     {
-        public IDataManager ServerDataManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public RemoteHealthcare_Client.IDataManager VRDataManager
+        public IDataManager ServerDataManager { set; get; }
+
+        public IDataManager VRDataManager { get; set; }
+
+        private Device Device { get; set; }
+
+        public DeviceDataManager()
         {
-            get => default;
-            set
-            {
-            }
+            this.Device = new SimulatedDevice();
+            Setup();
         }
 
-        internal Ergometer.Software.Device Device
+        public DeviceDataManager(string bikeName, string HRName)
         {
-            get => default;
-            set
-            {
-            }
+            this.Device = new PhysicalDevice(bikeName, HRName);
+            Setup();
         }
 
-        public void HandleIncoming(JObject data)
+        private void Setup()
+        {
+            this.Device.OnSpeed += OnIncomingSpeed;
+            this.Device.OnRPM += OnIncomingRPM;
+            this.Device.OnHeartrate += OnIncomingHR;
+            this.Device.OnCurrentPower += OnIncomingCurPower;
+            this.Device.OnTotalPower += OnIncomingTotalPower;
+            this.Device.OnDistance += OnIncomingDistance;
+            this.Device.OnElapsedTime += OnIncomingTime;
+
+
+            // TODO implement buffer system so the data to server is not overused
+        }
+
+        public void OnIncomingSpeed(object sender, double speed)
         {
             throw new NotImplementedException();
         }
 
-        public void PrepareVRData(JObject data)
+        public void OnIncomingRPM(object sender, int speed)
         {
-            throw new NotImplementedException();
+            Trace.WriteLine($"SENDING RPM IN DATAMANGER DEVICE:{speed}");
+            Trace.WriteLine($"{PrepareDeviceData(speed, "rpm")}");
+            JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
+
+            this.ServerDataManager.ReceivedData(wrappedCommand);
+        }
+
+        public void OnIncomingHR(object sender, int heartrate)
+        {
+
+        }
+
+        public void OnIncomingCurPower(object sender, int power)
+        {
+
+        }
+
+        public void OnIncomingTotalPower(object sender, int power)
+        {
+
+        }
+
+        public void OnIncomingDistance(object sender, double distance)
+        {
+
+        }
+
+        public void OnIncomingTime(object sender, double time)
+        {
+
         }
 
         public void ReceivedData(JObject data)
@@ -41,9 +89,19 @@ namespace RemoteHealthcare_Client
             throw new NotImplementedException();
         }
 
-        private void PrepareDeviceData(object sender, dynamic data)
+
+        
+        private object PrepareDeviceData(double value, string key)
         {
-            throw new System.NotImplementedException();
+            return new
+            {
+                command = "ergodata",
+                data = new
+                {
+                    time = DateTime.Now.ToString(),
+                    rpm = value
+                }
+            };
         }
     }
 }
