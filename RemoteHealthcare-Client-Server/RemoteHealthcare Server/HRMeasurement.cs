@@ -22,5 +22,11 @@ namespace RemoteHealthcare_Server
             {
             }
         }
+
+        public HRMeasurement(DateTime measurementTime, int currentHeartrate)
+        {
+            MeasurementTime = measurementTime;
+            CurrentHeartrate = currentHeartrate;
+        }
     }
 }

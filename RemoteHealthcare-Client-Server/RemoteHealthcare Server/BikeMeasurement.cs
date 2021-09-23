@@ -36,5 +36,15 @@ namespace RemoteHealthcare_Server
         {
             get; set;
         }
+
+        public BikeMeasurement(DateTime measurementTime, int currentRPM, double currentSpeed, double currentWattage, int currentTotalWattage, int currentTotalDistance)
+        {
+            MeasurementTime = measurementTime;
+            CurrentRPM = currentRPM;
+            CurrentSpeed = currentSpeed;
+            CurrentWattage = currentWattage;
+            CurrentTotalWattage = currentTotalWattage;
+            CurrentTotalDistance = currentTotalDistance;
+        }
     }
 }

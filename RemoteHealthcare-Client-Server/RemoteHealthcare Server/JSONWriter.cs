@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server
 {
-    class JSONWrite
+    class JSONWriter
     {
         public static void LoginWrite(bool succes, TcpClient client)
         {
