@@ -45,7 +45,7 @@ namespace RemoteHealthcare_Server
                 flag = 2
             };
 
-            ComClass.WriteMessage(o.ToString(), client.GetStream());
+            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
     }
 }
