@@ -11,8 +11,8 @@ namespace RemoteHealthcare_Server
     {
         private MainWindow window;
 
-        public IPAddress ip;
-        public int port;
+        public IPAddress Ip { get; set; }
+        public int Port { get; set; }
 
         /// <summary>
         /// List of all the clients connected to the server
@@ -22,8 +22,8 @@ namespace RemoteHealthcare_Server
         public Server(MainWindow window, IPAddress ip, int port)
         {
             this.window = window;
-            this.ip = ip;
-            this.port = port;
+            this.Ip = ip;
+            this.Port = port;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StartServer()
         {
-            PrintToGUI($"Server started on {this.ip}:{this.port}.");
+            PrintToGUI($"Server started on {this.Ip}:{this.Port}.");
         }
 
         /// <summary>

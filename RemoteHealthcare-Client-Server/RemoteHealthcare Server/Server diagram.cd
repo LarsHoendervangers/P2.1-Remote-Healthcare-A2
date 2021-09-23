@@ -8,7 +8,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.Host">
-    <Position X="6" Y="3.75" Width="1.5" />
+    <Position X="6" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAEABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Host.cs</FileName>
@@ -19,35 +19,35 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="RemoteHealthcare_Server.FileProcessing">
-    <Position X="2.75" Y="4" Width="1.5" />
+    <Position X="2.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAIA=</HashCode>
       <FileName>FileProcessing.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.HRMeasurement">
-    <Position X="8.25" Y="6.25" Width="1.5" />
+    <Position X="8.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>HRMeasurement.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.BikeMeasurement">
-    <Position X="10.25" Y="6.25" Width="1.5" />
+    <Position X="10.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAQAAQAAAAAEAAAAAEAAAAAQAAAAAAAAAAAA=</HashCode>
       <FileName>BikeMeasurement.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.JSONReader">
-    <Position X="6" Y="6" Width="1.5" />
+    <Position X="6" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>JSONReader.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RemoteHealthcare_Server.Session">
-    <Position X="9.25" Y="3.75" Width="1.75" />
+    <Position X="9.25" Y="4.25" Width="1.75" />
     <AssociationLine Name="BikeMeasurement" Type="RemoteHealthcare_Server.BikeMeasurement">
       <MemberNameLabel ManuallyPlaced="true">
         <Position X="-1.463" Y="0.07" />
