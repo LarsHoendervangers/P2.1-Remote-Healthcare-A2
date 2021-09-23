@@ -14,15 +14,9 @@ namespace RemoteHealthcare_Server
         public void SaveSession(Patient p)
         {
             string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
-            if (!Directory.Exists(FolderPath))
-            {
-                Directory.CreateDirectory(FolderPath);
-                CreateFile(FolderPath, p.Session);
-            }
-            else
-            {
-                CreateFile(FolderPath, p.Session);
-            }
+
+            Directory.CreateDirectory(FolderPath);                
+            CreateFile(FolderPath, p.Session);
         }
 
         public JArray LoadSession(Session s)
