@@ -47,11 +47,18 @@ namespace RemoteHealthcare_Server
             RunServer();
         }
 
+        /// <summary>
+        /// Method which will be called by StartServer().
+        /// </summary>
         private void RunServer()
         {
             this.tcpListener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
         }
 
+        /// <summary>
+        /// This method will create a new Host object and call the OnConnect event.
+        /// </summary>
+        /// <param name="ar"></param>
         public void HandleClient(IAsyncResult ar)
         {
             try
@@ -89,7 +96,9 @@ namespace RemoteHealthcare_Server
 
         /// <summary>
         /// Method which is fired when client is connected.
+        /// This method will add the Host object to the list.
         /// </summary>
+        /// <param name="host">Host object that will be added.</param>
         public void OnConnect(Host host)
         {
             PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
@@ -97,8 +106,10 @@ namespace RemoteHealthcare_Server
         }
 
         /// <summary>
-        /// Method which is fired when a client disconnects.
+        /// Method which is fired when a client disconnects. 
+        /// This method will stop each connected Host object and remove them from the list.
         /// </summary>
+        /// <param name="host">Host object to remove.</param>
         public void OnDisconnect(Host host)
         {
             if (host != null)
@@ -112,11 +123,17 @@ namespace RemoteHealthcare_Server
         /// <summary>
         /// This method allows outputting to a text block on the GUI.
         /// </summary>
+        /// <param name="msg">Message to print on the GUI</param>
         public void PrintToGUI(string msg)
         {
             this.window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
         }
 
+        /// <summary>
+        /// This method will send a message to each connected Host object.
+        /// This will also print the message on to the GUI.
+        /// </summary>
+        /// <param name="msg">Message to send</param>
         public void Broadcast(string msg)
         {
             for (int i = this.Hosts.Count - 1; i >= 0; i--)
