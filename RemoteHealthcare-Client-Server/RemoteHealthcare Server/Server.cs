@@ -55,7 +55,7 @@ namespace RemoteHealthcare_Server
         public void HandleClient(IAsyncResult ar)
         {
             TcpClient tcpClient = this.tcpListener.EndAcceptTcpClient(ar);
-            Host host = new Host("id", null, null, null, tcpClient);
+            Host host = new Host(Guid.NewGuid().ToString(), null, null, null, tcpClient);
 
             OnConnect(host);
             this.tcpListener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
@@ -74,7 +74,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void OnConnect(Host host)
         {
-            PrintToGUI($"{host.tcpClient.Client.RemoteEndPoint} connected.");
+            PrintToGUI($"{host.tcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
             this.Hosts.Add(host);
         }
 
