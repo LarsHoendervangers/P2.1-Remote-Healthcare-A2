@@ -26,7 +26,7 @@ namespace RemoteHealthcare_Client.TCP
             TcpClient client = new TcpClient(ip, port);
             stream = client.GetStream();
 
-            Trace.WriteLine("connected to server");
+            Trace.WriteLine("connected to server BBBBBB");
         }
 
         /// <summary>

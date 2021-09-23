@@ -21,16 +21,18 @@ namespace RemoteHealthcare_Client
         public ServerDataManager(string ip, int port)
         {
             this.TCPClientHandler = new TCPClientHandler(ip, port);
+            this.TCPClientHandler.SetRunning(true);
 
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
         }
 
         private void OnMessageReceived(object sender, string message)
         {
+            Trace.WriteLine("---------------------" + message);
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-            Trace.WriteLine(message);
+            
 
             HandleIncoming(jobject);
 
@@ -87,6 +89,7 @@ namespace RemoteHealthcare_Client
                     // Sending the data to the vrmanager, since flag 2 needs to be show in vr
                     break;
                 case 3:
+                default:
                     Trace.WriteLine($"Error received from server{jobject.GetValue("data")}");
                     break;
 
@@ -96,7 +99,7 @@ namespace RemoteHealthcare_Client
         public void ReceivedData(JObject data)
         {
 
-            Trace.WriteLine("BERIICHT WOD_++RD JJJ");
+            Trace.WriteLine($"received data from server: {data}");
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
     }
