@@ -68,6 +68,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientViewModel.cs" />
+    <Compile Include="GeneralCommand.cs" />
     <Compile Include="network\IDataManager.cs" />
     <Compile Include="network\DeviceDataManager.cs" />
     <Compile Include="network\ServerDataManager.cs" />
