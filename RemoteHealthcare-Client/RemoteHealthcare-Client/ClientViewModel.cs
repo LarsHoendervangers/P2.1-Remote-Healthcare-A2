@@ -1,4 +1,5 @@
 ﻿using RemoteHealthcare.ClientVREngine.Util.Structs;
+using RemoteHealthcare.Ergometer.Software;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,11 @@ namespace RemoteHealthcare_Client
 
         public ClientViewModel(StartupLoader loader)
         {
+            // Make multithreaded since waiting method
+            List<string> blDevices = PhysicalDevice.ReadAllDevices();
+            blDevices.Add("Simulator");
+            this.mBLEDevices = new ObservableCollection<string>(blDevices);
+
             this.loader = loader;
         }
 
@@ -27,7 +33,7 @@ namespace RemoteHealthcare_Client
         {
             get { return mVRServers; }
             set
-            {
+            {   
 
                 mVRServers = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("vrServers"));

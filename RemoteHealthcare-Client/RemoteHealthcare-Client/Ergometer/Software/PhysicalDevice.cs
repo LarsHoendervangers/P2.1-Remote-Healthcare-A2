@@ -8,6 +8,7 @@ using RemoteHealthcare_Client.Ergometer.Tools;
 using RemoteHealthcare_Client.Ergometer.Software;
 using RemoteHealthcare_Client.Ergometer.Hardware;
 using RemoteHealthcare_Client.Ergometer.Graphics;
+using System.Threading;
 
 namespace RemoteHealthcare.Ergometer.Software
 {
@@ -18,7 +19,10 @@ namespace RemoteHealthcare.Ergometer.Software
         {
             BLE blDevice = new BLE();
 
-            return blDevice.ListDevices();
+            //Make async or multithreaded
+            Thread.Sleep(100);
+
+            return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Avans Bike"));
         }
 
         private HRBLE HRMonitor { get; set; }
