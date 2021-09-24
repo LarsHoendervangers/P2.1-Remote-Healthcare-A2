@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -102,7 +103,7 @@ namespace RemoteHealthcare_Client.Ergometer.Software
         }
         public override void OnResistanceCall(object sender, int data)
         {
-            throw new NotImplementedException();
+            Trace.WriteLine($"Resistance in simulator set to: {data}");
         }
     }
 }

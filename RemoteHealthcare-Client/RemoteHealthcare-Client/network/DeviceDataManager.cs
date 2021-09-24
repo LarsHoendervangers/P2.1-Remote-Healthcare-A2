@@ -52,11 +52,9 @@ namespace RemoteHealthcare_Client
 
         public void OnIncomingRPM(object sender, int speed)
         {
-            Trace.WriteLine($"SENDING RPM IN DATAMANGER DEVICE:{speed}");
-            Trace.WriteLine($"{PrepareDeviceData(speed, "rpm")}");
             JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
 
-            this.ServerDataManager.ReceivedData(wrappedCommand);
+            //this.ServerDataManager.ReceivedData(wrappedCommand);
         }
 
         public void OnIncomingHR(object sender, int heartrate)
@@ -86,7 +84,32 @@ namespace RemoteHealthcare_Client
 
         public override void ReceivedData(JObject data)
         {
-            //throw new NotImplementedException();
+            // (See dataprotocol) receivedData wil allways be set resistance
+
+            // command value always gives the action 
+            JToken value;
+
+            bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
+
+            if (!correctCommand)
+            {
+                Trace.WriteLine("No valid JSON was received to DeviceDataManager");
+                return;
+            }
+
+            // Looking at the command and switching what behaviour is required
+            switch (value.ToString())
+            {
+
+                case "setresist":
+                    this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
+                    break;
+                default:
+                    // TODO HANDLE NOT SUPPORTER
+                    Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
+                    break;
+
+            }
         }
 
 
