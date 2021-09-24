@@ -19,9 +19,9 @@ namespace RemoteHealthcare_Server
 
             switch (command)
             {
-                case "login":
+               /* case "login":
                     LoginAction(jObject, sender);
-                    break;
+                    break;*/
                 case "ergodata":
                     ReceiveMeasurement(jObject, sender);
                     break;

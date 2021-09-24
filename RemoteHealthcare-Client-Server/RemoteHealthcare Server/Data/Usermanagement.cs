@@ -1,6 +1,7 @@
 ﻿using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace RemoteHealthcare_Server.Data
             //Admin this acount has instructions for adding users. How else would you add users then.
             //The doctors should probably not do that in my opinion
             //Kind regards Luuk
-            admin = new Admin("Admin", "Pasword123");
+            admin = new Admin("Admin", "Password123");
 
             //Lists for users
             patients = new List<Patient>();
@@ -98,8 +99,10 @@ namespace RemoteHealthcare_Server.Data
 
         public Admin CheckAdminCredentials(string username, string password)
         {
-            if(this.admin.Password == password && this.admin.Username == username)
+            Debug.WriteLine(password + this.admin.Password);
+            if (this.admin.Password == password && this.admin.Username == username)
             {
+                
                 return admin;
             }
             return null;

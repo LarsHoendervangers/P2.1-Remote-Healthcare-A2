@@ -46,7 +46,7 @@ namespace RemoteHealthcare_Server.Coms
 
                 } else if (flag == 2)
                 {
-                    object o = management.CheckDoctorCredentials(username, password);
+                    object o = management.CheckAdminCredentials(username, password);
                     if (o != null)
                     {
                         JSONWriter.LoginWrite(true, sender);

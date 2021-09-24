@@ -30,6 +30,7 @@ namespace RemoteHealthcare_Server
 
         public Host(TcpClient client, Usermanagement management)
         {
+            Debug.WriteLine("test");
             //Setting up attributes
             this.sender = new EncryptedSender(client.GetStream());
             this.usermanagement = management;
@@ -45,17 +46,18 @@ namespace RemoteHealthcare_Server
             while (true)
             {
                 //Getting json object
-                string data  = sender.ReadMessage();
-                JObject json = (JObject) JsonConvert.DeserializeObject(data);
+                string data = sender.ReadMessage();
+                JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
                 //Loging in or trying commanding...
                 if (type == -1)
                 {
                     this.login.LoginAction(json, sender, usermanagement);
-                } else
+                }
+                else
                 {
                     JSONReader.DecodeJsonObject(json, this.sender);
-                    Trace.WriteLine(data);
+
                 }
             }
         }
@@ -69,7 +71,7 @@ namespace RemoteHealthcare_Server
         {
             this.tcpclient.Close();
         }
-
+    }
        
 
    
