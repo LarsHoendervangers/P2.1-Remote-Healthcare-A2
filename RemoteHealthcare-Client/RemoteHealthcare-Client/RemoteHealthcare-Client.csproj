@@ -73,8 +73,8 @@
     <Compile Include="network\IDataManager.cs" />
     <Compile Include="network\DeviceDataManager.cs" />
     <Compile Include="network\ServerDataManager.cs" />
-    <Compile Include="network\Startup.cs" />
     <Compile Include="network\VRDataManager.cs" />
+    <Compile Include="StartupLoader.cs" />
     <Compile Include="TCP\TCPClientHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

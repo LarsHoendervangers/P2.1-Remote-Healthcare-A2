@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Client
         {
             //base.OnStartup(e);
             MainWindow window = new MainWindow();
-            ClientViewModel VM = new ClientViewModel();
+            ClientViewModel VM = new ClientViewModel(new StartupLoader());
             window.DataContext = VM;
             window.Show();
         }

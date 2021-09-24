@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Client
        
         private TCPClientHandler TCPClientHandler { get; set; }
 
-        public IDataManager DeviceDataManager { get;  set; }
+        public IDataManager DeviceDataManager { get; set; }
 
         public IDataManager VRDataManager { get; set; }
 
@@ -85,7 +85,7 @@ namespace RemoteHealthcare_Client
                     // TODO flags needed for login, net yet needed
                     break;
                 case 2:
-                    this.VRDataManager.ReceivedData(jobject);
+                    this.VRDataManager?.ReceivedData(jobject);
                     // Sending the data to the vrmanager, since flag 2 needs to be show in vr
                     break;
                 case 3:
