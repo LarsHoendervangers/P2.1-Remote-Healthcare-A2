@@ -10,12 +10,8 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public class DeviceDataManager : IDataManager
+    public class DeviceDataManager : DataManager
     {
-
-        public IDataManager ServerDataManager { set; get; }
-
-        public IDataManager VRDataManager { get; set; }
 
         private Device Device { get; set; }
 
@@ -27,7 +23,11 @@ namespace RemoteHealthcare_Client
 
         public DeviceDataManager(string bikeName, string HRName)
         {
-            this.Device = new PhysicalDevice(bikeName, HRName);
+            if (bikeName.ToLower() == "simulator")
+                this.Device = new SimulatedDevice();
+            else
+                this.Device = new PhysicalDevice(bikeName, HRName);
+
             Setup();
         }
 
@@ -47,7 +47,7 @@ namespace RemoteHealthcare_Client
 
         public void OnIncomingSpeed(object sender, double speed)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnIncomingRPM(object sender, int speed)
@@ -84,9 +84,9 @@ namespace RemoteHealthcare_Client
 
         }
 
-        public void ReceivedData(JObject data)
+        public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
 
