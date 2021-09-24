@@ -6,7 +6,35 @@
         xmlns:local="clr-namespace:RemoteHealthcare_Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        
+        <!-- Listview for vr server selection -->
+        <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
+            <ListView.View>
+                <GridView x:Name="vrServersGrid">
+                    <GridViewColumn Header="VRSERVER" DisplayMemberBinding="{Binding User}" Width="250"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Listview for Bike device selection -->
+        <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
+            <ListView.View>
+                <GridView x:Name="deviceGrid">
+                    <GridViewColumn Header="FIETSEN" Width="250"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!-- Start button -->
+        <Button Content="Delete" Grid.Row="0" Grid.Column="1" Command="{Binding Path=StartCommand}"  />
         
     </Grid>
 </Window>
+

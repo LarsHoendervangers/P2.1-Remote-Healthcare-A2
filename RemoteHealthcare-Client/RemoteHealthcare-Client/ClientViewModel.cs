@@ -14,6 +14,25 @@ namespace RemoteHealthcare_Client
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public ClientViewModel()
+        {
+
+            mVRServers = new ObservableCollection<ClientData>
+            {
+                new ClientData("ik", "jesse", "Jesse", "RTX390TI"),
+                new ClientData("ik", "jesse", "Jewqsse", "RTX390TI"),
+                new ClientData("ik", "jesse", "Jesseee", "RTX390TI")
+            };
+
+            mBLEDevices = new ObservableCollection<string>
+            {
+                "BIKE444",
+                "BIKE555",
+                "BIKE666"
+            };
+
+        }
+
         private ObservableCollection<ClientData> mVRServers;
         public ObservableCollection<ClientData> VRServers
         {
