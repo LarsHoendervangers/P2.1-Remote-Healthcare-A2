@@ -21,21 +21,22 @@ namespace RemoteHealthcare_Server
         private readonly EncryptedSender sender;
         private readonly Usermanagement usermanagement;
         private readonly JSONLogin login;
+        private readonly JSONReader reader;
 
 
         //Only assign 
         int type = -1;
-        object o = null;
+        object o= null;
 
 
         public Host(TcpClient client, Usermanagement management)
         {
-            Debug.WriteLine("test");
             //Setting up attributes
             this.sender = new EncryptedSender(client.GetStream());
             this.usermanagement = management;
             this.tcpclient = client;
             this.login = new JSONLogin();
+            this.reader = new JSONReader();
 
             //Starting reading thread
             new Thread(ReadData).Start();
@@ -52,12 +53,13 @@ namespace RemoteHealthcare_Server
                 //Loging in or trying commanding...
                 if (type == -1)
                 {
-                    this.login.LoginAction(json, sender, usermanagement);
+                    (int, object) output = this.login.LoginAction(json, sender, usermanagement);
+                    type = output.Item1;
+                    this.o = output.Item2;
                 }
                 else
                 {
-                    JSONReader.DecodeJsonObject(json, this.sender);
-
+                    this.reader.DecodeJsonObject(json, this.sender, type, this.o, this.usermanagement);
                 }
             }
         }

@@ -113,6 +113,20 @@ namespace RemoteHealthcare_Server.Data
             return null;
         }
 
+
+        public Patient StartSession(string patientID)
+        {
+            foreach (Patient p in this.patients)
+            {
+                if (p.PatientID == patientID)
+                {
+                    return p;
+                }
+            }
+
+            return null;
+        }
+
       
 
     }

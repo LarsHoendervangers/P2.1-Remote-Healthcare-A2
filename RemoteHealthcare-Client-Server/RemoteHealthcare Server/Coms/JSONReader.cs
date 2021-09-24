@@ -16,7 +16,7 @@ namespace RemoteHealthcare_Server
     {
 
         //Switch case for inputs
-        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, int accessLevel, object o)
+        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, int accessLevel, object o, Usermanagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
@@ -31,7 +31,7 @@ namespace RemoteHealthcare_Server
                     if (command == "getallclients") JSONDoctor.GetAllClients(jObject, sender);
                     if (command == "subtopatient") JSONDoctor.SubscribeToLiveSession(jObject, sender);
                     if (command == "getsession") JSONDoctor.GetHistoricSession(jObject, sender);
-                    if (command == "newsession") JSONDoctor.StartNewSession(jObject, sender);
+                    if (command == "newsession") JSONDoctor.StartNewSession(jObject, sender, managemet);
                     break;
 
                 case 2:
@@ -115,20 +115,20 @@ namespace RemoteHealthcare_Server
                 throw new NotImplementedException();
             }
 
-            internal static void StartNewSession(JObject jObject, EncryptedSender sender)
+            internal static void StartNewSession(JObject jObject, EncryptedSender sender, Usermanagement management)
             {
                 JObject data = (JObject)jObject.GetValue("data");
                 string patientID = data.GetValue("patientid").ToString();
                 bool sessionState = bool.Parse(data.GetValue("state").ToString());
 
-                //IDK to what to compare it too
-
-                
-
-                
-
-
-
+                if (sessionState)
+                {
+                    management.StartSession(patientID).session = new Session();
+                } else
+                {
+                    FileProcessing.SaveSession(management.StartSession(patientID));
+                    management.StartSession(patientID).session = null;
+                }
             }
 
           

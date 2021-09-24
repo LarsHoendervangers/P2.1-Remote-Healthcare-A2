@@ -11,23 +11,16 @@ namespace RemoteHealthcare_Server
 {
     public class FileProcessing
     {
-        //************NOTE******************************
 
-        //TODO Needs to be redone there need to come a method for saving session based on user dir wich is fine
-        //but there also needs to be a list saved to the disk for users.
-
-        //Also Need for a write patients and doctors and a read method for the same.
-
-
-        public void SaveSession(Patient p)
+        public static void SaveSession(Patient p)
         {
             string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
 
             Directory.CreateDirectory(FolderPath);                
-            //CreateFile(FolderPath, p.Session);
+            CreateFile(FolderPath, p.session);
         }
 
-        public JArray LoadSession(Session s)
+        public static JArray LoadSession(Session s)
         {
             string FileName = s.Patient.Username + "-" + s.StartTime;
             string FilePath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.Username, FileName);
@@ -37,7 +30,7 @@ namespace RemoteHealthcare_Server
             return ReadData;
         }
 
-        public void CreateFile(string folderpath, Session s)
+        public static void CreateFile(string folderpath, Session s)
         {
             string FileName = s.Patient.Username + "-" + s.StartTime;
 

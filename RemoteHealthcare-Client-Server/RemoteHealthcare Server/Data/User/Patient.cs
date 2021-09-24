@@ -18,7 +18,7 @@ namespace RemoteHealthcare_Server
 
         public string LastName { get; set; }
 
-        public string MedicalSystemID { get; set; }
+        public string PatientID { get; set; }
 
         public Session session { get; set; }
 
@@ -34,7 +34,7 @@ namespace RemoteHealthcare_Server
             this.DateOfBirth = dateOfBirth;
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.MedicalSystemID = medicalSystemID;
+            this.PatientID = medicalSystemID;
 
 
          
