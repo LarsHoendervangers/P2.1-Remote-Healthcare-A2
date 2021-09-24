@@ -18,9 +18,14 @@ namespace RemoteHealthcare_Client
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            manager = new ServerDataManager("145.49.5.228", 6969);
+            //manager = new ServerDataManager("145.49.5.228", 6969);
             //IDataManager manager = new ServerDataManager("145.49.53.124", 6969);
 
+            //base.OnStartup(e);
+            MainWindow window = new MainWindow();
+            ClientViewModel VM = new ClientViewModel();
+            window.DataContext = VM;
+            window.Show();
         }
 
     }
