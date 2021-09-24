@@ -81,12 +81,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         /// <summary>
         /// sets up up the connection and returns the id.
         /// </summary>
-        /// <param name="connection">The ID of the client to connect to</param>
+        /// <param name="connectionID">The ID of the client to connect to</param>
         /// <returns>boolean if the connection succeded</returns>
-        public bool SetUpConnection(string connection)
+        public bool SetUpConnection(string connectionID)
         {
             //Sending tunneling request to vps
-            string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
+            string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connectionID));
             Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
             TcpHandler.WriteMessage(requestingCode);
 

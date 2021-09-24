@@ -15,7 +15,7 @@
         <TextBlock Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         
         <!-- Listview for vr server selection -->
-        <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
+        <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=OneWay}" SelectedItem="{Binding SelectedVRServer}"  >
             <ListView.View>
                 <GridView x:Name="vrServersGrid">
                     <GridViewColumn Header="User" DisplayMemberBinding="{Binding User}" Width="50"/>
@@ -27,7 +27,7 @@
         </ListView>
 
         <!-- Listview for Bike device selection -->
-        <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
+        <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=OneWay}" SelectedItem="{Binding SelectedDevice}"  >
             <ListView.View>
                 <GridView x:Name="deviceGrid">
                     <GridViewColumn Header="FIETSEN" Width="150"/>

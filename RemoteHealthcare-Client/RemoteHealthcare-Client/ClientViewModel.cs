@@ -100,7 +100,7 @@ namespace RemoteHealthcare_Client
 
         private void StartApplication()
         {
-            this.loader.SetupServerConnection(mSelectedDevice, mSelectedVRServer.Adress);
+            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress);
         }
     }
 }

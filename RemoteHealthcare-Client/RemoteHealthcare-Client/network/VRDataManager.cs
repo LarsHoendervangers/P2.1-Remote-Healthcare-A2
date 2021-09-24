@@ -19,7 +19,16 @@ namespace RemoteHealthcare_Client
         {
             VRTunnelHandler = new TunnelHandler();
             this.simpleScene = new SimpleScene(this.VRTunnelHandler);
-    }
+        }
+
+        public void Start(string vrServerID)
+        {
+            this.VRTunnelHandler.SetUpConnection(vrServerID);
+
+            this.simpleScene.InitScene();
+
+            this.simpleScene.LoadScene();
+        }
 
         public void HandleIncoming(JObject data)
         {

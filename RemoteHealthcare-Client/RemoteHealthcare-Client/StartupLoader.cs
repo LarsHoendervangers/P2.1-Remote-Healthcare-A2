@@ -30,15 +30,19 @@ namespace RemoteHealthcare_Client
             SetupServerConnection("127.0.0.1", 6969, device, vrServer);
         }
 
-        public void SetupServerConnection(string ip, int port, string device, string vrServer)
+        public void SetupServerConnection(string ip, int port, string device, string vrServerID)
         {
+
             // Setting op serverDataManager, it creates the connection to the server
             this.serverDataManager = new ServerDataManager(ip, port);
 
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
             this.serverDataManager.DeviceDataManager = deviceDataManager;
+            this.serverDataManager.VRDataManager = vrDataManager;
             this.deviceDataManager.ServerDataManager = serverDataManager;
+
+            (this.vrDataManager as VRDataManager)?.Start(vrServerID);
         }
 
     }
