@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
 {
@@ -25,5 +26,41 @@ namespace RemoteHealthcare_Client
 
             }
         }
+
+        private ClientData mSelectedVRServer = new ClientData();
+        public ClientData SelectedVRServer
+        {
+            get { return mSelectedVRServer; }
+            set
+            {
+                mSelectedVRServer = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedVRServer"));
+            }
+        }
+
+        private ObservableCollection<string> mBLEDevices;
+        public ObservableCollection<string> BLEDevices
+        {
+            get { return mBLEDevices; }
+            set
+            {
+
+                mBLEDevices = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BLEDevices"));
+
+            }
+        }
+
+        private string mSelectedDevice = null;
+        public string SelectedDevice
+        {
+            get { return mSelectedDevice; }
+            set
+            {
+                mSelectedDevice = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedDevice"));
+            }
+        }
+
     }
 }
