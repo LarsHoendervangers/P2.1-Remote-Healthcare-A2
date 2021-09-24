@@ -47,12 +47,14 @@ namespace RemoteHealthcare_Client
 
         public void OnIncomingSpeed(object sender, double speed)
         {
-            //throw new NotImplementedException();
+            JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "speed"));
+
+            this.ServerDataManager.ReceivedData(wrappedCommand);
         }
 
         public void OnIncomingRPM(object sender, int speed)
         {
-            JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
+            //JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
 
             //this.ServerDataManager.ReceivedData(wrappedCommand);
         }
@@ -122,7 +124,7 @@ namespace RemoteHealthcare_Client
                 data = new
                 {
                     time = DateTime.Now.ToString(),
-                    rpm = value
+                    speed = value
                 }
             };
         }
