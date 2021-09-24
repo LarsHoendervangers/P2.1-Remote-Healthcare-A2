@@ -9,7 +9,7 @@ namespace RemoteHealthcare.ClientVREngine.Util.Structs
     /// <summary>
     /// Struct that stores the useful data of a server client.
     /// </summary>
-    struct ClientData
+    public struct ClientData
     {
         public string Adress { get; set; }
         public string Host { get; set; }

@@ -23,7 +23,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
     /// </summary>
     public class TunnelHandler
     {
-        public string DestinationID;
+        private string DestinationID;
         private readonly Dictionary<string, Action<string>> SerialMap;
         private readonly TCPClientHandler TcpHandler;
         private int SerialNumber;
@@ -133,11 +133,6 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 
             //Sending the message.
             SendToTunnel(encoded);
-        }
-
-        internal void SendToTunnel(object v, Action<string> action, object onRouteReceived)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
