@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace RemoteHealthcare_Shared
+namespace CommClass
 {
-    class ComClass
+    class Communications
     {
-        public static void WriteMessage(string message, NetworkStream stream)
+
+
+        public static void WriteData(byte[] data, NetworkStream stream)
         {
-            //Console.WriteLine(message);
-            byte[] payload = Encoding.ASCII.GetBytes(message);
+            byte[] payload = data;
             byte[] lenght = new byte[4];
-            lenght = BitConverter.GetBytes(message.Length);
+            lenght = BitConverter.GetBytes(data.Length);
             byte[] final = Combine(lenght, payload);
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            stream.Write(final, 0, message.Length + 4);
+            stream.Write(final, 0, data.Length + 4);
             stream.Flush();
         }
 
@@ -33,21 +30,12 @@ namespace RemoteHealthcare_Shared
             return bytes;
         }
 
-        /// <summary>
-        /// Reads a message from the TCP connection
-        /// </summary>
-        /// <returns>The message as a string</returns> 
-        public static string ReadMessage(NetworkStream stream)
+        public static byte[] ReadData(NetworkStream stream)
         {
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
-            try {
-                stream.Read(lenghtArray, 0, 4);
-            } catch (Exception e)
-            {
-                Trace.WriteLine(e.Message);
-            }
+            stream.Read(lenghtArray, 0, 4);
             int lenght = BitConverter.ToInt32(lenghtArray, 0);
 
             //Console.WriteLine(lenght);
@@ -63,7 +51,7 @@ namespace RemoteHealthcare_Shared
                 //Console.WriteLine("ReadMessage: " + read);
             }
 
-            return Encoding.ASCII.GetString(buffer, 0, totalRead);
+            return buffer;
         }
     }
 }

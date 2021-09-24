@@ -9,6 +9,8 @@
     <Import_RootNamespace>RemoteHealthcare_Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)ComClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EncryptedSender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlaneTextSender.cs" />
   </ItemGroup>
 </Project>
