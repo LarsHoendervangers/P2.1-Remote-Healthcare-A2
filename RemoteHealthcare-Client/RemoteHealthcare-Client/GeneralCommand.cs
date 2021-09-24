@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
 {
-    class Command : ICommand
+    class GeneralCommand : ICommand
     {
         public event EventHandler CanExecuteChanged
         {
@@ -18,12 +18,12 @@ namespace RemoteHealthcare_Client
         readonly Action<object> ExecuteCommand;
         readonly Predicate<object> CanExecuteAction;
 
-        public Command(Action<object> execute)
+        public GeneralCommand(Action<object> execute)
             : this(execute, null)
         {
         }
 
-        public Command(Action<object> execute, Predicate<object> canExecute)
+        public GeneralCommand(Action<object> execute, Predicate<object> canExecute)
         {
 
             ExecuteCommand = execute;

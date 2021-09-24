@@ -62,16 +62,26 @@ namespace RemoteHealthcare_Client
             }
         }
 
-        private ICommand mDeviceSelectCommand;
-        public ICommand DeviceSelectCommand
+        private ICommand mStartCommand;
+        public ICommand StartCommand
         {
-            get 
+            get
             {
-                if(mDeviceSelectCommand == null)
+                if (mStartCommand == null)
                 {
-                    mDeviceSelectCommand = new ICommand(() => SelectedDevice(), ()=> true);
+                    mStartCommand = new GeneralCommand(
+                        param => StartApplication(),
+                        param => (true)
+                        );
                 }
+                return mStartCommand;
             }
 
+        }
+
+        private void StartApplication()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
