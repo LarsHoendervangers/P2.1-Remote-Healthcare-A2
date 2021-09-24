@@ -62,5 +62,16 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        private ICommand mDeviceSelectCommand;
+        public ICommand DeviceSelectCommand
+        {
+            get 
+            {
+                if(mDeviceSelectCommand == null)
+                {
+                    mDeviceSelectCommand = new ICommand(() => SelectedDevice(), ()=> true);
+                }
+            }
+
     }
 }
