@@ -1,6 +1,7 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Server.Coms;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using System;
@@ -19,13 +20,12 @@ namespace RemoteHealthcare_Server
         private readonly TcpClient tcpclient;
         private readonly EncryptedSender sender;
         private readonly Usermanagement usermanagement;
+        private readonly JSONLogin login;
 
 
-        //Assigable after login
-        private Patient p; 
-        private Doctor d;
-        private Admin a;
-
+        //Only assign 
+        int type = -1;
+        object o = null;
 
 
         public Host(TcpClient client, Usermanagement management)
@@ -34,6 +34,7 @@ namespace RemoteHealthcare_Server
             this.sender = new EncryptedSender(client.GetStream());
             this.usermanagement = management;
             this.tcpclient = client;
+            this.login = new JSONLogin();
 
             //Starting reading thread
             new Thread(ReadData).Start();
@@ -47,15 +48,19 @@ namespace RemoteHealthcare_Server
                 string data  = sender.ReadMessage();
                 JObject json = (JObject) JsonConvert.DeserializeObject(data);
 
-                //Getting type Object
-                JSONReader.DecodeJsonObject(json, this.sender);
-                Trace.WriteLine(data);
-                
-
+                //Loging in or trying commanding...
+                if (type == -1)
+                {
+                    this.login.LoginAction(json, sender, usermanagement);
+                } else
+                {
+                    JSONReader.DecodeJsonObject(json, this.sender);
+                    Trace.WriteLine(data);
+                }
             }
         }
 
-        public void WriteData(String message)
+        public void WriteData(string message)
         {
             sender.SendMessage(message);
         }
@@ -64,7 +69,8 @@ namespace RemoteHealthcare_Server
         {
             this.tcpclient.Close();
         }
-    }
+
+       
 
    
 }

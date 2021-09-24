@@ -30,33 +30,7 @@ namespace RemoteHealthcare_Server
 
 
         //TODO making if there is a database
-        private static void LoginAction(JObject Jobject, EncryptedSender sender)
-        {
-            //Getting alle the amazing data
-            JObject data = (JObject)Jobject.GetValue("data");
-            string username = data.GetValue("us").ToString();
-            string password = data.GetValue("pass").ToString();
-            int flag = int.Parse(data.GetValue("flag").ToString());
-
-
-            //Issue still to fix to send it up to the specfice class im thinking of making an object of this class....
-         /*   switch (flag)
-            {
-                case 0:
-                    host.user = usermanagement.CheckPatientCredentials(username, password);
-                    break;
-                case 1:
-                    host.user = usermanagement.CheckDoctorCredentials(username, password);
-                    break;
-                case 2:
-                    host.user = usermanagement.CheckAdminCredentials(username, password);
-                    break;
-            }
-*/
-
-            JSONWriter.LoginWrite(true, sender);
-        }
-
+  
 
         //TODO test
         private static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender)
