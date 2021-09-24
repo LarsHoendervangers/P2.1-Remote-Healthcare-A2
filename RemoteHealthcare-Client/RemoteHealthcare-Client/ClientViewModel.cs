@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,23 +15,11 @@ namespace RemoteHealthcare_Client
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ClientViewModel()
+        private StartupLoader loader;
+
+        public ClientViewModel(StartupLoader loader)
         {
-
-            mVRServers = new ObservableCollection<ClientData>
-            {
-                new ClientData("ik", "jesse", "Jesse", "RTX390TI"),
-                new ClientData("ik", "jesse", "Jewqsse", "RTX390TI"),
-                new ClientData("ik", "jesse", "Jesseee", "RTX390TI")
-            };
-
-            mBLEDevices = new ObservableCollection<string>
-            {
-                "BIKE444",
-                "BIKE555",
-                "BIKE666"
-            };
-
+            this.loader = loader;
         }
 
         private ObservableCollection<ClientData> mVRServers;
@@ -100,7 +89,7 @@ namespace RemoteHealthcare_Client
 
         private void StartApplication()
         {
-            throw new NotImplementedException();
+            Trace.WriteLine($"IK START NU MET DE APPLICATIE BOOOOOOOOYS:{SelectedVRServer.User}, {SelectedDevice}");
         }
     }
 }

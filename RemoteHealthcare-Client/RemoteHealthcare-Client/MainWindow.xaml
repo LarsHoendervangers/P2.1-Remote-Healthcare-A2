@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RemoteHealthcare_Client"
+        xmlns:local="clr-namespace:RemoteHealthcare_Client" d:DataContext="{d:DesignInstance Type=local:ClientViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid ShowGridLines="True">
@@ -33,7 +33,7 @@
         </ListView>
         
         <!-- Start button -->
-        <Button Content="Delete" Grid.Row="0" Grid.Column="1" Command="{Binding Path=StartCommand}"  />
+        <Button Content="START" Grid.Row="0" Grid.Column="1" Command="{Binding Path=StartCommand}"  />
         
     </Grid>
 </Window>
