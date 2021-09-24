@@ -40,7 +40,9 @@ namespace RemoteHealthcare_Client
 
             this.serverDataManager.DeviceDataManager = deviceDataManager;
             this.serverDataManager.VRDataManager = vrDataManager;
+
             this.deviceDataManager.ServerDataManager = serverDataManager;
+            this.deviceDataManager.VRDataManager = vrDataManager;
 
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
         }

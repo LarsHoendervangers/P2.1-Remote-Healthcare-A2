@@ -6,6 +6,7 @@ using System.Text;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 using RemoteHealthcare_Client.ClientVREngine.Tunnel;
+using System.Diagnostics;
 
 namespace RemoteHealthcare_Client
 {
@@ -30,22 +31,37 @@ namespace RemoteHealthcare_Client
             this.simpleScene.LoadScene();
         }
 
-        public void HandleIncoming(JObject data)
-        {
-            string message = data.GetValue("data").ToString();
-            this.VRTunnelHandler.SendToTunnel(JSONCommandHelper.WrapPanelText(simpleScene.getOrDefaultPanelUuid(), 
-                message, new double[] {5, 5, 0}, 10, "arial"));
-
-        }
-
-        public void PrepareVRData(JObject data)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            // The data the VR engine will receive is the ergodata from the ergodevice + messagedata, see dataprotocol
+
+            // command value always gives the action 
+            JToken value;
+
+            bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
+
+            if (!correctCommand)
+            {
+                Trace.WriteLine("No valid JSON was received to VRDataManager");
+                return;
+            }
+
+            // Looking at the command and switching what behaviour is required
+            switch (value.ToString())
+            {
+
+                case "message":
+
+                    string message = data.GetValue("data").ToString();
+                    this.VRTunnelHandler.SendToTunnel(JSONCommandHelper.WrapPanelText(simpleScene.getOrDefaultPanelUuid(),
+                        message, new double[] { 5, 5, 0 }, 10, "arial"));
+                    break;
+                default:
+                    // TODO HANDLE NOT SUPPORTER
+                    Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
+                    break;
+
+            }
         }
     }
 }

@@ -50,6 +50,7 @@ namespace RemoteHealthcare_Client
             JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "speed"));
 
             this.ServerDataManager.ReceivedData(wrappedCommand);
+            this.VRDataManager.ReceivedData(wrappedCommand);
         }
 
         public void OnIncomingRPM(object sender, int speed)
