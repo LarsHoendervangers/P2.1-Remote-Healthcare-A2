@@ -8,8 +8,8 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
@@ -18,7 +18,10 @@
         <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
             <ListView.View>
                 <GridView x:Name="vrServersGrid">
-                    <GridViewColumn Header="VRSERVER" DisplayMemberBinding="{Binding User}" Width="250"/>
+                    <GridViewColumn Header="User" DisplayMemberBinding="{Binding User}" Width="50"/>
+                    <GridViewColumn Header="Host" DisplayMemberBinding="{Binding Host}" Width="150"/>
+                    <GridViewColumn Header="GPU" DisplayMemberBinding="{Binding GPU}" Width="200"/>
+                    <GridViewColumn Header="Adress" DisplayMemberBinding="{Binding Adress}" Width="250"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -27,7 +30,7 @@
         <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=TwoWay}" SelectedItem="{Binding SelectedDevice}"  >
             <ListView.View>
                 <GridView x:Name="deviceGrid">
-                    <GridViewColumn Header="FIETSEN" Width="250"/>
+                    <GridViewColumn Header="FIETSEN" Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>
