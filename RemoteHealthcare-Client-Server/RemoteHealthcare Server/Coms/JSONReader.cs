@@ -79,6 +79,8 @@ namespace RemoteHealthcare_Server
                         p.session.HRMeasurements.Add(new HRMeasurement(
                       DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
                     }
+
+                    Server.PrintToGUI("Received data");
                 }
             }
 
@@ -129,6 +131,8 @@ namespace RemoteHealthcare_Server
                     FileProcessing.SaveSession(management.StartSession(patientID));
                     management.StartSession(patientID).session = null;
                 }
+
+                Server.PrintToGUI("Stared a new session");
             }
 
           

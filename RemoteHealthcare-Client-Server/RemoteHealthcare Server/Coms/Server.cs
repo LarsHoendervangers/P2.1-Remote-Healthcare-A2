@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Server
 
         private Usermanagement users;
 
-        private MainWindow window;
+        private static MainWindow window;
 
         public IPAddress Ip { get; set; }
 
@@ -24,9 +24,9 @@ namespace RemoteHealthcare_Server
 
         public List<Host> Hosts { get; set; }
 
-        public Server(MainWindow window, IPAddress ip, int port)
+        public Server(MainWindow windows, IPAddress ip, int port)
         {
-            this.window = window;
+            window = windows;
             this.Ip = ip;
             this.Port = port;
             this.Hosts = new List<Host>();
@@ -121,9 +121,12 @@ namespace RemoteHealthcare_Server
         /// This method allows outputting to a text block on the GUI.
         /// </summary>
         /// <param name="msg">Message to print on the GUI</param>
-        public void PrintToGUI(string msg)
+        public static void PrintToGUI(string msg)
         {
-            this.window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+            if (window != null)
+            {
+                window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+            }
         }
 
         /// <summary>
