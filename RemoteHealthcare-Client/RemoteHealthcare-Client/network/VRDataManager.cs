@@ -9,7 +9,7 @@ using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 
 namespace RemoteHealthcare_Client
 {
-    public class VRDataManager : IDataManager
+    public class VRDataManager : DataManager
     {
         private readonly SimpleScene simpleScene;
 
@@ -34,10 +34,9 @@ namespace RemoteHealthcare_Client
             throw new NotImplementedException();
         }
 
-        public void ReceivedData(JObject data)
+        public override void ReceivedData(JObject data)
         {
-            //Handle incoming data, because Jesse has autism
-            HandleIncoming(data);
+            throw new NotImplementedException();
         }
     }
 }

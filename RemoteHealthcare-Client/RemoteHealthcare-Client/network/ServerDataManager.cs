@@ -9,14 +9,10 @@ using System.Text;
 
 namespace RemoteHealthcare_Client
 {
-    public class ServerDataManager : IDataManager
+    public class ServerDataManager : DataManager
     {
        
         private TCPClientHandler TCPClientHandler { get; set; }
-
-        public IDataManager DeviceDataManager { get; set; }
-
-        public IDataManager VRDataManager { get; set; }
 
         public ServerDataManager(string ip, int port)
         {
@@ -96,7 +92,7 @@ namespace RemoteHealthcare_Client
             }
         }
 
-        public void ReceivedData(JObject data)
+        public override void ReceivedData(JObject data)
         {
 
             Trace.WriteLine($"received data from server: {data}");

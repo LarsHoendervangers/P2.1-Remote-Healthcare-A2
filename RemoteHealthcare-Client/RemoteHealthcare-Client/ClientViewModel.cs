@@ -95,7 +95,7 @@ namespace RemoteHealthcare_Client
 
         private void StartApplication()
         {
-            Trace.WriteLine($"IK START NU MET DE APPLICATIE BOOOOOOOOYS:{SelectedVRServer.User}, {SelectedDevice}");
+            this.loader.SetupServerConnection(mSelectedDevice, mSelectedVRServer.Adress);
         }
     }
 }
