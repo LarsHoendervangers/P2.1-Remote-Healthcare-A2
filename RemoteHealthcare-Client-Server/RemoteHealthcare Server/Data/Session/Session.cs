@@ -7,6 +7,23 @@ namespace RemoteHealthcare_Server
 {
     public class Session
     {
+        //****************this class needs fixing*************** 
+        //All the set methods are broken why................
+
+        public Session(Patient patient)
+        {
+            this.patient = patient;
+        }
+
+        public Patient patient
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+
         /// <summary>
         /// List of HRMeasurements in this current session
         /// </summary>
@@ -29,23 +46,10 @@ namespace RemoteHealthcare_Server
             }
         }
 
+
+
+
         public int SessionID
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public HRMeasurement HRMeasurement
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public BikeMeasurement BikeMeasurement
         {
             get => default;
             set

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CommClass;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,29 @@ namespace RemoteHealthcare_Server
 {
     public class JSONReader
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Switch case for inputs
-        public static void DecodeJsonObject(JObject jObject, Host host)
+        public static void DecodeJsonObject(JObject jObject, Host host, EncryptedSender sender)
         {
             string command = jObject.GetValue("command").ToString();
 
             switch (command)
             {
                 case "login":
-                    LoginAction(jObject, host.TcpClient, host.ClientPatient);
+                    LoginAction(jObject, host.ClientPatient);
                     break;
                 case "ergodata":
                     ReceiveMeasurement(jObject, host.ClientPatient);
@@ -27,14 +42,14 @@ namespace RemoteHealthcare_Server
 
 
         //TODO making if there is a database
-        private static  void LoginAction(JObject Jobject, TcpClient client, Patient patient)
+        private static void LoginAction(JObject Jobject, Patient patien, EncryptedSender sender)
         {
             JObject data = (JObject)Jobject.GetValue("data");
             //There is still no database to check if there are any patients.   
             //if the client is found then it will send a succes else a failed.
-            patient = new Patient("Spaggeti", "Pasword", new DateTime(1, 2,3), new Session());
+            patient = new Patient("Spaggeti", "Pasword", new DateTime(1, 2, 3), new Session());
 
-            JSONWriter.LoginWrite(true, client);
+            JSONWriter.LoginWrite(true);
         }
 
 
@@ -62,13 +77,14 @@ namespace RemoteHealthcare_Server
                     , int.Parse(rpm.ToString()), int.Parse(speed.ToString())
                     , double.Parse(pow.ToString()), int.Parse(accpow.ToString())
                     , int.Parse(dist.ToString())));
-            } else if (bpm != null)
+            }
+            else if (bpm != null)
             {
                 patient.Session.HRMeasurements.Add(new HRMeasurement(
                     DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
             }
         }
 
-       
+
     }
 }

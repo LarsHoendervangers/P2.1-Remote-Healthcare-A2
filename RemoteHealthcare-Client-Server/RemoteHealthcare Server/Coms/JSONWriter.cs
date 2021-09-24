@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommClass;
+using Newtonsoft.Json;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace RemoteHealthcare_Server
 {
     class JSONWriter
     {
-        public static void LoginWrite(bool succes, TcpClient client)
+        public static void LoginWrite(bool succes, EncryptedSender sender)
         {
             object o;
             if (succes)
@@ -31,11 +32,11 @@ namespace RemoteHealthcare_Server
             }
 
             //Writing answer...
-            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
 
-        public static void MessageWrite(string msg, TcpClient client)
+        public static void MessageWrite(string msg, EncryptedSender sender)
         {
             object o = new
             {
@@ -44,7 +45,7 @@ namespace RemoteHealthcare_Server
                 flag = 2
             };
 
-            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
         public static void ResistanceWrite(int resistance, TcpClient client)

@@ -101,7 +101,7 @@ namespace RemoteHealthcare_Server
         /// <param name="host">Host object that will be added.</param>
         public void OnConnect(Host host)
         {
-            PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} connected. ({host.ID})");
+            PrintToGUI($"{host.client.Client.RemoteEndPoint} connected. ({host.ID})");
             this.Hosts.Add(host);
         }
 
@@ -114,7 +114,7 @@ namespace RemoteHealthcare_Server
         {
             if (host != null)
             {
-                PrintToGUI($"{host.TcpClient.Client.RemoteEndPoint} disconnected.");
+                PrintToGUI($"{host.client.Client.RemoteEndPoint} disconnected.");
                 host.Stop();
                 this.Hosts.Remove(host);
             }
@@ -141,7 +141,7 @@ namespace RemoteHealthcare_Server
                 if (this.Hosts.Count > i)
                 {
                     Host host = this.Hosts[i];
-                    JSONWriter.MessageWrite(msg, host.TcpClient);
+                    JSONWriter.MessageWrite(msg, host.client);
                 } else
                 {
                     break;

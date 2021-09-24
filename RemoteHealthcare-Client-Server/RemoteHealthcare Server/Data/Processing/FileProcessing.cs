@@ -11,6 +11,12 @@ namespace RemoteHealthcare_Server
 {
     public class FileProcessing
     {
+        //************NOTE******************************
+
+        //TODO Needs to be redone there need to come a method for saving session based on user dir wich is fine
+        //but there also needs to be a list saved to the disk for users.
+
+
         public void SaveSession(Patient p)
         {
             string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);

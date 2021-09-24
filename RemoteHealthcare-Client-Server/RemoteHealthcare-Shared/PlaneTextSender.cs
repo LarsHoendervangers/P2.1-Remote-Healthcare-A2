@@ -7,12 +7,19 @@ namespace CommClass
 {
     class PlaneTextSender
     {
-        public void SendMessage(string message, NetworkStream stream)
+        private NetworkStream stream;
+
+        public PlaneTextSender(NetworkStream network)
+        {
+            stream = network;
+        }
+
+        public void SendMessage(string message)
         {
             Communications.WriteData(Encoding.ASCII.GetBytes(message), stream);
         }
 
-        public string ReadMessage(NetworkStream stream)
+        public string ReadMessage()
         {
             return Encoding.ASCII.GetString(Communications.ReadData(stream));
         }

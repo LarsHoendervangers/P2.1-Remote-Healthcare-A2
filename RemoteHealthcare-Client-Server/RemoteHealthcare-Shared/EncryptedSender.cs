@@ -11,11 +11,16 @@ namespace CommClass
         private RSACryptoServiceProvider RSAIN;
         private RSACryptoServiceProvider RSAOUT;
 
-        public EncryptedSender(NetworkStream stream)
+        private NetworkStream stream;
+
+        public EncryptedSender(NetworkStream network)
         {
+            //Saving stream;
+            stream = network;
+
             //Setting up rsa objects
-            this.RSAIN = new RSACryptoServiceProvider();
-            this.RSAOUT = new RSACryptoServiceProvider();
+            RSAIN = new RSACryptoServiceProvider();
+            RSAOUT = new RSACryptoServiceProvider();
 
             //Sending the correct keys
             stream.Write(RSAIN.ExportRSAPublicKey());
@@ -27,7 +32,7 @@ namespace CommClass
             RSAOUT.ImportRSAPublicKey(publicKeyServer, out bytesRead);
         }
 
-        public void SendMessage(string message, NetworkStream stream)
+        public void  SendMessage(string message)
         {
             /*Console.WriteLine("Message decrypted: " + message);
             byte[] decrypted = Encoding.ASCII.GetBytes(message);
@@ -37,7 +42,7 @@ namespace CommClass
             Communications.WriteData(this.RSAOUT.Encrypt(Encoding.ASCII.GetBytes(message), false), stream);
         }
 
-        public string ReadMessage(NetworkStream stream)
+        public  string ReadMessage()
         {
           /*  Console.WriteLine("Message received");
             byte[] encrypted = Communications.ReadData(stream);
@@ -45,7 +50,7 @@ namespace CommClass
             byte[] decrypted = this.RSAIN.Decrypt(encrypted, false);
             Console.WriteLine("Message decrypted: " + Encoding.ASCII.GetString(decrypted));*/
 
-            return Encoding.ASCII.GetString(this.RSAIN.Decrypt(Communications.ReadData(stream), false));
+            return Encoding.ASCII.GetString(RSAIN.Decrypt(Communications.ReadData(stream), false));
         }
     }
 }

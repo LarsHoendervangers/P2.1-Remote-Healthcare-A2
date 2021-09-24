@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using CommClass;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RemoteHealthcare_Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,30 +16,42 @@ namespace RemoteHealthcare_Server
     {
         public string ID { get; set; }
 
-        public Patient ClientPatient { get; set; }
+        public IUSer client { get; set; }
 
         public FileProcessing Database { get; set; }
 
         public JSONReader JSONReader { get; set; }
 
-        public TcpClient TcpClient { get; set; }
+        public TcpClient client { get; set; }
+
+        EncryptedSender Sender { get; set; }
+
+        
 
         public Host(string ID, Patient clientPatient, FileProcessing database, JSONReader jSONReader, TcpClient client)
         {
+
+            //Patient settings
             this.ID = ID;
             this.ClientPatient = clientPatient;
             this.Database = database;
             this.JSONReader = jSONReader;
-            this.TcpClient = client;
+     
+
+            //Connection settings
             new Thread(ReadData).Start();
+            this.client = client;
+            this.Sender = new EncryptedSender(client.GetStream());
+
         }
 
         public void ReadData()
         {
             while (true)
             {
-                string data  = ComClass.ReadMessage(this.TcpClient.GetStream());
-                //JObject json = (JObject) JsonConvert.DeserializeObject(data);
+                string data  = Sender.ReadMessage();
+                JObject json = (JObject) JsonConvert.DeserializeObject(data);
+                JSONReader.DecodeJsonObject(json, this.Sender);
                 Trace.WriteLine(data);
                 
 
@@ -47,12 +60,12 @@ namespace RemoteHealthcare_Server
 
         public void WriteData(String message)
         {
-            ComClass.WriteMessage(message, this.TcpClient.GetStream());
+            Sender.SendMessage(message, this.client.GetStream());
         }
 
         public void Stop()
         {
-            this.TcpClient.Close();
+            this.client.Close();
         }
     }
 }
