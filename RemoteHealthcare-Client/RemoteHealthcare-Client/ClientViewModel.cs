@@ -20,10 +20,15 @@ namespace RemoteHealthcare_Client
 
         public ClientViewModel(StartupLoader loader)
         {
-            // Make multithreaded since waiting method
+            // TODO !! blocking call
             List<string> blDevices = PhysicalDevice.ReadAllDevices();
             blDevices.Add("Simulator");
             this.mBLEDevices = new ObservableCollection<string>(blDevices);
+
+            // Setting all the VRserers list
+            // !! Also blocking call
+            this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+
 
             this.loader = loader;
         }
