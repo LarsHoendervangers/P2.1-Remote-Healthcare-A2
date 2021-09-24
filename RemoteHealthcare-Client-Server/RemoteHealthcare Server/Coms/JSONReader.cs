@@ -9,18 +9,21 @@ using System.Text;
 
 namespace RemoteHealthcare_Server
 {
-    public class JSONReader 
+
+
+    //NOTE to future self (Luuk) also do this with try parse.............
+    public class JSONReader
     {
 
         //Switch case for inputs
-        public static void DecodeJsonObject(JObject jObject, EncryptedSender sender, int accessLevel)
+        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, int accessLevel, object o)
         {
             string command = jObject.GetValue("command").ToString();
 
             switch (accessLevel)
             {
                 case 0:
-                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender);
+                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, (Patient)o);
                     break;
                 case 1:
                     if (command == "abort") JSONDoctor.AbortingClient(jObject, sender);
@@ -45,38 +48,41 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONPatient
         {
-            public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender)
+            public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender, Patient p)
             {
-                //Bike
-                JToken rpm = Jobject.SelectToken("data.rpm");
-                JToken speed = Jobject.SelectToken("data.speed");
-                JToken dist = Jobject.SelectToken("data.dist");
-                JToken pow = Jobject.SelectToken("data.pow");
-                JToken accpow = Jobject.SelectToken("data.accpw");
-
-                //Heart
-                JToken bpm = Jobject.SelectToken("data.bpm");
-
-                //All
-                JToken time = Jobject.SelectToken("data.time");
-
-                //Checks
-                if (rpm != null)
+                if (p.session != null)
                 {
-                    // patient.Session.BikeMeasurements.Add(
-                    /*          new BikeMeasurement(DateTime.Parse(time.ToString())
-                              , int.Parse(rpm.ToString()), int.Parse(speed.ToString())
-                              , double.Parse(pow.ToString()), int.Parse(accpow.ToString())
-                              , int.Parse(dist.ToString())));*/
-                }
-                else if (bpm != null)
-                {
-                    //  patient.Session.HRMeasurements.Add(new HRMeasurement(
-                    //   DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
+                    //Bike
+                    JToken rpm = Jobject.SelectToken("data.rpm");
+                    JToken speed = Jobject.SelectToken("data.speed");
+                    JToken dist = Jobject.SelectToken("data.dist");
+                    JToken pow = Jobject.SelectToken("data.pow");
+                    JToken accpow = Jobject.SelectToken("data.accpw");
+
+                    //Heart
+                    JToken bpm = Jobject.SelectToken("data.bpm");
+
+                    //All
+                    JToken time = Jobject.SelectToken("data.time");
+
+                    //Checks
+                    if (rpm != null)
+                    {
+                        p.session.BikeMeasurements.Add(
+                        new BikeMeasurement(DateTime.Parse(time.ToString())
+                        , int.Parse(rpm.ToString()), int.Parse(speed.ToString())
+                        , double.Parse(pow.ToString()), int.Parse(accpow.ToString())
+                        , int.Parse(dist.ToString())));
+                    }
+                    else if (bpm != null)
+                    {
+                        p.session.HRMeasurements.Add(new HRMeasurement(
+                      DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
+                    }
                 }
             }
 
-          
+
         }
 
         /// <summary>
@@ -111,15 +117,36 @@ namespace RemoteHealthcare_Server
 
             internal static void StartNewSession(JObject jObject, EncryptedSender sender)
             {
-                throw new NotImplementedException();
+                JObject data = (JObject)jObject.GetValue("data");
+                string patientID = data.GetValue("patientid").ToString();
+                bool sessionState = bool.Parse(data.GetValue("state").ToString());
+
+                //IDK to what to compare it too
+
+                
+
+                
+
+
+
             }
+
+          
         }
 
 
+        /// <summary>
+        /// This class contains all the methods with acces level 2 so being it admin
+        /// </summary>
+        partial class JSONAdmin
+        {
 
 
 
+
+
+
+        }
     }
-
   
 }

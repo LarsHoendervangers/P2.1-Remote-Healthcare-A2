@@ -9,19 +9,10 @@ namespace RemoteHealthcare_Server
     {
         //****************this class needs fixing*************** 
         //All the set methods are broken why................
+        //I off
 
-        public Session(Patient patient)
-        {
-            this.patient = patient;
-        }
 
-        public Patient patient
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
 
 
         /// <summary>

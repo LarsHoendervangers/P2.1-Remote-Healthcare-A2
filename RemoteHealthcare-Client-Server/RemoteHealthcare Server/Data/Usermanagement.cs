@@ -10,9 +10,14 @@ namespace RemoteHealthcare_Server.Data
 {
     public class Usermanagement
     {
+
+        //Users
         private List<Patient> patients;
         private List<Doctor> doctors;
         private Admin admin;
+
+        //Sessions
+        private List<Session> activeSessions;
 
 
         public Usermanagement()
@@ -107,5 +112,8 @@ namespace RemoteHealthcare_Server.Data
             }
             return null;
         }
+
+      
+
     }
 }
