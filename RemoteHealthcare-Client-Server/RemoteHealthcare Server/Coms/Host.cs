@@ -1,7 +1,8 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using RemoteHealthcare_Server.Data;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,44 +15,40 @@ namespace RemoteHealthcare_Server
 {
     public class Host
     {
-        public string ID { get; set; }
+        //Needed for assigment
+        private readonly TcpClient tcpclient;
+        private readonly EncryptedSender sender;
+        private readonly Usermanagement usermanagement;
 
-        public IUSer client { get; set; }
 
-        public FileProcessing Database { get; set; }
+        //Assigable after login
+        private Patient p; 
+        private Doctor d;
+        private Admin a;
 
-        public JSONReader JSONReader { get; set; }
 
-        public TcpClient client { get; set; }
 
-        EncryptedSender Sender { get; set; }
-
-        
-
-        public Host(string ID, Patient clientPatient, FileProcessing database, JSONReader jSONReader, TcpClient client)
+        public Host(TcpClient client, Usermanagement management)
         {
+            //Setting up attributes
+            this.sender = new EncryptedSender(client.GetStream());
+            this.usermanagement = management;
+            this.tcpclient = client;
 
-            //Patient settings
-            this.ID = ID;
-            this.ClientPatient = clientPatient;
-            this.Database = database;
-            this.JSONReader = jSONReader;
-     
-
-            //Connection settings
+            //Starting reading thread
             new Thread(ReadData).Start();
-            this.client = client;
-            this.Sender = new EncryptedSender(client.GetStream());
-
         }
 
         public void ReadData()
         {
             while (true)
             {
-                string data  = Sender.ReadMessage();
+                //Getting json object
+                string data  = sender.ReadMessage();
                 JObject json = (JObject) JsonConvert.DeserializeObject(data);
-                JSONReader.DecodeJsonObject(json, this.Sender);
+
+                //Getting type Object
+                JSONReader.DecodeJsonObject(json, this.sender);
                 Trace.WriteLine(data);
                 
 
@@ -60,12 +57,14 @@ namespace RemoteHealthcare_Server
 
         public void WriteData(String message)
         {
-            Sender.SendMessage(message, this.client.GetStream());
+            sender.SendMessage(message);
         }
 
         public void Stop()
         {
-            this.client.Close();
+            this.tcpclient.Close();
         }
     }
+
+   
 }

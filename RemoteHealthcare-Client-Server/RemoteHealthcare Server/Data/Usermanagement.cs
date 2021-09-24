@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data
 {
-    class Usermanagement
+    public class Usermanagement
     {
         private List<Patient> patients;
         private List<Doctor> doctors;

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CommClass
 {
-    class EncryptedSender
+    public class EncryptedSender
     {
         private RSACryptoServiceProvider RSAIN;
         private RSACryptoServiceProvider RSAOUT;

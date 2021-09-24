@@ -1,5 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Server.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,50 +12,54 @@ namespace RemoteHealthcare_Server
     public class JSONReader
     {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         //Switch case for inputs
-        public static void DecodeJsonObject(JObject jObject, Host host, EncryptedSender sender)
+        public static void DecodeJsonObject(JObject jObject, EncryptedSender sender)
         {
             string command = jObject.GetValue("command").ToString();
 
             switch (command)
             {
                 case "login":
-                    LoginAction(jObject, host.ClientPatient);
+                    LoginAction(jObject, sender);
                     break;
                 case "ergodata":
-                    ReceiveMeasurement(jObject, host.ClientPatient);
+                    ReceiveMeasurement(jObject, sender);
                     break;
             }
         }
 
 
         //TODO making if there is a database
-        private static void LoginAction(JObject Jobject, Patient patien, EncryptedSender sender)
+        private static void LoginAction(JObject Jobject, EncryptedSender sender)
         {
+            //Getting alle the amazing data
             JObject data = (JObject)Jobject.GetValue("data");
-            //There is still no database to check if there are any patients.   
-            //if the client is found then it will send a succes else a failed.
-            patient = new Patient("Spaggeti", "Pasword", new DateTime(1, 2, 3), new Session());
+            string username = data.GetValue("us").ToString();
+            string password = data.GetValue("pass").ToString();
+            int flag = int.Parse(data.GetValue("flag").ToString());
 
-            JSONWriter.LoginWrite(true);
+
+            //Issue still to fix to send it up to the specfice class im thinking of making an object of this class....
+         /*   switch (flag)
+            {
+                case 0:
+                    host.user = usermanagement.CheckPatientCredentials(username, password);
+                    break;
+                case 1:
+                    host.user = usermanagement.CheckDoctorCredentials(username, password);
+                    break;
+                case 2:
+                    host.user = usermanagement.CheckAdminCredentials(username, password);
+                    break;
+            }
+*/
+
+            JSONWriter.LoginWrite(true, sender);
         }
 
 
         //TODO test
-        private static void ReceiveMeasurement(JObject Jobject, Patient patient)
+        private static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender)
         {
             //Bike
             JToken rpm = Jobject.SelectToken("data.rpm");
@@ -72,16 +77,16 @@ namespace RemoteHealthcare_Server
             //Checks
             if (rpm != null)
             {
-                patient.Session.BikeMeasurements.Add(
-                    new BikeMeasurement(DateTime.Parse(time.ToString())
+               // patient.Session.BikeMeasurements.Add(
+          /*          new BikeMeasurement(DateTime.Parse(time.ToString())
                     , int.Parse(rpm.ToString()), int.Parse(speed.ToString())
                     , double.Parse(pow.ToString()), int.Parse(accpow.ToString())
-                    , int.Parse(dist.ToString())));
+                    , int.Parse(dist.ToString())));*/
             }
             else if (bpm != null)
             {
-                patient.Session.HRMeasurements.Add(new HRMeasurement(
-                    DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
+              //  patient.Session.HRMeasurements.Add(new HRMeasurement(
+                 //   DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
-using RemoteHealthcare_Shared;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace RemoteHealthcare_Server
                 flag = 2
             };
 
-            sender.SendMessage(JsonConvert.SerializeObject(o));
+            //sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
         public static void ResistanceWrite(int resistance, TcpClient client)
@@ -56,7 +56,7 @@ namespace RemoteHealthcare_Server
                 data = resistance
             };
             
-            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            //.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
 
         public static void AbortWrite(TcpClient client)
@@ -67,7 +67,7 @@ namespace RemoteHealthcare_Server
                 data = new { }
             };
 
-            ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            //ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
         }
     }
 }

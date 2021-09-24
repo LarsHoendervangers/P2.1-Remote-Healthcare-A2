@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.User
 {
-    class Doctor 
+    public class Doctor 
     {
         public string Username { get; set; }
 

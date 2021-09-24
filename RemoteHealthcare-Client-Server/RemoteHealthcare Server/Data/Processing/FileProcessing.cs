@@ -16,13 +16,15 @@ namespace RemoteHealthcare_Server
         //TODO Needs to be redone there need to come a method for saving session based on user dir wich is fine
         //but there also needs to be a list saved to the disk for users.
 
+        //Also Need for a write patients and doctors and a read method for the same.
+
 
         public void SaveSession(Patient p)
         {
             string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
 
             Directory.CreateDirectory(FolderPath);                
-            CreateFile(FolderPath, p.Session);
+            //CreateFile(FolderPath, p.Session);
         }
 
         public JArray LoadSession(Session s)

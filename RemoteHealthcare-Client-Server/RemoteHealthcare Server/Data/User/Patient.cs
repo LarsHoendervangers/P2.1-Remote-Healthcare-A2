@@ -33,6 +33,8 @@ namespace RemoteHealthcare_Server
             this.FirstName = firstName;
             this.LastName = lastName;
             this.MedicalSystemID = medicalSystemID;
+
+
          
         }
 
