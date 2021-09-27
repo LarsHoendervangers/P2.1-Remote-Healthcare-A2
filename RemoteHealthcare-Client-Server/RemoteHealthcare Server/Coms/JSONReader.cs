@@ -93,32 +93,32 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONDoctor
         {
-            public static void SettingErgometer(JObject jObject, EncryptedSender sender)
+            public static void SettingErgometer(JObject jObject, PlaneTextSender sender)
             {
                 throw new NotImplementedException();
             }
 
-            public static void AbortingClient(JObject jObject, EncryptedSender sender)
+            public static void AbortingClient(JObject jObject, PlaneTextSender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void GetAllClients(JObject jObject, EncryptedSender sender)
+            internal static void GetAllClients(JObject jObject, PlaneTextSender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void SubscribeToLiveSession(JObject jObject, EncryptedSender sender)
+            internal static void SubscribeToLiveSession(JObject jObject, PlaneTextSender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void GetHistoricSession(JObject jObject, EncryptedSender sender)
+            internal static void GetHistoricSession(JObject jObject, PlaneTextSender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void StartNewSession(JObject jObject, EncryptedSender sender, Usermanagement management)
+            internal static void StartNewSession(JObject jObject, PlaneTextSender sender, Usermanagement management)
             {
                 JObject data = (JObject)jObject.GetValue("data");
                 string patientID = data.GetValue("patientid").ToString();

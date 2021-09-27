@@ -18,7 +18,7 @@ namespace RemoteHealthcare_Server
     {
         //Needed for assigment
         private readonly TcpClient tcpclient;
-        private readonly EncryptedSender sender;
+        private readonly PlaneTextSender sender;
         private readonly Usermanagement usermanagement;
         private readonly JSONLogin login;
         private readonly JSONReader reader;
@@ -31,7 +31,9 @@ namespace RemoteHealthcare_Server
         public Host(TcpClient client, Usermanagement management)
         {
             //Setting up attributes
-            this.sender = new EncryptedSender(client.GetStream());
+            //this.sender = new EncryptedSender(client.GetStream());
+            this.sender = new PlaneTextSender(client.GetStream());
+
             this.usermanagement = management;
             this.tcpclient = client;
             this.login = new JSONLogin();
