@@ -51,7 +51,7 @@ namespace RemoteHealthcare_Server
         {
             public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender, IUser user)
             {
-                if (user.session != null)
+             /*   if (user.session != null)
                 {
                     //Bike
                     JToken rpm = Jobject.SelectToken("data.rpm");
@@ -79,7 +79,7 @@ namespace RemoteHealthcare_Server
                     {
                         p.session.HRMeasurements.Add(new HRMeasurement(
                       DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
-                    }
+                    }*/
 
                     Server.PrintToGUI("Received data");
                 }
@@ -152,6 +152,6 @@ namespace RemoteHealthcare_Server
 
 
         }
-    }
+    
   
 }
