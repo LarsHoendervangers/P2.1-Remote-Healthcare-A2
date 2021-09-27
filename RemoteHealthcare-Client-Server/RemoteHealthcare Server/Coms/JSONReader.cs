@@ -81,7 +81,7 @@ namespace RemoteHealthcare_Server
                       DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
                     }*/
 
-                    Server.PrintToGUI("Received data");
+                    //Server.PrintToGUI("Received data");
                 }
             }
 
@@ -133,7 +133,7 @@ namespace RemoteHealthcare_Server
                     management.StartSession(patientID).session = null;
                 }
 
-                Server.PrintToGUI("Stared a new session");
+                //Server.PrintToGUI("Stared a new session");
             }
 
           
