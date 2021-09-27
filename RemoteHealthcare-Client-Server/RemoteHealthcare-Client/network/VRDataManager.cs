@@ -56,6 +56,9 @@ namespace RemoteHealthcare_Client
                     this.VRTunnelHandler.SendToTunnel(JSONCommandHelper.WrapPanelText(simpleScene.getOrDefaultPanelUuid(),
                         message, new double[] { 5, 5, 0 }, 10, "arial"));
                     break;
+                case "ergodata":
+                    Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
+                    break;
                 default:
                     // TODO HANDLE NOT SUPPORTER
                     Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
