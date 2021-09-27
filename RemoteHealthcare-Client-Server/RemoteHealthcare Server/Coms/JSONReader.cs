@@ -17,7 +17,7 @@ namespace RemoteHealthcare_Server
     {
 
         //Switch case for inputs
-        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, IUser  user , Usermanagement managemet)
+        public void DecodeJsonObject(JObject jObject, PlaneTextSender sender, IUser  user , Usermanagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
@@ -49,7 +49,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONPatient
         {
-            public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender, IUser user)
+            public static void ReceiveMeasurement(JObject Jobject, PlaneTextSender sender, IUser user)
             {
              /*   if (user.session != null)
                 {

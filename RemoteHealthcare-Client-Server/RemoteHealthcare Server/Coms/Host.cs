@@ -31,7 +31,7 @@ namespace RemoteHealthcare_Server
         public Host(TcpClient client, Usermanagement management)
         {
             //Setting up attributes
-            //this.sender = new EncryptedSender(client.GetStream());
+            //this.sender = new PlaneTextSender(client.GetStream());
             this.sender = new PlaneTextSender(client.GetStream());
 
             this.usermanagement = management;
