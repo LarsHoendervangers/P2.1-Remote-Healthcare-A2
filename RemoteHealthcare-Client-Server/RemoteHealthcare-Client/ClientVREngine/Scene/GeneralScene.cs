@@ -18,7 +18,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
     ///     <li>Be saved to the server</li>
     /// </ul>
     /// </summary>
-    abstract class GeneralScene
+    public abstract class GeneralScene
     {
         protected TunnelHandler Handler;
 

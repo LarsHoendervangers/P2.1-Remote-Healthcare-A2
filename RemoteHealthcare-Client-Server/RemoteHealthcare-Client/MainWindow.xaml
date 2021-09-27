@@ -3,10 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RemoteHealthcare_Client"
+        xmlns:local="clr-namespace:RemoteHealthcare_Client" d:DataContext="{d:DesignInstance Type=local:ClientViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        
+        <!-- Listview for vr server selection -->
+        <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=OneWay}" SelectedItem="{Binding SelectedVRServer}"  >
+            <ListView.View>
+                <GridView x:Name="vrServersGrid">
+                    <GridViewColumn Header="User" DisplayMemberBinding="{Binding User}" Width="50"/>
+                    <GridViewColumn Header="Host" DisplayMemberBinding="{Binding Host}" Width="150"/>
+                    <GridViewColumn Header="GPU" DisplayMemberBinding="{Binding GPU}" Width="200"/>
+                    <GridViewColumn Header="Adress" DisplayMemberBinding="{Binding Adress}" Width="250"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Listview for Bike device selection -->
+        <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=OneWay}" SelectedItem="{Binding SelectedDevice}"  >
+            <ListView.View>
+                <GridView x:Name="deviceGrid">
+                    <GridViewColumn Header="FIETSEN" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <!-- Start button -->
+        <Button Content="START" Grid.Row="0" Grid.Column="1" Command="{Binding Path=StartCommand}"  />
         
     </Grid>
 </Window>
+

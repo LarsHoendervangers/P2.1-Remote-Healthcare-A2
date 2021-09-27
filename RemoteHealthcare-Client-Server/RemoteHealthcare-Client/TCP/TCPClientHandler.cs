@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
+namespace RemoteHealthcare_Client.TCP
 {
     /// <summary>
     /// Class that handles the TCP connection between a other program, taking ip- and portadress
@@ -20,11 +21,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         /// <summary>
         /// Constructor for TCPClientHandler
         /// </summary>
-        public TCPClientHandler()
+        public TCPClientHandler(string ip, int port)
         {
-            TcpClient client = new TcpClient("145.48.6.10", 6666);
+            TcpClient client = new TcpClient(ip, port);
             stream = client.GetStream();
 
+            Trace.WriteLine("connected to server BBBBBB");
         }
 
         /// <summary>
@@ -58,6 +60,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         /// <param name="message">the message that is send to the server</param>
         public void WriteMessage(string message)
         {
+            Trace.WriteLine("VERSTUUUREN" + message);
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
             byte[] lenght = new byte[4];

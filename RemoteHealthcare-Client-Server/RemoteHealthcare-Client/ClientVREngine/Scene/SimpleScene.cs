@@ -8,7 +8,7 @@ using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 
 namespace RemoteHealthcare_Client.ClientVREngine.Scene
 {
-    class SimpleScene : GeneralScene
+    public class SimpleScene : GeneralScene
     {
         private string uuidRoute;
         private string uuidModel;
@@ -102,6 +102,11 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         {
             uuidPanel = VRUTil.GetId(json);
             Console.WriteLine("Panel" + uuidPanel);
+        }
+
+        public string getOrDefaultPanelUuid()
+        {
+            return this?.uuidPanel;
         }
 
 

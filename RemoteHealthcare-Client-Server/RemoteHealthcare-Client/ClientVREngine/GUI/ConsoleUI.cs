@@ -64,7 +64,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.GUI
             }
 
             handler.SetUpConnection(Clients[Userinput - 1].Adress);
-            Trace.WriteLine("Connecting to server: ID that was returend: {0} \n", handler.DestinationID);
+            //Trace.WriteLine("Connecting to server: ID that was returend: {0} \n", handler.DestinationID);
         }
 
         private static void SetupLogging()

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
+using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,9 +21,9 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
     ///     <li>Class provides callback for return messages from the server</li>
     /// </ul>
     /// </summary>
-    class TunnelHandler
+    public class TunnelHandler
     {
-        public string DestinationID;
+        private string DestinationID;
         private readonly Dictionary<string, Action<string>> SerialMap;
         private readonly TCPClientHandler TcpHandler;
         private int SerialNumber;
@@ -34,7 +35,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         public TunnelHandler()
         {
             SerialMap = new Dictionary<string, Action<string>>();
-            TcpHandler = new TCPClientHandler();
+            TcpHandler = new TCPClientHandler("145.48.6.10", 6666);
             SerialNumber = 0;
 
             // Setting the method to be performed when data is received
@@ -50,7 +51,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         {
             List<ClientData> clients = new List<ClientData>();
 
-            //Writing for connection
+            //Writing for connection 
             string startingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapRequest());
             TcpHandler.WriteMessage(startingCode);
 
@@ -80,12 +81,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         /// <summary>
         /// sets up up the connection and returns the id.
         /// </summary>
-        /// <param name="connection">The ID of the client to connect to</param>
+        /// <param name="connectionID">The ID of the client to connect to</param>
         /// <returns>boolean if the connection succeded</returns>
-        public bool SetUpConnection(string connection)
+        public bool SetUpConnection(string connectionID)
         {
             //Sending tunneling request to vps
-            string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connection));
+            string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connectionID));
             Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
             TcpHandler.WriteMessage(requestingCode);
 
@@ -132,11 +133,6 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 
             //Sending the message.
             SendToTunnel(encoded);
-        }
-
-        internal void SendToTunnel(object v, Action<string> action, object onRouteReceived)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

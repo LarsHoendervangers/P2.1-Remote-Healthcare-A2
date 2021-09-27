@@ -8,11 +8,23 @@ using RemoteHealthcare_Client.Ergometer.Tools;
 using RemoteHealthcare_Client.Ergometer.Software;
 using RemoteHealthcare_Client.Ergometer.Hardware;
 using RemoteHealthcare_Client.Ergometer.Graphics;
+using System.Threading;
 
 namespace RemoteHealthcare.Ergometer.Software
 {
     class PhysicalDevice : Device
     {
+
+        public static List<string> ReadAllDevices()
+        {
+            BLE blDevice = new BLE();
+
+            //Make async or multithreaded
+            Thread.Sleep(100);
+
+            return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Avans Bike"));
+        }
+
         private HRBLE HRMonitor { get; set; }
         private BikeBLE Bike { get; set; }
 
@@ -80,6 +92,8 @@ namespace RemoteHealthcare.Ergometer.Software
         public int rollCurrentPower = 0;
         public int prevCurrentPower = 0;
 
+
+
         /// <summary>
         /// Constructor for PhysicalDevice, taking the names of the devices to connect to
         /// </summary>
@@ -92,12 +106,6 @@ namespace RemoteHealthcare.Ergometer.Software
 
             HRMonitor.onHRData += OnHeartBeatReceived;
             Bike.OnBikeData += OnBikeReceived;
-
-            List<string> list = Bike.ListDevices();
-            foreach (string l in list)
-            {
-                DataGUI.AddDeviceToList(l);
-            }
         }
 
 

@@ -11,6 +11,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RemoteHealthcare-Shared", "
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{74dbd5f8-b8b9-4767-8158-1621f05e6146}*SharedItemsImports = 4
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{7e1ba417-e958-49ca-8c3b-4204368929c1}*SharedItemsImports = 13
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{a520c21d-7bd4-42aa-9a50-fb5ac2cdd64b}*SharedItemsImports = 5
 	EndGlobalSection

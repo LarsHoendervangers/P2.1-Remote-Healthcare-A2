@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>RemoteHealthcare_Client.ClientVREngine.Program</StartupObject>
+    <StartupObject>RemoteHealthcare_Client.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BLELibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -68,6 +68,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClientViewModel.cs" />
+    <Compile Include="GeneralCommand.cs" />
+    <Compile Include="network\DataManager.cs" />
+    <Compile Include="network\DeviceDataManager.cs" />
+    <Compile Include="network\ServerDataManager.cs" />
+    <Compile Include="network\VRDataManager.cs" />
+    <Compile Include="StartupLoader.cs" />
+    <Compile Include="TCP\TCPClientHandler.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,7 +92,6 @@
     <Compile Include="ClientVREngine\Scene\LoaderScene.cs" />
     <Compile Include="ClientVREngine\Scene\PodraceScene.cs" />
     <Compile Include="ClientVREngine\Scene\SimpleScene.cs" />
-    <Compile Include="ClientVREngine\Tunnel\TCPClientHandler.cs" />
     <Compile Include="ClientVREngine\Tunnel\TunnelHandler.cs" />
     <Compile Include="ClientVREngine\Util\JSONCommandHelper.cs" />
     <Compile Include="ClientVREngine\Util\Structs\ClientData.cs" />
@@ -92,7 +99,6 @@
     <Compile Include="ClientVREngine\Util\Structs\Transform.cs" />
     <Compile Include="ClientVREngine\Util\VRUtil.cs" />
     <Compile Include="Ergometer\Program1.cs" />
-    <Compile Include="Ergometer\Debug\SimDataGenerator.cs" />
     <Compile Include="Ergometer\Graphics\DataGUI.cs" />
     <Compile Include="Ergometer\Hardware\BikeBLE.cs" />
     <Compile Include="Ergometer\Hardware\HRBLE.cs" />
@@ -126,9 +132,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
+    <None Include="diagrams\ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -141,5 +145,9 @@
   <ItemGroup>
     <Content Include="Ergometer\BLELibrary.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Ergometer\Debug\" />
+  </ItemGroup>
+  <Import Project="..\RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

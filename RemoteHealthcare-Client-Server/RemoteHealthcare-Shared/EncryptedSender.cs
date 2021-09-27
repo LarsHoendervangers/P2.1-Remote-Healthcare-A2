@@ -23,13 +23,16 @@ namespace CommClass
             RSAOUT = new RSACryptoServiceProvider();
 
             //Sending the correct keys
-            stream.Write(RSAIN.ExportRSAPublicKey());
+            //TODO update version
+            //stream.Write(RSAIN.ExportRSAPublicKey());
 
             //Receiving the correct keys
             byte[] publicKeyServer = new byte[140];
             int bytesRead = 0;
-            stream.Read(publicKeyServer);
-            RSAOUT.ImportRSAPublicKey(publicKeyServer, out bytesRead);
+            
+            //TODO update version
+            //stream.Read(publicKeyServer);
+            //RSAOUT.ImportRSAPublicKey(publicKeyServer, out bytesRead);
         }
 
         public void  SendMessage(string message)
