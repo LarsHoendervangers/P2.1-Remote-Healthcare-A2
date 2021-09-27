@@ -20,6 +20,18 @@ namespace RemoteHealthcare_Client
             this.TCPClientHandler.SetRunning(true);
 
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
+
+            object o = new
+            {
+                command = "login",
+                data = new
+                {
+                    us = "JHAOogstvogel",
+                    pass = "Welkom123",
+                    flag = 0
+                }
+            };
+            this.TCPClientHandler.WriteMessage(JsonConvert.SerializeObject(o));
         }
 
         private void OnMessageReceived(object sender, string message)
@@ -71,6 +83,7 @@ namespace RemoteHealthcare_Client
 
         private void HandleMessageCommand(JObject jobject)
         {
+            //TODO try get value instead of getvalue
             // all message object are required to have flag attribute.
             int flag = (int)jobject.GetValue("flag");
 
