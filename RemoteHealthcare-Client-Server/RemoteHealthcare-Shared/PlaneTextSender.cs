@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CommClass
 {
-    class PlaneTextSender
+    public class PlaneTextSender
     {
         private NetworkStream stream;
 

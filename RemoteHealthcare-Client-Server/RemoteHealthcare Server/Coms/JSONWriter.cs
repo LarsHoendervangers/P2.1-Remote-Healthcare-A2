@@ -12,7 +12,7 @@ namespace RemoteHealthcare_Server
 {
     class JSONWriter
     {
-        public static void LoginWrite(bool succes, EncryptedSender sender)
+        public static void LoginWrite(bool succes, PlaneTextSender sender)
         {
             object o;
             if (succes)
@@ -36,7 +36,7 @@ namespace RemoteHealthcare_Server
         }
 
 
-        public static void MessageWrite(string msg, EncryptedSender sender)
+        public static void MessageWrite(string msg, PlaneTextSender sender)
         {
             object o = new
             {

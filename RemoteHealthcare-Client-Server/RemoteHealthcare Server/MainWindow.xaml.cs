@@ -27,7 +27,7 @@ namespace RemoteHealthcare_Server
         {
             InitializeComponent();
             //this.server = new Server(this, IPAddress.Parse("145.49.40.199"), 6969);
-            this.server = new Server(this, IPAddress.Any, 8080);
+            this.server = new Server(this, IPAddress.Parse("127.0.0.1"), 6969);
         }
 
         public void Button_StartServer(object sender, RoutedEventArgs e)

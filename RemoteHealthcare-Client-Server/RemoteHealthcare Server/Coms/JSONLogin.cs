@@ -15,7 +15,7 @@ namespace RemoteHealthcare_Server.Coms
 
         //Note all needs to be made safe with trys but not done yet kind regards luuk ******************************
 
-        public (int, object) LoginAction(JObject Jobject, EncryptedSender sender, Usermanagement management)
+        public (int, object) LoginAction(JObject Jobject, PlaneTextSender sender, Usermanagement management)
         {
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();
