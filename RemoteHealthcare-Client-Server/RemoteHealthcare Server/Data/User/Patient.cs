@@ -1,4 +1,5 @@
 ﻿using RemoteHealthcare_Server.Data;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace RemoteHealthcare_Server
 {
-    public class Patient
+    public class Patient : IUser
     {
         public string Username { get; set; }
 
@@ -40,6 +41,20 @@ namespace RemoteHealthcare_Server
          
         }
 
-      
+        public int getType()
+        {
+            return 0;
+        }
+
+        public void sessionSetter(Session s)
+        {
+            this.session = s;
+        }
+
+
+        public Session sessionGetter()
+        {
+            return session;
+        }
     }
 }

@@ -25,8 +25,7 @@ namespace RemoteHealthcare_Server
 
 
         //Only assign 
-        int type = -1;
-        object o= null;
+        IUser user;
 
 
         public Host(TcpClient client, Usermanagement management)
@@ -51,15 +50,13 @@ namespace RemoteHealthcare_Server
                 JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
                 //Loging in or trying commanding...
-                if (type == -1)
+                if (user == null)
                 {
-                    (int, object) output = this.login.LoginAction(json, sender, usermanagement);
-                    type = output.Item1;
-                    this.o = output.Item2;
+                    user = this.login.LoginAction(json, sender, usermanagement);
                 }
                 else
                 {
-                    this.reader.DecodeJsonObject(json, this.sender, type, this.o, this.usermanagement);
+                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
                 }
             }
         }

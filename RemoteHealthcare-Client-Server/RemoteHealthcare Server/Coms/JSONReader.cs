@@ -1,6 +1,7 @@
 ﻿using CommClass;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,14 @@ namespace RemoteHealthcare_Server
     {
 
         //Switch case for inputs
-        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, int accessLevel, object o, Usermanagement managemet)
+        public void DecodeJsonObject(JObject jObject, EncryptedSender sender, IUser  user , Usermanagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
-            switch (accessLevel)
+            switch (user.getType())
             {
                 case 0:
-                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, (Patient)o);
+                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, user);
                     break;
                 case 1:
                     if (command == "abort") JSONDoctor.AbortingClient(jObject, sender);
@@ -48,9 +49,9 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONPatient
         {
-            public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender, Patient p)
+            public static void ReceiveMeasurement(JObject Jobject, EncryptedSender sender, IUser user)
             {
-                if (p.session != null)
+                if (user.session != null)
                 {
                     //Bike
                     JToken rpm = Jobject.SelectToken("data.rpm");

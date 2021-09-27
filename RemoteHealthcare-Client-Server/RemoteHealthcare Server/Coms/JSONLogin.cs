@@ -15,7 +15,7 @@ namespace RemoteHealthcare_Server.Coms
 
         //Note all needs to be made safe with trys but not done yet kind regards luuk ******************************
 
-        public (int, object) LoginAction(JObject Jobject, EncryptedSender sender, Usermanagement management)
+        public IUser LoginAction(JObject Jobject, EncryptedSender sender, Usermanagement management)
         {
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();
@@ -31,35 +31,36 @@ namespace RemoteHealthcare_Server.Coms
                 //Statement for cases for input
                 if (flag == 0)
                 {
-                    object o = management.CheckPatientCredentials(username, password);
-                    if (o != null)
+                    IUser user = management.CheckPatientCredentials(username, password);
+                    if (user != null)
                     {
                         JSONWriter.LoginWrite(true, sender);
-                        return (0, o);
+                        return user;
                     }
                 } else if (flag == 1)
                 {
-                    object o = management.CheckDoctorCredentials(username, password);
-                    if (o != null) { JSONWriter.LoginWrite(true, sender);
-                        return (1, o);
+                    IUser user = management.CheckDoctorCredentials(username, password);
+                    if (user != null)
+                    {
+                        JSONWriter.LoginWrite(true, sender);
+                        return user;
                     }
 
                 } else if (flag == 2)
                 {
-                    object o = management.CheckAdminCredentials(username, password);
-                    if (o != null)
+                    IUser user  = management.CheckAdminCredentials(username, password);
+                    if (user != null)
                     {
                         JSONWriter.LoginWrite(true, sender);
-                        return (2, o);
+                        return user;
                     }
                 }
                 JSONWriter.LoginWrite(false, sender);
-                return (-1, null);
             }
 
 
             //Not valid as command
-            return (-1, null);
+            return null;
         }
 
     }

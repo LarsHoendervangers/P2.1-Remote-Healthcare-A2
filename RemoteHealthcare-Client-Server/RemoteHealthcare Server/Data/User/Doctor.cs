@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.User
 {
-    public class Doctor 
+    public class Doctor : IUser
     {
         public string Username { get; set; }
 
@@ -31,6 +31,22 @@ namespace RemoteHealthcare_Server.Data.User
             LastName = lastName;
             DoctorType = doctorType;
             PHDType = pHDType;
+        }
+
+        int IUser.getType()
+        {
+            return 1;
+        }
+
+        public void sessionSetter(Session s)
+        {
+            //Noth to be implemented
+        }
+
+
+        public Session sessionGetter()
+        {
+            return null;
         }
     }
 

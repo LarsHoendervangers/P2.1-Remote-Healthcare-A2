@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.User
 {
-    public class Admin
+    public class Admin : IUser
     {
         public string Username { get; set; }
 
@@ -16,6 +16,26 @@ namespace RemoteHealthcare_Server.Data.User
         {
             Username = username;
             Password = password;
+        }
+
+        public Type getType()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IUser.getType()
+        {
+            return 2;
+        }
+
+        public void sessionSetter(Session s)
+        {
+           //Not to be implemented
+        }
+
+        public Session sessionGetter()
+        {
+            return null;
         }
     }
 }
