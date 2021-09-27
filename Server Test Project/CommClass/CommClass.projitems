@@ -11,9 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Communication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptedSender.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Deprecated\PlaneTextSender.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Deprecated\" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlaneTextSender.cs" />
   </ItemGroup>
 </Project>

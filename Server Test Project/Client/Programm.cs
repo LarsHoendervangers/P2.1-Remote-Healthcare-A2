@@ -14,12 +14,12 @@ namespace other
     {
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient("localhost", 8080);
+            TcpClient client = new TcpClient("localhost", 6969);
             if (client.Connected)
             {
                 Console.WriteLine("Connected to the amazing server...");
                 NetworkStream stream = client.GetStream();
-                EncryptedSender sender = new EncryptedSender(stream);
+                PlaneTextSender sender = new PlaneTextSender(stream);
 
 
                 Console.WriteLine("Try to connect with given credentials...");
@@ -34,12 +34,18 @@ namespace other
                         flag = 0
                     }
                 };
-                sender.SendMessage(JsonConvert.SerializeObject(o), client.GetStream());
+                sender.SendMessage(JsonConvert.SerializeObject(o));
 
                 //Console.WriteLine(sender.ReadMessage(stream));
 
 
-                if (sender.ReadMessage(stream).Contains("succesfull connect"))
+                while (true)
+                {
+                    Console.WriteLine(   sender.ReadMessage());
+                }
+
+
+               /* if (sender.ReadMessage().Contains("succesfull connect"))
                 {
                     while (true)
                     {
@@ -54,14 +60,14 @@ namespace other
                             }
 
                         };
-                        sender.SendMessage(JsonConvert.SerializeObject(f), client.GetStream());
+                        sender.SendMessage(JsonConvert.SerializeObject(f));
 
                        
                         Console.WriteLine("Send data");
                         Thread.Sleep(1000);
                     }
 
-                }
+                }*/
 
 
 

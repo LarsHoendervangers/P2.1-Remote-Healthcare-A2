@@ -17,7 +17,7 @@ namespace RemoteHealthcare_Server
     public class Host
     {
         //Needed for assigment
-        private readonly TcpClient tcpclient;
+        public TcpClient tcpclient;
         private readonly PlaneTextSender sender;
         private readonly Usermanagement usermanagement;
         private readonly JSONLogin login;
