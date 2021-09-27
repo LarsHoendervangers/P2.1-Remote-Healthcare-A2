@@ -23,7 +23,6 @@ namespace RemoteHealthcare_Server
         private readonly JSONLogin login;
         private readonly JSONReader reader;
 
-
         //Only assign 
         IUser user;
 
@@ -39,6 +38,7 @@ namespace RemoteHealthcare_Server
             this.login = new JSONLogin();
             this.reader = new JSONReader();
 
+
             //Starting reading thread
             new Thread(ReadData).Start();
         }
@@ -50,6 +50,8 @@ namespace RemoteHealthcare_Server
                 //Getting json object
                 string data = sender.ReadMessage();
                 JObject json = (JObject)JsonConvert.DeserializeObject(data);
+
+                Server.PrintToGUI(json.ToString());
 
                 //Loging in or trying commanding...
                 if (user == null)

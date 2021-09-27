@@ -35,6 +35,7 @@ namespace RemoteHealthcare_Server.Coms
                     if (user != null)
                     {
                         JSONWriter.LoginWrite(true, sender);
+                        Server.PrintToGUI("Authenticated....");
                         return user;
                     }
                 } else if (flag == 1)
@@ -43,6 +44,7 @@ namespace RemoteHealthcare_Server.Coms
                     if (user != null)
                     {
                         JSONWriter.LoginWrite(true, sender);
+                        Server.PrintToGUI("Authenticated....");
                         return user;
                     }
 
@@ -52,10 +54,13 @@ namespace RemoteHealthcare_Server.Coms
                     if (user != null)
                     {
                         JSONWriter.LoginWrite(true, sender);
+                        Server.PrintToGUI("Authenticated....");
                         return user;
                     }
                 }
                 JSONWriter.LoginWrite(false, sender);
+
+                Server.PrintToGUI("Not a user....");
             }
 
 

@@ -121,7 +121,7 @@ namespace RemoteHealthcare_Server
         /// This method allows outputting to a text block on the GUI.
         /// </summary>
         /// <param name="msg">Message to print on the GUI</param>
-        public void PrintToGUI(string msg)
+        public static void PrintToGUI(string msg)
         {
             if (window != null)
             {
