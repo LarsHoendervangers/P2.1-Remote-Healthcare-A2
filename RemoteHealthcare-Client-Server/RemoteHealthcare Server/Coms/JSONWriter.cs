@@ -20,15 +20,17 @@ namespace RemoteHealthcare_Server
                 o = new
                 {
                     command = "message",
-                    data = "succesfull connect"
+                    data = "succesfull connect",
+                    flag = 1
                 };
             } else
             {
                 o = new
                 {
                     command = "message",
-                    data = "failed connect"
-                };
+                    data = "failed connect",
+                    flag = 1
+            };
             }
 
             //Writing answer...
