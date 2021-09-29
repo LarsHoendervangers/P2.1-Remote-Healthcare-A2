@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RemoteHealthcare_Shared
 {
-    interface ISender
+    public interface ISender
     {
         string ReadMessage();
         void SendMessage(string message);

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
+using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace RemoteHealthcare_Server.Coms
 
         //Note all needs to be made safe with trys but not done yet kind regards luuk ******************************
 
-        public IUser LoginAction(JObject Jobject, PlaneTextSender sender, Usermanagement management)
+        public IUser LoginAction(JObject Jobject, ISender sender, Usermanagement management)
         {
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();

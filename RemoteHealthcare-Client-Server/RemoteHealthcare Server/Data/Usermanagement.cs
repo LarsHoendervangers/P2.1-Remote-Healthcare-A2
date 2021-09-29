@@ -95,5 +95,55 @@ namespace RemoteHealthcare_Server.Data
             //Patient not found
             return null;
         }
+
+        public void SessionUpdateBike(int rpm, int speed, int dist, int pow, int accpow, DateTime time, IUser user)
+        {
+            foreach (Session s in activeSessions)
+            {
+                if (s.Patient == (Patient)user)
+                {
+                    Server.PrintToGUI("Added new measurement");
+                    s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
+                    return;
+                }
+            }
+        }
+
+        public void SessionUpdateHRM( DateTime time, int bpm, IUser user)
+        {
+            foreach (Session s in activeSessions)
+            {
+                if (s.Patient == (Patient)user)
+                {
+                    Server.PrintToGUI("Added new measurement");
+                    s.HRMeasurements.Add(new HRMeasurement(time, bpm));
+                    return;
+                }
+            }
+        }
+
+        public void SessionStart(IUser user)
+        {
+            if (user.getUserType() == UserTypes.Patient)
+            {
+                activeSessions.Add(new Session((Patient)user));
+            }
+        }
+
+        public void SessionEnd(IUser user)
+        {
+            if (user.getUserType() == UserTypes.Patient)
+            {
+                foreach(Session s in activeSessions)
+                {
+                    if (s.Patient == (Patient)user)
+                    {
+                        activeSessions.Remove(s);
+                        return;
+                    }
+                }
+                
+            }
+        }
     }
 }

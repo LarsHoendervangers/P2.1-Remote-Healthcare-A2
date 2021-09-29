@@ -12,12 +12,12 @@ namespace RemoteHealthcare_Server
     public class FileProcessing
     {
 
-        public static void SaveSession(Patient p)
+        public static void SaveSession(Session s)
         {
-            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
+            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.Username);
 
             Directory.CreateDirectory(FolderPath);                
-            CreateFile(FolderPath, p.session);
+            CreateFile(FolderPath, s);
         }
 
         public static JArray LoadSession(Session s)

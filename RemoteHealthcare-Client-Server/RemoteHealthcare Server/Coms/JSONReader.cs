@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
+using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,29 +18,29 @@ namespace RemoteHealthcare_Server
     {
 
         //Switch case for inputs
-        public void DecodeJsonObject(JObject jObject, PlaneTextSender sender, IUser  user , Usermanagement managemet)
+        public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
-           /* //switch (user.getType())
+            //Availbe receiving functions
+            switch (user.getUserType())
             {
-                case 0:
-                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, user);
+                case UserTypes.Patient:
+                    if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, user, managemet);
                     break;
-                case 1:
+                case UserTypes.Doctor:
                     if (command == "abort") JSONDoctor.AbortingClient(jObject, sender);
                     if (command == "setresist") JSONDoctor.SettingErgometer(jObject, sender);
                     if (command == "getallclients") JSONDoctor.GetAllClients(jObject, sender);
                     if (command == "subtopatient") JSONDoctor.SubscribeToLiveSession(jObject, sender);
                     if (command == "getsession") JSONDoctor.GetHistoricSession(jObject, sender);
-                    if (command == "newsession") JSONDoctor.StartNewSession(jObject, sender, managemet);
+                    if (command == "newsession") JSONDoctor.StartNewSession(jObject, sender, managemet, user);
                     break;
-
-                case 2:
+                case UserTypes.Admin:
                     //Can have all admin features you want
                     break;
 
-            }*/
+            }
         }
 
 
@@ -49,9 +50,9 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONPatient
         {
-            public static void ReceiveMeasurement(JObject Jobject, PlaneTextSender sender, IUser user)
+            public static void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
             {
-             /*   if (user.session != null)
+                if (user != null)
                 {
                     //Bike
                     JToken rpm = Jobject.SelectToken("data.rpm");
@@ -66,20 +67,21 @@ namespace RemoteHealthcare_Server
                     //All
                     JToken time = Jobject.SelectToken("data.time");
 
+
+
+
+
                     //Checks
                     if (rpm != null)
                     {
-                        p.session.BikeMeasurements.Add(
-                        new BikeMeasurement(DateTime.Parse(time.ToString())
-                        , int.Parse(rpm.ToString()), int.Parse(speed.ToString())
-                        , double.Parse(pow.ToString()), int.Parse(accpow.ToString())
-                        , int.Parse(dist.ToString())));
+                        usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
+                            int.Parse(speed.ToString()), int.Parse(dist.ToString()), int.Parse(pow.ToString()),
+                            int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
                     }
                     else if (bpm != null)
                     {
-                        p.session.HRMeasurements.Add(new HRMeasurement(
-                      DateTime.Parse(time.ToString()), int.Parse(bpm.ToString())));
-                    }*/
+                        usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+                    }
 
                     //Server.PrintToGUI("Received data");
                 }
@@ -93,50 +95,40 @@ namespace RemoteHealthcare_Server
         /// </summary>
         partial class JSONDoctor
         {
-            public static void SettingErgometer(JObject jObject, PlaneTextSender sender)
+            public static void SettingErgometer(JObject jObject, ISender sender)
             {
                 throw new NotImplementedException();
             }
 
-            public static void AbortingClient(JObject jObject, PlaneTextSender sender)
+            public static void AbortingClient(JObject jObject, ISender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void GetAllClients(JObject jObject, PlaneTextSender sender)
+            internal static void GetAllClients(JObject jObject, ISender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void SubscribeToLiveSession(JObject jObject, PlaneTextSender sender)
+            internal static void SubscribeToLiveSession(JObject jObject, ISender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void GetHistoricSession(JObject jObject, PlaneTextSender sender)
+            internal static void GetHistoricSession(JObject jObject, ISender sender)
             {
                 throw new NotImplementedException();
             }
 
-            internal static void StartNewSession(JObject jObject, PlaneTextSender sender, Usermanagement management)
+            internal static void StartNewSession(JObject jObject, ISender sender, Usermanagement management, IUser user)
             {
-                JObject data = (JObject)jObject.GetValue("data");
-                string patientID = data.GetValue("patientid").ToString();
-                bool sessionState = bool.Parse(data.GetValue("state").ToString());
 
-                if (sessionState)
-                {
-                   // management.StartSession(patientID).session = new Session();
-                } else
-                {
-                   // FileProcessing.SaveSession(management.StartSession(patientID));
-                   // management.StartSession(patientID).session = null;
-                }
-
-                //Server.PrintToGUI("Stared a new session");
+                //Logic for parsing still needs to be made which user it is and if its on or of...
+                management.SessionStart(user);
+                management.SessionEnd(user);
             }
 
-          
+
         }
 
 
@@ -152,6 +144,7 @@ namespace RemoteHealthcare_Server
 
 
         }
+    }
     
   
 }
