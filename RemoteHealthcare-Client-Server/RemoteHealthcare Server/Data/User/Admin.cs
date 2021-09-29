@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Server.Data.Processing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,14 @@ namespace RemoteHealthcare_Server.Data.User
     {
         public string Username { get; set; }
 
-        public string Password { get; set; }
+        public string Password{ get; set;}
 
         public readonly UserTypes type;
 
         public Admin(string username, string password)
         {
             Username = username;
-            Password = password;
+            Password = HashProcessing.HashString(password);
             type = UserTypes.Admin;
         }
 
