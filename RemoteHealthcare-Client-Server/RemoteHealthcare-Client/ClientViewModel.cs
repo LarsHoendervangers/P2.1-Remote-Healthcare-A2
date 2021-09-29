@@ -111,12 +111,21 @@ namespace RemoteHealthcare_Client
                 {
                     mStartCommand = new GeneralCommand(
                         param => StartApplication(),
-                        param => (true)
+                        param => (NullCheck())
                         );
                 }
                 return mStartCommand;
             }
 
+        }
+
+        private bool NullCheck()
+        {
+            return
+                this.SelectedDevice != null &
+                this.SelectedVRServer.NullCheck() &
+                this.Password != null &
+                this.UserName != null;
         }
 
         private void StartApplication()
