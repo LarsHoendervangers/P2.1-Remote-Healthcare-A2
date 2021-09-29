@@ -58,6 +58,7 @@ namespace RemoteHealthcare_Client
                         this.ServerDataManager.ReceivedData(wrappedCommand);
                         this.VRDataManager.ReceivedData(wrappedCommand);
                         Thread.Sleep(1000);
+
                     }
                 })).Start();
         }

@@ -29,9 +29,10 @@ namespace RemoteHealthcare_Client
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-
-            HandleIncoming(jobject);
-
+            if (jobject != null) HandleIncoming(jobject); else
+            {
+                Debug.WriteLine("JObject is null");
+            };
         }
 
         private void HandleIncoming(JObject jobject)

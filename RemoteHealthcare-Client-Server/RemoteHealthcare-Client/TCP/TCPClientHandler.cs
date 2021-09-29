@@ -17,16 +17,25 @@ namespace RemoteHealthcare_Client.TCP
         public event EventHandler<string> OnMessageReceived;
         private bool running = false;
         private readonly NetworkStream stream;
+        private TcpClient client;
 
         /// <summary>
         /// Constructor for TCPClientHandler
         /// </summary>
         public TCPClientHandler(string ip, int port)
         {
-            TcpClient client = new TcpClient(ip, port);
-            stream = client.GetStream();
+            this.client = new TcpClient();
+            try
+            {
+                client.Connect(ip, port);
+                stream = client.GetStream();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Couldn't connect to server, " + e.Message);
+            }
 
-            Trace.WriteLine("connected to server BBBBBB");
+            //Trace.WriteLine("connected to server BBBBBB");
         }
 
         /// <summary>
@@ -45,7 +54,9 @@ namespace RemoteHealthcare_Client.TCP
                     {
                         // Call the event with the message received
                         string message = ReadMessage();
-                        OnMessageReceived.Invoke(this, message);
+
+                        if (message != null) continue;
+                        OnMessageReceived?.Invoke(this, message);
                     }
 
                     // Shutting down
@@ -62,14 +73,27 @@ namespace RemoteHealthcare_Client.TCP
         {
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
-            byte[] lenght = new byte[4];
-            lenght = BitConverter.GetBytes(message.Length);
-            byte[] final = Combine(lenght, payload);
+            byte[] length = new byte[4];
+            length = BitConverter.GetBytes(message.Length);
+            byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            stream.Write(final, 0, message.Length + 4);
-            stream.Flush();
+            if (stream != null)
+            {
+                try
+                {
+                    stream.Write(final, 0, message.Length + 4);
+                    stream.Flush();
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine("error, " + e.Message);
+                }
+                
+                
+            }
+            
         }
 
         /// <summary>
@@ -81,17 +105,17 @@ namespace RemoteHealthcare_Client.TCP
             // 4 bytes lenght == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
-            stream.Read(lenghtArray, 0, 4);
-            int lenght = BitConverter.ToInt32(lenghtArray, 0);
+            stream?.Read(lenghtArray, 0, 4);
+            int length = BitConverter.ToInt32(lenghtArray, 0);
 
-            //Console.WriteLine(lenght);
-
-            byte[] buffer = new byte[lenght];
+            byte[] buffer = new byte[length];
             int totalRead = 0;
 
             //read bytes until stream indicates there are no more
-            while (totalRead < lenght)
+            while (totalRead < length)
             {
+                
+                if (stream == null) break;
                 int read = stream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
                 //Console.WriteLine("ReadMessage: " + read);
