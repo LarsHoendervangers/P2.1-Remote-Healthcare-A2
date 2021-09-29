@@ -13,20 +13,44 @@ namespace RemoteHealthcare_Server
     public class FileProcessing
     {
 
-        public static void SaveUsers(List<IUser> users, string folderpath)
+        public static void SaveUsers(List<IUser> users)
         {
-            JArray jarray = JArray.FromObject(users);
-            Server.PrintToGUI(jarray.ToString());
+            JArray data = JArray.FromObject(users);
+            Server.PrintToGUI(data.ToString());
+
+            try
+            {
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\test.txt" , data.ToString());
+            } catch
+            {
+                Server.PrintToGUI(data.ToString());
+            }
 
 
         }
 
-        public static List<IUser> LoadUsers(string folderpath)
+        public static List<IUser> LoadUsers()
         {
+            List<IUser> users = new List<IUser>();
+            string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\test.txt");
 
+            JArray array = JArray.Parse(data);
+            foreach (JObject o in array)
+            {
+                UserTypes? type = UserTypesUtil.Parse(int.Parse(o.GetValue("type").ToString()));
+                if (type == UserTypes.Patient)
+                {
+                    users.Add(o.ToObject<Patient>());
+                } else if (type == UserTypes.Doctor)
+                {
+                    users.Add(o.ToObject<Doctor>());
+                } else if (type == UserTypes.Admin)
+                {
+                    users.Add(o.ToObject<Admin>());
+                } 
+            }
 
-
-            return null;
+            return users;
         }
 
 

@@ -22,6 +22,8 @@ namespace RemoteHealthcare_Server.Data.User
 
         public string PHDType { get; set; }
 
+        public readonly UserTypes type;
+
         public Doctor(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string doctorType, string pHDType)
         {
             Username = username;
@@ -31,11 +33,12 @@ namespace RemoteHealthcare_Server.Data.User
             LastName = lastName;
             DoctorType = doctorType;
             PHDType = pHDType;
+            type = UserTypes.Doctor;
         }
 
         public UserTypes getUserType()
         {
-            return UserTypes.Doctor;
+            return type;
         }
     }
 

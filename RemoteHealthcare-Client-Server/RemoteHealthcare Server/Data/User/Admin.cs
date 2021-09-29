@@ -12,16 +12,19 @@ namespace RemoteHealthcare_Server.Data.User
 
         public string Password { get; set; }
 
+        public readonly UserTypes type;
+
         public Admin(string username, string password)
         {
             Username = username;
             Password = password;
+            type = UserTypes.Admin;
         }
 
 
         public UserTypes getUserType()
         {
-            return UserTypes.Admin;
+            return type;
         }
     }
 }
