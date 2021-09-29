@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,23 @@ namespace RemoteHealthcare_Server
 {
     public class FileProcessing
     {
+
+        public static void SaveUsers(List<IUser> users, string folderpath)
+        {
+            JArray jarray = JArray.FromObject(users);
+            Server.PrintToGUI(jarray.ToString());
+
+
+        }
+
+        public static List<IUser> LoadUsers(string folderpath)
+        {
+
+
+
+            return null;
+        }
+
 
         public static void SaveSession(Session s)
         {
