@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,12 +13,54 @@ namespace RemoteHealthcare_Server
     public class FileProcessing
     {
 
-        public static void SaveSession(Patient p)
+        public static void SaveUsers(List<IUser> users)
         {
-            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
+            JArray data = JArray.FromObject(users);
+            Server.PrintToGUI(data.ToString());
+
+            try
+            {
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\users.txt" , data.ToString());
+            } catch
+            {
+                Server.PrintToGUI(data.ToString());
+            }
+
+
+        }
+
+        public static List<IUser> LoadUsers()
+        {
+            List<IUser> users = new List<IUser>();
+            string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\users.txt");
+      
+
+            JArray array = JArray.Parse(data);
+            foreach (JObject o in array)
+            {
+                UserTypes? type = UserTypesUtil.Parse(int.Parse(o.GetValue("type").ToString()));
+                if (type == UserTypes.Patient)
+                {
+                    users.Add(o.ToObject<Patient>());
+                } else if (type == UserTypes.Doctor)
+                {
+                    users.Add(o.ToObject<Doctor>());
+                } else if (type == UserTypes.Admin)
+                {
+                    users.Add(o.ToObject<Admin>());
+                } 
+            }
+
+            return users;
+        }
+
+
+        public static void SaveSession(Session s)
+        {
+            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.Username);
 
             Directory.CreateDirectory(FolderPath);                
-            CreateFile(FolderPath, p.session);
+            CreateFile(FolderPath, s);
         }
 
         public static JArray LoadSession(Session s)

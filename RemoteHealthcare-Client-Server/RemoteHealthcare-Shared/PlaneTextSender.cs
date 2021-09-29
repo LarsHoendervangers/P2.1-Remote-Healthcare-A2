@@ -1,11 +1,12 @@
-﻿using System;
+﻿using RemoteHealthcare_Shared;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
 
 namespace CommClass
 {
-    public class PlaneTextSender
+    public class PlaneTextSender : ISender
     {
         private NetworkStream stream;
 

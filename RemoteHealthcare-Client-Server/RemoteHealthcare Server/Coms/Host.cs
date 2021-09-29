@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Coms;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
+using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace RemoteHealthcare_Server
     {
         //Needed for assigment
         public TcpClient tcpclient;
-        private readonly PlaneTextSender sender;
+        private readonly ISender sender;
         private readonly Usermanagement usermanagement;
         private readonly JSONLogin login;
         private readonly JSONReader reader;
@@ -51,6 +52,7 @@ namespace RemoteHealthcare_Server
                 string data = sender.ReadMessage();
                 JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
+                //Debug
                 Server.PrintToGUI(json.ToString());
 
                 //Loging in or trying commanding...
@@ -60,7 +62,7 @@ namespace RemoteHealthcare_Server
                 }
                 else
                 {
-                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                   this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
                 }
             }
         }

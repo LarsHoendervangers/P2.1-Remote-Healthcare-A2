@@ -7,12 +7,16 @@ namespace RemoteHealthcare_Server
 {
     public class Session
     {
+        public Session(Patient patient)
+        {
+            Patient = patient;
+        }
+
+
+
         //****************this class needs fixing*************** 
         //All the set methods are broken why................
         //I off
-
-
-        
 
 
         /// <summary>

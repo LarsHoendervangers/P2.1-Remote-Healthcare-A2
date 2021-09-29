@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Shared;
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Security.Cryptography;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace CommClass
 {
-    public class EncryptedSender
+    public class EncryptedSender : ISender
     {
         private RSACryptoServiceProvider RSAIN;
         private RSACryptoServiceProvider RSAOUT;
@@ -35,7 +36,7 @@ namespace CommClass
             //RSAOUT.ImportRSAPublicKey(publicKeyServer, out bytesRead);
         }
 
-        public void  SendMessage(string message)
+        public void SendMessage(string message)
         {
             /*Console.WriteLine("Message decrypted: " + message);
             byte[] decrypted = Encoding.ASCII.GetBytes(message);
@@ -45,7 +46,7 @@ namespace CommClass
             Communications.WriteData(this.RSAOUT.Encrypt(Encoding.ASCII.GetBytes(message), false), stream);
         }
 
-        public  string ReadMessage()
+        public string ReadMessage()
         {
           /*  Console.WriteLine("Message received");
             byte[] encrypted = Communications.ReadData(stream);

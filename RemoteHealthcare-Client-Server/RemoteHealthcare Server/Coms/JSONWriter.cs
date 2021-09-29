@@ -1,6 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
-
+using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace RemoteHealthcare_Server
 {
     class JSONWriter
     {
-        public static void LoginWrite(bool succes, PlaneTextSender sender)
+        public static void LoginWrite(bool succes, ISender sender)
         {
             object o;
             if (succes)
@@ -38,7 +38,7 @@ namespace RemoteHealthcare_Server
         }
 
 
-        public static void MessageWrite(string msg, PlaneTextSender sender)
+        public static void MessageWrite(string msg, ISender sender)
         {
             object o = new
             {

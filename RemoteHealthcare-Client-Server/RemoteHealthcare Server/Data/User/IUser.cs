@@ -8,8 +8,6 @@ namespace RemoteHealthcare_Server.Data.User
 {
     public interface IUser
     {
-        public int getType();
-        public void sessionSetter(Session s);
-        public Session sessionGetter();
+        public UserTypes getUserType();
     }
 }

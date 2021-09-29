@@ -21,7 +21,7 @@ namespace RemoteHealthcare_Server
 
         public string PatientID { get; set; }
 
-        public Session session { get; set; }
+        public readonly UserTypes type;
 
 
 
@@ -36,25 +36,14 @@ namespace RemoteHealthcare_Server
             this.FirstName = firstName;
             this.LastName = lastName;
             this.PatientID = medicalSystemID;
-
-
-         
+            type = UserTypes.Patient;
         }
 
-        public int getType()
-        {
-            return 0;
-        }
+  
 
-        public void sessionSetter(Session s)
+        public UserTypes getUserType()
         {
-            this.session = s;
-        }
-
-
-        public Session sessionGetter()
-        {
-            return session;
+            return type;
         }
     }
 }
