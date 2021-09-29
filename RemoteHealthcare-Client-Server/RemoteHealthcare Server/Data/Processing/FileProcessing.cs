@@ -20,7 +20,7 @@ namespace RemoteHealthcare_Server
 
             try
             {
-                File.WriteAllText(Directory.GetCurrentDirectory() + @"\test.txt" , data.ToString());
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\users.txt" , data.ToString());
             } catch
             {
                 Server.PrintToGUI(data.ToString());
@@ -32,7 +32,8 @@ namespace RemoteHealthcare_Server
         public static List<IUser> LoadUsers()
         {
             List<IUser> users = new List<IUser>();
-            string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\test.txt");
+            string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\users.txt");
+            if (!File.Exists(data)) throw new Exception();
 
             JArray array = JArray.Parse(data);
             foreach (JObject o in array)

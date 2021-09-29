@@ -20,23 +20,25 @@ namespace RemoteHealthcare_Server.Data
 
         public Usermanagement()
         {
-            //*************NOTE***********
-            //Temporary needs to be read of disk
-
-
-            //Admin this acount has instructions for adding users. How else would you add users then.
-            //The doctors should probably not do that in my opinion
-            //Kind regards Luuk
+            //Lists
             users = new List<IUser>();
+            activeSessions = new List<Session>();
 
-            users.Add( new Admin("Admin", "Password123"));
-            users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1),  "Joe", "Oogstvogel",  "A12345"));
-            users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346"));
-            users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347"));
-            users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool"));
-
-            FileProcessing.SaveUsers(users);
-            FileProcessing.LoadUsers();
+            //Filling
+            try
+            {
+                //first trying filees
+                FileProcessing.LoadUsers();
+            }
+            catch
+            {
+                //second filling with test data if not found
+                users.Add(new Admin("Admin", "Password123"));
+                users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345"));
+                users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346"));
+                users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347"));
+                users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool"));
+            }
         }
 
 
@@ -147,6 +149,11 @@ namespace RemoteHealthcare_Server.Data
                 }
                 
             }
+        }
+
+        ~Usermanagement()
+        {
+            FileProcessing.SaveUsers(users);
         }
     }
 }
