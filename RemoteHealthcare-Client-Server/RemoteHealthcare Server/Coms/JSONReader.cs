@@ -21,7 +21,7 @@ namespace RemoteHealthcare_Server
         {
             string command = jObject.GetValue("command").ToString();
 
-            switch (user.getType())
+           /* //switch (user.getType())
             {
                 case 0:
                     if (command == "ergometer") JSONPatient.ReceiveMeasurement(jObject, sender, user);
@@ -39,7 +39,7 @@ namespace RemoteHealthcare_Server
                     //Can have all admin features you want
                     break;
 
-            }
+            }*/
         }
 
 
@@ -126,11 +126,11 @@ namespace RemoteHealthcare_Server
 
                 if (sessionState)
                 {
-                    management.StartSession(patientID).session = new Session();
+                   // management.StartSession(patientID).session = new Session();
                 } else
                 {
-                    FileProcessing.SaveSession(management.StartSession(patientID));
-                    management.StartSession(patientID).session = null;
+                   // FileProcessing.SaveSession(management.StartSession(patientID));
+                   // management.StartSession(patientID).session = null;
                 }
 
                 //Server.PrintToGUI("Stared a new session");

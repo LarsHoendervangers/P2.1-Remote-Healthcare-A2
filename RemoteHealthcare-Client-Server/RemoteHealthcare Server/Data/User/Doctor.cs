@@ -33,20 +33,9 @@ namespace RemoteHealthcare_Server.Data.User
             PHDType = pHDType;
         }
 
-        int IUser.getType()
+        public UserTypes getUserType()
         {
-            return 1;
-        }
-
-        public void sessionSetter(Session s)
-        {
-            //Noth to be implemented
-        }
-
-
-        public Session sessionGetter()
-        {
-            return null;
+            return UserTypes.Doctor;
         }
     }
 

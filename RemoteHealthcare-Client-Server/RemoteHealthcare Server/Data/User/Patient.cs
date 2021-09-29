@@ -41,20 +41,11 @@ namespace RemoteHealthcare_Server
          
         }
 
-        public int getType()
-        {
-            return 0;
-        }
+  
 
-        public void sessionSetter(Session s)
+        public UserTypes getUserType()
         {
-            this.session = s;
-        }
-
-
-        public Session sessionGetter()
-        {
-            return session;
+            return UserTypes.Patient;
         }
     }
 }

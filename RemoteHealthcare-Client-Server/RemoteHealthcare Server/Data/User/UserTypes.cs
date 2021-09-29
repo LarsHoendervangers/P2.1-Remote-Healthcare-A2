@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.User
 {
-    public interface IUser
+    public enum UserTypes
     {
-        public UserTypes getUserType();
+        Patient, Doctor, Admin
     }
 }

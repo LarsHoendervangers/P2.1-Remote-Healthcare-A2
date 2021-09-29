@@ -18,24 +18,10 @@ namespace RemoteHealthcare_Server.Data.User
             Password = password;
         }
 
-        public Type getType()
-        {
-            throw new NotImplementedException();
-        }
 
-        int IUser.getType()
+        public UserTypes getUserType()
         {
-            return 2;
-        }
-
-        public void sessionSetter(Session s)
-        {
-           //Not to be implemented
-        }
-
-        public Session sessionGetter()
-        {
-            return null;
+            return UserTypes.Admin;
         }
     }
 }

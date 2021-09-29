@@ -51,6 +51,7 @@ namespace RemoteHealthcare_Server
                 string data = sender.ReadMessage();
                 JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
+                //Debug
                 Server.PrintToGUI(json.ToString());
 
                 //Loging in or trying commanding...
@@ -60,7 +61,7 @@ namespace RemoteHealthcare_Server
                 }
                 else
                 {
-                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                   // this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
                 }
             }
         }

@@ -28,39 +28,20 @@ namespace RemoteHealthcare_Server.Coms
                 int flag = int.Parse(data.GetValue("flag").ToString());
 
 
-                //Statement for cases for input
-                if (flag == 0)
+                //Getting the user
+                IUser user = management.Credentials(username, password, flag);
+                if (user != null)
                 {
-                    IUser user = management.CheckPatientCredentials(username, password);
-                    if (user != null)
-                    {
-                        JSONWriter.LoginWrite(true, sender);
-                        Server.PrintToGUI("Authenticated....");
-                        return user;
-                    }
-                } else if (flag == 1)
+                    JSONWriter.LoginWrite(true, sender);
+                    Server.PrintToGUI("Authenticated....");
+                    return user;
+                } else
                 {
-                    IUser user = management.CheckDoctorCredentials(username, password);
-                    if (user != null)
-                    {
-                        JSONWriter.LoginWrite(true, sender);
-                        Server.PrintToGUI("Authenticated....");
-                        return user;
-                    }
-
-                } else if (flag == 2)
-                {
-                    IUser user  = management.CheckAdminCredentials(username, password);
-                    if (user != null)
-                    {
-                        JSONWriter.LoginWrite(true, sender);
-                        Server.PrintToGUI("Authenticated....");
-                        return user;
-                    }
+                    JSONWriter.LoginWrite(false, sender);
+                    Server.PrintToGUI("Not a user....");
+                    return null;
+                    
                 }
-                JSONWriter.LoginWrite(false, sender);
-
-                Server.PrintToGUI("Not a user....");
             }
 
 
