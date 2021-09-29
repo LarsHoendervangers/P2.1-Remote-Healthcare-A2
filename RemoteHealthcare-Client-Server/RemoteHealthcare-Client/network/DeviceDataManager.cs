@@ -7,17 +7,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace RemoteHealthcare_Client
 {
     public class DeviceDataManager : DataManager
     {
+        private bool sending;
 
         private Device Device { get; set; }
+        private Dictionary<string, dynamic> SendingDictionary { get; set; }
 
         public DeviceDataManager()
         {
             this.Device = new SimulatedDevice();
+            this.SendingDictionary = new Dictionary<string, dynamic>();
             Setup();
         }
 
@@ -27,7 +31,7 @@ namespace RemoteHealthcare_Client
                 this.Device = new SimulatedDevice();
             else
                 this.Device = new PhysicalDevice(bikeName, HRName);
-
+            this.SendingDictionary = new Dictionary<string, dynamic>();
             Setup();
         }
 
@@ -41,43 +45,62 @@ namespace RemoteHealthcare_Client
             this.Device.OnDistance += OnIncomingDistance;
             this.Device.OnElapsedTime += OnIncomingTime;
 
-
-            // TODO implement buffer system so the data to server is not overused
+            this.sending = true;
+            Trace.WriteLine("Started listener thread...");
+            new Thread(
+                (() =>
+                {
+                    Trace.WriteLine("Started thread" + Thread.CurrentThread.ManagedThreadId);
+                    while (this.sending)
+                    {
+                        Trace.WriteLine("Sending bikedata");
+                        JObject wrappedCommand = JObject.FromObject(PrepareDeviceData());
+                        this.ServerDataManager.ReceivedData(wrappedCommand);
+                        this.VRDataManager.ReceivedData(wrappedCommand);
+                        Thread.Sleep(1000);
+                    }
+                })).Start();
         }
 
         public void OnIncomingSpeed(object sender, double speed)
         {
-            JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "speed"));
+            //JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "speed"));
 
-            this.ServerDataManager.ReceivedData(wrappedCommand);
-            this.VRDataManager.ReceivedData(wrappedCommand);
+            //this.ServerDataManager.ReceivedData(wrappedCommand);
+            //this.VRDataManager.ReceivedData(wrappedCommand);
+
+            //Replace old speed with new speed in dictionary
+            ReplaceInDictionary("speed", speed);
         }
 
-        public void OnIncomingRPM(object sender, int speed)
+        
+
+        public void OnIncomingRPM(object sender, int rpm)
         {
             //JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
 
             //this.ServerDataManager.ReceivedData(wrappedCommand);
+            ReplaceInDictionary("rpm", rpm);
         }
-
+        
         public void OnIncomingHR(object sender, int heartrate)
         {
-
+            ReplaceInDictionary("bpm", heartrate);
         }
 
         public void OnIncomingCurPower(object sender, int power)
         {
-
+            ReplaceInDictionary("pow", power);
         }
 
         public void OnIncomingTotalPower(object sender, int power)
         {
-
+            ReplaceInDictionary("accpow", power);
         }
 
         public void OnIncomingDistance(object sender, double distance)
         {
-
+            ReplaceInDictionary("dist", distance);
         }
 
         public void OnIncomingTime(object sender, double time)
@@ -117,17 +140,38 @@ namespace RemoteHealthcare_Client
 
 
         
-        private object PrepareDeviceData(double value, string key)
+        private object PrepareDeviceData()
         {
+            this.SendingDictionary.TryGetValue("speed", out var speed);
+            this.SendingDictionary.TryGetValue("rpm", out var rpm);
+            this.SendingDictionary.TryGetValue("bpm", out var heartrate);
+            this.SendingDictionary.TryGetValue("pow", out var curpower);
+            this.SendingDictionary.TryGetValue("accpow", out var accpower);
+            this.SendingDictionary.TryGetValue("dist", out var distance);
             return new
             {
                 command = "ergodata",
                 data = new
                 {
                     time = DateTime.Now.ToString(),
-                    speed = value
+                    rpm = rpm,
+                    bpm = heartrate,
+                    speed = speed,
+                    dist = distance,
+                    pow = curpower,
+                    accpow = accpower
                 }
             };
+        }
+
+        private void ReplaceInDictionary(string key, dynamic value)
+        {
+            if (this.SendingDictionary.Remove(key))
+            {
+              this.SendingDictionary.Add(key, value);
+              return;
+            }
+            this.SendingDictionary.Add(key, value);
         }
     }
 }
