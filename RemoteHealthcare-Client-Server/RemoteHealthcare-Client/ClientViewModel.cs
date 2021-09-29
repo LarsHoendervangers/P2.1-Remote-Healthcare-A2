@@ -121,24 +121,7 @@ namespace RemoteHealthcare_Client
 
         private void StartApplication()
         {
-            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress);
-        }
-
-        private ICommand mStartConnection;
-        public ICommand StartConnection
-        {
-            get
-            {
-                if (mStartConnection == null)
-                {
-                    mStartConnection = new GeneralCommand(
-                        param => SetUpConnection(),
-                        param => (true)
-                        );
-                }
-                return mStartCommand;
-            }
-
+            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
         }
 
         private string mUserName = null;
@@ -161,22 +144,6 @@ namespace RemoteHealthcare_Client
                 mPassword = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
-        }
-
-        public void SetUpConnection()
-        {
-            object o = new
-            {
-                command = "login",
-                data = new
-                {
-                    us = UserName,
-                    pass = Password,
-                    flag = 0
-                }
-            };
-
-            this.handler.WriteMessage(JsonConvert.SerializeObject(o));
         }
     }
 

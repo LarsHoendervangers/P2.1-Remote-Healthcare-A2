@@ -21,8 +21,8 @@
         <TextBlock HorizontalAlignment="Left" Margin="295,101,0,0" TextWrapping="Wrap" Text="Selecteer de fiets die u gebruikt en de simulator waar u de scene op wilt laden" VerticalAlignment="Top" Width="169"/>
         <Label Content="Fiets:" HorizontalAlignment="Left" Margin="292,160,0,0" VerticalAlignment="Top" Height="27"/>
         <Label Content="Simulator:" HorizontalAlignment="Left" Margin="294,219,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox HorizontalAlignment="Left" Margin="296,187,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding BLEDevices, Mode=OneWay}"/>
-        <ComboBox HorizontalAlignment="Left" Margin="298,250,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding VRServers, Mode=OneWay}"/>
+        <ComboBox HorizontalAlignment="Left" Margin="296,187,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding BLEDevices, Mode=OneWay}" SelectedItem="{Binding SelectedDevice}"/>
+        <ComboBox HorizontalAlignment="Left" Margin="298,250,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding VRServers, Mode=OneWay}" SelectedItem="{Binding SelectedVRServer}"/>
         <GridSplitter HorizontalAlignment="Left" Height="253" Margin="501,75,0,0" VerticalAlignment="Top" Width="2"/>
         
         <Label Content="3. Selecteer scene" HorizontalAlignment="Left" Margin="525,76,0,0" VerticalAlignment="Top"/>
@@ -30,7 +30,7 @@
         <Label Content="Terrein:" HorizontalAlignment="Left" Margin="522,162,0,0" VerticalAlignment="Top"/>
         <ComboBox HorizontalAlignment="Left" Margin="525,186,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Scenes, Mode=OneWay}"/>
         
-        <Button Content="Start sessie" HorizontalAlignment="Left" Margin="350,362,0,0" VerticalAlignment="Top" Width="75" Command="{Binding Path=StartConnection}"/>
+        <Button Content="Start sessie" HorizontalAlignment="Left" Margin="350,362,0,0" VerticalAlignment="Top" Width="75" Command="{Binding Path=StartCommand}"/>
 
 
         <!--
