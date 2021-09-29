@@ -20,18 +20,6 @@ namespace RemoteHealthcare_Client
             this.TCPClientHandler.SetRunning(true);
 
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
-
-            object o = new
-            {
-                command = "login",
-                data = new
-                {
-                    us = "JHAOogstvogel",
-                    pass = "Welkom123",
-                    flag = 0
-                }
-            };
-            this.TCPClientHandler.WriteMessage(JsonConvert.SerializeObject(o));
         }
 
         private void OnMessageReceived(object sender, string message)

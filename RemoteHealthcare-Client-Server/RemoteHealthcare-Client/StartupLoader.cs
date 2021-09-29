@@ -1,4 +1,6 @@
-﻿using RemoteHealthcare.ClientVREngine.Util.Structs;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,12 +27,12 @@ namespace RemoteHealthcare_Client
             return clientDatas;
         }
 
-        public void SetupServerConnection(string device, string vrServer)
+        public void SetupServerConnection(string device, string vrServer, string username, string password)
         {
-            SetupServerConnection("127.0.0.1", 6969, device, vrServer);
+            SetupServerConnection("127.0.0.1", 6969, device, vrServer, username, password);
         }
 
-        public void SetupServerConnection(string ip, int port, string device, string vrServerID)
+        public void SetupServerConnection(string ip, int port, string device, string vrServerID, string username, string password)
         {
 
             // Setting op serverDataManager, it creates the connection to the server
@@ -45,6 +47,18 @@ namespace RemoteHealthcare_Client
             this.deviceDataManager.VRDataManager = vrDataManager;
 
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
+
+            object o = new
+            {
+                command = "login",
+                data = new
+                {
+                    us = username,
+                    pass = password,
+                    flag = 0
+                }
+            };
+            this.serverDataManager.ReceivedData(JObject.FromObject(o));
         }
 
     }
