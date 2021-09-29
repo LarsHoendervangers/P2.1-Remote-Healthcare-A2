@@ -50,10 +50,24 @@ namespace RemoteHealthcare.ClientVREngine.Util
         {
             return new
             {
-                id = "scene/node/delete",
+                id = "scene/node/update",
                 data = new
                 {
                     id = uuid
+                }
+            };
+        }
+
+        public static object UpdateNodeCamera(string uuid, string parent, Transform transform)
+        {
+            return new
+            {
+                id = "scene/node/update",
+                data = new
+                {
+                    id = uuid,
+                    parent,
+                    transform
                 }
             };
         }
@@ -426,7 +440,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                     node = objectId,
                     speed = 3.0,
                     rotate = "XZ",
-                    rotateOffset = new int[] { -90, 0, 0 },
+                    rotateOffset = new int[] { 80, 0, 0 },
                     followHeight = true
                 }
             };
