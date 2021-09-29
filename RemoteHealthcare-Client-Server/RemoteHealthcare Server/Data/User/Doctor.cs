@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Server.Data.Processing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace RemoteHealthcare_Server.Data.User
     {
         public string Username { get; set; }
 
-        public string Password { get; set; }
+        public string Password { get; set;   }
 
         public DateTime DateOfBirth { get; set; }
 
@@ -27,7 +28,7 @@ namespace RemoteHealthcare_Server.Data.User
         public Doctor(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string doctorType, string pHDType)
         {
             Username = username;
-            Password = password;
+            Password = HashProcessing.HashString(password);
             DateOfBirth = dateOfBirth;
             FirstName = firstName;
             LastName = lastName;

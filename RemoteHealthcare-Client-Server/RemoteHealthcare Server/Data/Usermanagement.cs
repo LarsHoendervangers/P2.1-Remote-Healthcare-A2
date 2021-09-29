@@ -1,4 +1,5 @@
-﻿using RemoteHealthcare_Server.Data.User;
+﻿using RemoteHealthcare_Server.Data.Processing;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -74,27 +75,25 @@ namespace RemoteHealthcare_Server.Data
                 if (user.getUserType() == UserTypes.Patient && flag == 0)
                 {
                     Patient p = (Patient)user;
-
-                    if (p.Password == password && p.Username == username)
+                    if (p.Password == HashProcessing.HashString(password) && p.Username == username)
                     {
                         return user;
                     }
-
                 } else if (user.getUserType() == UserTypes.Doctor && flag == 1)
                 {
                     Doctor d = (Doctor)user;
-                    if (d.Password == password && d.Username == username)
+                    if (d.Password == HashProcessing.HashString(password) && d.Username == username)
                     {
                         return user;
                     }
                 } else if (user.getUserType() == UserTypes.Admin && flag == 2)
                 {
                     Admin a = (Admin)user;
-                    if (a.Password == password && a.Username == username)
+                    Console.WriteLine(a.Password);
+                    if (a.Password == HashProcessing.HashString(password) && a.Username == username)
                     {
                         return user;
                     }
-
                 }
             }
 
