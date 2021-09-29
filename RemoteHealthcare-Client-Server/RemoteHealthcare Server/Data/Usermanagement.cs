@@ -28,10 +28,11 @@ namespace RemoteHealthcare_Server.Data
             try
             {
                 //first trying filees
-                FileProcessing.LoadUsers();
+                users = FileProcessing.LoadUsers();
             }
-            catch
+            catch (Exception ex)
             {
+                Server.PrintToGUI("Error in reading...");
                 //second filling with test data if not found
                 users.Add(new Admin("Admin", "Password123"));
                 users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345"));
@@ -151,7 +152,8 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
-        ~Usermanagement()
+
+        public void OnDestroy()
         {
             FileProcessing.SaveUsers(users);
         }

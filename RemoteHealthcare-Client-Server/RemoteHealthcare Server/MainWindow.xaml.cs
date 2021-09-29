@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -28,6 +29,12 @@ namespace RemoteHealthcare_Server
             InitializeComponent();
             //this.server = new Server(this, IPAddress.Parse("145.49.40.199"), 6969);
             this.server = new Server(this, IPAddress.Parse("127.0.0.1"), 6969);
+            this.Closing += OnDestroy;
+        }
+
+        private void OnDestroy(object sender, CancelEventArgs e)
+        {
+            this.server.users.OnDestroy();
         }
 
         public void Button_StartServer(object sender, RoutedEventArgs e)

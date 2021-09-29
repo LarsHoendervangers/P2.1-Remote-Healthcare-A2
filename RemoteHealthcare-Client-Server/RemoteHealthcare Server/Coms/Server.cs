@@ -12,7 +12,8 @@ namespace RemoteHealthcare_Server
     public class Server
     {
 
-        private Usermanagement users;
+        //Securety risk for bying public to fix...
+        public Usermanagement users;
 
         private static MainWindow window;
 
