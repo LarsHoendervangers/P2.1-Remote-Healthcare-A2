@@ -22,7 +22,7 @@ namespace RemoteHealthcare.Ergometer.Software
             //Make async or multithreaded
             Thread.Sleep(100);
 
-            return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Avans Bike"));
+            return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux"));
         }
 
         private HRBLE HRMonitor { get; set; }
