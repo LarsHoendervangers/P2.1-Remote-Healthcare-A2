@@ -1,11 +1,16 @@
-﻿using RemoteHealthcare.ClientVREngine.Util.Structs;
+﻿using Newtonsoft.Json;
+using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
+using RemoteHealthcare_Client.ClientVREngine.Scene;
+using RemoteHealthcare_Client.ClientVREngine.Tunnel;
+using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,8 +22,9 @@ namespace RemoteHealthcare_Client
         public event PropertyChangedEventHandler PropertyChanged;
 
         private StartupLoader loader;
+        private TCPClientHandler handler;
 
-        public ClientViewModel(StartupLoader loader)
+        public ClientViewModel(StartupLoader loader, TCPClientHandler handler)
         {
             // TODO !! blocking call
             List<string> blDevices = PhysicalDevice.ReadAllDevices();
@@ -29,8 +35,12 @@ namespace RemoteHealthcare_Client
             // !! Also blocking call
             this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
 
+            List<string> scenes = new List<string>();
+            scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
+            this.mScenes = new ObservableCollection<string>(scenes);
 
             this.loader = loader;
+            this.handler = handler;
         }
 
         private ObservableCollection<ClientData> mVRServers;
@@ -81,6 +91,17 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        private ObservableCollection<string> mScenes;
+        public ObservableCollection<string> Scenes
+        {
+            get { return mScenes; }
+            set
+            {
+                mScenes = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Selected scene"));
+            }
+        }
+
         private ICommand mStartCommand;
         public ICommand StartCommand
         {
@@ -102,5 +123,62 @@ namespace RemoteHealthcare_Client
         {
             this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress);
         }
+
+        private ICommand mStartConnection;
+        public ICommand StartConnection
+        {
+            get
+            {
+                if (mStartConnection == null)
+                {
+                    mStartConnection = new GeneralCommand(
+                        param => SetUpConnection(),
+                        param => (true)
+                        );
+                }
+                return mStartCommand;
+            }
+
+        }
+
+        private string mUserName = null;
+        public string UserName
+        {
+            get { return mUserName; }
+            set
+            {
+                mUserName = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User name"));
+            }
+        }
+
+        private string mPassword = null;
+        public string Password
+        {
+            get { return mPassword; }
+            set
+            {
+                mPassword = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
+            }
+        }
+
+        public void SetUpConnection()
+        {
+            object o = new
+            {
+                command = "login",
+                data = new
+                {
+                    us = UserName,
+                    pass = Password,
+                    flag = 0
+                }
+            };
+
+            this.handler.WriteMessage(JsonConvert.SerializeObject(o));
+        }
     }
+
+    
 }
