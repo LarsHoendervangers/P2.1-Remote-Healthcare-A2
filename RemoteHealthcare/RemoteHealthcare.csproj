@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net4.7.2</TargetFramework>
+    <StartupObject>RemoteHealthcare.ClientVREngine.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,10 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tools\" />
+    <Folder Include="Ergometer\Tools\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="SimplexNoise" Version="2.0.0" />
   </ItemGroup>
 
