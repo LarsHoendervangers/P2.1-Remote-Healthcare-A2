@@ -57,13 +57,6 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                     1, 1, 512, 512, true), new Action<string>(getIdPanel));
             Thread.Sleep(2000);
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel), new Action<string>(Response));
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
-            Handler.SendToTunnel(
-                JSONCommandHelper.WrapPanelText(uuidPanel, "Hallo", new double[] {100.0, 100.0}, 32.0, "Arial"),
-                new Action<string>(Response));
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
-
 
 
         }
@@ -126,6 +119,16 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
                 }
             }
+        }
+
+        public void WriteTextToPanel(JObject BikeData)
+        {
+            Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel), new Action<string>(Response));
+            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
+            Handler.SendToTunnel(
+                JSONCommandHelper.WrapPanelText(uuidPanel, $"Snelheid: {BikeData.SelectToken("data.speed")}\r\nRotaties per Minuut: {BikeData.SelectToken("data.rpm")}\r\nAfstand: {BikeData.SelectToken("data.dist")}\r\nMomentaan Vermogen: {BikeData.SelectToken("data.pow")}\r\nTotale Vermogen: {BikeData.SelectToken("data.accpow")}\r\nHarslagen per Minuut: {BikeData.SelectToken("bpm")}", new double[] { 100.0, 100.0 }, 32.0, "Arial"),
+                new Action<string>(Response));  
+            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
         }
     }
 }

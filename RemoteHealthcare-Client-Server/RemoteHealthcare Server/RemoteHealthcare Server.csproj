@@ -10,15 +10,18 @@
   <Import Project="..\RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems" Label="Shared" />
 
   <ItemGroup>
+    <Compile Remove="GUI\**" />
+    <EmbeddedResource Remove="GUI\**" />
+    <None Remove="GUI\**" />
+    <Page Remove="GUI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Page Include="App.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GUI\" />
   </ItemGroup>
 
 </Project>

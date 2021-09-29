@@ -58,6 +58,7 @@ namespace RemoteHealthcare_Client
                     break;
                 case "ergodata":
                     Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
+                    simpleScene.WriteTextToPanel(data);
                     break;
                 default:
                     // TODO HANDLE NOT SUPPORTER
