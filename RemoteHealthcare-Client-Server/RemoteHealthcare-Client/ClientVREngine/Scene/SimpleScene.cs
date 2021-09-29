@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         private string uuidRoute;
         private string uuidModel;
         private string uuidPanel;
+        private string uuidCamera;
 
         public SimpleScene(TunnelHandler handler) : base(handler)
         {
@@ -29,10 +30,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                     new Transform(1, new int[3] {-128, 0, -128}, new int[3] {0, 0, 0})),
                 new Action<string>(Textureplacer));
             Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneCallback));
+            
             Handler.SendToTunnel(
                 JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend",
                     new Transform(1, new int[3] {0, 5, 0}, new int[3] {270, 270, 0})), new Action<string>(getIdModel));
-
+            Thread.Sleep(2000);
+            Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(AttachCameraToBike));
 
             PosVector[] posVectors = new PosVector[]
             {
@@ -57,7 +60,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                     1, 1, 512, 512, true), new Action<string>(getIdPanel));
             Thread.Sleep(2000);
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
-
+           
 
         }
 
@@ -83,7 +86,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
         private void Response(string json)
         {
-            Console.WriteLine(json);
+            Trace.Write(json);
         }
 
         private void getIdModel(string json)
@@ -115,20 +118,49 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 if (o.GetValue("name").ToString() == "GroundPlane")
                 {
                     Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
+
                     return;
 
                 }
             }
         }
 
+        public void AttachCameraToBike(string jsonString)
+        {
+            JObject jObject = JObject.Parse(jsonString);
+            JArray array = (JArray)jObject.SelectToken("data.data.data.children");
+
+            foreach (JObject o in array)
+            {
+                Trace.WriteLine($"DemoScene: object name = {o.GetValue("name")} \n");
+                if (o.GetValue("name").ToString() == "Camera")
+                {
+                    uuidCamera = o.GetValue("uuid").ToString();
+                    Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(),uuidModel,new Transform(1, new int[]{-3,0,0},new int[]{ 90, 0, 90 })));
+                    
+
+                }
+                if(o.GetValue("name").ToString() == "Head")
+                {
+                    Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
+                }
+            }
+        }
+
         public void WriteTextToPanel(JObject BikeData)
         {
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel), new Action<string>(Response));
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
-            Handler.SendToTunnel(
-                JSONCommandHelper.WrapPanelText(uuidPanel, $"Snelheid: {BikeData.SelectToken("data.speed")}\r\nRotaties per Minuut: {BikeData.SelectToken("data.rpm")}\r\nAfstand: {BikeData.SelectToken("data.dist")}\r\nMomentaan Vermogen: {BikeData.SelectToken("data.pow")}\r\nTotale Vermogen: {BikeData.SelectToken("data.accpow")}\r\nHarslagen per Minuut: {BikeData.SelectToken("bpm")}", new double[] { 100.0, 100.0 }, 32.0, "Arial"),
-                new Action<string>(Response));  
-            Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel), new Action<string>(Response));
+            if (uuidPanel != null)
+            {
+                
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel));
+                Handler.SendToTunnel(
+                    JSONCommandHelper.WrapPanelText(uuidPanel, $"Snelheid: {BikeData.SelectToken("data.speed")}\\nRotaties per Minuut: {BikeData.SelectToken("data.rpm")}\\nAfstand: {BikeData.SelectToken("data.dist")}\\nMomentaan Vermogen: {BikeData.SelectToken("data.pow")}\\nTotale Vermogen: {BikeData.SelectToken("data.accpow")}\\nHarslagen per Minuut: {BikeData.SelectToken("bpm")}",
+                        new double[] {25.0, 25.0}, 25.0, "Arial")
+                    );
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel));
+                
+            }
+
         }
     }
 }
