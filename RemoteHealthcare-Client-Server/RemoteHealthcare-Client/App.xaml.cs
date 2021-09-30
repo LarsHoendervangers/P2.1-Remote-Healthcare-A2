@@ -26,7 +26,7 @@ namespace RemoteHealthcare_Client
             MainWindow window = new MainWindow();
 
             // starting the viewmodel connected to the gui
-            ClientViewModel VM = new ClientViewModel(new StartupLoader(), new TCPClientHandler("127.0.0.1", 6969));
+            ClientViewModel VM = new ClientViewModel(new StartupLoader());
 
             // Starting the GUI
             window.DataContext = VM;
