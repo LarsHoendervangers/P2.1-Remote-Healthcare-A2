@@ -25,10 +25,11 @@ namespace RemoteHealthcare_Server.Data.User
 
         public readonly UserTypes type;
 
-        public Doctor(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string doctorType, string pHDType)
+        public Doctor(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string doctorType, string pHDType, bool hashable)
         {
             Username = username;
-            Password = HashProcessing.HashString(password);
+            if (hashable) this.Password = HashProcessing.HashString(password);
+            else this.Password = password;
             DateOfBirth = dateOfBirth;
             FirstName = firstName;
             LastName = lastName;
