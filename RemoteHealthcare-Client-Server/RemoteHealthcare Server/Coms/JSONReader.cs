@@ -22,20 +22,21 @@ namespace RemoteHealthcare_Server
             MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
             foreach (MethodInfo method in methods)
             {
+               
+              
                 if (method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                    && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType()) continue; // yes, that is lazy
-                method.Invoke(this, new object[] {jObject, sender, user, managemet });
+                    && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType())
+                {
+                    Server.PrintToGUI(method.Name);
+                    method.Invoke(this, new object[] { jObject, sender, user, managemet });
+                }
             }
-
-
-
-
         }
 
         [AccesManager("ergodata", UserTypes.Patient)]
-        public static void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
+        private static void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
         {
-            Server.PrintToGUI("data found" + Jobject.ToString() + user.getUserType());
+            Server.PrintToGUI("Got your data");
             if (user != null)
             {
                 //Bike
@@ -43,7 +44,7 @@ namespace RemoteHealthcare_Server
                 JToken speed = Jobject.SelectToken("data.speed");
                 JToken dist = Jobject.SelectToken("data.dist");
                 JToken pow = Jobject.SelectToken("data.pow");
-                JToken accpow = Jobject.SelectToken("data.accpw");
+                JToken accpow = Jobject.SelectToken("data.accpow");
 
                 //Heart
                 JToken bpm = Jobject.SelectToken("data.bpm");
@@ -55,7 +56,7 @@ namespace RemoteHealthcare_Server
                 if (rpm != null)
                 {
                     usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
-                        int.Parse(speed.ToString()), int.Parse(dist.ToString()), int.Parse(pow.ToString()),
+                        (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                         int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
                 }
                 else if (bpm != null)
