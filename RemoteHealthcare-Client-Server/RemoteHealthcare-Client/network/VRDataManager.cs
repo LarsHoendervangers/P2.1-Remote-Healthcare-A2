@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Client
     public class VRDataManager : DataManager
     {
         private readonly SimpleScene simpleScene;
+        private readonly PodraceScene demoScene;
 
         public TunnelHandler VRTunnelHandler { get; set; }
 
@@ -20,15 +21,18 @@ namespace RemoteHealthcare_Client
         {
             VRTunnelHandler = new TunnelHandler();
             this.simpleScene = new SimpleScene(this.VRTunnelHandler);
+            //this.demoScene = new PodraceScene(this.VRTunnelHandler);
         }
 
         public void Start(string vrServerID)
         {
             this.VRTunnelHandler.SetUpConnection(vrServerID);
-
+            
             this.simpleScene.InitScene();
 
             this.simpleScene.LoadScene();
+            //this.demoScene.InitScene();
+            //this.demoScene.LoadScene();
         }
 
         public override void ReceivedData(JObject data)
