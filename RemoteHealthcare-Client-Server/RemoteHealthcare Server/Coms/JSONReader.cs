@@ -15,6 +15,13 @@ namespace RemoteHealthcare_Server
 
     public class JSONReader
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
@@ -22,8 +29,6 @@ namespace RemoteHealthcare_Server
             MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
             foreach (MethodInfo method in methods)
             {
-               
-              
                 if (method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
                     && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType())
                 {
@@ -33,6 +38,13 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        /// <summary>
+        /// This method does save and send data to subs and session.
+        /// </summary>
+        /// <param name="Jobject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="usermanagement"></param>
         [AccesManager("ergodata", UserTypes.Patient)]
         private static void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
         {
@@ -66,10 +78,13 @@ namespace RemoteHealthcare_Server
             }
         }
 
-
-        
-
-
+        /// <summary>
+        /// Sends the resistance from the doctor to the client.
+        /// </summary>
+        /// <param name="jObject">This is the JSON-file to decode were the data is stored</param> 
+        /// <param name="sender">This is the sender for sending it to the client</param>
+        /// <param name="user">This is the adress for sending it.</param>
+        /// <param name="managemet">This is a managment object.</param>
         [AccesManager("setresist", UserTypes.Doctor)]
         private static void SettingErgometer(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
@@ -110,12 +125,12 @@ namespace RemoteHealthcare_Server
             management.SessionStart(user);
             management.SessionEnd(user);
         }
-
-
-
-      
     }
 
+
+    /// <summary>
+    /// This is the custom attribute used for jumping to the correct method.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
     public class AccesManagerAttribute : Attribute
     {

@@ -36,15 +36,15 @@ namespace RemoteHealthcare_Server.Coms
                     JSONWriter.LoginWrite(true, sender);
                     Server.PrintToGUI("Authenticated....");
                     return user;
-                } else
+                }
+                else
                 {
                     JSONWriter.LoginWrite(false, sender);
                     Server.PrintToGUI("Not a user....");
                     return null;
-                    
+
                 }
             }
-
 
             //Not valid as command
             return null;
