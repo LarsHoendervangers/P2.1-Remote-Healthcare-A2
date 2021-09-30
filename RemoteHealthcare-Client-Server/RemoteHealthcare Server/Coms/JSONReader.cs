@@ -19,16 +19,17 @@ namespace RemoteHealthcare_Server
         {
             string command = jObject.GetValue("command").ToString();
 
-            var assembly = Assembly.GetExecutingAssembly();
-            var methodes = assembly.GetCustomAttributes<AccesManagerAttribute>().Select(a => a.GetCommand() == command && a.GetUserType() == user.getUserType()).GetType().GetMethods();
-
-
-            foreach (var method in methodes) 
+            MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Static | BindingFlags.NonPublic);
+            foreach (MethodInfo method in methods)
             {
-                Server.PrintToGUI(method.Name);
-                
-                //method.Invoke(this, new object[] { jObject, sender, user, managemet}); 
+                if (method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
+                    && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType()) continue; // yes, that is lazy
+                method.Invoke(this, new object[] {jObject, sender, user, managemet });
             }
+
+
+
+
         }
 
         [AccesManager("ergodata", UserTypes.Patient)]
