@@ -15,10 +15,11 @@ namespace RemoteHealthcare_Server.Data.User
 
         public readonly UserTypes type;
 
-        public Admin(string username, string password)
+        public Admin(string username, string password, bool hashable)
         {
             Username = username;
-            Password = HashProcessing.HashString(password);
+            if (hashable) this.Password = HashProcessing.HashString(password);
+            else this.Password = password;
             type = UserTypes.Admin;
         }
 

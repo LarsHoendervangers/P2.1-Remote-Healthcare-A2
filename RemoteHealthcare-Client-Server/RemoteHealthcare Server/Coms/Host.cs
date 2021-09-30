@@ -60,7 +60,7 @@ namespace RemoteHealthcare_Server
                 }
                 else
                 {
-                    Server.PrintToGUI(json.ToString());
+                    //Server.PrintToGUI(json.ToString());
                     this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
                 }
             }

@@ -35,11 +35,12 @@ namespace RemoteHealthcare_Server.Data
             {
                 Server.PrintToGUI("Error in reading...");
                 //second filling with test data if not found
-                users.Add(new Admin("Admin", "Password123"));
-                users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345"));
-                users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346"));
-                users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347"));
-                users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool"));
+                users.Add(new Admin("Admin", "Password123", true));
+                users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345", true));
+                users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346", true));
+                users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
+                users.Add(new Patient(" ", " ", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
+                users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
             }
         }
 
@@ -74,6 +75,7 @@ namespace RemoteHealthcare_Server.Data
             foreach(IUser user in this.users){
                 if (user.getUserType() == UserTypes.Patient && flag == 0)
                 {
+
                     Patient p = (Patient)user;
                     if (p.Password == HashProcessing.HashString(password) && p.Username == username)
                     {

@@ -27,11 +27,12 @@ namespace RemoteHealthcare_Server
 
 
 
-        public Patient(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string medicalSystemID)
+        public Patient(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string medicalSystemID, bool hashable)
         {
             //Username and login
             this.Username = username;
-            this.Password = HashProcessing.HashString(password);
+            if (hashable) this.Password = HashProcessing.HashString(password);
+            else this.Password = password;
 
             //Patien data
             this.DateOfBirth = dateOfBirth;
