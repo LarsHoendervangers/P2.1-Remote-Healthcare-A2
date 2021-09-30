@@ -50,7 +50,7 @@ namespace RemoteHealthcare_Client
                         JObject wrappedCommand = JObject.FromObject(PrepareDeviceDataNewton());
 
                         this.SendToManagers(wrappedCommand);
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
 
                     }
                 })).Start();

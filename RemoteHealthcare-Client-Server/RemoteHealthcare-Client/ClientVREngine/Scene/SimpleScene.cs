@@ -154,7 +154,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 
                 Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel));
                 Handler.SendToTunnel(
-                    JSONCommandHelper.WrapPanelText(uuidPanel, $"Speed: {BikeData.SelectToken("data.speed")}\\nRPM: {BikeData.SelectToken("data.rpm")}\\nDistance: {BikeData.SelectToken("data.dist")}\\nPower: {BikeData.SelectToken("data.pow")}\\nTotal Power: {BikeData.SelectToken("data.accpow")}\\nBPM: {BikeData.SelectToken("bpm")}\\n",
+                    JSONCommandHelper.WrapPanelText(uuidPanel, $"Speed: {BikeData.SelectToken("data.speed")}\\nRPM: {BikeData.SelectToken("data.rpm")}\\nDistance: {BikeData.SelectToken("data.dist")}\\nPower: {BikeData.SelectToken("data.pow")}\\nTotal Power: {BikeData.SelectToken("data.accpow")}\\nBPM: {BikeData.SelectToken("data.bpm")}\\n",
                         new double[] {25.0, 25.0}, 25.0, "Arial")
                     );
                 Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel));
