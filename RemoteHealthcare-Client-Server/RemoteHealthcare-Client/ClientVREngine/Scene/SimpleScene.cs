@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
@@ -158,9 +159,17 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                         new double[] {25.0, 25.0}, 25.0, "Arial")
                     );
                 Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel));
-                
+
+                UpdateBikeSpeed(BikeData);
             }
 
+        }
+
+        public void UpdateBikeSpeed(JObject speedData)
+        {
+            string speed = $"{speedData.SelectToken("data.speed")}";
+            double speedDouble = Convert.ToDouble(speed);
+            Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble));
         }
     }
 }

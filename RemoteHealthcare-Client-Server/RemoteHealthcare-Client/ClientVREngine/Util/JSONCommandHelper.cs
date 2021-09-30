@@ -456,11 +456,11 @@ namespace RemoteHealthcare.ClientVREngine.Util
         {
             return new
             {
-                id = "route/update",
+                id = "route/follow/speed",
                 data = new
                 {
                     node = objectId,
-                    speed
+                    speed = speed
                 }
             };
         }
