@@ -31,8 +31,6 @@ namespace RemoteHealthcare_Client
             this.simpleScene.InitScene();
 
             this.simpleScene.LoadScene();
-            //this.demoScene.InitScene();
-            //this.demoScene.LoadScene();
         }
 
         public override void ReceivedData(JObject data)

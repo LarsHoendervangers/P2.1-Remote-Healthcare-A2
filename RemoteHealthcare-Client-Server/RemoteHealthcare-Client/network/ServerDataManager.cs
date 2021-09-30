@@ -17,6 +17,7 @@ namespace RemoteHealthcare_Client
         public ServerDataManager(string ip, int port)
         {
             this.TCPClientHandler = new TCPClientHandler(ip, port);
+
             this.TCPClientHandler.SetRunning(true);
 
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
