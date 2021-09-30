@@ -55,8 +55,8 @@ namespace RemoteHealthcare_Client
                     {
                         Trace.WriteLine("Sending bikedata");
                         JObject wrappedCommand = JObject.FromObject(PrepareDeviceData());
-                        this.ServerDataManager.ReceivedData(wrappedCommand);
-                        this.VRDataManager.ReceivedData(wrappedCommand);
+
+                        this.SendToManagers(wrappedCommand);
                         Thread.Sleep(1000);
 
                     }
