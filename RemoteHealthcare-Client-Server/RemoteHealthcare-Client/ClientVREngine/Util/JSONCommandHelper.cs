@@ -438,7 +438,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 {
                     route = routeId,
                     node = objectId,
-                    speed = 3.0,
+                    speed = 0.0,
                     rotate = "XZ",
                     rotateOffset = new int[] { 80, 0, 0 },
                     followHeight = true
