@@ -17,32 +17,42 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
 {
+    /// <summary>
+    /// Class that represents the viewmodel for the client application
+    /// </summary>
     class ClientViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private StartupLoader loader;
-        private TCPClientHandler handler;
+        private readonly StartupLoader loader;
 
-        public ClientViewModel(StartupLoader loader, TCPClientHandler handler)
+        /// <summary>
+        /// Constructor for the Client view model, starts the calls to get available bl- and vr- devices
+        /// </summary>
+        /// <param name="loader">The StartupLoader that handles startup</param>
+        public ClientViewModel(StartupLoader loader)
         {
+            this.loader = loader;
+
             // TODO !! blocking call
+            // Gets all the bleutooth devices available
             List<string> blDevices = PhysicalDevice.ReadAllDevices();
             blDevices.Add("Simulator");
             this.mBLEDevices = new ObservableCollection<string>(blDevices);
 
-            // Setting all the VRserers list
             // !! Also blocking call
+            // Setting all the VRserers list
             this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
 
+            // Setting the list with Scenes the user can choise from
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
             this.mScenes = new ObservableCollection<string>(scenes);
-
-            this.loader = loader;
-            this.handler = handler;
         }
 
+        /// <summary>
+        /// Binded list attributes that contains all the vr server data
+        /// </summary>
         private ObservableCollection<ClientData> mVRServers;
         public ObservableCollection<ClientData> VRServers
         {
@@ -56,6 +66,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded attributte that contains the selected vr server
+        /// </summary>
         private ClientData mSelectedVRServer = new ClientData();
         public ClientData SelectedVRServer
         {
@@ -67,6 +80,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded list that contains all the bl devices
+        /// </summary>
         private ObservableCollection<string> mBLEDevices;
         public ObservableCollection<string> BLEDevices
         {
@@ -80,6 +96,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded Attribute that contains the selected bl device
+        /// </summary>
         private string mSelectedDevice = null;
         public string SelectedDevice
         {
@@ -91,6 +110,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded list attribute that contains the scenes
+        /// </summary>
         private ObservableCollection<string> mScenes;
         public ObservableCollection<string> Scenes
         {
@@ -102,37 +124,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
-        private ICommand mStartCommand;
-        public ICommand StartCommand
-        {
-            get
-            {
-                if (mStartCommand == null)
-                {
-                    mStartCommand = new GeneralCommand(
-                        param => StartApplication(),
-                        param => (NullCheck())
-                        );
-                }
-                return mStartCommand;
-            }
-
-        }
-
-        private bool NullCheck()
-        {
-            return
-                this.SelectedDevice != null &
-                this.SelectedVRServer.NullCheck() &
-                this.Password != null &
-                this.UserName != null;
-        }
-
-        private void StartApplication()
-        {
-            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
-        }
-
+        /// <summary>
+        /// Binded attribute that stores the username 
+        /// </summary>
         private string mUserName = null;
         public string UserName
         {
@@ -144,6 +138,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded attribute that stores the password 
+        /// </summary>
         private string mPassword = null;
         public string Password
         {
@@ -153,6 +150,47 @@ namespace RemoteHealthcare_Client
                 mPassword = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
+        }
+
+        /// <summary>
+        /// Command that is called when the client presses the start button
+        /// </summary>
+        private ICommand mStartCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                if (mStartCommand == null)
+                {
+                    mStartCommand = new GeneralCommand(
+                        param => StartApplication(),
+                        param => NullCheck() //check if all the fields are filled
+                        );
+                }
+                return mStartCommand;
+            }
+
+        }
+
+        /// <summary>
+        /// Checks all the fields in the class if they are null, returns true if all fields are filled
+        /// </summary>
+        /// <returns>true is all attributes are NOT null</returns>
+        private bool NullCheck()
+        {
+            return
+                this.SelectedDevice != null &
+                this.SelectedVRServer.NullCheck() &
+                this.Password != null &
+                this.UserName != null;
+        }
+
+        /// <summary>
+        /// Calls the Loader class to setup the connection to the servers/
+        /// </summary>
+        private void StartApplication()
+        {
+            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
         }
     }
 
