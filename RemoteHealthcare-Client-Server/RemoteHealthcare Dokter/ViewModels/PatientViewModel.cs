@@ -8,8 +8,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class PatientViewModel
     {
-        private List<string> _PatientsList;
-        public List<string> PatientList
+        private List<User> _PatientsList;
+        public List<User> PatientList
         {
             get { return _PatientsList; }
             set { _PatientsList = value; }
