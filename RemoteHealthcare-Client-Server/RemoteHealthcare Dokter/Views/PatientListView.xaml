@@ -7,15 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Patienten" HorizontalAlignment="Left" Margin="27,13,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="24"/>
-        <DataGrid Margin="32,59,32,0" SelectionChanged="DataGrid_SelectionChanged">
+        <Label Content="Patienten" HorizontalAlignment="Left" Margin="27,13,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <DataGrid Margin="32,76,32,0" SelectionChanged="DataGrid_SelectionChanged" GridLinesVisibility="Horizontal" BorderBrush="#FFC6002A" ColumnHeaderHeight="NaN" FontSize="20" ItemsSource="{Binding PatientsList}">
+            <DataGrid.ColumnHeaderStyle>
+                <Style/>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style/>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Naam"/>
-                <DataGridTextColumn Header="ID"/>
-                <DataGridTextColumn Header="Geslacht"/>
-                <DataGridTextColumn Header="Leeftijd"/>
-                <DataGridTextColumn Header="Geboortedatum"/>
-                <DataGridTextColumn Header="Laatste bezoek"/>
+                <DataGridTextColumn Header="Naam" Width="*"/>
+                <DataGridTextColumn Header="ID" Width="*"/>
+                <DataGridTextColumn Header="Geslacht" Width="*"/>
+                <DataGridTextColumn Header="Leeftijd" Width="*"/>
+                <DataGridTextColumn Header="Geboortedatum" Width="*"/>
+                <DataGridTextColumn Header="Laatste bezoek" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
