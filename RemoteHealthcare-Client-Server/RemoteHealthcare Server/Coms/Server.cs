@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using CommClass;
 
 namespace RemoteHealthcare_Server
 {
@@ -142,7 +143,7 @@ namespace RemoteHealthcare_Server
                 if (this.Hosts.Count > i)
                 {
                     Host host = this.Hosts[i];
-                    //JSONWriter.MessageWrite(msg, host.client);
+                    JSONWriter.MessageWrite(msg, new PlaneTextSender(host.tcpclient.GetStream()));
                 } else
                 {
                     break;

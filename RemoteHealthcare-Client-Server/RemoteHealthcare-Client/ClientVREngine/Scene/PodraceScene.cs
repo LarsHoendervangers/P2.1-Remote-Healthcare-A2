@@ -31,7 +31,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
             //Spawning map
             //Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracermap.obj"));
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("raceterrain", "data/NetworkEngine/models/podracemap1/podracemap1.obj", new Transform(1, new double[3] { 0, 0, 0 }, new double[3] { 0, 0, 0 })));
 
             //Creating terrain
             Debug.WriteLine(CreateTerrain());
@@ -55,7 +55,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             float[] height = VRUTil.GenerateTerrain(256, 256, 3, 0.01f);
 
             Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
-            Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })));
+            Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new double[3] { -128, 0, -128 }, new double[3] { 0, 0, 0 })));
 
             return "Created a new terrain with size: 256 x 256.";
         }

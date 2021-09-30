@@ -218,7 +218,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
         /// <returns></returns>
         public static object Wrap3DObject(string name, string filePath)
         {
-            Transform transform = new Transform(1, new int[3] { 0, 0, 0 }, new int[3] { 0, 0, 0 });
+            Transform transform = new Transform(1, new double[3] { 0, 0, 0 }, new double[3] { 0, 0, 0 });
             return new
             {
                 id = "scene/node/add",
@@ -278,7 +278,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
         /// <param name="color">THe background color of the panel</param>
         /// <param name="castShadow">true/false, panel casts a shadow</param>
         /// <returns>The JSON pbject to create a panel</returns>
-        public static object WrapPanel(string name, string parent, Transform transform, int sizeX, int sizeY, int resolutionX, int resolutionY, bool castShadow)
+        public static object WrapPanel(string name, string parent, Transform transform, double sizeX, double sizeY, int resolutionX, int resolutionY, bool castShadow)
         {
             return new
             {
@@ -292,9 +292,9 @@ namespace RemoteHealthcare.ClientVREngine.Util
                         transform,
                         panel = new
                         {
-                            size = new int[] { sizeX, sizeY },
+                            size = new double[] { sizeX, sizeY },
                             resolution = new int[] { resolutionX, resolutionY },
-                            background = new int[] { 1, 1, 1, 1 },
+                            background = new int[] { 1, 1, 1, 0 },
                             castShadow
                         }
                     }

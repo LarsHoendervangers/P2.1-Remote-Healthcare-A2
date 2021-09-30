@@ -98,7 +98,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
             Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] { 256, 256 }, height));
 
-            Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new int[3] { -128, 0, -128 }, new int[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
+            Handler.SendToTunnel(JSONCommandHelper.WrapShowTerrain("ground", new Transform(1, new double[3] { -128, 0, -128 }, new double[3] { 0, 0, 0 })), new Action<string>(Textureplacer));
 
 
 
@@ -159,7 +159,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
             //Normal bike rotation (270, 270, 0).
             // Ask the server to add the bike object, uuid of model is saved in this.uuidModel using lambda expression
-            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new int[3] { 0, 5, 0 }, new int[3] { 270, 270, 0 })), (message) => uuidModel = VRUTil.GetId(message));
+            Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend", new Transform(1, new double[3] { 0, 5, 0 }, new double[3] { 270, 270, 0 })), (message) => uuidModel = VRUTil.GetId(message));
             return "Spawned a bike.";
             // this.Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("podracer", "data/NetworkEngine/models/podracer/podracer.obj", new Transform(1 , new int[3] { 0, 0, 0}, new int[3] { 0, 0, 0 })));
             //  return "Spawned a podracer.";

@@ -12,8 +12,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
     {
         private string uuidRoute;
         private string uuidModel;
-        private string uuidPanel;
+        private string uuidPanelData;
+        private string uuidPanelText;
         private string uuidCamera;
+        private string uuidMonkey;
 
         public SimpleScene(TunnelHandler handler) : base(handler)
         {
@@ -27,13 +29,13 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Handler.SendToTunnel(JSONCommandHelper.WrapTerrain(new int[] {256, 256}, height));
             Handler.SendToTunnel(
                 JSONCommandHelper.WrapShowTerrain("ground",
-                    new Transform(1, new int[3] {-128, 0, -128}, new int[3] {0, 0, 0})),
+                    new Transform(1, new double[3] {-128, 0, -128}, new double[3] {0, 0, 0})),
                 new Action<string>(Textureplacer));
             Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneCallback));
             
             Handler.SendToTunnel(
                 JSONCommandHelper.Wrap3DObject("bike", "data/NetworkEngine/models/bike/bike.blend",
-                    new Transform(1, new int[3] {0, 5, 0}, new int[3] {270, 270, 0})), new Action<string>(getIdModel));
+                    new Transform(1, new double[3] {0, 5, 0}, new double[3] {270, 270, 0})), new Action<string>(getIdModel));
             Thread.Sleep(2000);
             Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(AttachCameraToBike));
 
@@ -56,9 +58,13 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 new Action<string>(TextureplacerRoad));
             Thread.Sleep(2000);
             Handler.SendToTunnel(
-                JSONCommandHelper.WrapPanel("panel", uuidModel, new Transform(1, new[] {-1, 0, 1}, new[] {90, 0, 90}),
-                    1, 1, 512, 512, true), new Action<string>(getIdPanel));
+                JSONCommandHelper.WrapPanel("panelData", uuidMonkey, new Transform(1, new double[] {0.25, -0.25, -0.5}, new double[] {0,0,0}),
+                    0.5, 0.5, 512, 512, true), new Action<string>(getIdPanelData));
+            Handler.SendToTunnel(
+                JSONCommandHelper.WrapPanel("panelText", uuidMonkey, new Transform(1, new double[] { -0.25, -0.15, -0.5 }, new double[] { 0, 0, 0 }),
+                    0.5, 0.5, 512, 512, true), new Action<string>(getIdPanelText));
             Thread.Sleep(2000);
+            WriteTextToPanel("");
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
            
 
@@ -94,16 +100,20 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             uuidModel = VRUTil.GetId(json);
         }
 
-        private void getIdPanel(string json)
+        private void getIdPanelData(string json)
         {
-            uuidPanel = VRUTil.GetId(json);
-            Console.WriteLine("Panel" + uuidPanel);
+            uuidPanelData = VRUTil.GetId(json);
         }
 
-        public string getOrDefaultPanelUuid()
+        private void getIdPanelText(string json)
         {
-            return this?.uuidPanel;
+            uuidPanelText = VRUTil.GetId(json);
         }
+
+        // public string getOrDefaultPanelUuid()
+        // {
+        //     return this?.uuidPanel;
+        // }
 
 
 
@@ -136,29 +146,45 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 if (o.GetValue("name").ToString() == "Camera")
                 {
                     uuidCamera = o.GetValue("uuid").ToString();
-                    Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(),uuidModel,new Transform(1, new int[]{-3,0,0},new int[]{ 90, 0, 90 })));
-                    
+                    Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(), uuidModel, new Transform(1, new double[] { 0, 0, 0 }, new double[] { 90, 0, 90 })));
 
                 }
-                if(o.GetValue("name").ToString() == "Head")
+                if (o.GetValue("name").ToString() == "Head")
                 {
-                    Handler.SendToTunnel(JSONCommandHelper.RemoveNode(o.GetValue("uuid").ToString()));
+                    uuidMonkey = o.GetValue("uuid").ToString();
+                    //Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(), uuidModel, new Transform(1, new int[] { 0, 0, 0 }, new int[] { 90, 0, 90 })));
                 }
+
             }
         }
 
-        public void WriteTextToPanel(JObject BikeData)
+        public void WriteDataToPanel(JObject BikeData)
         {
-            if (uuidPanel != null)
+            if (uuidPanelData != null)
             {
                 
-                Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanel));
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanelData));
                 Handler.SendToTunnel(
-                    JSONCommandHelper.WrapPanelText(uuidPanel, $"Speed: {BikeData.SelectToken("data.speed")}\\nRPM: {BikeData.SelectToken("data.rpm")}\\nDistance: {BikeData.SelectToken("data.dist")}\\nPower: {BikeData.SelectToken("data.pow")}\\nTotal Power: {BikeData.SelectToken("data.accpow")}\\nBPM: {BikeData.SelectToken("bpm")}\\n",
+                    JSONCommandHelper.WrapPanelText(uuidPanelData, $"Speed: {BikeData.SelectToken("data.speed")}\\nRPM: {BikeData.SelectToken("data.rpm")}\\nDistance: {BikeData.SelectToken("data.dist")}\\nPower: {BikeData.SelectToken("data.pow")}\\nTotal Power: {BikeData.SelectToken("data.accpow")}\\nBPM: {BikeData.SelectToken("data.bpm")}\\n",
                         new double[] {25.0, 25.0}, 25.0, "Arial")
                     );
-                Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanel));
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanelData));
                 
+            }
+
+        }
+        public void WriteTextToPanel(string message)
+        {
+            if (uuidPanelText != null)
+            {
+
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanelText));
+                Handler.SendToTunnel(
+                    JSONCommandHelper.WrapPanelText(uuidPanelText, message,
+                        new double[] { 230.0, 25.0 }, 25.0, "Arial")
+                );
+                Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanelText));
+
             }
 
         }

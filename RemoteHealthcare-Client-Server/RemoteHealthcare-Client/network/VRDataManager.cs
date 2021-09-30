@@ -13,7 +13,8 @@ namespace RemoteHealthcare_Client
     public class VRDataManager : DataManager
     {
         private readonly SimpleScene simpleScene;
-
+        private string text;
+        private List<string> messagetext = new List<string>();
         public TunnelHandler VRTunnelHandler { get; set; }
 
         public VRDataManager()
@@ -51,14 +52,53 @@ namespace RemoteHealthcare_Client
             {
 
                 case "message":
-
+                    text = "";
                     string message = data.GetValue("data").ToString();
-                    this.VRTunnelHandler.SendToTunnel(JSONCommandHelper.WrapPanelText(simpleScene.getOrDefaultPanelUuid(),
-                        message, new double[] { 5, 5, 0 }, 10, "arial"));
+                    if(message != "")
+                    { 
+                        if (messagetext.Count < 8 && message.Length < 15 && message.Length < 120)
+                        {
+                            messagetext.Add(message + "\\n");
+                        }
+                        else if(message.Length >= 15 && message.Length <= 240)
+                        {
+                            for (int i = 0; i < message.Length; i += 15)
+                            {
+                                if((((message.Length + 15) / 15) + messagetext.Count ) > 16)
+                                {
+                                    messagetext.RemoveAt(0);
+                                }
+                                if (((i + 15) / 15)  != (message.Length / 15) + 1)
+                                {
+                                    messagetext.Add(message.Substring(i,  15) + "-");
+                                }
+                                else
+                                {
+                                    messagetext.Add(message.Substring(i, (message.Length % 15)) + "-");
+                                }
+                            }
+                        }
+                        else if(messagetext.Count >= 8 && message.Length < 15 && message.Length < 120)
+                        {
+                            messagetext.RemoveAt(0);
+                            messagetext.Add(message + "\\n");
+                        }
+                        else
+                        {
+                        
+                        }
+                    }
+                   
+                    foreach (var Text in messagetext)
+                    {
+                        text += Text + "\\n";
+                    }
+                    simpleScene.WriteTextToPanel(text);
+
                     break;
                 case "ergodata":
                     Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
-                    simpleScene.WriteTextToPanel(data);
+                    simpleScene.WriteDataToPanel(data);
                     break;
                 default:
                     // TODO HANDLE NOT SUPPORTER
