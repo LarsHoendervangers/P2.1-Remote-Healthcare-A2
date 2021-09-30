@@ -18,13 +18,6 @@ namespace RemoteHealthcare_Client
         private Device Device { get; set; }
         private Dictionary<string, dynamic> SendingDictionary { get; set; }
 
-        public DeviceDataManager()
-        {
-            this.Device = new SimulatedDevice();
-            this.SendingDictionary = new Dictionary<string, dynamic>();
-            Setup();
-        }
-
         public DeviceDataManager(string bikeName, string HRName)
         {
             if (bikeName.ToLower() == "simulator")
@@ -54,10 +47,11 @@ namespace RemoteHealthcare_Client
                     while (this.sending)
                     {
                         Trace.WriteLine("Sending bikedata");
-                        JObject wrappedCommand = JObject.FromObject(PrepareDeviceData());
-                        this.ServerDataManager.ReceivedData(wrappedCommand);
-                        this.VRDataManager.ReceivedData(wrappedCommand);
-                        Thread.Sleep(1000);
+                        JObject wrappedCommand = JObject.FromObject(PrepareDeviceDataNewton());
+
+                        this.SendToManagers(wrappedCommand);
+                        Thread.Sleep(500);
+
                     }
                 })).Start();
         }
@@ -139,7 +133,7 @@ namespace RemoteHealthcare_Client
         }
 
 
-        
+        // deprecated 
         private object PrepareDeviceData()
         {
             this.SendingDictionary.TryGetValue("speed", out var speed);
@@ -162,6 +156,25 @@ namespace RemoteHealthcare_Client
                     accpow = accpower
                 }
             };
+        }
+
+        private object PrepareDeviceDataNewton()
+        {
+            JObject ergoObject = new JObject();
+
+            ergoObject.Add("command", "ergodata");
+
+            JObject data = new JObject();
+            data.Add("time", DateTime.Now.ToString());
+            if(this.SendingDictionary.TryGetValue("rpm", out var rpm)) data.Add("rpm", rpm);
+            if(this.SendingDictionary.TryGetValue("bpm", out var heartrate)) data.Add("bpm", heartrate);
+            if (this.SendingDictionary.TryGetValue("speed", out var speed)) data.Add("speed", speed);
+            if(this.SendingDictionary.TryGetValue("dist", out var distance)) data.Add("dist", distance);
+            if (this.SendingDictionary.TryGetValue("pow", out var curpower)) data.Add("pow", curpower);
+            if (this.SendingDictionary.TryGetValue("accpow", out var accpower)) data.Add("accpow", accpower);
+            
+            ergoObject.Add("data", data);
+            return ergoObject;
         }
 
         private void ReplaceInDictionary(string key, dynamic value)

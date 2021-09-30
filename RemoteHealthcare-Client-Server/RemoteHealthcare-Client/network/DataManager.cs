@@ -8,11 +8,21 @@ namespace RemoteHealthcare_Client
 {
     public abstract class DataManager
     {
+        public IList<DataManager> NetworkManagers { get; set; }
 
-        public DataManager DeviceDataManager { get; set; }
-        public DataManager VRDataManager { get; set; }
-        public DataManager ServerDataManager { get; set; }
+        protected DataManager()
+        {
+            NetworkManagers = new List<DataManager>();
+        }
 
         public abstract void ReceivedData(JObject data);
+
+        protected void SendToManagers(JObject data)
+        {
+            foreach(DataManager manager in NetworkManagers)
+            {
+                manager.ReceivedData(data);
+            }
+        }
     }
 }

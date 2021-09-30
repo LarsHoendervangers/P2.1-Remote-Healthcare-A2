@@ -40,11 +40,14 @@ namespace RemoteHealthcare_Client
 
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
-            this.serverDataManager.DeviceDataManager = deviceDataManager;
-            this.serverDataManager.VRDataManager = vrDataManager;
+            this.serverDataManager.NetworkManagers.Add(deviceDataManager);
+            this.serverDataManager.NetworkManagers.Add(vrDataManager);
 
-            this.deviceDataManager.ServerDataManager = serverDataManager;
-            this.deviceDataManager.VRDataManager = vrDataManager;
+            this.vrDataManager.NetworkManagers.Add(serverDataManager);
+            this.vrDataManager.NetworkManagers.Add(deviceDataManager);
+
+            this.deviceDataManager.NetworkManagers.Add(serverDataManager);
+            this.deviceDataManager.NetworkManagers.Add(vrDataManager);
 
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
 

@@ -7,8 +7,14 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
 {
+    /// <summary>
+    /// Class represents a implementation of ICommand, used to call mehtods on databinding
+    /// </summary>
     class GeneralCommand : ICommand
     {
+        /// <summary>
+        /// The event handles that is called when canExecute changed
+        /// </summary>
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
@@ -18,11 +24,20 @@ namespace RemoteHealthcare_Client
         readonly Action<object> ExecuteCommand;
         readonly Predicate<object> CanExecuteAction;
 
+        /// <summary>
+        /// Constructor for General command, canExecute is set to null
+        /// </summary>
+        /// <param name="execute">The action performed when method is called</param>
         public GeneralCommand(Action<object> execute)
             : this(execute, null)
         {
         }
 
+        /// <summary>
+        /// Main constructor for GeneralCommand
+        /// </summary>
+        /// <param name="execute">The action performed when method is called</param>
+        /// <param name="canExecute">The function that determens if the action is allowed</param>
         public GeneralCommand(Action<object> execute, Predicate<object> canExecute)
         {
 
