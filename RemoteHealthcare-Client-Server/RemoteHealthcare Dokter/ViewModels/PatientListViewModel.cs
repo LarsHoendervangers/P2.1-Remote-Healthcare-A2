@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class PatientViewModel
+    class PatientListViewModel
     {
         private List<User> _PatientsList;
         public List<User> PatientList

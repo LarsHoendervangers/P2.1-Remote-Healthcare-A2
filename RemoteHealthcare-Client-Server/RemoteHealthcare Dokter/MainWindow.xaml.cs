@@ -33,7 +33,7 @@ namespace RemoteHealthcare_Dokter
 
         private void Patient_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = new PatientViewModel();
+            DataContext = new PatientListViewModel();
         }
     }
 }

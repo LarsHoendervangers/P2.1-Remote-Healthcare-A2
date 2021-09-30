@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Dokter.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,11 @@ namespace RemoteHealthcare_Dokter.Views
         public PatientView()
         {
             InitializeComponent();
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataContext = new PatientHistoryViewModel();
         }
     }
 }

@@ -13,8 +13,12 @@
             <views:DashboardView DataContext="{Binding}"/>
         </DataTemplate>
 
-        <DataTemplate x:Name="PatientViewTemplate" DataType="{x:Type viewmodels:PatientViewModel}">
+        <DataTemplate x:Name="PatientListViewTemplate" DataType="{x:Type viewmodels:PatientListViewModel}">
             <views:PatientView DataContext="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="PatientHistoryViewTemplate" DataType="{x:Type viewmodels:PatientHistoryViewModel}">
+            <views:PatientHistoryView DataContext="{Binding}"/>
         </DataTemplate>
 
     </Window.Resources>
