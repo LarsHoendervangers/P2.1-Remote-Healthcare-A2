@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
-             mc:Ignorable="d" d:DesignWidth="800" Height="528">
-    <Grid>
-        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="27,-125,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
-        <ListView Margin="28,-49,24,203" ItemsSource="{Binding SessionsList}">
+             mc:Ignorable="d" Height="1080" Width="1518">
+    <Grid Margin="0,0,2,0">
+        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="22,-1,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <ListView Margin="29,73,23,228" ItemsSource="{Binding SessionsList}">
 
         </ListView>
-        <Button Content="+" HorizontalAlignment="Left" Margin="32,475,0,0" VerticalAlignment="Top" Width="60" FontWeight="Bold" FontSize="20" Height="26" Padding="1,-3,1,1" Background="#FFC6002A" Foreground="White" Command="{Binding Path=AddSessionCommand}"/>
-        <TextBox HorizontalAlignment="Left" Margin="102,474,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="800" Height="27"/>
-        <Button HorizontalAlignment="Left" Margin="718,478,0,0" VerticalAlignment="Top" Height="25" Width="62" Content="Send"/>
+        <Button Content="+" HorizontalAlignment="Left" Margin="28,886,0,0" VerticalAlignment="Top" Width="60" FontWeight="Bold" FontSize="20" Height="26" Padding="1,-3,1,1" Background="#FFC6002A" Foreground="White" Command="{Binding Path=AddSessionCommand}"/>
+        <TextBox HorizontalAlignment="Left" Margin="618,892,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="800" Height="27"/>
+        <Button HorizontalAlignment="Left" Margin="1432,888,0,0" VerticalAlignment="Top" Height="26" Width="62" Content="Send" Command="{Binding Path=SendMessageCommand}"/>
 
 
     </Grid>

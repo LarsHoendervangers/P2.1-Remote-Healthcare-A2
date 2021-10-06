@@ -24,6 +24,7 @@ namespace RemoteHealthcare_Dokter
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new DashboardViewModel();
         }
 
         private void Dashboard_Clicked(object sender, RoutedEventArgs e)

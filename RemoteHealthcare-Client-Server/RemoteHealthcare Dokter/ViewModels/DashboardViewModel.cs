@@ -29,13 +29,31 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
-        /// <summary>
-        /// Calls the Loader class to setup the connection to the servers/
-        /// </summary>
         private void ShowPopUp()
         {
             SessionPopUp s = new SessionPopUp();
             s.Show();
+        }
+
+        private ICommand _SendMessageCommand;
+        public ICommand SendMessageCommand
+        {
+            get
+            {
+                if (_SendMessageCommand == null)
+                {
+                    _SendMessageCommand = new GeneralCommand(
+                        param => SendMessage()
+                        );
+                }
+                return _SendMessageCommand;
+            }
+
+        }
+
+        private void SendMessage()
+        {
+            MessageBox.Show("Ja haai");
         }
 
         private List<Session> _SessionsList;
