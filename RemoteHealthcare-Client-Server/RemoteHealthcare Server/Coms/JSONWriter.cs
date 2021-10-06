@@ -47,7 +47,7 @@ namespace RemoteHealthcare_Server
                 flag = 2
             };
 
-            //sender.SendMessage(JsonConvert.SerializeObject(o));
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
         public static void ResistanceWrite(int resistance, TcpClient client)
