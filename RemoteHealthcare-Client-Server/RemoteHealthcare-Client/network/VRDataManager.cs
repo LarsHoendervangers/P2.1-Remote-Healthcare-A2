@@ -25,7 +25,7 @@ namespace RemoteHealthcare_Client
         public void Start(string vrServerID)
         {
             this.VRTunnelHandler.SetUpConnection(vrServerID);
-
+            
             this.simpleScene.InitScene();
 
             this.simpleScene.LoadScene();

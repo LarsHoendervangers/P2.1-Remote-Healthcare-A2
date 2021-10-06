@@ -77,12 +77,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             return clients;
         }
 
-
+        // TODO fix comments, returns no id but a bool
         /// <summary>
         /// sets up up the connection and returns the id.
         /// </summary>
         /// <param name="connectionID">The ID of the client to connect to</param>
-        /// <returns>boolean if the connection succeded</returns>
+        /// <returns>boolean if the connection succeeded</returns>
         public bool SetUpConnection(string connectionID)
         {
             //Sending tunneling request to vps

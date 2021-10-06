@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,10 +61,13 @@ namespace RemoteHealthcare.Ergometer.Software
                 IDevice.SetErrorCode(errorcode);
                 if (errorcode == 0)
                 {
-                    DataGUI.SetMessage($"Succesfully connected to device {deviceName}");
+                    //DataGUI.SetMessage($"Succesfully connected to device {deviceName}");
+                    Trace.WriteLine($"Succesfully connected to device {deviceName}");
                     continue;
                 }
-                DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
+                //DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
+                Trace.WriteLine($"Connection attempts from device {deviceName} is {connectionAttempts}");
+
             }
 
             // Try to set the required service to devices' servicename
@@ -101,6 +105,7 @@ namespace RemoteHealthcare.Ergometer.Software
         /// <param name="HRName">The name of the BT HR monitor</param>
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
+            Trace.WriteLine("Made new bike");
             Bike = new BikeBLE(BikeName, this);
             HRMonitor = new HRBLE(HRName, this);
 

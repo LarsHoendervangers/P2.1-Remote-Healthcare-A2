@@ -31,5 +31,14 @@ namespace RemoteHealthcare.ClientVREngine.Util.Structs
             // return readable data of the client
             return $"Host: {Host,-20}- User: {User,-8}- GPU: {GPU,-35}- Adress: {Adress}";
         }
+
+        internal bool NullCheck()
+        {
+            return
+                this.Adress != null &
+                this.Host != null &
+                this.User != null &
+                this.GPU != null;
+        }
     }
 }

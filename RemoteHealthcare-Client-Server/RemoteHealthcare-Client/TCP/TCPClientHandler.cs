@@ -23,10 +23,17 @@ namespace RemoteHealthcare_Client.TCP
         /// </summary>
         public TCPClientHandler(string ip, int port)
         {
-            TcpClient client = new TcpClient(ip, port);
-            stream = client.GetStream();
+            try
+            {
+                TcpClient client = new TcpClient(ip, port);
+                stream = client.GetStream();
 
-            Trace.WriteLine("connected to server BBBBBB");
+                Trace.WriteLine("connected to server BOOBIES");
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Error: " + e.Message);
+            }
         }
 
         /// <summary>
@@ -44,12 +51,16 @@ namespace RemoteHealthcare_Client.TCP
                     while (running)
                     {
                         // Call the event with the message received
-                        string message = ReadMessage();
-                        OnMessageReceived.Invoke(this, message);
+                        if (stream != null)
+                        {
+                            string message = ReadMessage();
+                            OnMessageReceived.Invoke(this, message);
+                        }
+                        
                     }
 
                     // Shutting down
-                    stream.Close();
+                    stream?.Close();
 
                 }).Start();
         }
@@ -62,14 +73,14 @@ namespace RemoteHealthcare_Client.TCP
         {
             //Console.WriteLine(message);
             byte[] payload = Encoding.ASCII.GetBytes(message);
-            byte[] lenght = new byte[4];
-            lenght = BitConverter.GetBytes(message.Length);
-            byte[] final = Combine(lenght, payload);
+            byte[] length = new byte[4];
+            length = BitConverter.GetBytes(message.Length);
+            byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
             //Console.WriteLine(BitConverter.ToString(final));
-            stream.Write(final, 0, message.Length + 4);
-            stream.Flush();
+            stream?.Write(final, 0, message.Length + 4);
+            stream?.Flush();
         }
 
         /// <summary>
@@ -78,19 +89,19 @@ namespace RemoteHealthcare_Client.TCP
         /// <returns>The message as a string</returns> 
         public string ReadMessage()
         {
-            // 4 bytes lenght == 32 bits, always positive unsigned
-            byte[] lenghtArray = new byte[4];
+            // 4 bytes leng == 32 bits, always positive unsigned
+            byte[] lengthArray = new byte[4];
 
-            stream.Read(lenghtArray, 0, 4);
-            int lenght = BitConverter.ToInt32(lenghtArray, 0);
+            stream.Read(lengthArray, 0, 4);
+            int length = BitConverter.ToInt32(lengthArray, 0);
 
             //Console.WriteLine(lenght);
 
-            byte[] buffer = new byte[lenght];
+            byte[] buffer = new byte[length];
             int totalRead = 0;
 
             //read bytes until stream indicates there are no more
-            while (totalRead < lenght)
+            while (totalRead < length)
             {
                 int read = stream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
