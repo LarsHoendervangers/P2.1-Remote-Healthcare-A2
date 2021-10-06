@@ -17,10 +17,10 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="46,251,0,0" TextWrapping="Wrap" Text="{Binding Password}" VerticalAlignment="Top" Width="120"/>
         <GridSplitter HorizontalAlignment="Left" Height="253" Margin="254,70,0,0" VerticalAlignment="Top" Width="2"/>
         
-        <Label Content="2. Fiets en simulator" HorizontalAlignment="Left" Margin="289,73,0,0" VerticalAlignment="Top"/>
+        <Label Content="2. Fiets en VR apparaat&#xD;&#xA;" HorizontalAlignment="Left" Margin="289,73,0,0" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="295,101,0,0" TextWrapping="Wrap" Text="Selecteer de fiets die u gebruikt en de simulator waar u de scene op wilt laden" VerticalAlignment="Top" Width="169"/>
         <Label Content="Fiets:" HorizontalAlignment="Left" Margin="292,160,0,0" VerticalAlignment="Top" Height="27"/>
-        <Label Content="Simulator:" HorizontalAlignment="Left" Margin="294,219,0,0" VerticalAlignment="Top" Height="27"/>
+        <Label Content="VR apparaat" HorizontalAlignment="Left" Margin="294,219,0,0" VerticalAlignment="Top" Height="27"/>
         <ComboBox HorizontalAlignment="Left" Margin="296,187,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding BLEDevices, Mode=OneWay}" SelectedItem="{Binding SelectedDevice}"/>
         <ComboBox HorizontalAlignment="Left" Margin="298,250,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding VRServers, Mode=OneWay}" SelectedItem="{Binding SelectedVRServer}"/>
         <GridSplitter HorizontalAlignment="Left" Height="253" Margin="501,75,0,0" VerticalAlignment="Top" Width="2"/>
