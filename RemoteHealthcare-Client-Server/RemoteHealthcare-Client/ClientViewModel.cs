@@ -20,7 +20,7 @@ namespace RemoteHealthcare_Client
     /// <summary>
     /// Class that represents the viewmodel for the client application
     /// </summary>
-    class ClientViewModel : INotifyPropertyChanged
+    public class ClientViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,7 +37,12 @@ namespace RemoteHealthcare_Client
             // Setting the event for the device callbacks
             this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
             this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
-            this.loader.OnLoginResponseReceived += (s, d) => this.isLoggedIn = d;
+            this.loader.OnLoginResponseReceived += (s, d) =>
+            {
+                this.isLoggedIn = d;
+                if (d) SubmitText = "Start the connection to the server";
+                
+            };
 
             // Calling the start for the loader
             this.loader.Start();
@@ -46,6 +51,21 @@ namespace RemoteHealthcare_Client
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
             this.mScenes = new ObservableCollection<string>(scenes);
+        }
+
+
+        private string mSubmitText = "Submit login";
+        public string SubmitText
+        {
+            get { return mSubmitText; }
+            set
+            {
+
+                mSubmitText = value;
+                Console.WriteLine("Nieuwe waarde voor knop: " + value);
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
+
+            }
         }
 
         /// <summary>
