@@ -67,7 +67,7 @@ namespace RemoteHealthcare.Ergometer.Software
                 }
                 //DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
                 Trace.WriteLine($"Connection attempts from device {deviceName} is {connectionAttempts}");
-
+                Thread.Sleep(500);
             }
 
             // Try to set the required service to devices' servicename
@@ -115,7 +115,7 @@ namespace RemoteHealthcare.Ergometer.Software
 
 
         /// <summary>
-        /// Event call that handles the translation of the data from the heartrate monitor
+        /// Event call that handles the translation of the data from the heartbeat monitor
         /// </summary>
         /// <param name="sender">The object that called the event</param>
         /// <param name="data">THe data from the event</param>
