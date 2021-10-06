@@ -8,7 +8,7 @@ namespace RemoteHealthcare_Server.Data.User
 {
     public enum UserTypes
     {
-        Patient, Doctor, Admin
+        Patient, Doctor, Admin, Unkown
     }
 
     public class UserTypesUtil
