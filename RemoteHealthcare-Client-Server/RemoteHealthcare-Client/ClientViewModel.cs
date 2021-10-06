@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -32,7 +33,13 @@ namespace RemoteHealthcare_Client
         /// <param name="loader">The StartupLoader that handles startup</param>
         public ClientViewModel(StartupLoader loader)
         {
+            
+
             this.loader = loader;
+
+            //TODO
+            //Thread updateBLEDevicesThread = new Thread(UpdateBLEDevices);
+            //Thread updateVRServersThread = new Thread(UpdateVRServers);
 
             // TODO !! blocking call
             // Gets all the bleutooth devices available
@@ -40,9 +47,15 @@ namespace RemoteHealthcare_Client
             blDevices.Add("Simulator");
             this.mBLEDevices = new ObservableCollection<string>(blDevices);
 
+            //TODO
+            //updateBLEDevicesThread.Start();
+
             // !! Also blocking call
             // Setting all the VRserers list
             this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+
+            //TODO
+            //updateVRServersThread.Start();
 
             // Setting the list with Scenes the user can choise from
             List<string> scenes = new List<string>();
@@ -89,10 +102,8 @@ namespace RemoteHealthcare_Client
             get { return mBLEDevices; }
             set
             {
-
                 mBLEDevices = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BLEDevices"));
-
             }
         }
 
@@ -191,6 +202,27 @@ namespace RemoteHealthcare_Client
         private void StartApplication()
         {
             this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+                Thread.Sleep(3000);
+            }
+
+        }
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                List<string> blDevices = PhysicalDevice.ReadAllDevices();
+                blDevices.Add("Simulator");
+                this.mBLEDevices = new ObservableCollection<string>(blDevices);
+                Thread.Sleep(3000);
+            }
+
         }
     }
 

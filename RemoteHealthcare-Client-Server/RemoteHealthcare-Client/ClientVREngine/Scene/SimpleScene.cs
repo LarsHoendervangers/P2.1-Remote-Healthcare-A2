@@ -184,7 +184,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             string speed = $"{speedData.SelectToken("data.speed")}";
             if (speed != "")
             {
-                double speedDouble = Convert.ToDouble(speed);
+                double speedDouble = Convert.ToDouble(speed) / 3.6;
                 Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble));
             }
         }
@@ -205,7 +205,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
         }
 
-        public String HandelTextMessages(int maxTotalLines, int maxCharPerLine, JObject data)
+        public string HandelTextMessages(int maxTotalLines, int maxCharPerLine, JObject data)
         {
             text = "";
             string message = data.GetValue("data").ToString();
