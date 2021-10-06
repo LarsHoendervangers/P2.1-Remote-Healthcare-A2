@@ -134,7 +134,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
                         TcpHandler.SetRunning(true);
                         return true;
                     case "error":
-                        
+                        MessageBox.Show("Failed to connect to VrEngine", "Error");
                         return false;
                     default:
                         Debug.WriteLine("Tunnelhandler.SetupConnection: Received unknown message");

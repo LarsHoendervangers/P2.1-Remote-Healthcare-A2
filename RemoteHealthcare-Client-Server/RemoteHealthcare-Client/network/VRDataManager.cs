@@ -40,7 +40,6 @@ namespace RemoteHealthcare_Client
             if (!isConnected)
             {
                 Debug.WriteLine("VRManager.ReceiveData: Not receiving data because we have no connection");
-                MessageBox.Show("Error", "Failed to connect to VrEngine");
                 return;
             }
             // command value always gives the action 
