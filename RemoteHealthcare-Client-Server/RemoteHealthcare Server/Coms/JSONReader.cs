@@ -168,10 +168,31 @@ namespace RemoteHealthcare_Server
         [AccesManager("newsession", UserTypes.Doctor)]
         private void StartNewSession(JObject jObject, ISender sender, IUser user, Usermanagement management)
         {
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken sessionState = jObject.SelectToken("data.state");
 
-            //Logic for parsing still needs to be made which user it is and if its on or of...
-            management.SessionStart(user);
-            management.SessionEnd(user);
+            //Verifying and reading it.
+            if (patientIDs != null && sessionState != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach(JObject patientID in (JArray)patientIDs)
+                {
+                    Patient p = management.FindPatient(patientID.ToString());
+                    if (p != null) targetPatients.Add(p);
+                }
+
+                //Getting state
+                bool state = int.Parse(sessionState.ToString()) == 0 ? true : false;
+
+                //Executing action
+                foreach(Patient p in targetPatients)
+                {
+                    if (state) management.SessionStart(user);
+                     else management.SessionEnd(user);
+                }
+            }
         }
     }
 

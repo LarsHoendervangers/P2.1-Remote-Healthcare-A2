@@ -153,6 +153,14 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
+        public Patient FindPatient(string patientID)
+        {
+            List<Patient> patients = (List<Patient>) users.Where(e => e.getUserType() == UserTypes.Patient);
+            List<Patient> selected = patients.Where(p => p.PatientID == patientID).ToList();
+            if (selected.Count == 1) return selected[0];
+            else return null;
+        }
+
 
         public void OnDestroy()
         {
