@@ -32,7 +32,7 @@ namespace RemoteHealthcare_Client.TCP
             }
             catch (Exception e)
             {
-                Trace.WriteLine("Error, " + e.Message);
+                Trace.WriteLine("Error: " + e.Message);
             }
         }
 
