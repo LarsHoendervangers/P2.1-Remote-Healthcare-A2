@@ -77,7 +77,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             return clients;
         }
 
-
+        // TODO fix comments, returns no id but a bool
         /// <summary>
         /// sets up up the connection and returns the id.
         /// </summary>
