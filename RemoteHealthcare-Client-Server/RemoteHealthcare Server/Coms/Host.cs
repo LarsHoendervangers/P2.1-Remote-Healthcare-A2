@@ -1,7 +1,7 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RemoteHealthcare_Server.Coms;
+
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
@@ -21,29 +21,31 @@ namespace RemoteHealthcare_Server
         public TcpClient tcpclient;
         private readonly ISender sender;
         private readonly Usermanagement usermanagement;
-        private readonly JSONLogin login;
         private readonly JSONReader reader;
 
         //Only assign 
         IUser user;
 
-
+        /// <summary>
+        /// Constructor for the session
+        /// </summary>
+        /// <param name="client">Is the client or doctor app</param>
+        /// <param name="management">Is the list that is used</param>
         public Host(TcpClient client, Usermanagement management)
         {
-            //Setting up attributes
-            //this.sender = new PlaneTextSender(client.GetStream());
+            //Objects needed
             this.sender = new PlaneTextSender(client.GetStream());
-
             this.usermanagement = management;
             this.tcpclient = client;
-            this.login = new JSONLogin();
             this.reader = new JSONReader();
-
 
             //Starting reading thread
             new Thread(ReadData).Start();
         }
 
+        /// <summary>
+        /// Reading loop for the session
+        /// </summary>
         public void ReadData()
         {
             while (true)
@@ -51,24 +53,10 @@ namespace RemoteHealthcare_Server
                 //Getting json object
                 string data = sender.ReadMessage();
                 JObject json = (JObject)JsonConvert.DeserializeObject(data);
-                
 
-                //Loging in or trying commanding...
-                if (user == null)
-                {
-                    user = this.login.LoginAction(json, sender, usermanagement);
-                }
-                else
-                {
-                    //Server.PrintToGUI(json.ToString());
-                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
-                }
+                //Reading json object
+                this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
             }
-        }
-
-        public void WriteData(string message)
-        {
-            sender.SendMessage(message);
         }
 
         public void Stop()

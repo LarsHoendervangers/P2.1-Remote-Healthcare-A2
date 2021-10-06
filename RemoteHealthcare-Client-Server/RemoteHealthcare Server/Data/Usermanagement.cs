@@ -13,10 +13,10 @@ namespace RemoteHealthcare_Server.Data
     {
 
         //Users
-        private List<IUser> users;
+        private static List<IUser> users;
 
         //Sessions
-        private List<Session> activeSessions;
+        private static List<Session> activeSessions;
 
 
         public Usermanagement()
@@ -72,7 +72,7 @@ namespace RemoteHealthcare_Server.Data
         public IUser Credentials(string username, string password, int flag)
         {
             //Finding user
-            foreach(IUser user in this.users){
+            foreach(IUser user in users){
                 if (user.getUserType() == UserTypes.Patient && flag == 0)
                 {
 
