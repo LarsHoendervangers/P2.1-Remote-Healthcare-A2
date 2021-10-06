@@ -34,16 +34,14 @@ namespace RemoteHealthcare_Client
         {
             this.loader = loader;
 
-            // TODO !! blocking call
-            // Gets all the bleutooth devices available
-            List<string> blDevices = PhysicalDevice.ReadAllDevices();
-            blDevices.Add("Simulator");
-            this.mBLEDevices = new ObservableCollection<string>(blDevices);
+            // Setting the event for the device callbacks
+            this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
+            this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            this.loader.OnLoginResponseReceived += (s, d) => this.isLoggedIn = d;
 
-            // !! Also blocking call
-            // Setting all the VRserers list
-            this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
-
+            // Calling the start for the loader
+            this.loader.Start();
+            
             // Setting the list with Scenes the user can choise from
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
@@ -152,6 +150,8 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        public bool isLoggedIn = false;
+
         /// <summary>
         /// Command that is called when the client presses the start button
         /// </summary>
@@ -163,7 +163,13 @@ namespace RemoteHealthcare_Client
                 if (mStartCommand == null)
                 {
                     mStartCommand = new GeneralCommand(
-                        param => StartApplication(),
+                        param =>
+                        {
+                            if (!isLoggedIn)
+                                this.loader.Login(UserName, Password);
+                            else
+                                startApplicaton();
+                        },
                         param => NullCheck() //check if all the fields are filled
                         );
                 }
@@ -185,12 +191,9 @@ namespace RemoteHealthcare_Client
                 this.UserName != null;
         }
 
-        /// <summary>
-        /// Calls the Loader class to setup the connection to the servers/
-        /// </summary>
-        private void StartApplication()
+        private void startApplicaton()
         {
-            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
+            Debug.WriteLine("Logged in successfully");
         }
     }
 

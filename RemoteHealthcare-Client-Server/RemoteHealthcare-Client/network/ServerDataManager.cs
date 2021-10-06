@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Client
     {
        
         private TCPClientHandler TCPClientHandler { get; set; }
+        public event EventHandler<bool> OnLoginResponseReceived;
 
         public ServerDataManager(string ip, int port)
         {
@@ -71,15 +72,15 @@ namespace RemoteHealthcare_Client
             // all message object are required to have flag attribute.
             int flag = (int)jobject.GetValue("flag");
 
-            switch(flag)
+            Debug.WriteLine($"Message from server: {jobject.GetValue("data")}, with flag: {flag}");
+            switch (flag)
             {
-                case 0:
                 case 1:
-                    // TODO flags needed for login, net yet needed
+                    this.OnLoginResponseReceived?.Invoke(this, jobject.GetValue("data").ToString().Contains("succesfull connect"));
                     break;
                 case 2:
-                    this.SendToManagers(jobject);
                     // Sending the data to the vrmanager, since flag 2 needs to be show in vr
+                    this.SendToManagers(jobject);
                     break;
                 case 3:
                 default:

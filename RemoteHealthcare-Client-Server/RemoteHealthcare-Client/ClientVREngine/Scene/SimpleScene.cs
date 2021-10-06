@@ -185,7 +185,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             if (speed != "")
             {
                 double speedDouble = Convert.ToDouble(speed);
-                Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble));
+                Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble / 3.6));
             }
         }
         
