@@ -35,9 +35,9 @@ namespace RemoteHealthcare_Server
             foreach (MethodInfo method in methods)
             {
                 //This if could probably be short but this is much clearer
-                if ((method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                     && user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType()) || (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                     && user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
+                if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
+                     && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() || 
+                         user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
                 {
                     method.Invoke(this, new object[] { jObject, sender, user, managemet });
                 } 

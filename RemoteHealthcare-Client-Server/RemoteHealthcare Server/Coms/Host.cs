@@ -38,9 +38,15 @@ namespace RemoteHealthcare_Server
             this.usermanagement = management;
             this.tcpclient = client;
             this.reader = new JSONReader();
+            this.reader.CallBack += ChangeUser;
 
             //Starting reading thread
             new Thread(ReadData).Start();
+        }
+
+        private void ChangeUser(object sender, IUser e)
+        {
+            this.user = e;
         }
 
         /// <summary>
