@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Mime;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util;
@@ -16,6 +18,8 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         private string uuidPanelText;
         private string uuidCamera;
         private string uuidMonkey;
+        private string text;
+        private List<string> messagetext = new List<string>();
 
         public SimpleScene(TunnelHandler handler) : base(handler)
         {
@@ -61,7 +65,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 JSONCommandHelper.WrapPanel("panelData", uuidMonkey, new Transform(1, new double[] {0.25, -0.25, -0.5}, new double[] {0,0,0}),
                     0.5, 0.5, 512, 512, true), new Action<string>(getIdPanelData));
             Handler.SendToTunnel(
-                JSONCommandHelper.WrapPanel("panelText", uuidMonkey, new Transform(1, new double[] { -0.25, -0.15, -0.5 }, new double[] { 0, 0, 0 }),
+                JSONCommandHelper.WrapPanel("panelText", uuidMonkey, new Transform(1, new double[] {0.25, 0.1, -0.5 }, new double[] { 0, 0, 0 }),
                     0.5, 0.5, 512, 512, true), new Action<string>(getIdPanelText));
             Thread.Sleep(2000);
             WriteTextToPanel("");
@@ -181,12 +185,82 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 Handler.SendToTunnel(JSONCommandHelper.WrapPanelClear(uuidPanelText));
                 Handler.SendToTunnel(
                     JSONCommandHelper.WrapPanelText(uuidPanelText, message,
-                        new double[] { 230.0, 25.0 }, 25.0, "Arial")
+                        new double[] { 25.0, 25.0 }, 25.0, "Arial")
                 );
                 Handler.SendToTunnel(JSONCommandHelper.WrapPanelSwap(uuidPanelText));
 
             }
 
+        }
+
+        public String HandelTextMessages(int maxTotalLines, int maxCharPerLine, JObject data)
+        {
+            text = "";
+            string message = data.GetValue("data").ToString();
+            if (message != "")
+            {
+                if (messagetext.Count < maxTotalLines && message.Length < maxCharPerLine && message.Length < (maxTotalLines * maxCharPerLine))
+                {
+                    messagetext.Add(message + "\\n");
+                }
+                else if (message.Length >= maxCharPerLine && message.Length <= ((maxTotalLines * maxCharPerLine) * 2))
+                {
+                    for (int i = 0; i < message.Length; i += maxCharPerLine)
+                    {
+
+                        if ((((message.Length + maxCharPerLine) / maxCharPerLine) + messagetext.Count) > (maxTotalLines * 2))
+                        {
+                            for(int j = 0; j < messagetext.Count; j++)
+                            {
+                                if (messagetext[0].EndsWith("\\n"))
+                                {
+                                    messagetext.RemoveAt(0);
+                                    break;
+                                }
+                                else
+                                {
+                                    messagetext.RemoveAt(0);
+                                }
+                            }
+                            
+                        }
+                        if (((i + maxCharPerLine) / maxCharPerLine) != (message.Length / maxCharPerLine) + 1)
+                        {
+                          
+                            messagetext.Add(message.Substring(i, maxCharPerLine) + "-");
+                        }
+                        else
+                        {
+                            
+                            messagetext.Add(message.Substring(i, (message.Length % maxCharPerLine)) + "\\n");
+                        }
+                    }
+                }
+                else if (messagetext.Count >= maxTotalLines && message.Length < maxCharPerLine && message.Length < (maxTotalLines * maxCharPerLine))
+                {
+                    for (int j = 0; j < messagetext.Count; j++)
+                    {
+                        if (messagetext[0].EndsWith("\\n"))
+                        {
+                            messagetext.RemoveAt(0);
+                            break;
+                        }
+                        else
+                        {
+                            messagetext.RemoveAt(0);
+                        }
+                    }
+                    messagetext.Add(message + "\\n");
+                }
+
+            }
+
+            foreach (var Text in messagetext)
+            {
+                text += Text + "\\n";
+            }
+
+            return text;
         }
     }
 }
