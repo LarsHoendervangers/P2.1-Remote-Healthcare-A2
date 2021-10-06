@@ -22,6 +22,7 @@ namespace RemoteHealthcare_Dokter
         public SessionPopUp()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
     }
 }

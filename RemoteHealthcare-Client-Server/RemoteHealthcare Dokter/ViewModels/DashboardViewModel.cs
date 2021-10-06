@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using RemoteHealthcare_Client;
+using RemoteHealthcare_Dokter.BackEnd;
 using RemoteHealthcare_Server;
 using System;
 using System.Collections.Generic;
@@ -56,8 +57,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             MessageBox.Show("Ja haai");
         }
 
-        private List<Session> _SessionsList;
-        public List<Session> SessionsList
+
+        private List<string> _SessionsList;
+        public List<string> SessionsList
         {
             get { return _SessionsList; }
             set { _SessionsList = value; }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
              mc:Ignorable="d" Height="1080" Width="1518">
     <Grid Margin="0,0,2,0">
-        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="22,-1,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="Dashboard" HorizontalAlignment="Left" Margin="28,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
         <ListView Margin="29,73,23,228" ItemsSource="{Binding SessionsList}">
 
         </ListView>
