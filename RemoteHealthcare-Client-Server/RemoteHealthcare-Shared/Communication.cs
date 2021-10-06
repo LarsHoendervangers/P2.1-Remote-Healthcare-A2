@@ -15,7 +15,6 @@ namespace CommClass
             byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
-            //Console.WriteLine(BitConverter.ToString(final));
             stream.Write(final, 0, data.Length + 4);
             stream.Flush();
         }
