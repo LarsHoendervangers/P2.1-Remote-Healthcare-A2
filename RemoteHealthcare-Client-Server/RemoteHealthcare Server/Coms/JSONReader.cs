@@ -148,7 +148,13 @@ namespace RemoteHealthcare_Server
         [AccesManager("getallclients", UserTypes.Doctor)]
         private void GetAllClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
-            throw new NotImplementedException();
+            JSONWriter.AllPatientWrite(managemet.GetAllPatients(), sender);
+        }
+
+        [AccesManager("getactiveclients", UserTypes.Doctor)]
+        private void GetActiveClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        {
+            JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
 
 

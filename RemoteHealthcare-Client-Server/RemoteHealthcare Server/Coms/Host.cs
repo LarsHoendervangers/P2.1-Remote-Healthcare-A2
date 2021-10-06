@@ -44,11 +44,6 @@ namespace RemoteHealthcare_Server
             new Thread(ReadData).Start();
         }
 
-        private void ChangeUser(object sender, IUser e)
-        {
-            this.user = e;
-        }
-
         /// <summary>
         /// Reading loop for the session
         /// </summary>
@@ -65,9 +60,33 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        /// <summary>
+        /// Shutting down for user
+        /// </summary>
         public void Stop()
         {
             this.tcpclient.Close();
+        }
+
+
+        /// <summary>
+        /// Callback for IUSer object
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeUser(object sender, IUser e)
+        {
+            this.user = e;
+        }
+
+        public IUser GetUser()
+        {
+            return this.user;
+        }
+
+        public ISender GetSender()
+        {
+            return this.sender;
         }
     }
        

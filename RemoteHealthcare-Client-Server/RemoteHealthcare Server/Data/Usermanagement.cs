@@ -18,12 +18,16 @@ namespace RemoteHealthcare_Server.Data
         //Sessions
         private static List<Session> activeSessions;
 
+        //Active
+        public List<Host> activeHosts;
+
 
         public Usermanagement()
         {
             //Lists
             users = new List<IUser>();
             activeSessions = new List<Session>();
+            activeHosts = new List<Host>();
 
             //Filling
             try
@@ -105,51 +109,63 @@ namespace RemoteHealthcare_Server.Data
 
         public void SessionUpdateBike(int rpm, int speed, int dist, int pow, int accpow, DateTime time, IUser user)
         {
-            foreach (Session s in activeSessions)
+            lock (this)
             {
-                if (s.Patient == (Patient)user)
+                foreach (Session s in activeSessions)
                 {
-                    Server.PrintToGUI("Added new measurement");
-                    s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
-                    return;
+                    if (s.Patient == (Patient)user)
+                    {
+                        Server.PrintToGUI("Added new measurement");
+                        s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
+                        return;
+                    }
                 }
             }
         }
 
         public void SessionUpdateHRM( DateTime time, int bpm, IUser user)
         {
-            foreach (Session s in activeSessions)
+            lock (this)
             {
-                if (s.Patient == (Patient)user)
+                foreach (Session s in activeSessions)
                 {
-                    Server.PrintToGUI("Added new measurement");
-                    s.HRMeasurements.Add(new HRMeasurement(time, bpm));
-                    return;
+                    if (s.Patient == (Patient)user)
+                    {
+                        Server.PrintToGUI("Added new measurement");
+                        s.HRMeasurements.Add(new HRMeasurement(time, bpm));
+                        return;
+                    }
                 }
             }
         }
 
         public void SessionStart(IUser user)
         {
-            if (user.getUserType() == UserTypes.Patient)
+            lock (this)
             {
-                activeSessions.Add(new Session((Patient)user));
+                if (user.getUserType() == UserTypes.Patient)
+                {
+                    activeSessions.Add(new Session((Patient)user));
+                }
             }
         }
 
         public void SessionEnd(IUser user)
         {
-            if (user.getUserType() == UserTypes.Patient)
+            lock (this)
             {
-                foreach(Session s in activeSessions)
+                if (user.getUserType() == UserTypes.Patient)
                 {
-                    if (s.Patient == (Patient)user)
+                    foreach (Session s in activeSessions)
                     {
-                        activeSessions.Remove(s);
-                        return;
+                        if (s.Patient == (Patient)user)
+                        {
+                            activeSessions.Remove(s);
+                            return;
+                        }
                     }
+
                 }
-                
             }
         }
 
@@ -162,10 +178,39 @@ namespace RemoteHealthcare_Server.Data
             else return null;
         }
 
+        public List<string> GetActivePatients()
+        {
+            List<string> activePatients = new List<string>();
+            foreach (Host h in activeHosts)
+            {
+                if (h.GetUser().getUserType() ==  UserTypes.Patient)
+                {
+                    Patient p = (Patient)h.GetUser();
+                    activePatients.Add(p.PatientID);   
+                }
+            }
+            return activePatients;
+        }
+
+        public List<string> GetAllPatients()
+        {
+            List<string> activePatients = new List<string>();
+            foreach (IUser user in users)
+            {
+                if (user.getUserType() == UserTypes.Patient)
+                {
+                    Patient p = (Patient)user;
+                    activePatients.Add(p.PatientID);
+                }
+            }
+            return activePatients;
+        }
+
 
         public void OnDestroy()
         {
             FileProcessing.SaveUsers(users);
         }
+
     }
 }
