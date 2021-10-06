@@ -11,34 +11,54 @@ using System.Threading;
 
 namespace RemoteHealthcare_Client
 {
+    /// <summary>
+    /// Implementation for DataManager, handles the dataflow from the device
+    /// </summary>
     public class DeviceDataManager : DataManager
     {
+        // Magic numbers:
+        private static int BufferDelay = 500;
+
+        // Variables
         private bool sending;
 
         private Device Device { get; set; }
         private Dictionary<string, dynamic> SendingDictionary { get; set; }
 
+        /// <summary>
+        /// Constructor for DeciveDataManager
+        /// </summary>
+        /// <param name="bikeName">The name of the bleutooth bike name</param>
+        /// <param name="HRName">The name of the hr monitor</param>
         public DeviceDataManager(string bikeName, string HRName)
         {
+            this.SendingDictionary = new Dictionary<string, dynamic>();
+
+            // When the given name is "simulator" the simulator gets started
             if (bikeName.ToLower() == "simulator")
+
                 this.Device = new SimulatedDevice();
             else
                 this.Device = new PhysicalDevice(bikeName, HRName);
-            this.SendingDictionary = new Dictionary<string, dynamic>();
+
             Setup();
         }
 
+        /// <summary>
+        /// Sets up the DeviceDataManager
+        /// </summary>
         private void Setup()
         {
-            this.Device.OnSpeed += OnIncomingSpeed;
-            this.Device.OnRPM += OnIncomingRPM;
-            this.Device.OnHeartrate += OnIncomingHR;
-            this.Device.OnCurrentPower += OnIncomingCurPower;
-            this.Device.OnTotalPower += OnIncomingTotalPower;
-            this.Device.OnDistance += OnIncomingDistance;
-            this.Device.OnElapsedTime += OnIncomingTime;
+            // Binding all the incoming events (s = sender)
+            this.Device.OnSpeed += (s,speed) => ReplaceInDictionary("speed", speed);
+            this.Device.OnRPM += (s,rpm) => ReplaceInDictionary("rpm", rpm);
+            this.Device.OnHeartrate += (s, bpm) => ReplaceInDictionary("bpm", bpm);
+            this.Device.OnCurrentPower += (s, power) => ReplaceInDictionary("pow", power);
+            this.Device.OnTotalPower += (s, power) => ReplaceInDictionary("accpow", power);
+            this.Device.OnDistance += (s, distance) => ReplaceInDictionary("dist", distance);
 
             this.sending = true;
+            // Starting the thread to buffer the incomming data
             Trace.WriteLine("Started listener thread...");
             new Thread(
                 (() =>
@@ -49,57 +69,13 @@ namespace RemoteHealthcare_Client
                         Trace.WriteLine("Sending bikedata");
                         JObject wrappedCommand = JObject.FromObject(PrepareDeviceDataNewton());
 
+                        // Broadcasting this data over the data managers
                         this.SendToManagers(wrappedCommand);
-                        Thread.Sleep(500);
+
+                        Thread.Sleep(DeviceDataManager.BufferDelay);
 
                     }
                 })).Start();
-        }
-
-        public void OnIncomingSpeed(object sender, double speed)
-        {
-            //JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "speed"));
-
-            //this.ServerDataManager.ReceivedData(wrappedCommand);
-            //this.VRDataManager.ReceivedData(wrappedCommand);
-
-            //Replace old speed with new speed in dictionary
-            ReplaceInDictionary("speed", speed);
-        }
-
-        
-
-        public void OnIncomingRPM(object sender, int rpm)
-        {
-            //JObject wrappedCommand = JObject.FromObject(PrepareDeviceData(speed, "rpm"));
-
-            //this.ServerDataManager.ReceivedData(wrappedCommand);
-            ReplaceInDictionary("rpm", rpm);
-        }
-        
-        public void OnIncomingHR(object sender, int heartrate)
-        {
-            ReplaceInDictionary("bpm", heartrate);
-        }
-
-        public void OnIncomingCurPower(object sender, int power)
-        {
-            ReplaceInDictionary("pow", power);
-        }
-
-        public void OnIncomingTotalPower(object sender, int power)
-        {
-            ReplaceInDictionary("accpow", power);
-        }
-
-        public void OnIncomingDistance(object sender, double distance)
-        {
-            ReplaceInDictionary("dist", distance);
-        }
-
-        public void OnIncomingTime(object sender, double time)
-        {
-
         }
 
         public override void ReceivedData(JObject data)
@@ -117,47 +93,17 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-            // Looking at the command and switching what behaviour is required
-            switch (value.ToString())
-            {
-
-                case "setresist":
-                    this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
-                    break;
-                default:
-                    // TODO HANDLE NOT SUPPORTER
-                    Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
-                    break;
-
-            }
+            // only data command comming to the device data manager is 'setresist'
+            if (value.ToString() == "setresist")
+                this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
+            else
+                Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
         }
 
-
-        // deprecated 
-        private object PrepareDeviceData()
-        {
-            this.SendingDictionary.TryGetValue("speed", out var speed);
-            this.SendingDictionary.TryGetValue("rpm", out var rpm);
-            this.SendingDictionary.TryGetValue("bpm", out var heartrate);
-            this.SendingDictionary.TryGetValue("pow", out var curpower);
-            this.SendingDictionary.TryGetValue("accpow", out var accpower);
-            this.SendingDictionary.TryGetValue("dist", out var distance);
-            return new
-            {
-                command = "ergodata",
-                data = new
-                {
-                    time = DateTime.Now.ToString(),
-                    rpm = rpm,
-                    bpm = heartrate,
-                    speed = speed,
-                    dist = distance,
-                    pow = curpower,
-                    accpow = accpower
-                }
-            };
-        }
-
+        /// <summary>
+        /// Wrapping the buffered data to the correct ergo-data command
+        /// </summary>
+        /// <returns></returns>
         private object PrepareDeviceDataNewton()
         {
             JObject ergoObject = new JObject();
