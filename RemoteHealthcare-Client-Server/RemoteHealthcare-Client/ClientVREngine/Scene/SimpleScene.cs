@@ -168,8 +168,11 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         public void UpdateBikeSpeed(JObject speedData)
         {
             string speed = $"{speedData.SelectToken("data.speed")}";
-            double speedDouble = Convert.ToDouble(speed);
-            Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble));
+            if (speed != "")
+            {
+                double speedDouble = Convert.ToDouble(speed);
+                Handler.SendToTunnel(JSONCommandHelper.WrapUpdateFollow(uuidModel, speedDouble));
+            }
         }
     }
 }
