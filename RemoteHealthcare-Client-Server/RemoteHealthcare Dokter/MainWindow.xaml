@@ -21,6 +21,10 @@
             <views:PatientHistoryView DataContext="{Binding}"/>
         </DataTemplate>
 
+        <DataTemplate x:Name="SessionDetailViewTemplate" DataType="{x:Type viewmodels:SessionDetailViewModel}">
+            <views:SessionDetailView DataContext="{Binding}"/>
+        </DataTemplate>
+
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
