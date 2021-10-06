@@ -92,10 +92,15 @@ namespace RemoteHealthcare_Client.TCP
             // 4 bytes leng == 32 bits, always positive unsigned
             byte[] lengthArray = new byte[4];
 
-            stream.Read(lengthArray, 0, 4);
+            //Trying to solve a nullpointer here
+            stream?.Read(lengthArray, 0, 4);
             int length = BitConverter.ToInt32(lengthArray, 0);
 
-            //Console.WriteLine(lenght);
+            if (length <= 0)
+            {
+                Debug.WriteLine("TCPClientHandler.ReadMessage: we don't have a networkstream");
+                return "";
+            }
 
             byte[] buffer = new byte[length];
             int totalRead = 0;
@@ -107,6 +112,8 @@ namespace RemoteHealthcare_Client.TCP
                 totalRead += read;
                 //Console.WriteLine("ReadMessage: " + read);
             }
+
+            
 
             return Encoding.ASCII.GetString(buffer, 0, totalRead);
         }
