@@ -18,7 +18,7 @@ namespace RemoteHealthcare_Server
     {
 
         public event EventHandler<IUser> CallBack;
-        private bool Authenticated = false;
+      
 
         /// <summary>
         /// 
@@ -70,7 +70,6 @@ namespace RemoteHealthcare_Server
                 {
                     JSONWriter.LoginWrite(true, sender);
                     Server.PrintToGUI("Authenticated....");
-                    Authenticated = true;
                     CallBack?.Invoke(this, user);
                     return;
                 }
@@ -136,36 +135,83 @@ namespace RemoteHealthcare_Server
         [AccesManager("setresist", UserTypes.Doctor)]
         private void SettingErgometer(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
-            throw new NotImplementedException();
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken resitance = jObject.SelectToken("data.resistance");
+            if (patientIDs != null && resitance != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    Host h = managemet.FindHost(patientID.ToString());
+                    JSONWriter.ResistanceWrite(int.Parse(resitance.ToString()), h.GetSender());
+                }
+            }
         }
 
+        /// <summary>
+        /// Sends abort to the request clients..
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("abort", UserTypes.Doctor)]
         private void AbortingClient(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
-            throw new NotImplementedException();
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            if (patientIDs != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    Host h = managemet.FindHost(patientID.ToString());
+                    JSONWriter.AbortWrite(h.GetSender());
+                }
+            }
         }
 
+
+        /// <summary>
+        /// This method gives back all patient ids
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("getallclients", UserTypes.Doctor)]
         private void GetAllClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
+            //Sending patient IDS back
             JSONWriter.AllPatientWrite(managemet.GetAllPatients(), sender);
         }
 
+        /// <summary>
+        /// This method gives all active patients
+        /// </summary>
+        /// <param name="jObject">command</param>
+        /// <param name="sender">for sending response</param>
+        /// <param name="user">as of the type that requested</param>
+        /// <param name="managemet">that controls everthing related to users</param>
         [AccesManager("getactiveclients", UserTypes.Doctor)]
         private void GetActiveClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
+            //Sending patient IDS back
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("subtopatient", UserTypes.Doctor)]
         private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
-        {
-            throw new NotImplementedException();
-        }
-
-        [AccesManager("getsessions", UserTypes.Doctor)]
-        private void GetHistoricSession(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
         {
             throw new NotImplementedException();
         }

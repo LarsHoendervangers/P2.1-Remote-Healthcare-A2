@@ -73,6 +73,16 @@ namespace RemoteHealthcare_Server.Data
             //Also needs to call to a mthode in file processing for writing to the list.
         }
 
+
+        //____________________Login Related___________________
+        
+        /// <summary>
+        /// Checks the authenication
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
         public IUser Credentials(string username, string password, int flag)
         {
             //Finding user
@@ -107,6 +117,18 @@ namespace RemoteHealthcare_Server.Data
             return null;
         }
 
+
+        //____________________________________Session Related______________________
+        /// <summary>
+        /// Updates the bike data
+        /// </summary>
+        /// <param name="rpm"></param>
+        /// <param name="speed"></param>
+        /// <param name="dist"></param>
+        /// <param name="pow"></param>
+        /// <param name="accpow"></param>
+        /// <param name="time"></param>
+        /// <param name="user"></param>
         public void SessionUpdateBike(int rpm, int speed, int dist, int pow, int accpow, DateTime time, IUser user)
         {
             lock (this)
@@ -123,6 +145,12 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
+        /// <summary>
+        /// Updates heart data
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="bpm"></param>
+        /// <param name="user"></param>
         public void SessionUpdateHRM( DateTime time, int bpm, IUser user)
         {
             lock (this)
@@ -139,6 +167,10 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
+        /// <summary>
+        /// Starts a session
+        /// </summary>
+        /// <param name="user"></param>
         public void SessionStart(IUser user)
         {
             lock (this)
@@ -169,6 +201,10 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
+
+
+        //____________________________________________Finding related_________________________________
+
         //TODO test if this function is working idk... It doesn't give any errors... I Know it is cursed..
         public Patient FindPatient(string patientID)
         {
@@ -176,6 +212,24 @@ namespace RemoteHealthcare_Server.Data
             List<Patient> selected = patients.Where(p => p.PatientID == patientID).ToList();
             if (selected.Count == 1) return selected[0];
             else return null;
+        }
+
+        //Findins a session.
+        public Host FindHost(string patientID)
+        {
+            foreach(Host h in activeHosts)
+            {
+                if (h.GetUser().getUserType() == UserTypes.Patient)
+                {
+                    Patient p = (Patient)h.GetUser();
+                    if (p.PatientID == patientID)
+                    {
+                        return h;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public List<string> GetActivePatients()
@@ -205,6 +259,8 @@ namespace RemoteHealthcare_Server.Data
             }
             return activePatients;
         }
+
+
 
 
         public void OnDestroy()
