@@ -153,6 +153,7 @@ namespace RemoteHealthcare_Server.Data
             }
         }
 
+        //TODO test if this function is working idk... It doesn't give any errors... I Know it is cursed..
         public Patient FindPatient(string patientID)
         {
             List<Patient> patients = (List<Patient>) users.Where(e => e.getUserType() == UserTypes.Patient);
