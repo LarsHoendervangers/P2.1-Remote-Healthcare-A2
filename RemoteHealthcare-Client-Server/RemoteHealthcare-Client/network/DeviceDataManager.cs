@@ -112,10 +112,10 @@ namespace RemoteHealthcare_Client
 
             JObject data = new JObject();
             data.Add("time", DateTime.Now.ToString());
-            if(this.SendingDictionary.TryGetValue("rpm", out var rpm)) data.Add("rpm", rpm);
-            if(this.SendingDictionary.TryGetValue("bpm", out var heartrate)) data.Add("bpm", heartrate);
+            if (this.SendingDictionary.TryGetValue("rpm", out var rpm)) data.Add("rpm", rpm);
+            if (this.SendingDictionary.TryGetValue("bpm", out var heartrate)) data.Add("bpm", heartrate);
             if (this.SendingDictionary.TryGetValue("speed", out var speed)) data.Add("speed", speed);
-            if(this.SendingDictionary.TryGetValue("dist", out var distance)) data.Add("dist", distance);
+            if (this.SendingDictionary.TryGetValue("dist", out var distance)) data.Add("dist", distance);
             if (this.SendingDictionary.TryGetValue("pow", out var curpower)) data.Add("pow", curpower);
             if (this.SendingDictionary.TryGetValue("accpow", out var accpower)) data.Add("accpow", accpower);
             
