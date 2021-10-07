@@ -5,6 +5,7 @@ using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
@@ -29,6 +30,7 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
+            Debug.WriteLine(jObject.ToString());
             string command = jObject.GetValue("command").ToString();
 
             MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
@@ -54,6 +56,7 @@ namespace RemoteHealthcare_Server
         private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
             Server.PrintToGUI("Login");
+            Debug.WriteLine("login");
 
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();

@@ -72,7 +72,7 @@ namespace RemoteHealthcare_Server.Data
         #region Method Wrappers
         internal IUser Credentials(string username, string password, int flag)
         {
-            return this.Credentials(username, password, flag);
+            return this.loginManager.Credentials(username, password, flag);
         }
 
         internal Host FindHost(string v)
