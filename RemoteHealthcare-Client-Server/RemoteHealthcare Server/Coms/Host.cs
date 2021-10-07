@@ -34,7 +34,7 @@ namespace RemoteHealthcare_Server
         public Host(TcpClient client, Usermanagement management)
         {
             //Objects needed
-            this.sender = new PlaneTextSender(client.GetStream());
+            this.sender = new EncryptedServer(client.GetStream());
             this.usermanagement = management;
             this.tcpclient = client;
             this.reader = new JSONReader();
@@ -61,6 +61,7 @@ namespace RemoteHealthcare_Server
 
         public void Stop()
         {
+            //TODO IMPLEMENT SESSION CLOSING
             this.tcpclient.Close();
         }
     }

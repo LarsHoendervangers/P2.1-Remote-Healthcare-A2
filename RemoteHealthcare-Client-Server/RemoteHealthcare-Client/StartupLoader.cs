@@ -5,13 +5,13 @@ using RemoteHealthcare.Ergometer.Software;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Threading;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-
         private DataManager serverDataManager;
         private DataManager deviceDataManager;
         private DataManager vrDataManager;

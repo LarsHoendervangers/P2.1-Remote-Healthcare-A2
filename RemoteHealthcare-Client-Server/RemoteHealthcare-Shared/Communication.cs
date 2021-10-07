@@ -7,17 +7,14 @@ namespace CommClass
 {
     class Communications
     {
-
-
         public static void WriteData(byte[] data, NetworkStream stream)
         {
             byte[] payload = data;
-            byte[] lenght = new byte[4];
-            lenght = BitConverter.GetBytes(data.Length);
-            byte[] final = Combine(lenght, payload);
+            byte[] length = new byte[4];
+            length = BitConverter.GetBytes(data.Length);
+            byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
-            //Console.WriteLine(BitConverter.ToString(final));
             stream.Write(final, 0, data.Length + 4);
             stream.Flush();
         }
@@ -32,23 +29,19 @@ namespace CommClass
 
         public static byte[] ReadData(NetworkStream stream)
         {
-            // 4 bytes lenght == 32 bits, always positive unsigned
+            // 4 bytes length == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
             stream.Read(lenghtArray, 0, 4);
-            int lenght = BitConverter.ToInt32(lenghtArray, 0);
-
-            //Console.WriteLine(lenght);
-
-            byte[] buffer = new byte[lenght];
+            int length = BitConverter.ToInt32(lenghtArray, 0);
+            byte[] buffer = new byte[length];
             int totalRead = 0;
 
             //read bytes until stream indicates there are no more
-            while (totalRead < lenght)
+            while (totalRead < length)
             {
                 int read = stream.Read(buffer, totalRead, buffer.Length - totalRead);
                 totalRead += read;
-                //Console.WriteLine("ReadMessage: " + read);
             }
 
             return buffer;

@@ -113,7 +113,7 @@ namespace RemoteHealthcare_Server
         {
             if (host != null)
             {
-                //PrintToGUI($"{host.client.Client.RemoteEndPoint} disconnected.");
+                PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
                 host.Stop();
                 this.Hosts.Remove(host);
             }
@@ -127,7 +127,13 @@ namespace RemoteHealthcare_Server
         {
             if (window != null)
             {
-                window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+                try
+                {
+                    window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+                } catch (Exception e)
+                {
+                    Debug.WriteLine($"Error: {e.Message}. The server was probably closing.");
+                }
             }
         }
 
