@@ -79,7 +79,7 @@ namespace RemoteHealthcare_Client
             {   
 
                 mVRServers = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("vrServers"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
 
             }
         }
@@ -94,7 +94,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedVRServer = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedVRServer"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedVRServer"));
             }
         }
 
@@ -124,7 +124,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedDevice = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedDevice"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedDevice"));
             }
         }
 
@@ -138,7 +138,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mScenes = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Selected scene"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Scenes"));
             }
         }
 
@@ -152,7 +152,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mUserName = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User name"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UserName"));
             }
         }
 
