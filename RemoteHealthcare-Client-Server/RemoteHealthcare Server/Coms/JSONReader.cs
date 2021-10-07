@@ -211,9 +211,21 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="managemet"></param>
         [AccesManager("subtopatient", UserTypes.Doctor)]
-        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, Usermanagement management)
         {
-            throw new NotImplementedException();
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken subscribeState = jObject.SelectToken("data.state");
+            if (patientIDs != null && subscribeState != null)
+            {
+                List<string> patientIdentiefiers = new List<string>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    patientIdentiefiers.Add(patientID.ToString());
+                }
+
+                //Getting state
+                bool state = int.Parse(subscribeState.ToString()) == 0 ? true : false;
+            }
         }
             
 

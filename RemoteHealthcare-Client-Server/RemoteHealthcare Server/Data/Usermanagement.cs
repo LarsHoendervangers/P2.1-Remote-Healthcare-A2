@@ -35,7 +35,7 @@ namespace RemoteHealthcare_Server.Data
                 //first trying filees
                 users = FileProcessing.LoadUsers();
             }
-            catch (Exception ex)
+            catch 
             {
                 Server.PrintToGUI("Error in reading...");
                 //second filling with test data if not found
@@ -166,6 +166,36 @@ namespace RemoteHealthcare_Server.Data
                 }
             }
         }
+
+        public void Subscribe(Doctor d , List<string> patientIDS)
+        {
+            foreach(Session s in activeSessions)
+            {
+                foreach (string id in patientIDS)
+                {
+                    if (s.Patient.PatientID == id)
+                    {
+                        s.Subscribers.Add(d); 
+                    }
+                }
+            }
+        }
+
+        public void Unsubscribe(Doctor d, List<string> patientIDS)
+        {
+            foreach (Session s in activeSessions)
+            {
+                foreach (string id in patientIDS)
+                {
+                    if (s.Patient.PatientID == id)
+                    {
+                        s.Subscribers.Remove(d);
+                    }
+                }
+            }
+        }
+
+        
 
         /// <summary>
         /// Starts a session
