@@ -19,14 +19,13 @@ namespace CommClass
         public EncryptedServer(NetworkStream network)
         {
             base.sslStream = new SslStream(network, false);
-            Debug.WriteLine("EncryptedServer() called");
             // Try to create a new certificate.
             try
             {
                 string path = Path.Combine(Directory.GetCurrentDirectory(), @"Server.pfx");
                 serverCertificate = X509Certificate.CreateFromCertFile(path);
 
-                Debug.WriteLine(path);
+                Debug.WriteLine($"Server cert path: {path}");
             }
             catch (Exception e)
             {

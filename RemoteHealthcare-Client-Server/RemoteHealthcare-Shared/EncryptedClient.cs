@@ -14,13 +14,10 @@ namespace RemoteHealthcare_Shared
     {
         public EncryptedClient(NetworkStream network)
         {
-            Trace.WriteLine("EncryptedClient() called");
-            Debug.WriteLine($"sslStream: {base.sslStream}");
             base.sslStream = new SslStream(network, false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
 
             try
             {
-                Trace.WriteLine("Authenticating");
                 base.sslStream.AuthenticateAsClient("localhost");
                 Trace.WriteLine("Client: Authenticated");
             } 

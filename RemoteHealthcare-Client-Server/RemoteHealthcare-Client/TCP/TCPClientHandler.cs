@@ -31,19 +31,8 @@ namespace RemoteHealthcare_Client.TCP
                 TcpClient client = new TcpClient(ip, port);
                 stream = client.GetStream();
 
-                Trace.WriteLine("connected to server");
-
-                if (useEncryption)
-                {
-                    Debug.WriteLine("Creating new encrypted client");
-                    this.Sender = new EncryptedClient(stream);
-                }
-                else
-                {
-                    Debug.WriteLine("Creating new standard client");
-                    this.Sender = new PlaneTextSender(stream);
-                }
-                
+                if (useEncryption) this.Sender = new EncryptedClient(stream);
+                else this.Sender = new PlaneTextSender(stream);
             }
             catch (Exception e)
             {
