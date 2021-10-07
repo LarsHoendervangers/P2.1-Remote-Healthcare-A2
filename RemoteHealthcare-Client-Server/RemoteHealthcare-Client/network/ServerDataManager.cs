@@ -93,7 +93,7 @@ namespace RemoteHealthcare_Client
 
         public override void ReceivedData(JObject data)
         {
-            // The server will only get messages to login, all other is not defined in the data protocol
+            // The server will only get messages to login, all other is not defined in the data protocol.
             Trace.WriteLine($"received data from server: {data}");
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
