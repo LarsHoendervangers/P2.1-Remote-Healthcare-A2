@@ -29,14 +29,11 @@ namespace CommClass
 
         public static byte[] ReadData(NetworkStream stream)
         {
-            // 4 bytes lenght == 32 bits, always positive unsigned
+            // 4 bytes length == 32 bits, always positive unsigned
             byte[] lenghtArray = new byte[4];
 
             stream.Read(lenghtArray, 0, 4);
             int length = BitConverter.ToInt32(lenghtArray, 0);
-
-            //Console.WriteLine(length);
-
             byte[] buffer = new byte[length];
             int totalRead = 0;
 
