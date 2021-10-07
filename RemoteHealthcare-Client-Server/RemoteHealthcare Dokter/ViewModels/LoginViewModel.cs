@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class MainWindowViewModel
+    class LoginViewModel
     {
-        
     }
 }
