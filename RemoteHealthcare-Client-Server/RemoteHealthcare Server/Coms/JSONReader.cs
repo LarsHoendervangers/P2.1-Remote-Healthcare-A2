@@ -27,7 +27,7 @@ namespace RemoteHealthcare_Server
         /// <param name="sender"></param>
         /// <param name="user"></param>
         /// <param name="managemet"></param>
-        public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
@@ -51,8 +51,10 @@ namespace RemoteHealthcare_Server
         /// <param name="sender">The receiver and sender</param>
         /// <param name="management">The management object</param>
         [AccesManager("login", UserTypes.Unkown)]
-        private void LoginAction(JObject Jobject, ISender sender, IUser u, Usermanagement management)
+        private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
+            Server.PrintToGUI("Login");
+
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();
             if (command == "login")
@@ -93,7 +95,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="usermanagement"></param>
         [AccesManager("ergodata", UserTypes.Patient)]
-        private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
+        private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
             Server.PrintToGUI("Got your data");
             if (user != null)
@@ -133,7 +135,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user">This is the adress for sending it.</param>
         /// <param name="managemet">This is a managment object.</param>
         [AccesManager("setresist", UserTypes.Doctor)]
-        private void SettingErgometer(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void SettingErgometer(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");
@@ -158,7 +160,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="managemet"></param>
         [AccesManager("abort", UserTypes.Doctor)]
-        private void AbortingClient(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void AbortingClient(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");
@@ -183,7 +185,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="managemet"></param>
         [AccesManager("getallclients", UserTypes.Doctor)]
-        private void GetAllClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void GetAllClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
             JSONWriter.AllPatientWrite(managemet.GetAllPatients(), sender);
@@ -197,7 +199,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user">as of the type that requested</param>
         /// <param name="managemet">that controls everthing related to users</param>
         [AccesManager("getactiveclients", UserTypes.Doctor)]
-        private void GetActiveClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void GetActiveClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
@@ -211,12 +213,13 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="managemet"></param>
         [AccesManager("subtopatient", UserTypes.Doctor)]
-        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, Usermanagement management)
+        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
             JToken patientIDs = jObject.SelectToken("data.patid");
             JToken subscribeState = jObject.SelectToken("data.state");
             if (patientIDs != null && subscribeState != null)
             {
+                //Getting patient IDs..
                 List<string> patientIdentiefiers = new List<string>();
                 foreach (JObject patientID in (JArray)patientIDs)
                 {
@@ -225,12 +228,19 @@ namespace RemoteHealthcare_Server
 
                 //Getting state
                 bool state = int.Parse(subscribeState.ToString()) == 0 ? true : false;
+
+                //Subs or unsubing...
+                if (user.getUserType() == UserTypes.Doctor) {
+                    Doctor d = user as Doctor;
+                    if (state) management.Subscribe(d, patientIdentiefiers);
+                    else management.Unsubscribe(d, patientIdentiefiers);
+                }        
             }
         }
             
 
         [AccesManager("newsession", UserTypes.Doctor)]
-        private void StartNewSession(JObject jObject, ISender sender, IUser user, Usermanagement management)
+        private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");

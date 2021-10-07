@@ -1,5 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
+using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,11 @@ namespace RemoteHealthcare_Server
             };
 
             sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void DoctorSubWriter(Host h, Session s)
+        {
+            
         }
     }
 }

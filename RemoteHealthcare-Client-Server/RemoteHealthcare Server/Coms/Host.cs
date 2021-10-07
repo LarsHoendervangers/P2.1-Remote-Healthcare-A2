@@ -20,7 +20,7 @@ namespace RemoteHealthcare_Server
         //Needed for assigment
         public TcpClient tcpclient;
         private readonly ISender sender;
-        private readonly Usermanagement usermanagement;
+        private readonly UserManagement usermanagement;
         private readonly JSONReader reader;
 
         //Only assign 
@@ -31,7 +31,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         /// <param name="client">Is the client or doctor app</param>
         /// <param name="management">Is the list that is used</param>
-        public Host(TcpClient client, Usermanagement management)
+        public Host(TcpClient client, UserManagement management)
         {
             //Objects needed
             this.sender = new PlaneTextSender(client.GetStream());

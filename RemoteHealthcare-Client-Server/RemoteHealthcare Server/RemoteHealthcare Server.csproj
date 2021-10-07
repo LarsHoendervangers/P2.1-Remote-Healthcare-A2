@@ -24,4 +24,8 @@
     <Page Include="App.xaml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Logic\SubManagers\" />
+  </ItemGroup>
+
 </Project>

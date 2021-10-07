@@ -13,7 +13,7 @@ namespace RemoteHealthcare_Server
     {
 
         //Securety risk for bying public to fix...
-        public Usermanagement users;
+        public UserManagement users;
 
         private static MainWindow window;
 
@@ -29,7 +29,7 @@ namespace RemoteHealthcare_Server
             this.Ip = ip;
             this.Port = port;
             this.tcpListener = new TcpListener(this.Ip, this.Port);
-            this.users = new Usermanagement(); 
+            this.users = new UserManagement(); 
         }
 
         /// <summary>
