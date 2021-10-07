@@ -37,6 +37,7 @@ namespace RemoteHealthcare_Client
             // Setting the event for the device callbacks
             this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
             this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
             this.loader.OnLoginResponseReceived += (s, d) =>
             {
                 this.isLoggedIn = d;
@@ -44,10 +45,10 @@ namespace RemoteHealthcare_Client
                 
             };
 
-            // Calling the start for the loader
-            this.loader.Start();
+            // Calling the first statup method for the loader
+            this.loader.Init();
             
-            // Setting the list with Scenes the user can choise from
+            // Setting the list with Scenes the user can choose from
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
             this.mScenes = new ObservableCollection<string>(scenes);
@@ -169,7 +170,7 @@ namespace RemoteHealthcare_Client
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-
+        
         public bool isLoggedIn = false;
 
         /// <summary>
@@ -188,7 +189,8 @@ namespace RemoteHealthcare_Client
                             if (!isLoggedIn)
                                 this.loader.Login(UserName, Password);
                             else
-                                startApplicaton();
+                                StartApplicaton();
+                                Debug.WriteLine("Logged in successfully");
                         },
                         param => NullCheck() //check if all the fields are filled
                         );
@@ -211,11 +213,10 @@ namespace RemoteHealthcare_Client
                 this.UserName != null;
         }
 
-        private void startApplicaton()
+        private void StartApplicaton()
         {
-            Debug.WriteLine("Logged in successfully");
+            Debug.WriteLine("Starting Application");
+            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
         }
     }
-
-    
 }

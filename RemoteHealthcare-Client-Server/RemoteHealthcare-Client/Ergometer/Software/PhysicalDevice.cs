@@ -15,14 +15,26 @@ namespace RemoteHealthcare.Ergometer.Software
 {
     class PhysicalDevice : Device
     {
+        public static event EventHandler<List<string>> OnBLEDeviceReceived;
 
+        public static void ReadAllDevicesTask()
+        {
+            BLE blDevice = new BLE();
+            Thread.Sleep(100);
+            List<string> blDevices = blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux"));
+            blDevices.Add("Simulator");
+            //Multi-threaded
+            OnBLEDeviceReceived?.Invoke("PhysicalDevice", blDevices);
+        }
+
+        //Not multi-threaded, taken over by method above
         public static List<string> ReadAllDevices()
         {
             BLE blDevice = new BLE();
 
-            //Make async or multithreaded
+            //Make async or multi-threaded
             Thread.Sleep(100);
-
+            //OnBLEDeviceReceived?.Invoke("PhysicalDevice", blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux")));
             return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux"));
         }
 
@@ -67,7 +79,7 @@ namespace RemoteHealthcare.Ergometer.Software
                 }
                 //DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
                 Trace.WriteLine($"Connection attempts from device {deviceName} is {connectionAttempts}");
-                Thread.Sleep(500);
+                await Task.Delay(500);
             }
 
             // Try to set the required service to devices' servicename

@@ -5,8 +5,6 @@ using RemoteHealthcare_Client.Ergometer.Software;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace RemoteHealthcare_Client

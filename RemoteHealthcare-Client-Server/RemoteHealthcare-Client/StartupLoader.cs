@@ -5,6 +5,7 @@ using RemoteHealthcare.Ergometer.Software;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace RemoteHealthcare_Client
 {
@@ -19,13 +20,29 @@ namespace RemoteHealthcare_Client
         public event EventHandler<List<string>> OnBLEDeviceReceived;
         public event EventHandler<bool> OnLoginResponseReceived;
 
-        public void Start()
+        public void Init()
         {
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
 
             // starting up the connection to the server
             this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
+        }
+
+        public void Start(string device, string vrServerID)
+        {
+            this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
+
+            this.serverDataManager.NetworkManagers.Add(deviceDataManager);
+            this.serverDataManager.NetworkManagers.Add(vrDataManager);
+
+            this.vrDataManager.NetworkManagers.Add(serverDataManager);
+            this.vrDataManager.NetworkManagers.Add(deviceDataManager);
+
+            this.deviceDataManager.NetworkManagers.Add(serverDataManager);
+            this.deviceDataManager.NetworkManagers.Add(vrDataManager);
+
+            (this.vrDataManager as VRDataManager)?.Start(vrServerID);
         }
 
         public void GetAvailableVRConnections()
@@ -42,15 +59,15 @@ namespace RemoteHealthcare_Client
 
         public void GetAvailableBLEDevices()
         {
-
-            // TODO !! blocking call
-            // Gets all the bleutooth devices available
+            // Gets all the bluetooth devices available
             List<string> blDevices = PhysicalDevice.ReadAllDevices();
             blDevices.Add("Simulator");
-
-            this.OnBLEDeviceReceived.Invoke(this, blDevices);
+            
+            this.OnBLEDeviceReceived?.Invoke(this, blDevices);
+            new Thread(PhysicalDevice.ReadAllDevicesTask).Start();
         }
 
+        [Obsolete] //This was the old, ugly way of starting up
         public void SetupServerConnection(string ip, int port, string device, string vrServerID, string username, string password)
         {
 
