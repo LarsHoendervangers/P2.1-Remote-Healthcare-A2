@@ -23,8 +23,6 @@ namespace RemoteHealthcare_Shared
             sslStream.Read(lenghtArray, 0, 4);
             int length = BitConverter.ToInt32(lenghtArray, 0);
 
-            //Console.WriteLine(length);
-
             byte[] buffer = new byte[length];
             int totalRead = 0;
 
