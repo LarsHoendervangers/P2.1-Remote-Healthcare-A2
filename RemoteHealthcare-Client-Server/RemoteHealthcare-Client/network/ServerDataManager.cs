@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Client
     {
        
         private TCPClientHandler TCPClientHandler { get; set; }
+
         public event EventHandler<bool> OnLoginResponseReceived;
 
         public ServerDataManager(string ip, int port)
@@ -96,5 +97,6 @@ namespace RemoteHealthcare_Client
             Trace.WriteLine($"received data from server: {data}");
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
+
     }
 }
