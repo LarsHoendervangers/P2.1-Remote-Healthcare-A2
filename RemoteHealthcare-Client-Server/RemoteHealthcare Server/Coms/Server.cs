@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Server
     {
 
         //Securety risk for bying public to fix...
-        public Usermanagement users;
+        public UserManagement users;
 
         private static MainWindow window;
 
@@ -24,16 +24,13 @@ namespace RemoteHealthcare_Server
 
         private TcpListener tcpListener;
 
-        public List<Host> Hosts { get; set; }
-
         public Server(MainWindow windows, IPAddress ip, int port)
         {
             window = windows;
             this.Ip = ip;
             this.Port = port;
-            this.Hosts = new List<Host>();
             this.tcpListener = new TcpListener(this.Ip, this.Port);
-            this.users = new Usermanagement(); 
+            this.users = new UserManagement(); 
         }
 
         /// <summary>
@@ -78,11 +75,11 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StopServer()
         {
-            for (int i = this.Hosts.Count - 1; i >= 0; i--)
+            for (int i = this.users.activeHosts.Count - 1; i >= 0; i--)
             {
-                if (this.Hosts.Count > i)
+                if (this.users.activeHosts.Count > i)
                 {
-                    Host host = this.Hosts[i];
+                    Host host = this.users.activeHosts[i];
                     OnDisconnect(host);
                 } else
                 {
@@ -101,7 +98,7 @@ namespace RemoteHealthcare_Server
         public void OnConnect(Host host)
         {
             PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} connected. ");
-            this.Hosts.Add(host);
+            this.users.activeHosts.Add(host);
         }
 
         /// <summary>
@@ -115,7 +112,7 @@ namespace RemoteHealthcare_Server
             {
                 PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
                 host.Stop();
-                this.Hosts.Remove(host);
+                this.users.activeHosts.Remove(host);
             }
         }
 
@@ -144,12 +141,12 @@ namespace RemoteHealthcare_Server
         /// <param name="msg">Message to send</param>
         public void Broadcast(string msg)
         {
-            for (int i = this.Hosts.Count - 1; i >= 0; i--)
+            for (int i = this.users.activeHosts.Count - 1; i >= 0; i--)
             {
-                if (this.Hosts.Count > i)
+                if (this.users.activeHosts.Count > i)
                 {
-                    Host host = this.Hosts[i];
-                    JSONWriter.MessageWrite(msg, new PlaneTextSender(host.tcpclient.GetStream()));
+                    Host host = this.users.activeHosts[i];
+                    JSONWriter.MessageWrite(msg, host.GetSender());
                 } else
                 {
                     break;

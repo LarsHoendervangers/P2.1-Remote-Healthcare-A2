@@ -1,5 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
+using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace RemoteHealthcare_Server
     {
         public static void LoginWrite(bool succes, ISender sender)
         {
+            //Selecting object
             object o;
             if (succes)
             {
@@ -50,18 +52,19 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public static void ResistanceWrite(int resistance, TcpClient client)
+        public static void ResistanceWrite(int resistance, ISender sender)
         {
             object o = new
             {
                 command = "setresist",
                 data = resistance
             };
+
             
-            //.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public static void AbortWrite(TcpClient client)
+        public static void AbortWrite(ISender sender)
         {
             object o = new
             {
@@ -69,7 +72,34 @@ namespace RemoteHealthcare_Server
                 data = new { }
             };
 
-            //ComClass.WriteMessage(JsonConvert.SerializeObject(o), client.GetStream());
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void AllPatientWrite(List<string> AllPatients, ISender sender)
+        {
+            object o = new
+            {
+                command = "getallpatients",
+                data = AllPatients
+            };
+
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void ActivePatientWrite(List<string> AllPatients, ISender sender)
+        {
+            object o = new
+            {
+                command = "getactivepatients",
+                data = AllPatients
+            };
+
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void DoctorSubWriter(Host h, Session s)
+        {
+            
         }
     }
 }

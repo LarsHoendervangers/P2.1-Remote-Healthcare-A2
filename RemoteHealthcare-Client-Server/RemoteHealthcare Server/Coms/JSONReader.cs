@@ -5,6 +5,7 @@ using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
@@ -18,7 +19,7 @@ namespace RemoteHealthcare_Server
     {
 
         public event EventHandler<IUser> CallBack;
-        private bool Authenticated = false;
+      
 
         /// <summary>
         /// 
@@ -27,7 +28,7 @@ namespace RemoteHealthcare_Server
         /// <param name="sender"></param>
         /// <param name="user"></param>
         /// <param name="managemet"></param>
-        public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             string command = jObject.GetValue("command").ToString();
 
@@ -35,9 +36,9 @@ namespace RemoteHealthcare_Server
             foreach (MethodInfo method in methods)
             {
                 //This if could probably be short but this is much clearer
-                if ((method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                     && user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType()) || (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                     && user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
+                if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
+                     && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() || 
+                         user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
                 {
                     method.Invoke(this, new object[] { jObject, sender, user, managemet });
                 } 
@@ -51,8 +52,11 @@ namespace RemoteHealthcare_Server
         /// <param name="sender">The receiver and sender</param>
         /// <param name="management">The management object</param>
         [AccesManager("login", UserTypes.Unkown)]
-        private void LoginAction(JObject Jobject, ISender sender, IUser u, Usermanagement management)
+        private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
+            Server.PrintToGUI("Login");
+            Debug.WriteLine("login");
+
             //Checking op login string
             string command = Jobject.GetValue("command").ToString();
             if (command == "login")
@@ -70,7 +74,6 @@ namespace RemoteHealthcare_Server
                 {
                     JSONWriter.LoginWrite(true, sender);
                     Server.PrintToGUI("Authenticated....");
-                    Authenticated = true;
                     CallBack?.Invoke(this, user);
                     return;
                 }
@@ -94,7 +97,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="usermanagement"></param>
         [AccesManager("ergodata", UserTypes.Patient)]
-        private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, Usermanagement usermanagement)
+        private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
             Server.PrintToGUI("Got your data");
             if (user != null)
@@ -134,44 +137,138 @@ namespace RemoteHealthcare_Server
         /// <param name="user">This is the adress for sending it.</param>
         /// <param name="managemet">This is a managment object.</param>
         [AccesManager("setresist", UserTypes.Doctor)]
-        private void SettingErgometer(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void SettingErgometer(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            throw new NotImplementedException();
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken resitance = jObject.SelectToken("data.resistance");
+            if (patientIDs != null && resitance != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    Host h = managemet.FindHost(patientID.ToString());
+                    JSONWriter.ResistanceWrite(int.Parse(resitance.ToString()), h.GetSender());
+                }
+            }
         }
 
+        /// <summary>
+        /// Sends abort to the request clients..
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("abort", UserTypes.Doctor)]
-        private void AbortingClient(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void AbortingClient(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            throw new NotImplementedException();
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            if (patientIDs != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    Host h = managemet.FindHost(patientID.ToString());
+                    JSONWriter.AbortWrite(h.GetSender());
+                }
+            }
         }
 
+
+        /// <summary>
+        /// This method gives back all patient ids
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("getallclients", UserTypes.Doctor)]
-        private void GetAllClients(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void GetAllClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            throw new NotImplementedException();
+            //Sending patient IDS back
+            JSONWriter.AllPatientWrite(managemet.GetAllPatients(), sender);
         }
 
+        /// <summary>
+        /// This method gives all active patients
+        /// </summary>
+        /// <param name="jObject">command</param>
+        /// <param name="sender">for sending response</param>
+        /// <param name="user">as of the type that requested</param>
+        /// <param name="managemet">that controls everthing related to users</param>
+        [AccesManager("getactiveclients", UserTypes.Doctor)]
+        private void GetActiveClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
+        {
+            //Sending patient IDS back
+            JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="managemet"></param>
         [AccesManager("subtopatient", UserTypes.Doctor)]
-        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
+        private void SubscribeToLiveSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
-            throw new NotImplementedException();
-        }
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken subscribeState = jObject.SelectToken("data.state");
+            if (patientIDs != null && subscribeState != null)
+            {
+                //Getting patient IDs..
+                List<string> patientIdentiefiers = new List<string>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    patientIdentiefiers.Add(patientID.ToString());
+                }
 
-        [AccesManager("getsessions", UserTypes.Doctor)]
-        private void GetHistoricSession(JObject jObject, ISender sender, IUser user, Usermanagement managemet)
-        {
-            throw new NotImplementedException();
+                //Getting state
+                bool state = int.Parse(subscribeState.ToString()) == 0 ? true : false;
+
+                //Subs or unsubing...
+                if (user.getUserType() == UserTypes.Doctor) {
+                    Doctor d = user as Doctor;
+                    if (state) management.Subscribe(d, patientIdentiefiers);
+                    else management.Unsubscribe(d, patientIdentiefiers);
+                }        
+            }
         }
             
 
         [AccesManager("newsession", UserTypes.Doctor)]
-        private void StartNewSession(JObject jObject, ISender sender, IUser user, Usermanagement management)
+        private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
+            //Getting data
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken sessionState = jObject.SelectToken("data.state");
 
-            //Logic for parsing still needs to be made which user it is and if its on or of...
-            management.SessionStart(user);
-            management.SessionEnd(user);
+            //Verifying and reading it.
+            if (patientIDs != null && sessionState != null)
+            {
+                //Getting patients
+                List<Patient> targetPatients = new List<Patient>();
+                foreach(JObject patientID in (JArray)patientIDs)
+                {
+                    Patient p = management.FindPatient(patientID.ToString());
+                    if (p != null) targetPatients.Add(p);
+                }
+
+                //Getting state
+                bool state = int.Parse(sessionState.ToString()) == 0 ? true : false;
+
+                //Executing action
+                foreach(Patient p in targetPatients)
+                {
+                    if (state) management.SessionStart(user);
+                     else management.SessionEnd(user);
+                }
+            }
         }
     }
 
