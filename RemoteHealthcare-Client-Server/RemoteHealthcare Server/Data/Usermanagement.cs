@@ -1,4 +1,5 @@
-﻿using RemoteHealthcare_Server.Data.User;
+﻿using RemoteHealthcare_Server.Data.Processing;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,10 +13,10 @@ namespace RemoteHealthcare_Server.Data
     {
 
         //Users
-        private List<IUser> users;
+        private static List<IUser> users;
 
         //Sessions
-        private List<Session> activeSessions;
+        private static List<Session> activeSessions;
 
 
         public Usermanagement()
@@ -34,11 +35,12 @@ namespace RemoteHealthcare_Server.Data
             {
                 Server.PrintToGUI("Error in reading...");
                 //second filling with test data if not found
-                users.Add(new Admin("Admin", "Password123"));
-                users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345"));
-                users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346"));
-                users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347"));
-                users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool"));
+                users.Add(new Admin("Admin", "Password123", true));
+                users.Add(new Patient("JHAOogstvogel", "Welkom123", new DateTime(2002, 2, 1), "Joe", "Oogstvogel", "A12345", true));
+                users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346", true));
+                users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
+                users.Add(new Patient(" ", " ", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
+                users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
             }
         }
 
@@ -70,31 +72,30 @@ namespace RemoteHealthcare_Server.Data
         public IUser Credentials(string username, string password, int flag)
         {
             //Finding user
-            foreach(IUser user in this.users){
+            foreach(IUser user in users){
                 if (user.getUserType() == UserTypes.Patient && flag == 0)
                 {
-                    Patient p = (Patient)user;
 
-                    if (p.Password == password && p.Username == username)
+                    Patient p = (Patient)user;
+                    if (p.Password == HashProcessing.HashString(password) && p.Username == username)
                     {
                         return user;
                     }
-
                 } else if (user.getUserType() == UserTypes.Doctor && flag == 1)
                 {
                     Doctor d = (Doctor)user;
-                    if (d.Password == password && d.Username == username)
+                    if (d.Password == HashProcessing.HashString(password) && d.Username == username)
                     {
                         return user;
                     }
                 } else if (user.getUserType() == UserTypes.Admin && flag == 2)
                 {
                     Admin a = (Admin)user;
-                    if (a.Password == password && a.Username == username)
+                    Console.WriteLine(a.Password);
+                    if (a.Password == HashProcessing.HashString(password) && a.Username == username)
                     {
                         return user;
                     }
-
                 }
             }
 

@@ -14,9 +14,12 @@ namespace RemoteHealthcare_Client
        
         private TCPClientHandler TCPClientHandler { get; set; }
 
+        public event EventHandler<bool> OnLoginResponseReceived;
+
         public ServerDataManager(string ip, int port)
         {
             this.TCPClientHandler = new TCPClientHandler(ip, port);
+
             this.TCPClientHandler.SetRunning(true);
 
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
@@ -29,9 +32,10 @@ namespace RemoteHealthcare_Client
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-
-            HandleIncoming(jobject);
-
+            if (jobject != null) HandleIncoming(jobject); else
+            {
+                Debug.WriteLine("JObject is null");
+            };
         }
 
         private void HandleIncoming(JObject jobject)
@@ -54,15 +58,9 @@ namespace RemoteHealthcare_Client
                 case "message":
                     HandleMessageCommand(jobject);
                     break;
-                case "abort":
-                    this.VRDataManager?.ReceivedData(jobject); //sending the data to the vr manager
-                    break;
-                case "setresist": 
-                    this.DeviceDataManager?.ReceivedData(jobject);  //sending the data to the device manager
-                    break;
-
                 default:
-                    // TODO HANDLE NOT SUPPORTER
+                    // DataManager does not need the command, sending to all others
+                    this.SendToManagers(jobject);
                     break;
 
 
@@ -75,15 +73,15 @@ namespace RemoteHealthcare_Client
             // all message object are required to have flag attribute.
             int flag = (int)jobject.GetValue("flag");
 
-            switch(flag)
+            Debug.WriteLine($"Message from server: {jobject.GetValue("data")}, with flag: {flag}");
+            switch (flag)
             {
-                case 0:
                 case 1:
-                    // TODO flags needed for login, net yet needed
+                    this.OnLoginResponseReceived?.Invoke(this, jobject.GetValue("data").ToString().Contains("succesfull connect"));
                     break;
                 case 2:
-                    this.VRDataManager?.ReceivedData(jobject);
                     // Sending the data to the vrmanager, since flag 2 needs to be show in vr
+                    this.SendToManagers(jobject);
                     break;
                 case 3:
                 default:
@@ -95,9 +93,10 @@ namespace RemoteHealthcare_Client
 
         public override void ReceivedData(JObject data)
         {
-            // The server will only get messages to login, all other is not defined in the data protocol
+            // The server will only get messages to login, all other is not defined in the data protocol.
             Trace.WriteLine($"received data from server: {data}");
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
+
     }
 }

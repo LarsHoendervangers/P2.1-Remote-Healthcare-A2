@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 {
@@ -77,12 +78,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             return clients;
         }
 
-
+        // TODO fix comments, returns no id but a bool
         /// <summary>
         /// sets up up the connection and returns the id.
         /// </summary>
         /// <param name="connectionID">The ID of the client to connect to</param>
-        /// <returns>boolean if the connection succeded</returns>
+        /// <returns>boolean if the connection succeeded</returns>
         public bool SetUpConnection(string connectionID)
         {
             //Sending tunneling request to vps
@@ -92,22 +93,69 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 
             //Receiving ok or error
             string jsonString = TcpHandler.ReadMessage();
-            JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
+            JObject jsonData = null;
+            try
+            {
+                jsonData = (JObject) JsonConvert.DeserializeObject(jsonString);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Tunnelhandler.SetupConnection: Failed to deserialize JSON object" + e.Message);
+            }
 
             //verifying connection.
-            JObject jsonFile = (JObject)jsonData.GetValue("data");
-            if (jsonFile.GetValue("status").ToString() != "ok") return false;
-            else
+            if (jsonData == null)
             {
-                //Getting destination
-                string id = jsonFile.GetValue("id").ToString();
-                DestinationID = id;
-
-                //Setting reader on.
-                TcpHandler.SetRunning(true);
-
-                return true;
+                //Errors have been thrown above
+                return false;
             }
+
+            JToken jsonFile;
+            jsonData.TryGetValue("data", out jsonFile);
+            JObject jsonFileObject = jsonFile as JObject;
+            if (jsonFileObject == null)
+            {
+                Debug.WriteLine("Tunnelhandler.SetupConnection: Failed to cast JToken to JObject");
+                return false;
+            }
+
+            JToken statusCode;
+
+            if (jsonFileObject.TryGetValue("status", out statusCode))
+            {
+                switch (statusCode.ToString())
+                {
+                    case "ok":
+                        //Getting destination
+                        string id = jsonFileObject.GetValue("id").ToString();
+                        DestinationID = id;
+
+                        //Setting reader on.
+                        TcpHandler.SetRunning(true);
+                        return true;
+                    case "error":
+                        MessageBox.Show("Failed to connect to VrEngine", "Error");
+                        return false;
+                    default:
+                        Debug.WriteLine("Tunnelhandler.SetupConnection: Received unknown message");
+                        return false;
+                }
+            }
+            Debug.WriteLine("Tunnelhandler.SetupConnection: No status message received");
+            return false;
+
+            //if (jsonFileObject.GetValue("status").ToString() != "ok") return false;
+            //else
+            //{
+            //    //Getting destination
+            //    string id = jsonFileObject.GetValue("id").ToString();
+            //    DestinationID = id;
+
+            //    //Setting reader on.
+            //    TcpHandler.SetRunning(true);
+
+            //    return true;
+            //}
         }
 
 

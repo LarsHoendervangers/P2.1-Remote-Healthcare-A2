@@ -16,11 +16,19 @@ namespace RemoteHealthcare_Client
     public partial class App : Application
     {
 
+        /// <summary>
+        /// Starts the main application and sets al the needed classes
+        /// </summary>
+        /// <param name="e">The StartupEventArgs given on startup</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             //base.OnStartup(e);
             MainWindow window = new MainWindow();
-            ClientViewModel VM = new ClientViewModel(new StartupLoader(), new TCPClientHandler("127.0.0.1", 6969));
+
+            // starting the viewmodel connected to the gui
+            ClientViewModel VM = new ClientViewModel(new StartupLoader());
+
+            // Starting the GUI
             window.DataContext = VM;
             window.Show();
         }

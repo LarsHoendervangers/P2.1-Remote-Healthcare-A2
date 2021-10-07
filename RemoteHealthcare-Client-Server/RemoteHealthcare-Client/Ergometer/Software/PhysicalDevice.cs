@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,26 @@ namespace RemoteHealthcare.Ergometer.Software
 {
     class PhysicalDevice : Device
     {
+        public static event EventHandler<List<string>> OnBLEDeviceReceived;
 
+        public static void ReadAllDevicesTask()
+        {
+            BLE blDevice = new BLE();
+            Thread.Sleep(100);
+            List<string> blDevices = blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux"));
+            blDevices.Add("Simulator");
+            //Multi-threaded
+            OnBLEDeviceReceived?.Invoke("PhysicalDevice", blDevices);
+        }
+
+        //Not multi-threaded, taken over by method above
         public static List<string> ReadAllDevices()
         {
             BLE blDevice = new BLE();
 
-            //Make async or multithreaded
+            //Make async or multi-threaded
             Thread.Sleep(100);
-
+            //OnBLEDeviceReceived?.Invoke("PhysicalDevice", blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux")));
             return blDevice.ListDevices().FindAll((s)=> s.StartsWith("Tacx Flux"));
         }
 
@@ -60,10 +73,13 @@ namespace RemoteHealthcare.Ergometer.Software
                 IDevice.SetErrorCode(errorcode);
                 if (errorcode == 0)
                 {
-                    DataGUI.SetMessage($"Succesfully connected to device {deviceName}");
+                    //DataGUI.SetMessage($"Succesfully connected to device {deviceName}");
+                    Trace.WriteLine($"Succesfully connected to device {deviceName}");
                     continue;
                 }
-                DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
+                //DataGUI.SetMessage($"Connection attempts from device {deviceName} is {connectionAttempts}");
+                Trace.WriteLine($"Connection attempts from device {deviceName} is {connectionAttempts}");
+                await Task.Delay(500);
             }
 
             // Try to set the required service to devices' servicename
@@ -101,6 +117,7 @@ namespace RemoteHealthcare.Ergometer.Software
         /// <param name="HRName">The name of the BT HR monitor</param>
         public PhysicalDevice(string BikeName, string HRName) : base()
         {
+            Trace.WriteLine("Made new bike");
             Bike = new BikeBLE(BikeName, this);
             HRMonitor = new HRBLE(HRName, this);
 
@@ -110,7 +127,7 @@ namespace RemoteHealthcare.Ergometer.Software
 
 
         /// <summary>
-        /// Event call that handles the translation of the data from the heartrate monitor
+        /// Event call that handles the translation of the data from the heartbeat monitor
         /// </summary>
         /// <param name="sender">The object that called the event</param>
         /// <param name="data">THe data from the event</param>

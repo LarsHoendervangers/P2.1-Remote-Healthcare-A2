@@ -1,4 +1,5 @@
 ﻿using RemoteHealthcare_Server.Data;
+using RemoteHealthcare_Server.Data.Processing;
 using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace RemoteHealthcare_Server
     {
         public string Username { get; set; }
 
-        public string Password { get; set; }
+    
+        public string Password{get;set;}
 
         public DateTime DateOfBirth { get; set; }
 
@@ -25,11 +27,12 @@ namespace RemoteHealthcare_Server
 
 
 
-        public Patient(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string medicalSystemID)
+        public Patient(string username, string password, DateTime dateOfBirth, string firstName, string lastName, string medicalSystemID, bool hashable)
         {
             //Username and login
             this.Username = username;
-            this.Password = password;
+            if (hashable) this.Password = HashProcessing.HashString(password);
+            else this.Password = password;
 
             //Patien data
             this.DateOfBirth = dateOfBirth;

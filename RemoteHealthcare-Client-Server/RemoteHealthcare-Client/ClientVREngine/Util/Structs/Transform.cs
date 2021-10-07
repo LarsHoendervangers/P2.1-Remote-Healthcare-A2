@@ -7,10 +7,10 @@
     public struct Transform
     {
         //Attributes NOT capitalized, to correstpond with server commands
-        public int[] position { get; set; }
-        public int scale { get; set; }
-        public int[] rotation { get; set; }
-        public Transform(int scale, int[] pos, int[] rot)
+        public double[] position { get; set; }
+        public double scale { get; set; }
+        public double[] rotation { get; set; }
+        public Transform(double scale, double[] pos, double[] rot)
         {
             rotation = rot;
             this.scale = scale;

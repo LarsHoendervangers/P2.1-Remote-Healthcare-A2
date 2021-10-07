@@ -17,32 +17,61 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
 {
-    class ClientViewModel : INotifyPropertyChanged
+    /// <summary>
+    /// Class that represents the viewmodel for the client application
+    /// </summary>
+    public class ClientViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private StartupLoader loader;
-        private TCPClientHandler handler;
+        private readonly StartupLoader loader;
 
-        public ClientViewModel(StartupLoader loader, TCPClientHandler handler)
+        /// <summary>
+        /// Constructor for the Client view model, starts the calls to get available bl- and vr- devices
+        /// </summary>
+        /// <param name="loader">The StartupLoader that handles startup</param>
+        public ClientViewModel(StartupLoader loader)
         {
-            // TODO !! blocking call
-            List<string> blDevices = PhysicalDevice.ReadAllDevices();
-            blDevices.Add("Simulator");
-            this.mBLEDevices = new ObservableCollection<string>(blDevices);
+            this.loader = loader;
 
-            // Setting all the VRserers list
-            // !! Also blocking call
-            this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+            // Setting the event for the device callbacks
+            this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
+            this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            this.loader.OnLoginResponseReceived += (s, d) =>
+            {
+                this.isLoggedIn = d;
+                if (d) SubmitText = "Start the connection to the server";
+                
+            };
 
+            // Calling the first statup method for the loader
+            this.loader.Init();
+            
+            // Setting the list with Scenes the user can choose from
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
             this.mScenes = new ObservableCollection<string>(scenes);
-
-            this.loader = loader;
-            this.handler = handler;
         }
 
+
+        private string mSubmitText = "Submit login";
+        public string SubmitText
+        {
+            get { return mSubmitText; }
+            set
+            {
+
+                mSubmitText = value;
+                Console.WriteLine("Nieuwe waarde voor knop: " + value);
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
+
+            }
+        }
+
+        /// <summary>
+        /// Binded list attributes that contains all the vr server data
+        /// </summary>
         private ObservableCollection<ClientData> mVRServers;
         public ObservableCollection<ClientData> VRServers
         {
@@ -51,11 +80,14 @@ namespace RemoteHealthcare_Client
             {   
 
                 mVRServers = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("vrServers"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
 
             }
         }
 
+        /// <summary>
+        /// Binded attributte that contains the selected vr server
+        /// </summary>
         private ClientData mSelectedVRServer = new ClientData();
         public ClientData SelectedVRServer
         {
@@ -63,10 +95,13 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedVRServer = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedVRServer"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedVRServer"));
             }
         }
 
+        /// <summary>
+        /// Binded list that contains all the bl devices
+        /// </summary>
         private ObservableCollection<string> mBLEDevices;
         public ObservableCollection<string> BLEDevices
         {
@@ -80,6 +115,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binded Attribute that contains the selected bl device
+        /// </summary>
         private string mSelectedDevice = null;
         public string SelectedDevice
         {
@@ -87,10 +125,13 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedDevice = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedDevice"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedDevice"));
             }
         }
 
+        /// <summary>
+        /// Binded list attribute that contains the scenes
+        /// </summary>
         private ObservableCollection<string> mScenes;
         public ObservableCollection<string> Scenes
         {
@@ -98,32 +139,13 @@ namespace RemoteHealthcare_Client
             set
             {
                 mScenes = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Selected scene"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Scenes"));
             }
         }
 
-        private ICommand mStartCommand;
-        public ICommand StartCommand
-        {
-            get
-            {
-                if (mStartCommand == null)
-                {
-                    mStartCommand = new GeneralCommand(
-                        param => StartApplication(),
-                        param => (true)
-                        );
-                }
-                return mStartCommand;
-            }
-
-        }
-
-        private void StartApplication()
-        {
-            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
-        }
-
+        /// <summary>
+        /// Binded attribute that stores the username 
+        /// </summary>
         private string mUserName = null;
         public string UserName
         {
@@ -131,10 +153,13 @@ namespace RemoteHealthcare_Client
             set
             {
                 mUserName = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User name"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UserName"));
             }
         }
 
+        /// <summary>
+        /// Binded attribute that stores the password 
+        /// </summary>
         private string mPassword = null;
         public string Password
         {
@@ -145,7 +170,53 @@ namespace RemoteHealthcare_Client
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-    }
+        
+        public bool isLoggedIn = false;
 
-    
+        /// <summary>
+        /// Command that is called when the client presses the start button
+        /// </summary>
+        private ICommand mStartCommand;
+        public ICommand StartCommand
+        {
+            get
+            {
+                if (mStartCommand == null)
+                {
+                    mStartCommand = new GeneralCommand(
+                        param =>
+                        {
+                            if (!isLoggedIn)
+                                this.loader.Login(UserName, Password);
+                            else
+                                StartApplicaton();
+                                Debug.WriteLine("Logged in successfully");
+                        },
+                        param => NullCheck() //check if all the fields are filled
+                        );
+                }
+                return mStartCommand;
+            }
+
+        }
+
+        /// <summary>
+        /// Checks all the fields in the class if they are null, returns true if all fields are filled
+        /// </summary>
+        /// <returns>true is all attributes are NOT null</returns>
+        private bool NullCheck()
+        {
+            return
+                this.SelectedDevice != null &
+                this.SelectedVRServer.NullCheck() &
+                this.Password != null &
+                this.UserName != null;
+        }
+
+        private void StartApplicaton()
+        {
+            Debug.WriteLine("Starting Application");
+            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
+        }
+    }
 }

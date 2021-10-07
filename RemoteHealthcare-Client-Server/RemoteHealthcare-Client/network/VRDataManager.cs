@@ -7,12 +7,14 @@ using RemoteHealthcare.ClientVREngine.Util;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System.Diagnostics;
+using System.Windows;
 
 namespace RemoteHealthcare_Client
 {
     public class VRDataManager : DataManager
     {
         private readonly SimpleScene simpleScene;
+        private bool isConnected;
 
         public TunnelHandler VRTunnelHandler { get; set; }
 
@@ -24,8 +26,8 @@ namespace RemoteHealthcare_Client
 
         public void Start(string vrServerID)
         {
-            this.VRTunnelHandler.SetUpConnection(vrServerID);
-
+            this.isConnected = this.VRTunnelHandler.SetUpConnection(vrServerID);
+            
             this.simpleScene.InitScene();
 
             this.simpleScene.LoadScene();
@@ -35,6 +37,11 @@ namespace RemoteHealthcare_Client
         {
             // The data the VR engine will receive is the ergodata from the ergodevice + messagedata, see dataprotocol
 
+            if (!isConnected)
+            {
+                Debug.WriteLine("VRManager.ReceiveData: Not receiving data because we have no connection");
+                return;
+            }
             // command value always gives the action 
             JToken value;
 
@@ -51,14 +58,12 @@ namespace RemoteHealthcare_Client
             {
 
                 case "message":
-
-                    string message = data.GetValue("data").ToString();
-                    this.VRTunnelHandler.SendToTunnel(JSONCommandHelper.WrapPanelText(simpleScene.getOrDefaultPanelUuid(),
-                        message, new double[] { 5, 5, 0 }, 10, "arial"));
+                    
+                    simpleScene.WriteTextToPanel(simpleScene.HandelTextMessages(8,25,data));
                     break;
                 case "ergodata":
                     Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
-                    simpleScene.WriteTextToPanel(data);
+                    simpleScene.WriteDataToPanel(data);
                     break;
                 default:
                     // TODO HANDLE NOT SUPPORTER
