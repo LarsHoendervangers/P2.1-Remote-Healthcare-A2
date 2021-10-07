@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Windows;
 
 namespace RemoteHealthcare_Shared
 {
@@ -15,7 +16,7 @@ namespace RemoteHealthcare_Shared
         public EncryptedClient(NetworkStream network)
         {
             base.sslStream = new SslStream(network, false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
-
+            
             try
             {
                 base.sslStream.AuthenticateAsClient("localhost");

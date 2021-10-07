@@ -63,6 +63,5 @@ namespace RemoteHealthcare_Client
             };
             this.serverDataManager.ReceivedData(JObject.FromObject(o));
         }
-
     }
 }
