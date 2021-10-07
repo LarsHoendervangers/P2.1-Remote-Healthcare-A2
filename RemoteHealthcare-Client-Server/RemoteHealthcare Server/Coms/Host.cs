@@ -65,6 +65,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void Stop()
         {
+            this.usermanagement.SessionEnd(user);
             this.tcpclient.Close();
         }
 
