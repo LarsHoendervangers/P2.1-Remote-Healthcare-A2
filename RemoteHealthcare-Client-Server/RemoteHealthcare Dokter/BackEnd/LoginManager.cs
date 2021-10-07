@@ -2,6 +2,7 @@
 using RemoteHealthcare_Client;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,18 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public void SendLogin(string username, string password)
         {
+            object o = new
+            {
+                command = "login",
+                data = new
+                {
+                    us = username,
+                    pass = password,
+                    flag = 1
+                }
+            };
 
+            SendToManagers(JObject.FromObject(o));
         }
 
         private void HandleLoginResponse(JObject data)

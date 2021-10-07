@@ -58,8 +58,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
         }
 
 
-        private List<string> _SessionsList;
-        public List<string> SessionsList
+        private List<Session> _SessionsList;
+        public List<Session> SessionsList
         {
             get { return _SessionsList; }
             set { _SessionsList = value; }

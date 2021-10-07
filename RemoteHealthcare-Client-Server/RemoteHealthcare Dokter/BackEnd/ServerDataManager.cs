@@ -3,6 +3,7 @@ using RemoteHealthcare_Client;
 using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,9 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            // The server will only get messages to login, all other is not defined in the data protocol.
+            Trace.WriteLine($"received data from server: {data}");
+            this.tcpClientHandler.WriteMessage(data.ToString());
         }
 
         private void HandleServerMessage(JObject data)
@@ -32,7 +35,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void OnServerMessageReceived(object sender, string message)
         {
-
+            
         }
     }
 }
