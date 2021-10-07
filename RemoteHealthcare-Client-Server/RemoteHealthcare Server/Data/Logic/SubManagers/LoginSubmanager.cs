@@ -25,7 +25,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         /// <param name="password"></param>
         /// <param name="flag"></param>
         /// <returns></returns>
-        public new IUser Credentials(string username, string password, int flag)
+        public IUser Credentials(string username, string password, int flag)
         {
             //Finding user
             foreach (IUser user in UserManagement.users)

@@ -30,7 +30,6 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            Debug.WriteLine(jObject.ToString());
             string command = jObject.GetValue("command").ToString();
 
             MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
