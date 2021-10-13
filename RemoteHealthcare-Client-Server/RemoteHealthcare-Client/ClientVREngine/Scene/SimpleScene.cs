@@ -205,7 +205,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 
         }
 
-        public String HandelTextMessages(int maxTotalLines, int maxCharPerLine, JObject data)
+        public string HandelTextMessages(int maxTotalLines, int maxCharPerLine, JObject data)
         {
             text = "";
             string message = data.GetValue("data").ToString();

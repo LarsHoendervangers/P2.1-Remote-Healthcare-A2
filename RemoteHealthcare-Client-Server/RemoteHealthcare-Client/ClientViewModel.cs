@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -32,6 +33,8 @@ namespace RemoteHealthcare_Client
         /// <param name="loader">The StartupLoader that handles startup</param>
         public ClientViewModel(StartupLoader loader)
         {
+            
+
             this.loader = loader;
 
             // Setting the event for the device callbacks
@@ -108,10 +111,8 @@ namespace RemoteHealthcare_Client
             get { return mBLEDevices; }
             set
             {
-
                 mBLEDevices = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BLEDevices"));
-
             }
         }
 
@@ -217,6 +218,27 @@ namespace RemoteHealthcare_Client
         {
             Debug.WriteLine("Starting Application");
             this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+                Thread.Sleep(3000);
+            }
+
+        }
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                List<string> blDevices = PhysicalDevice.ReadAllDevices();
+                blDevices.Add("Simulator");
+                this.mBLEDevices = new ObservableCollection<string>(blDevices);
+                Thread.Sleep(3000);
+            }
+
         }
     }
 }
