@@ -47,7 +47,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             Application.Current.Dispatcher?.Invoke(() =>
             {               
                 var win = new Window();
-                win.Content = new MainWindowViewModel();
+                win.Content = new DashboardViewModel();
                 win.Show();
 
                 this.window.Close();

@@ -7,19 +7,19 @@
              StartupUri="LoginView.xaml">
     <Application.Resources>
         <DataTemplate x:Name="DashBoardViewTemplate" DataType="{x:Type viewmodels:DashboardViewModel}">
-            <views:DashboardView DataContext="{Binding}"/>
+            <views:DashboardView/>
         </DataTemplate>
 
         <DataTemplate x:Name="PatientListViewTemplate" DataType="{x:Type viewmodels:PatientListViewModel}">
-            <views:PatientView DataContext="{Binding}"/>
+            <views:PatientView/>
         </DataTemplate>
 
         <DataTemplate x:Name="PatientHistoryViewTemplate" DataType="{x:Type viewmodels:PatientHistoryViewModel}">
-            <views:PatientHistoryView DataContext="{Binding}"/>
+            <views:PatientHistoryView/>
         </DataTemplate>
 
         <DataTemplate x:Name="SessionDetailViewTemplate" DataType="{x:Type viewmodels:SessionDetailViewModel}">
-            <views:SessionDetailView DataContext="{Binding}"/>
+            <views:SessionDetailView/>
         </DataTemplate>
     </Application.Resources>
 </Application>
