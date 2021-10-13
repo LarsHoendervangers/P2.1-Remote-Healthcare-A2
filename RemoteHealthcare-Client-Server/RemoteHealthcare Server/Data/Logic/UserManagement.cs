@@ -132,6 +132,11 @@ namespace RemoteHealthcare_Server.Data
             return this.findingSubmanager.FindHost(d);
         }
 
+        internal bool FindSessoin(Patient p)
+        {
+            return this.findingSubmanager.GetSession(p);
+        }
+
         #endregion
     }
 }

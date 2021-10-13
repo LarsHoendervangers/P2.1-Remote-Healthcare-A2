@@ -112,5 +112,18 @@ namespace RemoteHealthcare_Server.Data.Logic
 
             return null;
         }
+
+        public bool GetSession(Patient p)
+        {
+            foreach (Session s in UserManagement.activeSessions)
+            {
+                if (s.Patient == p)
+                {
+                    return true;
+                }
+            }
+
+            return true;
+        }
     }
 }
