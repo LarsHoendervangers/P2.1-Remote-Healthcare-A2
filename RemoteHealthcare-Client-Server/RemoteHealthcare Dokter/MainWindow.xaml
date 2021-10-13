@@ -11,24 +11,6 @@
     <Window.DataContext>
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <DataTemplate x:Name="DashBoardViewTemplate" DataType="{x:Type viewmodels:DashboardViewModel}">
-            <views:DashboardView DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Name="PatientListViewTemplate" DataType="{x:Type viewmodels:PatientListViewModel}">
-            <views:PatientView DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Name="PatientHistoryViewTemplate" DataType="{x:Type viewmodels:PatientHistoryViewModel}">
-            <views:PatientHistoryView DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Name="SessionDetailViewTemplate" DataType="{x:Type viewmodels:SessionDetailViewModel}">
-            <views:SessionDetailView DataContext="{Binding}"/>
-        </DataTemplate>
-
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

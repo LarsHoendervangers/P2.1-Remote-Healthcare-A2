@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
         xmlns:viewmodels="clr-namespace:RemoteHealthcare_Dokter.ViewModels"
         mc:Ignorable="d"
+        x:Name="Login"
         Title="LoginView" Height="450" Width="800">
     <Window.DataContext>
         <viewmodels:LoginViewModel/>
@@ -17,7 +18,7 @@
         <Label Content="Password" HorizontalAlignment="Left" Margin="296,200,0,0" VerticalAlignment="Top"/>
         <TextBox Name="PassBox" HorizontalAlignment="Left" Margin="301,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Text="{Binding Password}"/>
 
-        <Button Content="Button" HorizontalAlignment="Left" Margin="379,307,0,0" VerticalAlignment="Top" Command="{Binding Path=SendLoginCommand}"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="379,307,0,0" VerticalAlignment="Top" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
         <TextBox HorizontalAlignment="Left" Margin="301,163,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="17"/>
 
     </Grid>
