@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Client
     /// <summary>
     /// Class that represents the viewmodel for the client application
     /// </summary>
-    class ClientViewModel : INotifyPropertyChanged
+    public class ClientViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,20 +33,39 @@ namespace RemoteHealthcare_Client
         {
             this.loader = loader;
 
-            // TODO !! blocking call
-            // Gets all the bleutooth devices available
-            List<string> blDevices = PhysicalDevice.ReadAllDevices();
-            blDevices.Add("Simulator");
-            this.mBLEDevices = new ObservableCollection<string>(blDevices);
+            // Setting the event for the device callbacks
+            this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
+            this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
+            this.loader.OnLoginResponseReceived += (s, d) =>
+            {
+                this.isLoggedIn = d;
+                if (d) SubmitText = "Start the connection to the server";
+                
+            };
 
-            // !! Also blocking call
-            // Setting all the VRserers list
-            this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
-
-            // Setting the list with Scenes the user can choise from
+            // Calling the first statup method for the loader
+            this.loader.Init();
+            
+            // Setting the list with Scenes the user can choose from
             List<string> scenes = new List<string>();
             scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
             this.mScenes = new ObservableCollection<string>(scenes);
+        }
+
+
+        private string mSubmitText = "Submit login";
+        public string SubmitText
+        {
+            get { return mSubmitText; }
+            set
+            {
+
+                mSubmitText = value;
+                Console.WriteLine("Nieuwe waarde voor knop: " + value);
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
+
+            }
         }
 
         /// <summary>
@@ -60,7 +79,7 @@ namespace RemoteHealthcare_Client
             {   
 
                 mVRServers = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("vrServers"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
 
             }
         }
@@ -75,7 +94,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedVRServer = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedVRServer"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedVRServer"));
             }
         }
 
@@ -105,7 +124,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSelectedDevice = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("selectedDevice"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedDevice"));
             }
         }
 
@@ -119,7 +138,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mScenes = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Selected scene"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Scenes"));
             }
         }
 
@@ -133,7 +152,7 @@ namespace RemoteHealthcare_Client
             set
             {
                 mUserName = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("User name"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("UserName"));
             }
         }
 
@@ -150,6 +169,8 @@ namespace RemoteHealthcare_Client
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
+        
+        public bool isLoggedIn = false;
 
         /// <summary>
         /// Command that is called when the client presses the start button
@@ -162,7 +183,14 @@ namespace RemoteHealthcare_Client
                 if (mStartCommand == null)
                 {
                     mStartCommand = new GeneralCommand(
-                        param => StartApplication(),
+                        param =>
+                        {
+                            if (!isLoggedIn)
+                                this.loader.Login(UserName, Password);
+                            else
+                                StartApplicaton();
+                                Debug.WriteLine("Logged in successfully");
+                        },
                         param => NullCheck() //check if all the fields are filled
                         );
                 }
@@ -184,14 +212,10 @@ namespace RemoteHealthcare_Client
                 this.UserName != null;
         }
 
-        /// <summary>
-        /// Calls the Loader class to setup the connection to the servers/
-        /// </summary>
-        private void StartApplication()
+        private void StartApplicaton()
         {
-            this.loader.SetupServerConnection(SelectedDevice, SelectedVRServer.Adress, UserName, Password);
+            Debug.WriteLine("Starting Application");
+            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
         }
     }
-
-    
 }

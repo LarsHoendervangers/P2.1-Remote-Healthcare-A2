@@ -1,6 +1,7 @@
 ﻿using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -141,7 +142,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (user != null && user.getUserType() == UserTypes.Patient)
                 {
                     foreach (Session s in UserManagement.activeSessions)
                     {
@@ -151,7 +152,6 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                             return;
                         }
                     }
-
                 }
             }
         }

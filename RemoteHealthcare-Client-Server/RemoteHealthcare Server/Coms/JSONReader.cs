@@ -30,18 +30,22 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            string command = jObject.GetValue("command").ToString();
-
-            MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
-            foreach (MethodInfo method in methods)
+            JToken token;
+            if (jObject != null && jObject.TryGetValue("command", out token))
             {
-                //This if could probably be short but this is much clearer
-                if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
-                     && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() || 
-                         user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
+                string command = token.ToString();
+
+                MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
+                foreach (MethodInfo method in methods)
                 {
-                    method.Invoke(this, new object[] { jObject, sender, user, managemet });
-                } 
+                    //This if could probably be short but this is much clearer
+                    if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
+                         && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() ||
+                             user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
+                    {
+                        method.Invoke(this, new object[] { jObject, sender, user, managemet });
+                    }
+                }
             }
         }
 
@@ -309,9 +313,7 @@ namespace RemoteHealthcare_Server
         public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
 
-            //TODO Sending back bool if in session
-
-            //.....................
+        
             JToken patientIDs = jObject.SelectToken("data.patid");
             if (patientIDs != null)
             {
@@ -362,10 +364,6 @@ namespace RemoteHealthcare_Server
                     JSONWriter.HistoryWrite(sender, sessoins, p.PatientID);
                 }
             }
-
-
-
-
         }
 
 

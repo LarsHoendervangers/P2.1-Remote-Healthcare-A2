@@ -24,11 +24,12 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             this.device = device;
             bikeName = BikeName;
             // Waiting beforeinitializing
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 
             Console.WriteLine("Initializing...");
             Task task = device.Initialize(bikeName,
                 "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e", this, this);
+            
         }
 
 

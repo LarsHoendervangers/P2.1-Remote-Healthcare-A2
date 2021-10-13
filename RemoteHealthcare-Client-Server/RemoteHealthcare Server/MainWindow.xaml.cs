@@ -28,23 +28,16 @@ namespace RemoteHealthcare_Server
         {
             InitializeComponent();
             //this.server = new Server(this, IPAddress.Parse("145.49.40.199"), 6969);
-            this.server = new Server(this, IPAddress.Parse("127.0.0.1"), 6969);
+            this.server = new Server(this, IPAddress.Any, 6969);
+            this.server.StartServer();
             this.Closing += OnDestroy;
         }
 
         private void OnDestroy(object sender, CancelEventArgs e)
         {
-            this.server.users.OnDestroy();
-        }
-
-        public void Button_StartServer(object sender, RoutedEventArgs e)
-        {
-            this.server.StartServer();
-        }
-
-        public void Button_StopServer(object sender, RoutedEventArgs e)
-        {
             this.server.StopServer();
+            //this.server.users.OnDestroy();
+            //Environment.Exit(Environment.ExitCode);
         }
 
         public void Button_SendMessage(object sender, RoutedEventArgs e)

@@ -23,13 +23,11 @@ namespace RemoteHealthcare_Server
 
             try
             {
-                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory() + "users.txt") , data.ToString());
+                File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory() , "users.txt") , data.ToString());
             } catch
             {
                 Server.PrintToGUI(data.ToString());
             }
-
-
         }
         
         /// <summary>
@@ -39,7 +37,7 @@ namespace RemoteHealthcare_Server
         public static List<IUser> LoadUsers()
         {
             List<IUser> users = new List<IUser>();
-            string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory() + "users.txt"));
+            string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory() , "users.txt"));
       
 
             JArray array = JArray.Parse(data);
@@ -57,7 +55,6 @@ namespace RemoteHealthcare_Server
                     users.Add(o.ToObject<Admin>());
                 } 
             }
-
             return users;
         }
 

@@ -28,6 +28,7 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             Thread.Sleep(1000);
 
             Task task = device.Initialize(hrMonitorname, "HeartRate", "HeartRateMeasurement", this, this);
+            
         }
 
         private async Task Initialize()

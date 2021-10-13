@@ -17,7 +17,6 @@ namespace RemoteHealthcare_Server.Data.Logic
             this.management = management;
         }
 
-
         /// <summary>
         /// Checks the authenication
         /// </summary>
