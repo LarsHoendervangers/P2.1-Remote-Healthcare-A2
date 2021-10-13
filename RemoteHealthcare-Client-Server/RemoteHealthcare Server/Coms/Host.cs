@@ -72,7 +72,7 @@ namespace RemoteHealthcare_Server
                     break;
                 }
             }
-            this.Disconnecting?.Invoke(this);
+            FireDisconnectingEvent();
         }
 
         /// <summary>
@@ -102,6 +102,14 @@ namespace RemoteHealthcare_Server
         public ISender GetSender()
         {
             return this.sender;
+        }
+
+        /// <summary>
+        /// Fire the disconnecting event.
+        /// </summary>
+        public void FireDisconnectingEvent()
+        {
+            this.Disconnecting?.Invoke(this);
         }
     }
 }

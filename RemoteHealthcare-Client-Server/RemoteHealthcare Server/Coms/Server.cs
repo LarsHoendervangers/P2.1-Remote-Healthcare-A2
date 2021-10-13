@@ -12,9 +12,7 @@ namespace RemoteHealthcare_Server
 {
     public class Server
     {
-
-        //Securety risk for bying public to fix...
-        public UserManagement users;
+        private UserManagement userManagement;
 
         private static MainWindow window;
 
@@ -30,7 +28,7 @@ namespace RemoteHealthcare_Server
             this.Ip = ip;
             this.Port = port;
             this.tcpListener = new TcpListener(this.Ip, this.Port);
-            this.users = new UserManagement(); 
+            this.userManagement = new UserManagement(); 
         }
 
         /// <summary>
@@ -60,7 +58,7 @@ namespace RemoteHealthcare_Server
             try
             {
                 TcpClient tcpClient = this.tcpListener.EndAcceptTcpClient(ar);
-                Host host = new Host(tcpClient, users);
+                Host host = new Host(tcpClient, userManagement);
 
                 host.Disconnecting += OnDisconnect;
 
@@ -74,21 +72,22 @@ namespace RemoteHealthcare_Server
 
         /// <summary>
         /// Method which ends the server.
+        /// It also ends the active sessions and closes the connections with each user.
         /// </summary>
         public void StopServer()
         {
-            for (int i = this.users.activeHosts.Count - 1; i >= 0; i--)
+            for (int i = this.userManagement.activeHosts.Count - 1; i >= 0; i--)
             {
-                if (this.users.activeHosts.Count > i)
+                if (this.userManagement.activeHosts.Count > i)
                 {
-                    Host host = this.users.activeHosts[i];
-                    
-                    OnDisconnect(host);
+                    Host host = this.userManagement.activeHosts[i];
+                    host.FireDisconnectingEvent();
                 } else
                 {
                     break;
                 }
             }
+            this.userManagement.OnDestroy();
             this.tcpListener.Stop();
             PrintToGUI("Server stopped.");
         }
@@ -101,7 +100,7 @@ namespace RemoteHealthcare_Server
         public void OnConnect(Host host)
         {
             PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} connected.");
-            this.users.activeHosts.Add(host);
+            this.userManagement.activeHosts.Add(host);
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace RemoteHealthcare_Server
             if (host != null)
             {
                 PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
-                this.users.activeHosts.Remove(host);
+                this.userManagement.activeHosts.Remove(host);
                 host.tcpclient.Close();
             }
         }
@@ -144,11 +143,11 @@ namespace RemoteHealthcare_Server
         /// <param name="msg">Message to send</param>
         public void Broadcast(string msg)
         {
-            for (int i = this.users.activeHosts.Count - 1; i >= 0; i--)
+            for (int i = this.userManagement.activeHosts.Count - 1; i >= 0; i--)
             {
-                if (this.users.activeHosts.Count > i)
+                if (this.userManagement.activeHosts.Count > i)
                 {
-                    Host host = this.users.activeHosts[i];
+                    Host host = this.userManagement.activeHosts[i];
                     JSONWriter.MessageWrite(msg, host.GetSender());
                 } else
                 {

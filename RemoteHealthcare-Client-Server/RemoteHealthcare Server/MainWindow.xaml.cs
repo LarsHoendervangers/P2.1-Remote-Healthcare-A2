@@ -35,7 +35,8 @@ namespace RemoteHealthcare_Server
 
         private void OnDestroy(object sender, CancelEventArgs e)
         {
-            this.server.users.OnDestroy();
+            this.server.StopServer();
+            //this.server.users.OnDestroy();
             //Environment.Exit(Environment.ExitCode);
         }
 

@@ -25,15 +25,12 @@ namespace RemoteHealthcare_Server
             {
                 Server.PrintToGUI(data.ToString());
             }
-
-
         }
 
         public static List<IUser> LoadUsers()
         {
             List<IUser> users = new List<IUser>();
             string data = File.ReadAllText(Directory.GetCurrentDirectory() + @"\users.txt");
-      
 
             JArray array = JArray.Parse(data);
             foreach (JObject o in array)
@@ -50,10 +47,8 @@ namespace RemoteHealthcare_Server
                     users.Add(o.ToObject<Admin>());
                 } 
             }
-
             return users;
         }
-
 
         public static void SaveSession(Session s)
         {
