@@ -15,10 +15,13 @@ namespace RemoteHealthcare_Dokter.BackEnd
     {
         public event EventHandler<List<SharedPatient>> OnPatientUpdated;
 
+        public DashboardManager()
+        {
+            RequestActiveClients();
+        }
+
         public override void ReceivedData(JObject data)
         {
-            Console.WriteLine($"Data received in the dashboard manager {data}");
-
             JToken value;
 
             bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
@@ -29,6 +32,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             switch (value.ToString())
             {
                 case "getactivepatients":
+                    // Setting the command to the command to ask for detailed data and sending to server
+                    data["command"] = "getdetailpatient";
+                    SendToManagers(data);
+                    break;
+                case "detaildata":
                     ParseIncomingPatients(data);
                     break;
 
@@ -48,7 +56,15 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void ParseIncomingPatients(JObject data)
         {
-            Trace.WriteLine($"DATA: {data}");
+            JArray patientIDs = data.GetValue("data") as JArray;
+
+            List<SharedPatient> patients = new List<SharedPatient>();
+            foreach(JObject jo in patientIDs)
+            {
+                patients.Add(jo.ToObject<SharedPatient>());
+            }
+
+            this.OnPatientUpdated.Invoke(this, patients);
         }
 
         public void SendAbort(int id)

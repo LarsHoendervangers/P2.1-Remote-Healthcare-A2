@@ -5,6 +5,7 @@ using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class DashboardViewModel
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private Window window;
         private DashboardManager manager;
 
@@ -94,6 +97,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Patients = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllPatients"));
             }
         }
 
@@ -104,6 +108,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _InSessionPatients = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InSessionPatients"));
             }
         }
 

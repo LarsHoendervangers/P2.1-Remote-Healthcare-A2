@@ -21,7 +21,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override void ReceivedData(JObject data)
         {
-            Trace.WriteLine($"received data from server: {data}");
             HandleIncoming(data);
         }
 

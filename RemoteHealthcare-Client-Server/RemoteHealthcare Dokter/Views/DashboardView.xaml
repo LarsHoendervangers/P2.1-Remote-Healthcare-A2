@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
              mc:Ignorable="d" Height="1080" Width="1919">
     <Grid Margin="0,0,2,0" Background="White" Width="1920">
-        <ListView Margin="456,80,892,144" ItemsSource="{Binding Path=InSessionPatients}">
+        <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -18,7 +18,7 @@
         <Rectangle HorizontalAlignment="Left" Height="1080" Stroke="#FFC6002A" VerticalAlignment="Bottom" Width="350" Fill="#FFC6002A"/>
         <Button Content="Dashboard" HorizontalAlignment="Left" Margin="0,370,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="White" BorderBrush="White" FontWeight="Bold" FontSize="22"/>
         <Label Content="Patienten in een sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="458,33,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
-        <ListView Margin="1120,83,116,609">
+        <ListView Margin="1120,83,116,609" ItemsSource="{Binding AllPatients}">
             
         </ListView>
         <Rectangle HorizontalAlignment="Left" Height="382" Margin="1120,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
