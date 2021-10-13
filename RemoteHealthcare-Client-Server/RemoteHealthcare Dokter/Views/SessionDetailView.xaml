@@ -3,12 +3,48 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="1080" d:DesignWidth="1518"
-      Title="SessionDetailView">
+      d:DesignHeight="1080" d:DataContext="{d:DesignInstance local:SessionDetailView}"
+      Title="SessionDetailView" Width="1920">
 
-    <Grid>
+    <Grid Width="1920">
+        <lvc:CartesianChart DisableAnimations="True" DataTooltip="{x:Null}" Hoverable="False" Width="400" Margin="960,72,560,608" Height="400">
+            <lvc:CartesianChart.Resources>
+                <Style TargetType="lvc:LineSeries">
+                    <Setter Property="StrokeThickness" Value="0"></Setter>
+                    <Setter Property="Fill" Value="#CC2196F3"></Setter>
+                    <Setter Property="LineSmoothness" Value=".3"></Setter>
+                    <Setter Property="AreaLimit" Value="0"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsHot}" Value="true">
+                            <Setter Property="Fill" Value="#CCFF5722"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="lvc:Separator">
+                    <Setter Property="Stroke" Value="#DADADA"></Setter>
+                    <Setter Property="StrokeThickness" Value="2"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="AxisOrientation" Value="X">
+                            <Setter Property="IsEnabled" Value="False"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </lvc:CartesianChart.Resources>
+        </lvc:CartesianChart>
         
+        <lvc:CartesianChart DisableAnimations="True" DataTooltip="{x:Null}" Hoverable="False" Width="400" Margin="1461,72,59,608">
+            
+        </lvc:CartesianChart>
+        
+        <lvc:CartesianChart DisableAnimations="True" DataTooltip="{x:Null}" Hoverable="False" Width="400" Margin="960,601,560,79">
+
+        </lvc:CartesianChart>
+        
+        <lvc:CartesianChart DisableAnimations="True" DataTooltip="{x:Null}" Hoverable="False" Width="400" Margin="1461,601,59,79">
+
+        </lvc:CartesianChart>
     </Grid>
 </Page>
