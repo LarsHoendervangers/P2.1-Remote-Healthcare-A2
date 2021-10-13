@@ -17,24 +17,27 @@ namespace RemoteHealthcare_Shared
 
         public string ReadMessage()
         {
-            // 4 bytes lenght == 32 bits, always positive unsigned
-            byte[] lenghtArray = new byte[4];
+            // 4 bytes length == 32 bits, always positive unsigned
+            byte[] lengthArray = new byte[4];
+            if (sslStream.CanRead) {
+                sslStream.Read(lengthArray, 0, 4);
+                int length = BitConverter.ToInt32(lengthArray, 0);
 
-            sslStream.Read(lenghtArray, 0, 4);
-            int length = BitConverter.ToInt32(lenghtArray, 0);
+                byte[] buffer = new byte[length];
+                int totalRead = 0;
 
-            byte[] buffer = new byte[length];
-            int totalRead = 0;
-
-            //read bytes until stream indicates there are no more
-            while (totalRead < length)
+                //read bytes until stream indicates there are no more
+                while (totalRead < length)
+                {
+                    int read = sslStream.Read(buffer, totalRead, buffer.Length - totalRead);
+                    totalRead += read;
+                    //Console.WriteLine("ReadMessage: " + read);
+                }
+                return Encoding.ASCII.GetString(buffer);
+            } else
             {
-                int read = sslStream.Read(buffer, totalRead, buffer.Length - totalRead);
-                totalRead += read;
-                //Console.WriteLine("ReadMessage: " + read);
+                return "";
             }
-
-            return Encoding.ASCII.GetString(buffer);
         }
 
         public void SendMessage(string message)

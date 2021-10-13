@@ -26,6 +26,8 @@ namespace RemoteHealthcare_Server
         //Only assign 
         IUser user;
 
+        private bool stop = false;
+
         /// <summary>
         /// Constructor for the session
         /// </summary>
@@ -49,7 +51,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void ReadData()
         {
-            while (true)
+            while (!this.stop)
             {
                 //Getting json object
                 string data = sender.ReadMessage();
@@ -58,6 +60,7 @@ namespace RemoteHealthcare_Server
                 //Reading json object
                 this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
             }
+            Debug.WriteLine($"Stopped reading");
         }
 
         /// <summary>
@@ -65,6 +68,8 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void Stop()
         {
+            this.stop = true;
+            Debug.WriteLine($"Stop is {this.stop}");
             this.usermanagement.SessionEnd(user);
             this.tcpclient.Close();
         }
@@ -90,7 +95,4 @@ namespace RemoteHealthcare_Server
             return this.sender;
         }
     }
-       
-
-   
 }

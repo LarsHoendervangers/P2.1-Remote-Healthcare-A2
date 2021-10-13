@@ -51,6 +51,10 @@ namespace RemoteHealthcare_Server.Data
         public void OnDestroy()
         {
             FileProcessing.SaveUsers(users);
+            foreach (Host host in this.activeHosts)
+            {
+                host.Stop();
+            }
         }
 
         private void BackupUsers()
