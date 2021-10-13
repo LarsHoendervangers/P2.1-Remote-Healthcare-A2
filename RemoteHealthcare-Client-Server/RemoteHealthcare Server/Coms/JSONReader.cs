@@ -302,16 +302,20 @@ namespace RemoteHealthcare_Server
         private void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
 
+            Server.PrintToGUI("Indetails");
         
-            JToken patientIDs = jObject.SelectToken("data.patid");
+            JToken patientIDs = jObject.SelectToken("data");
             if (patientIDs != null)
             {
                 //Getting patient IDs..
                 List<string> patientIdentiefiers = new List<string>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    patientIdentiefiers.Add(patientID.ToString());
+                    patientIdentiefiers.Add(patientID);
+                    Server.PrintToGUI(patientID);
                 }
+
+
 
                 //Getting detailed data
                 List<SharedPatient> patients = new List<SharedPatient>();
@@ -327,12 +331,14 @@ namespace RemoteHealthcare_Server
                             serverPatient.DateOfBirth);
 
                         patients.Add(sharedPatient);
-
+                        Server.PrintToGUI("added patients");
                     }
                 }
 
                 //Sending patients over..
                 JSONWriter.SendDetails(patients, sender);
+                Server.PrintToGUI("got patients");
+
             }
         }
 

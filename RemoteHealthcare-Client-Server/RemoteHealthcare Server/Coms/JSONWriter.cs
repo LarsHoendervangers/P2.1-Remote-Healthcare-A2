@@ -167,10 +167,8 @@ namespace RemoteHealthcare_Server
             object o = new
             {
                 command = "detaildata",
-                data = new
-                {
-                    data = patients
-                }
+                data = patients
+                
             };
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
