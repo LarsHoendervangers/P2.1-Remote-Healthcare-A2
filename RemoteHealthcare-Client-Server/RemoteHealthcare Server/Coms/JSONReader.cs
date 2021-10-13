@@ -30,11 +30,14 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
+            //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
             {
+                //Getting command
                 string command = token.ToString();
 
+                //Going to method with reflection
                 MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)
                 {
@@ -58,22 +61,14 @@ namespace RemoteHealthcare_Server
         [AccesManager("login", UserTypes.Unkown)]
         private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
-            Server.PrintToGUI("Login");
-            Debug.WriteLine("login");
 
-            //Checking op login string
-            string command = Jobject.GetValue("command").ToString();
-            if (command == "login")
+            JToken username = Jobject.SelectToken("data.us");
+            JToken password = Jobject.SelectToken("data.pass");
+            JToken flag = Jobject.SelectToken("data.flag");
+            if (username != null && password != null && flag != null)
             {
-                //Getting alle the amazing data
-                JObject data = (JObject)Jobject.GetValue("data");
-                string username = data.GetValue("us").ToString();
-                string password = data.GetValue("pass").ToString();
-                int flag = int.Parse(data.GetValue("flag").ToString());
-
-
                 //Getting the user
-                IUser user = management.Credentials(username, password, flag);
+                IUser user = management.Credentials(username.ToString(), password.ToString(), int.Parse(flag.ToString()));
                 if (user != null)
                 {
                     JSONWriter.LoginWrite(true, sender);
@@ -89,7 +84,6 @@ namespace RemoteHealthcare_Server
                 }
             }
 
-            //Not valid as command
             return;
         }
 
@@ -103,51 +97,41 @@ namespace RemoteHealthcare_Server
         [AccesManager("ergodata", UserTypes.Patient)]
         private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
-            Server.PrintToGUI("Got your data");
-            if (user != null)
+            //All data from the jobject
+            JToken rpm = Jobject.SelectToken("data.rpm");
+            JToken speed = Jobject.SelectToken("data.speed");
+            JToken dist = Jobject.SelectToken("data.dist");
+            JToken pow = Jobject.SelectToken("data.pow");
+            JToken accpow = Jobject.SelectToken("data.accpow");
+            JToken bpm = Jobject.SelectToken("data.bpm");
+            JToken time = Jobject.SelectToken("data.time");
+
+            //Getting sessoin
+            Session session = null;
+            if (rpm != null)
             {
-                //Bike
-                JToken rpm = Jobject.SelectToken("data.rpm");
-                JToken speed = Jobject.SelectToken("data.speed");
-                JToken dist = Jobject.SelectToken("data.dist");
-                JToken pow = Jobject.SelectToken("data.pow");
-                JToken accpow = Jobject.SelectToken("data.accpow");
+                session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
+                    (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
+                    int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
+            }
+            else if (bpm != null)
+            {
+                session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+            }
 
-                //Heart
-                JToken bpm = Jobject.SelectToken("data.bpm");
-
-                //All
-                JToken time = Jobject.SelectToken("data.time");
-
-
-                //Checks
-                Session session = null;
-                if (rpm != null)
+            //Sending it to the subs
+            if (session != null)
+            {
+                Patient p = user as Patient;
+                List<Doctor> subs = session.Subscribers;
+                foreach(Doctor d in subs)
                 {
-                   session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
-                        (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
-                        int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
-                }
-                else if (bpm != null)
-                {
-                   session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
-                }
-
-                //Sending it to the subs
-                if (session != null)
-                {
-                    Patient p = user as Patient;
-                    List<Doctor> subs = session.Subscribers;
-                    foreach(Doctor d in subs)
+                    Host h = usermanagement.FindHost(d);
+                    if (h != null)
                     {
-                        Host h = usermanagement.FindHost(d);
-                        if (h != null)
-                        {
-                            JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
-                        }
+                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
                     }
                 }
-                
             }
         }
 
