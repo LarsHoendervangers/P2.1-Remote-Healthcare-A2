@@ -10,20 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RemoteHealthcare_Dokter.Views
+namespace RemoteHealthcare_Dokter
 {
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Interaction logic for SessionPopUp.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class SessionPopUp : Window
     {
-        public DashboardView()
+        public SessionPopUp()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-
     }
 }

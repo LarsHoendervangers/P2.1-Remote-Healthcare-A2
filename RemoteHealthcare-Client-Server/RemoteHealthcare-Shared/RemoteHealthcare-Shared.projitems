@@ -10,8 +10,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Communication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EncryptedSender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GeneralCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISender.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlaneTextSender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TCP\TCPClientHandler.cs" />
   </ItemGroup>
 </Project>

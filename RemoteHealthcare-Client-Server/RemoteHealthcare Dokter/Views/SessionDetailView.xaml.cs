@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace RemoteHealthcare_Dokter.Views
 {
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Interaction logic for SessionDetailView.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class SessionDetailView : Page
     {
-        public DashboardView()
+        public SessionDetailView()
         {
             InitializeComponent();
         }
-
     }
 }

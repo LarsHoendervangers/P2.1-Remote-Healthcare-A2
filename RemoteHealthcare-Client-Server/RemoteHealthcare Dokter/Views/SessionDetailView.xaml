@@ -1,4 +1,4 @@
-﻿<Page x:Class="RemoteHealthcare_Dokter.Views.PatientHistoryView"
+﻿<Page x:Class="RemoteHealthcare_Dokter.Views.SessionDetailView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,10 +6,9 @@
       xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1518"
-      Title="PatientHistoryView">
+      Title="SessionDetailView">
 
     <Grid>
-        <Label Content="Patient naam" HorizontalAlignment="Left" Margin="33,25,0,0" VerticalAlignment="Top"/>
-
+        
     </Grid>
 </Page>

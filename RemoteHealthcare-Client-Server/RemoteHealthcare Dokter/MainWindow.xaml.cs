@@ -24,16 +24,26 @@ namespace RemoteHealthcare_Dokter
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new DashboardViewModel();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         private void Dashboard_Clicked(object sender, RoutedEventArgs e)
         {
+            var bc = new BrushConverter();
+
             DataContext = new DashboardViewModel();
+            DokterButton.Background = (Brush)bc.ConvertFrom("#FFFFFDFD");
+            PatientButton.Background = (Brush)bc.ConvertFrom("#FFFFFFFF");
         }
 
         private void Patient_Click(object sender, RoutedEventArgs e)
         {
+            var bc = new BrushConverter();
+
             DataContext = new PatientListViewModel();
+            DokterButton.Background = (Brush)bc.ConvertFrom("#FFFFFFFF");
+            PatientButton.Background = (Brush)bc.ConvertFrom("#FFFFFDFD");
         }
     }
 }
