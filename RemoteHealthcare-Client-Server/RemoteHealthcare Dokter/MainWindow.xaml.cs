@@ -24,7 +24,7 @@ namespace RemoteHealthcare_Dokter
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new DashboardViewModel();
+            //DataContext = new DashboardViewModel();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
@@ -32,9 +32,11 @@ namespace RemoteHealthcare_Dokter
         {
             var bc = new BrushConverter();
 
+            /*
             DataContext = new DashboardViewModel();
             DokterButton.Background = (Brush)bc.ConvertFrom("#FFFFFDFD");
             PatientButton.Background = (Brush)bc.ConvertFrom("#FFFFFFFF");
+            */
         }
 
         private void Patient_Click(object sender, RoutedEventArgs e)
