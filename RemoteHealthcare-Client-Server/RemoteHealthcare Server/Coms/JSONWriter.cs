@@ -174,7 +174,25 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+        /// <summary>
+        /// Writes the history to the doctor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="sessoins"></param>
+        /// <param name="patientID"></param>
+        public static void HistoryWrite(ISender sender, List<Session> sessoins, string patientID)
+        {
+            object o = new
+            {
+                command = "getsessions",
+                data = new
+                {
+                    patientid = patientID,
+                    sessions = sessoins
+                }
+            };
 
-
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
     }
 }

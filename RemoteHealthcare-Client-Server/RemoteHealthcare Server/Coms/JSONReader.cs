@@ -203,7 +203,7 @@ namespace RemoteHealthcare_Server
         /// <param name="sender"></param>
         /// <param name="user"></param>
         /// <param name="managemet"></param>
-        [AccesManager("getallclients", UserTypes.Doctor)]
+        [AccesManager("getallpatients", UserTypes.Doctor)]
         private void GetAllClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
@@ -217,7 +217,7 @@ namespace RemoteHealthcare_Server
         /// <param name="sender">for sending response</param>
         /// <param name="user">as of the type that requested</param>
         /// <param name="managemet">that controls everthing related to users</param>
-        [AccesManager("getactiveclients", UserTypes.Doctor)]
+        [AccesManager("getactivepatients", UserTypes.Doctor)]
         private void GetActiveClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
@@ -304,9 +304,13 @@ namespace RemoteHealthcare_Server
         /// <param name="sender"></param>
         /// <param name="user"></param>
         /// <param name="management"></param>
-        [AccesManager("gettingdetailpatients", UserTypes.Doctor)]
+        [AccesManager("getdetailpatient", UserTypes.Doctor)]
         public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
+
+            //TODO Sending back bool if in session
+
+            //.....................
             JToken patientIDs = jObject.SelectToken("data.patid");
             if (patientIDs != null)
             {
@@ -331,16 +335,21 @@ namespace RemoteHealthcare_Server
         }
 
         //Sends back all the session of a patient...
-        [AccesManager("gettingdetailpatients", UserTypes.Doctor)]
+        [AccesManager("getsessions", UserTypes.Doctor)]
         public void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
             JToken patientID = jObject.SelectToken("data");
             if (patientID != null)
             {
                 string id = patientID.ToString();
+                Patient p = management.FindPatient(id);
 
+                if (p != null)
+                {
+                    List<Session> sessoins = FileProcessing.LoadSessions(p);
 
-
+                    JSONWriter.HistoryWrite(sender, sessoins, p.PatientID);
+                }
             }
 
 
