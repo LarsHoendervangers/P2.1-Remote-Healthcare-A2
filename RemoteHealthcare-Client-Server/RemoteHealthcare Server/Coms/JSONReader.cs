@@ -1,5 +1,4 @@
-﻿using CommClass;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
@@ -206,6 +205,9 @@ namespace RemoteHealthcare_Server
             //Sending patient IDS back
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
+
+
+
 
         /// <summary>
         /// 

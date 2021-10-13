@@ -13,6 +13,11 @@ namespace RemoteHealthcare_Server
 {
     class JSONWriter
     {
+        /// <summary>
+        /// Writes wether an action was succesfull or not..
+        /// </summary>
+        /// <param name="succes"></param>
+        /// <param name="sender"></param>
         public static void LoginWrite(bool succes, ISender sender)
         {
             //Selecting object
@@ -39,7 +44,11 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-
+        /// <summary>
+        /// Writes a message to the host that is selected...
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="sender"></param>
         public static void MessageWrite(string msg, ISender sender)
         {
             object o = new
@@ -52,6 +61,11 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+        /// <summary>
+        /// Writes the resitance to a host that is selected
+        /// </summary>
+        /// <param name="resistance"></param>
+        /// <param name="sender"></param>
         public static void ResistanceWrite(int resistance, ISender sender)
         {
             object o = new
@@ -64,6 +78,10 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+        /// <summary>
+        /// Writes an aborot to a host that is selected
+        /// </summary>
+        /// <param name="sender"></param>
         public static void AbortWrite(ISender sender)
         {
             object o = new
@@ -75,6 +93,11 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+        /// <summary>
+        /// Writes all patietns to a selected host..
+        /// </summary>
+        /// <param name="AllPatients"></param>
+        /// <param name="sender"></param>
         public static void AllPatientWrite(List<string> AllPatients, ISender sender)
         {
             object o = new
@@ -86,6 +109,12 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
+
+        /// <summary>
+        /// Writes active patients to a slected host..
+        /// </summary>
+        /// <param name="AllPatients"></param>
+        /// <param name="sender"></param>
         public static void ActivePatientWrite(List<string> AllPatients, ISender sender)
         {
             object o = new
@@ -97,9 +126,34 @@ namespace RemoteHealthcare_Server
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
-        public static void DoctorSubWriter(Host h, Session s)
+
+        /// <summary>
+        /// Writes an 
+        /// </summary>
+        /// <param name="h"></param>
+        /// <param name="s"></param>
+        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender)
         {
-            
+            //Getting lastest measurment...
+            BikeMeasurement latestBikeMeasurent = s.BikeMeasurements.Last();
+            HRMeasurement latestHeartMeasurent = s.HRMeasurements.Last();
+
+            //Which is the latest....
+            var LatestMeasurement = latestHeartMeasurent;
+            if ( latestBikeMeasurent.MeasurementTime > latestHeartMeasurent.MeasurementTime)
+            LatestMeasurement = latestHeartMeasurent;
+
+            //Sending it over...
+            object o = new
+            {
+                command = "livepatientdata",
+                data = new
+                {
+                    id = id,
+                    data = latestBikeMeasurent
+                }
+            };
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
     }
 }
