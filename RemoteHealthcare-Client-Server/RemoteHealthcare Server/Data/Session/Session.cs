@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Server.Data.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,8 @@ namespace RemoteHealthcare_Server
 {
     public class Session
     {
+        public List<Doctor> Subscribers { get; set; }
+
         public Session(Patient patient)
         {
             Patient = patient;
