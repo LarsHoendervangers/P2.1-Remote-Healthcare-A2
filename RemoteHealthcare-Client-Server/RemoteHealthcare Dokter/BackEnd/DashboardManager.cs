@@ -15,6 +15,14 @@ namespace RemoteHealthcare_Dokter.BackEnd
         public override void ReceivedData(JObject data)
         {
             Console.WriteLine($"Data received in the dashboard manager {data}");
+
+            JToken value;
+
+            bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
+
+            if (!correctCommand) return;
+           
+
         }
 
         private void HandleIncoming(JObject data)
@@ -27,7 +35,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
             // Command to request all the logged in clients, see dataprotocol
             object o = new
             {
-                command = "getactiveclients",
+                command = "getactivepatients",
             };
 
             SendToManagers(JObject.FromObject(o));
