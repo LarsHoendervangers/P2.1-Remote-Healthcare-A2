@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteHealthcare Server", "
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RemoteHealthcare-Shared", "RemoteHealthcare-Shared\RemoteHealthcare-Shared.shproj", "{7E1BA417-E958-49CA-8C3B-4204368929C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteHealthcare Dokter", "RemoteHealthcare Dokter\RemoteHealthcare Dokter.csproj", "{F2D93F91-F508-43AE-8E83-220D5B39D10E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteHealthcare Dokter", "RemoteHealthcare Dokter\RemoteHealthcare Dokter.csproj", "{F2D93F91-F508-43AE-8E83-220D5B39D10E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
