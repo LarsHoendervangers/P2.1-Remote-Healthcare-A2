@@ -97,7 +97,7 @@ namespace RemoteHealthcare_Server
         /// <param name="host">Host object that will be added.</param>
         public void OnConnect(Host host)
         {
-            PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} connected. ");
+            PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} connected.");
             this.users.activeHosts.Add(host);
         }
 

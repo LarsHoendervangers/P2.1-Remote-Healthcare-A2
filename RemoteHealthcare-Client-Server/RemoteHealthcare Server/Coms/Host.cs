@@ -54,12 +54,19 @@ namespace RemoteHealthcare_Server
             while (!this.stop)
             {
                 //Getting json object
-                string data = sender.ReadMessage();
-                JObject json = (JObject)JsonConvert.DeserializeObject(data);
+                try
+                {
+                    string data = sender.ReadMessage();
+                    JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
-                //Reading json object
-                this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                    //Reading json object
+                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                } catch (Exception)
+                {
+                    break;
+                }
             }
+            Server.PrintToGUI($"{this.tcpclient.Client.RemoteEndPoint} disconnected.");
             Debug.WriteLine($"Stopped reading");
         }
 
