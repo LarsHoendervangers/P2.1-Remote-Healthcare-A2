@@ -13,6 +13,14 @@ namespace RemoteHealthcare_Shared.DataStructs
         public bool InSession { get; set; }
         public DateTime DateOfBirth { get; set; }
 
+        public SharedPatient(string firstName, string lastName, string iD, bool inSession, DateTime dateOfBirth)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            ID = iD;
+            InSession = inSession;
+            DateOfBirth = dateOfBirth;
+        }
     }
 }
     

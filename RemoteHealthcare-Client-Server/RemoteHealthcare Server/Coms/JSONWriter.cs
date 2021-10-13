@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,7 +162,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         /// <param name="patients"></param>
         /// <param name="sender"></param>
-        public static void SendDetails(List<Patient> patients, ISender sender)
+        public static void SendDetails(List<SharedPatient> patients, ISender sender)
         {
             object o = new
             {

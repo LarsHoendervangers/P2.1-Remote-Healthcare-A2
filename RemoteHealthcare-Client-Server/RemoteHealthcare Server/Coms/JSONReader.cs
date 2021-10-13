@@ -2,6 +2,7 @@
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -322,11 +323,21 @@ namespace RemoteHealthcare_Server
                 }
 
                 //Getting detailed data
-                List<Patient> patients = new List<Patient>();
+                List<SharedPatient> patients = new List<SharedPatient>();
                 foreach (string id in patientIdentiefiers)
                 {
                     if (management.FindPatient(id) != null)
-                    patients.Add(management.FindPatient(id));
+                    {
+                        Patient serverPatient = management.FindPatient(id);
+                        SharedPatient sharedPatient = 
+                            new SharedPatient(serverPatient.FirstName,
+                            serverPatient.LastName, serverPatient.PatientID,
+                            management.FindSessoin(serverPatient),  
+                            serverPatient.DateOfBirth);
+
+                        patients.Add(sharedPatient);
+
+                    }
                 }
 
                 //Sending patients over..
