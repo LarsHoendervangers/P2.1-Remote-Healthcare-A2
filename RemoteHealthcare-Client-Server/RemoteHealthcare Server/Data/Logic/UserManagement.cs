@@ -70,6 +70,8 @@ namespace RemoteHealthcare_Server.Data
             users.Add(new Patient(" ", " ", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
             users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", 
                 "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
+            users.Add(new Doctor("Twan", "wachtwoord", new DateTime(2002, 5, 8), "Twan", "van Noorloos",
+                "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
         }
         #endregion
 
@@ -119,14 +121,24 @@ namespace RemoteHealthcare_Server.Data
             this.sessionManager.SessionEnd(user);
         }
 
-        internal void SessionUpdateBike(int v1, int v2, int v3, int v4, int v5, DateTime dateTime, IUser user)
+        internal Session SessionUpdateBike(int v1, int v2, int v3, int v4, int v5, DateTime dateTime, IUser user)
         {
-            this.sessionManager.SessionUpdateBike(v1, v2, v3, v4, v5, dateTime, user);
+           return this.sessionManager.SessionUpdateBike(v1, v2, v3, v4, v5, dateTime, user);
         }
 
-        internal void SessionUpdateHRM(DateTime dateTime, int v, IUser user)
+        internal Session SessionUpdateHRM(DateTime dateTime, int v, IUser user)
         {
-            this.sessionManager.SessionUpdateHRM(dateTime, v, user);
+           return this.sessionManager.SessionUpdateHRM(dateTime, v, user);
+        }
+
+        internal Host FindHost(Doctor d)
+        {
+            return this.findingSubmanager.FindHost(d);
+        }
+
+        internal bool FindSessoin(Patient p)
+        {
+            return this.findingSubmanager.GetSession(p);
         }
 
         #endregion

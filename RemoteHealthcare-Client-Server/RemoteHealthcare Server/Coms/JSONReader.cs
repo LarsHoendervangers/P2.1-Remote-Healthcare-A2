@@ -1,8 +1,8 @@
-﻿using CommClass;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,12 +17,12 @@ namespace RemoteHealthcare_Server
 
     public class JSONReader
     {
-
+        //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
       
 
         /// <summary>
-        /// 
+        /// Getting jsonobject..
         /// </summary>
         /// <param name="jObject"></param>
         /// <param name="sender"></param>
@@ -119,17 +119,35 @@ namespace RemoteHealthcare_Server
                 //All
                 JToken time = Jobject.SelectToken("data.time");
 
+
                 //Checks
+                Session session = null;
                 if (rpm != null)
                 {
-                    usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
+                   session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
                         (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                         int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
                 }
                 else if (bpm != null)
                 {
-                    usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+                   session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
                 }
+
+                //Sending it to the subs
+                if (session != null)
+                {
+                    Patient p = user as Patient;
+                    List<Doctor> subs = session.Subscribers;
+                    foreach(Doctor d in subs)
+                    {
+                        Host h = usermanagement.FindHost(d);
+                        if (h != null)
+                        {
+                            JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
+                        }
+                    }
+                }
+                
             }
         }
 
@@ -190,7 +208,7 @@ namespace RemoteHealthcare_Server
         /// <param name="sender"></param>
         /// <param name="user"></param>
         /// <param name="managemet"></param>
-        [AccesManager("getallclients", UserTypes.Doctor)]
+        [AccesManager("getallpatients", UserTypes.Doctor)]
         private void GetAllClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
@@ -204,15 +222,18 @@ namespace RemoteHealthcare_Server
         /// <param name="sender">for sending response</param>
         /// <param name="user">as of the type that requested</param>
         /// <param name="managemet">that controls everthing related to users</param>
-        [AccesManager("getactiveclients", UserTypes.Doctor)]
+        [AccesManager("getactivepatients", UserTypes.Doctor)]
         private void GetActiveClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
 
+
+
+
         /// <summary>
-        /// 
+        /// Subscribes to a patient..
         /// </summary>
         /// <param name="jObject"></param>
         /// <param name="sender"></param>
@@ -244,7 +265,13 @@ namespace RemoteHealthcare_Server
             }
         }
             
-
+        /// <summary>
+        /// Startin a new session..
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
         [AccesManager("newsession", UserTypes.Doctor)]
         private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
@@ -274,6 +301,72 @@ namespace RemoteHealthcare_Server
                 }
             }
         }
+
+        /// <summary>
+        /// Getting detailed patient data...
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
+        [AccesManager("getdetailpatient", UserTypes.Doctor)]
+        public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+
+        
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            if (patientIDs != null)
+            {
+                //Getting patient IDs..
+                List<string> patientIdentiefiers = new List<string>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    patientIdentiefiers.Add(patientID.ToString());
+                }
+
+                //Getting detailed data
+                List<SharedPatient> patients = new List<SharedPatient>();
+                foreach (string id in patientIdentiefiers)
+                {
+                    if (management.FindPatient(id) != null)
+                    {
+                        Patient serverPatient = management.FindPatient(id);
+                        SharedPatient sharedPatient = 
+                            new SharedPatient(serverPatient.FirstName,
+                            serverPatient.LastName, serverPatient.PatientID,
+                            management.FindSessoin(serverPatient),  
+                            serverPatient.DateOfBirth);
+
+                        patients.Add(sharedPatient);
+
+                    }
+                }
+
+                //Sending patients over..
+                JSONWriter.SendDetails(patients, sender);
+            }
+        }
+
+        //Sends back all the session of a patient...
+        [AccesManager("getsessions", UserTypes.Doctor)]
+        public void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+            JToken patientID = jObject.SelectToken("data");
+            if (patientID != null)
+            {
+                string id = patientID.ToString();
+                Patient p = management.FindPatient(id);
+
+                if (p != null)
+                {
+                    List<Session> sessoins = FileProcessing.LoadSessions(p);
+
+                    JSONWriter.HistoryWrite(sender, sessoins, p.PatientID);
+                }
+            }
+        }
+
+
     }
 
 

@@ -2,7 +2,24 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:RemoteHealthcare_Dokter"
-             StartupUri="MainWindow.xaml">
+             xmlns:viewmodels="clr-namespace:RemoteHealthcare_Dokter.ViewModels"
+             xmlns:views="clr-namespace:RemoteHealthcare_Dokter.Views"
+             StartupUri="LoginView.xaml">
     <Application.Resources>
+        <DataTemplate x:Name="DashBoardViewTemplate" DataType="{x:Type viewmodels:DashboardViewModel}">
+            <views:DashboardView/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="PatientListViewTemplate" DataType="{x:Type viewmodels:PatientListViewModel}">
+            <views:PatientView/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="PatientHistoryViewTemplate" DataType="{x:Type viewmodels:PatientHistoryViewModel}">
+            <views:PatientHistoryView/>
+        </DataTemplate>
+
+        <DataTemplate x:Name="SessionDetailViewTemplate" DataType="{x:Type viewmodels:SessionDetailViewModel}">
+            <views:SessionDetailView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>
