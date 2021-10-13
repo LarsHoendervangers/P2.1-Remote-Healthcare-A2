@@ -309,9 +309,7 @@ namespace RemoteHealthcare_Server
         public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
 
-            //TODO Sending back bool if in session
-
-            //.....................
+        
             JToken patientIDs = jObject.SelectToken("data.patid");
             if (patientIDs != null)
             {
@@ -362,10 +360,6 @@ namespace RemoteHealthcare_Server
                     JSONWriter.HistoryWrite(sender, sessoins, p.PatientID);
                 }
             }
-
-
-
-
         }
 
 
