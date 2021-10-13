@@ -14,6 +14,13 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class DashboardViewModel
     {
+        private Window window;
+
+        public DashboardViewModel(Window window)
+        {
+            this.window = window;
+        }
+
         private ICommand _AddSessionCommand;
         public ICommand AddSessionCommand
         {
@@ -63,6 +70,27 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             get { return _SessionsList; }
             set { _SessionsList = value; }
+        }
+
+        private ICommand _SwitchToPatientView;
+        public ICommand SwitchToPatientView
+        {
+            get
+            {
+                if (_SwitchToPatientView == null)
+                {
+                    _SwitchToPatientView = new GeneralCommand(
+                        param => SwitchView()
+                        );
+                }
+                return _SwitchToPatientView;
+            }
+
+        }
+
+        private void SwitchView()
+        {
+            this.window.Content = new PatientListViewModel();
         }
     }
 }

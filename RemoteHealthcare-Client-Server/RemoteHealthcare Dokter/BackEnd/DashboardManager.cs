@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.ViewModels;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class DashboardManager : DataManager
     {
+        public event EventHandler<List<SharedPatient>> OnPatientUpdated;
 
         public override void ReceivedData(JObject data)
         {
