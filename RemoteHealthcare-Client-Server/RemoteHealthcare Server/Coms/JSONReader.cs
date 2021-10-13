@@ -30,6 +30,7 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
+
             //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
@@ -41,11 +42,15 @@ namespace RemoteHealthcare_Server
                 MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)
                 {
+
+
                     //This if could probably be short but this is much clearer
                     if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
                          && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() ||
                              user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
                     {
+                        
+
                         method.Invoke(this, new object[] { jObject, sender, user, managemet });
                     }
                 }
@@ -294,7 +299,7 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="management"></param>
         [AccesManager("getdetailpatient", UserTypes.Doctor)]
-        public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
+        private void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
 
         
@@ -333,7 +338,7 @@ namespace RemoteHealthcare_Server
 
         //Sends back all the session of a patient...
         [AccesManager("getsessions", UserTypes.Doctor)]
-        public void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
+        private void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
             JToken patientID = jObject.SelectToken("data");
             if (patientID != null)
