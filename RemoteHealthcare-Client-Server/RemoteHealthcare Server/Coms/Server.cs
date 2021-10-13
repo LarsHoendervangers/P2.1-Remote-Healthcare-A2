@@ -112,7 +112,7 @@ namespace RemoteHealthcare_Server
         {
             if (host != null)
             {
-                PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
+                PrintToGUI($"{host.tcpclient.Client?.RemoteEndPoint.ToString() ?? "Unknown user"} disconnected.");
                 this.userManagement.activeHosts.Remove(host);
                 host.tcpclient.Close();
             }
