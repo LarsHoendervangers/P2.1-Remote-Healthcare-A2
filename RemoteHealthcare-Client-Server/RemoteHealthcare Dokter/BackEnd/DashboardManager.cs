@@ -17,6 +17,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public DashboardManager()
         {
+            // Oncreation the server wil ask the server for all active clients
             RequestActiveClients();
         }
 
@@ -67,19 +68,19 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.OnPatientUpdated.Invoke(this, patients);
         }
 
-        public void SendAbort(int id)
-        {
-
-        }
-
-        public void SendResistance(int id, int res)
-        {
-
-        }
-
         public void BroadcastMessage(string message)
         {
+            object o = new
+            {
+                command = "message",
+                data = new
+                {
+                    message = message,
+                },
+                flag = "2"
+            };
 
+            this.SendToManagers(JObject.FromObject(o));
         }
 
         public void StartSession(int id)
