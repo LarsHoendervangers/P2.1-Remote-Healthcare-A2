@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
              mc:Ignorable="d" Height="1080" Width="1919">
     <Grid Margin="0,0,2,0" Background="White" Width="1920">
-        <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients}">
+        <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients, UpdateSourceTrigger=PropertyChanged}" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

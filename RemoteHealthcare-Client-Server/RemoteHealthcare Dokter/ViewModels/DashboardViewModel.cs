@@ -5,6 +5,7 @@ using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.manager = new DashboardManager();
             this.manager.OnPatientUpdated += (s, d) =>
             {
-                List<SharedPatient> ActiveSessionPatients = new List<SharedPatient>();
-                List<SharedPatient> AllPatients = new List<SharedPatient>();
+                ObservableCollection<SharedPatient> ActiveSessionPatients = new ObservableCollection<SharedPatient>();
+                ObservableCollection<SharedPatient> AllPatients = new ObservableCollection<SharedPatient>();
 
                 foreach (SharedPatient p in d)
                 {
@@ -90,8 +91,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
         }
 
 
-        private List<SharedPatient> _Patients;
-        public List<SharedPatient> AllPatients
+        private ObservableCollection<SharedPatient> _Patients;
+        public ObservableCollection<SharedPatient> AllPatients
         {
             get { return _Patients; }
             set
@@ -101,8 +102,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private List<SharedPatient> _InSessionPatients;
-        public List<SharedPatient> InSessionPatients
+        private ObservableCollection<SharedPatient> _InSessionPatients;
+        public ObservableCollection<SharedPatient> InSessionPatients
         {
             get { return _InSessionPatients; }
             set
