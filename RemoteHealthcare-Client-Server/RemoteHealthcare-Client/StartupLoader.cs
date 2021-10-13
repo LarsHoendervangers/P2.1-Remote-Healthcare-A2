@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
 {
@@ -29,7 +30,7 @@ namespace RemoteHealthcare_Client
             this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
         }
 
-        public void Start(string device, string vrServerID)
+        public void Start(string device, string vrServerID, GeneralScene generalScene)
         {
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
@@ -42,7 +43,11 @@ namespace RemoteHealthcare_Client
             this.deviceDataManager.NetworkManagers.Add(serverDataManager);
             this.deviceDataManager.NetworkManagers.Add(vrDataManager);
 
+            (this.vrDataManager as VRDataManager).Scene = generalScene;
+
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
+
+            
         }
 
         public void GetAvailableVRConnections()

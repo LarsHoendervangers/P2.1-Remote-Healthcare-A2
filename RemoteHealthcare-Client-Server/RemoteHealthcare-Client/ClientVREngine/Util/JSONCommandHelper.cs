@@ -429,7 +429,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
         /// <param name="routeId">The uuid of the route node</param>
         /// <param name="objectId">The uuid of the object node</param>
         /// <returns>The JSON object to make a node follow a route</returns>
-        public static object WrapFollow(string routeId, string objectId)
+        public static object WrapFollow(string routeId, string objectId, double[] rotateOffset)
         {
             return new
             {
@@ -440,7 +440,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                     node = objectId,
                     speed = 0.0,
                     rotate = "XZ",
-                    rotateOffset = new int[] { 80, 0, 0 },
+                    rotateOffset,
                     followHeight = true
                 }
             };

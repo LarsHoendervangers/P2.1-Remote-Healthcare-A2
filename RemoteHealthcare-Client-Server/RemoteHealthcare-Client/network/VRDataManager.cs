@@ -13,24 +13,27 @@ namespace RemoteHealthcare_Client
 {
     public class VRDataManager : DataManager
     {
-        private readonly SimpleScene simpleScene;
+        public GeneralScene Scene { get; set; }
         private bool isConnected;
 
         public TunnelHandler VRTunnelHandler { get; set; }
-
+        
         public VRDataManager()
         {
             VRTunnelHandler = new TunnelHandler();
-            this.simpleScene = new SimpleScene(this.VRTunnelHandler);
+            //this.Scene = new SimpleScene(this.VRTunnelHandler);
         }
+
 
         public void Start(string vrServerID)
         {
+            Scene.Handler = VRTunnelHandler;
+
             this.isConnected = this.VRTunnelHandler.SetUpConnection(vrServerID);
             
-            this.simpleScene.InitScene();
+            this.Scene.InitScene();
 
-            this.simpleScene.LoadScene();
+            this.Scene.LoadScene();
         }
 
         public override void ReceivedData(JObject data)
@@ -59,11 +62,11 @@ namespace RemoteHealthcare_Client
 
                 case "message":
                     
-                    simpleScene.WriteTextToPanel(simpleScene.HandelTextMessages(8,25,data));
+                    Scene.WriteTextToPanel(Scene.HandelTextMessages(8,25,data));
                     break;
                 case "ergodata":
                     Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
-                    simpleScene.WriteDataToPanel(data);
+                    Scene.WriteDataToPanel(data);
                     break;
                 default:
                     // TODO HANDLE NOT SUPPORTER

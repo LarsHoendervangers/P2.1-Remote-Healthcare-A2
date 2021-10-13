@@ -202,14 +202,20 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         private void OnMessageReceived(object sender, string input)
         {
             //Reading input
-            if(!input.StartsWith("\0\0")){
+            if (!input.EndsWith("\0\0\0") && !input.StartsWith("\0\0"))
+            {
                 message = JsonConvert.DeserializeObject(input) as JObject;
             }
+
 
             //Check if serial exist if so then...
             JToken token = message.SelectToken("data.data.serial");
             if (token is null)
+            {
+                Debug.WriteLine("TunnelHandler: unable to seledct serial token");
                 return;
+            }
+                
 
             //Sending to the action delegate if found and deleting it for memory usage..
             if (SerialMap.ContainsKey(token.ToString()))
