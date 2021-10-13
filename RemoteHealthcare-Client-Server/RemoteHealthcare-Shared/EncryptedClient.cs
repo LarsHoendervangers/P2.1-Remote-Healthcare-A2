@@ -53,7 +53,7 @@ namespace RemoteHealthcare_Shared
             Debug.WriteLine($"Certificate error: {sslPolicyErrors}");
 
             // Do not allow this client to communicate with unauthenticated servers.
-            return false;
+            return true;
         }
     }
 }

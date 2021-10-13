@@ -82,6 +82,7 @@ namespace RemoteHealthcare_Server
         {
             this.stop = true;
             this.usermanagement.SessionEnd(user);
+            UserManagement.users.Remove(host.user);
         }
 
         /// <summary>

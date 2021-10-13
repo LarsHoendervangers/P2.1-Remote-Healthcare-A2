@@ -26,7 +26,8 @@ namespace RemoteHealthcare_Client
             GetAvailableBLEDevices();
 
             // starting up the connection to the server
-            this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
+            //this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
+            this.serverDataManager = new ServerDataManager("145.49.26.175", 6969);
         }
 
         public void Start(string device, string vrServerID)
