@@ -16,7 +16,7 @@ namespace RemoteHealthcare_Server
 
     public class JSONReader
     {
-
+        //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
       
 
@@ -228,7 +228,7 @@ namespace RemoteHealthcare_Server
 
 
         /// <summary>
-        /// 
+        /// Subscribes to a patient..
         /// </summary>
         /// <param name="jObject"></param>
         /// <param name="sender"></param>
@@ -328,8 +328,27 @@ namespace RemoteHealthcare_Server
                 //Sending patients over..
                 JSONWriter.SendDetails(patients, sender);
             }
+        }
+
+        //Sends back all the session of a patient...
+        [AccesManager("gettingdetailpatients", UserTypes.Doctor)]
+        public void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+            JToken patientID = jObject.SelectToken("data");
+            if (patientID != null)
+            {
+                string id = patientID.ToString();
+
+
+
+            }
+
+
+
 
         }
+
+
     }
 
 
