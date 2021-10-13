@@ -2,6 +2,7 @@
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
 using RemoteHealthcare_Server;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,31 @@ namespace RemoteHealthcare_Dokter.ViewModels
     class DashboardViewModel
     {
         private Window window;
+        private DashboardManager manager;
 
         public DashboardViewModel(Window window)
         {
             this.window = window;
+
+            this.manager = new DashboardManager();
+            this.manager.OnPatientUpdated += (s, d) =>
+            {
+                List<SharedPatient> ActiveSessionPatients = new List<SharedPatient>();
+                List<SharedPatient> AllPatients = new List<SharedPatient>();
+
+                foreach (SharedPatient p in d)
+                {
+                    if (p.InSession)
+                    {
+                        ActiveSessionPatients.Add(p);
+                    }
+
+                    AllPatients.Add(p);
+                }
+
+                this.AllPatients = AllPatients;
+                this.InSessionPatients = ActiveSessionPatients;
+            };
         }
 
         private ICommand _AddSessionCommand;
@@ -65,11 +87,24 @@ namespace RemoteHealthcare_Dokter.ViewModels
         }
 
 
-        private List<Session> _SessionsList;
-        public List<Session> SessionsList
+        private List<SharedPatient> _Patients;
+        public List<SharedPatient> AllPatients
         {
-            get { return _SessionsList; }
-            set { _SessionsList = value; }
+            get { return _Patients; }
+            set
+            {
+                _Patients = value;
+            }
+        }
+
+        private List<SharedPatient> _InSessionPatients;
+        public List<SharedPatient> InSessionPatients
+        {
+            get { return _InSessionPatients; }
+            set
+            {
+                _InSessionPatients = value;
+            }
         }
 
         private ICommand _SwitchToPatientView;
@@ -90,7 +125,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void SwitchView()
         {
-            this.window.Content = new PatientListViewModel();
+            this.window.Content = new PatientListViewModel(this.window);
         }
     }
 }
