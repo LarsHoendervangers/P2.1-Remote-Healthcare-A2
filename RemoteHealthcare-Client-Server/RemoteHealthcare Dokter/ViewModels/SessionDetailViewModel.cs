@@ -2,12 +2,17 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using LiveCharts.Geared;
+using RemoteHealthcare_Shared.DataStructs;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
     class SessionDetailViewModel
     {
+        private Window window;
+        private SharedPatient Patient;
+
         private double _trend;
         public bool IsReading { get; set; }
         public GearedValues<double> Values { get; set; }
@@ -15,8 +20,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public double CurrentLecture { get; set; }
         public bool IsHot { get; set; }
 
-        public SessionDetailViewModel()
+        public SessionDetailViewModel(Window window, SharedPatient patient)
         {
+            this.window = window;
+            this.Patient = patient;
+
             Values = new GearedValues<double>().WithQuality(Quality.High);
         }
 
@@ -66,5 +74,20 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
+        private SharedPatient _SelectedSessionPatient;
+        public SharedPatient SelectedSessionPatient
+        {
+            get { return _SelectedSessionPatient; }
+            set
+            {
+                _SelectedSessionPatient = value;
+                HandleSessionPatientClicked();
+            }
+        }
+
+        private void HandleSessionPatientClicked()
+        {
+            this.window.Content = new SessionDetailViewModel(this.window, SelectedSessionPatient);
+        }
     }
 }
