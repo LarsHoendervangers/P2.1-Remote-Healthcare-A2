@@ -48,6 +48,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {               
                 var win = new Window();
                 win.Content = new DashboardViewModel();
+                win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                win.WindowState = WindowState.Maximized;
                 win.Show();
 
                 this.window.Close();
