@@ -77,7 +77,7 @@ namespace RemoteHealthcare_Server.Data.Logic
             {
 
 
-                if (h.GetUser().getUserType() == UserTypes.Patient)
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Patient)
                 {
                     Patient p = (Patient)h.GetUser();
                     activePatients.Add(p.PatientID);
