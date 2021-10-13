@@ -4,6 +4,7 @@ using RemoteHealthcare_Dokter.ViewModels;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,14 +23,16 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
             bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
 
+            // Return if the parsing of command was not succesfull
             if (!correctCommand) return;
            
+            switch (value.ToString())
+            {
+                case "getactivepatients":
+                    ParseIncomingPatients(data);
+                    break;
 
-        }
-
-        private void HandleIncoming(JObject data)
-        {
-
+            }
         }
 
         public void RequestActiveClients()
@@ -41,6 +44,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             };
 
             SendToManagers(JObject.FromObject(o));
+        }
+
+        private void ParseIncomingPatients(JObject data)
+        {
+            Trace.WriteLine($"DATA: {data}");
         }
 
         public void SendAbort(int id)
