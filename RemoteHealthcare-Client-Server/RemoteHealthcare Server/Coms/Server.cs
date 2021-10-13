@@ -62,6 +62,8 @@ namespace RemoteHealthcare_Server
                 TcpClient tcpClient = this.tcpListener.EndAcceptTcpClient(ar);
                 Host host = new Host(tcpClient, users);
 
+                host.Disconnecting += OnDisconnect;
+
                 OnConnect(host);
                 this.tcpListener.BeginAcceptTcpClient(new AsyncCallback(HandleClient), null);
             } catch
@@ -80,6 +82,7 @@ namespace RemoteHealthcare_Server
                 if (this.users.activeHosts.Count > i)
                 {
                     Host host = this.users.activeHosts[i];
+                    
                     OnDisconnect(host);
                 } else
                 {
@@ -111,8 +114,9 @@ namespace RemoteHealthcare_Server
             if (host != null)
             {
                 PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
-                host.Stop();
                 this.users.activeHosts.Remove(host);
+                host.tcpclient.Close();
+                Debug.WriteLine($"Hosts: {this.users.activeHosts.Count}");
             }
         }
 

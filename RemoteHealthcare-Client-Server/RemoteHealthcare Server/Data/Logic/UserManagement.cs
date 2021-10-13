@@ -53,7 +53,7 @@ namespace RemoteHealthcare_Server.Data
             FileProcessing.SaveUsers(users);
             foreach (Host host in this.activeHosts)
             {
-                host.Stop();
+                host.Stop(host);
             }
         }
 

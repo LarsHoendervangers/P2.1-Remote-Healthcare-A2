@@ -15,6 +15,8 @@ using System.Threading;
 
 namespace RemoteHealthcare_Server
 {
+    public delegate void Notify(Host host);
+
     public class Host
     {
         //Needed for assigment
@@ -27,6 +29,7 @@ namespace RemoteHealthcare_Server
         IUser user;
 
         private bool stop = false;
+        public event Notify Disconnecting;
 
         /// <summary>
         /// Constructor for the session
@@ -41,6 +44,8 @@ namespace RemoteHealthcare_Server
             this.tcpclient = client;
             this.reader = new JSONReader();
             this.reader.CallBack += ChangeUser;
+
+            this.Disconnecting += Stop;
 
             //Starting reading thread
             new Thread(ReadData).Start();
@@ -57,6 +62,7 @@ namespace RemoteHealthcare_Server
                 try
                 {
                     string data = sender.ReadMessage();
+                    if (data.Length == 0) break;
                     JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
                     //Reading json object
@@ -66,21 +72,18 @@ namespace RemoteHealthcare_Server
                     break;
                 }
             }
-            Server.PrintToGUI($"{this.tcpclient.Client.RemoteEndPoint} disconnected.");
-            Debug.WriteLine($"Stopped reading");
+            this.Disconnecting?.Invoke(this);
         }
 
         /// <summary>
         /// Shutting down for user
         /// </summary>
-        public void Stop()
+        public void Stop(Host host)
         {
             this.stop = true;
-            Debug.WriteLine($"Stop is {this.stop}");
             this.usermanagement.SessionEnd(user);
-            this.tcpclient.Close();
+            Debug.WriteLine($"{this.usermanagement.GetActivePatients().Count} users");
         }
-
 
         /// <summary>
         /// Callback for IUSer object

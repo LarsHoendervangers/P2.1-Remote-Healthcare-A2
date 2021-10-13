@@ -1,12 +1,7 @@
-﻿using CommClass;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Security;
-using System.Net.Sockets;
-using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace RemoteHealthcare_Shared
@@ -31,13 +26,12 @@ namespace RemoteHealthcare_Shared
                 {
                     int read = sslStream.Read(buffer, totalRead, buffer.Length - totalRead);
                     totalRead += read;
-                    //Console.WriteLine("ReadMessage: " + read);
                 }
+                //Can also return an empty string.
                 return Encoding.ASCII.GetString(buffer);
-            } else
-            {
-                return "";
             }
+            //Empty string is caught in the Host class which will terminate the connection.
+            return "";
         }
 
         public void SendMessage(string message)
@@ -49,7 +43,6 @@ namespace RemoteHealthcare_Shared
             byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
-            //Console.WriteLine(BitConverter.ToString(final));
             sslStream.Write(final, 0, data.Length + 4);
             sslStream.Flush();
         }
