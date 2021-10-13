@@ -115,14 +115,19 @@ namespace RemoteHealthcare_Server.Data
             this.sessionManager.SessionEnd(user);
         }
 
-        internal void SessionUpdateBike(int v1, int v2, int v3, int v4, int v5, DateTime dateTime, IUser user)
+        internal Session SessionUpdateBike(int v1, int v2, int v3, int v4, int v5, DateTime dateTime, IUser user)
         {
-            this.sessionManager.SessionUpdateBike(v1, v2, v3, v4, v5, dateTime, user);
+           return this.sessionManager.SessionUpdateBike(v1, v2, v3, v4, v5, dateTime, user);
         }
 
-        internal void SessionUpdateHRM(DateTime dateTime, int v, IUser user)
+        internal Session SessionUpdateHRM(DateTime dateTime, int v, IUser user)
         {
-            this.sessionManager.SessionUpdateHRM(dateTime, v, user);
+           return this.sessionManager.SessionUpdateHRM(dateTime, v, user);
+        }
+
+        internal Host FindHost(Doctor d)
+        {
+            return this.findingSubmanager.FindHost(d);
         }
 
         #endregion

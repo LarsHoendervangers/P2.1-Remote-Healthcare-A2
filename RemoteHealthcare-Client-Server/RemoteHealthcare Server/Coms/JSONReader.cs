@@ -114,17 +114,35 @@ namespace RemoteHealthcare_Server
                 //All
                 JToken time = Jobject.SelectToken("data.time");
 
+
                 //Checks
+                Session session = null;
                 if (rpm != null)
                 {
-                    usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
+                   session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
                         (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                         int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
                 }
                 else if (bpm != null)
                 {
-                    usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+                   session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
                 }
+
+                //Sending it to the subs
+                if (session != null)
+                {
+                    Patient p = user as Patient;
+                    List<Doctor> subs = session.Subscribers;
+                    foreach(Doctor d in subs)
+                    {
+                        Host h = usermanagement.FindHost(d);
+                        if (h != null)
+                        {
+                            JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
+                        }
+                    }
+                }
+                
             }
         }
 

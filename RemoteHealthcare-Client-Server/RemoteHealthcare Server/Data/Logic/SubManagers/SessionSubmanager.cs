@@ -64,7 +64,6 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                     {
                         Server.PrintToGUI("Added new measurement");
                         s.HRMeasurements.Add(new HRMeasurement(time, bpm));
-
                         return s;
                     }
                 }
