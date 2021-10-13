@@ -155,5 +155,26 @@ namespace RemoteHealthcare_Server
             };
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
+
+        /// <summary>
+        /// Sends the detailed patiens over...
+        /// </summary>
+        /// <param name="patients"></param>
+        /// <param name="sender"></param>
+        public static void SendDetails(List<Patient> patients, ISender sender)
+        {
+            object o = new
+            {
+                command = "detaildata",
+                data = new
+                {
+                    data = patients
+                }
+            };
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+
+
     }
 }

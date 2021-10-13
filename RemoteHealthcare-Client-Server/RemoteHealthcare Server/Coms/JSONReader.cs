@@ -21,7 +21,7 @@ namespace RemoteHealthcare_Server
       
 
         /// <summary>
-        /// 
+        /// Getting jsonobject..
         /// </summary>
         /// <param name="jObject"></param>
         /// <param name="sender"></param>
@@ -260,7 +260,13 @@ namespace RemoteHealthcare_Server
             }
         }
             
-
+        /// <summary>
+        /// Startin a new session..
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
         [AccesManager("newsession", UserTypes.Doctor)]
         private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
@@ -289,6 +295,40 @@ namespace RemoteHealthcare_Server
                      else management.SessionEnd(user);
                 }
             }
+        }
+
+        /// <summary>
+        /// Getting detailed patient data...
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
+        [AccesManager("gettingdetailpatients", UserTypes.Doctor)]
+        public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+            JToken patientIDs = jObject.SelectToken("data.patid");
+            if (patientIDs != null)
+            {
+                //Getting patient IDs..
+                List<string> patientIdentiefiers = new List<string>();
+                foreach (JObject patientID in (JArray)patientIDs)
+                {
+                    patientIdentiefiers.Add(patientID.ToString());
+                }
+
+                //Getting detailed data
+                List<Patient> patients = new List<Patient>();
+                foreach (string id in patientIdentiefiers)
+                {
+                    if (management.FindPatient(id) != null)
+                    patients.Add(management.FindPatient(id));
+                }
+
+                //Sending patients over..
+                JSONWriter.SendDetails(patients, sender);
+            }
+
         }
     }
 
