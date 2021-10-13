@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Client.TCP;
 using System;
@@ -18,6 +19,8 @@ namespace RemoteHealthcare_Dokter.BackEnd
         {
             this.tcpClientHandler = new TCPClientHandler("127.0.0.1", 6969);
 
+            this.tcpClientHandler.SetRunning(true);
+
             this.tcpClientHandler.OnMessageReceived += OnServerMessageReceived;
         }
 
@@ -30,12 +33,17 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void HandleServerMessage(JObject data)
         {
-
+            Trace.WriteLine(data);
+            this.SendToManagers(data);
         }
 
         private void OnServerMessageReceived(object sender, string message)
         {
-            
+            JObject jObject = JsonConvert.DeserializeObject(message) as JObject;
+
+            if (jObject == null) return;
+
+            HandleServerMessage(jObject);
         }
     }
 }

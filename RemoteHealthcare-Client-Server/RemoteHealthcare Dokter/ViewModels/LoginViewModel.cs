@@ -20,6 +20,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public LoginViewModel()
         {
             this.manager = new LoginManager();
+
+            this.manager.OnLoginResponseReceived += (s, d) =>
+            {
+                if (!d)
+                {
+                    MessageBox.Show("Username or password invalid!");
+                    return;
+                } 
+
+                StartDokterGUI();
+            };
+        }
+
+        private void StartDokterGUI()
+        {
+            throw new NotImplementedException();
         }
 
         private string _UserName;
@@ -65,7 +81,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void SendMessage(string UserName, string Password)
         {
             string message = "User " + UserName + " Pass " + Password;
-            MessageBox.Show(message);
 
             this.manager.SendLogin(UserName, Password);
         }

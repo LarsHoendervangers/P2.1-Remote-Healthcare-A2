@@ -41,6 +41,7 @@ namespace RemoteHealthcare_Server.Data
                 users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
                 users.Add(new Patient(" ", " ", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
                 users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
+                users.Add(new Doctor("Twan", "wachtwoord", new DateTime(1969, 2, 2), "Twan", "van Noorloos", "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
             }
         }
 

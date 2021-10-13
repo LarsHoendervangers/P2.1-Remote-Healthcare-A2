@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Dokter.BackEnd;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class MainWindowViewModel
     {
-        
+        private ServerDataManager ServerManager;
+
+        public MainWindowViewModel()
+        {
+            this.ServerManager = new ServerDataManager();
+        }
     }
 }

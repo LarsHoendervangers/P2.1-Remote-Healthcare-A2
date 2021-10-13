@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
+using RemoteHealthcare_Dokter.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,14 +12,34 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class LoginManager : DataManager
     {
+        public event EventHandler<bool> OnLoginResponseReceived;
+
+        public LoginManager()
+        {
+
+        }
+
         public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            Trace.WriteLine($"received data from server: {data}");
+            HandleIncoming(data);
         }
 
         private void HandleIncoming(JObject data)
         {
+            JToken value;
 
+            bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
+
+            if (!correctCommand)
+            {
+                // todo, log error and handle correctly
+                return;
+            }
+
+            // Looking at the command and switching what behaviour is required
+            if (value.ToString() == "message")
+                HandleLoginResponse(data);
         }
 
         public void SendLogin(string username, string password)
@@ -39,7 +60,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void HandleLoginResponse(JObject data)
         {
-
+            this.OnLoginResponseReceived?.Invoke(this, data.GetValue("data").ToString().Contains("succesfull connect"));
         }
     }
 }
