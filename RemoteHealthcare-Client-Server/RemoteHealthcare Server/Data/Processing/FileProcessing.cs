@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Server
         public static List<IUser> LoadUsers()
         {
             List<IUser> users = new List<IUser>();
-            string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory() , "users.txt"));
+            string data = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "users.txt"));
       
 
             JArray array = JArray.Parse(data);
