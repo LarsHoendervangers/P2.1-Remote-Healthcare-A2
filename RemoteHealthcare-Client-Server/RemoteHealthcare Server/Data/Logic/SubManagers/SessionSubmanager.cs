@@ -143,7 +143,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (user != null && user.getUserType() == UserTypes.Patient)
                 {
                     foreach (Session s in UserManagement.activeSessions)
                     {

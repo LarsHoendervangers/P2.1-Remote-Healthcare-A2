@@ -82,7 +82,6 @@ namespace RemoteHealthcare_Server
         {
             this.stop = true;
             this.usermanagement.SessionEnd(user);
-            Debug.WriteLine($"{this.usermanagement.GetActivePatients().Count} users");
         }
 
         /// <summary>
