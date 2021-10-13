@@ -49,9 +49,10 @@ namespace RemoteHealthcare_Client
             this.loader.Init();
             
             // Setting the list with Scenes the user can choose from
-            List<string> scenes = new List<string>();
-            scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
-            this.mScenes = new ObservableCollection<string>(scenes);
+            List<GeneralScene> scenes = new List<GeneralScene>();
+            scenes.Add(new SimpleScene(new TunnelHandler()));
+            scenes.Add(new PodraceScene(new TunnelHandler()));
+            this.mScenes = new ObservableCollection<GeneralScene>(scenes);
         }
 
 
@@ -132,14 +133,25 @@ namespace RemoteHealthcare_Client
         /// <summary>
         /// Binded list attribute that contains the scenes
         /// </summary>
-        private ObservableCollection<string> mScenes;
-        public ObservableCollection<string> Scenes
+        private ObservableCollection<GeneralScene> mScenes;
+        public ObservableCollection<GeneralScene> Scenes
         {
             get { return mScenes; }
             set
             {
                 mScenes = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Scenes"));
+            }
+        }
+
+        private GeneralScene mSelectedScene = null;
+        public GeneralScene SelectedScene
+        {
+            get { return mSelectedScene; }
+            set
+            {
+                mSelectedScene = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedScene"));
             }
         }
 
@@ -216,7 +228,7 @@ namespace RemoteHealthcare_Client
         private void StartApplicaton()
         {
             Debug.WriteLine("Starting Application");
-            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
+            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress, this.SelectedScene);
         }
     }
 }

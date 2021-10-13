@@ -10,8 +10,6 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
 {
     class PodraceScene : GeneralScene
     {
-        private string uuidRoute;
-        private string uuidModel;
 
         public PodraceScene(TunnelHandler handler) : base(handler)
         {
@@ -20,7 +18,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         public override void InitScene()
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapReset());
-            CreateTerrain("data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg");
+            CreateTerrain("data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Albedo.jpg");
            
             Handler.SendToTunnel(JSONCommandHelper.Wrap3DObject("mountain", "data/NetworkEngine/models/podracemap1/podracemap1.obj",new Transform(1,new double[]{ 200, -2, 50 },new double[]{0,0,0})));
             CreateRoute(new PosVector[]
@@ -35,9 +33,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                     new PosVector(new int[] {-10, 0, -30}, new int[] {-5, 0, 5}),
                     new PosVector(new int[] {-25, 0, -5}, new int[] {-5, 0, 5})
                 });
-            CreateVechile("data/NetworkEngine/models/podracer/podracer.obj", new Transform(1, new double[] { 0, 15, 0 }, new double[] { 0, 0, 0 }));
+            CreateVechile("data/NetworkEngine/models/podracer/podracer.obj", new Transform(1, new double[] { 0, 15, 0 }, new double[] {0, 0, 0 }), new Transform(1, new double[] { 0, 0.5, 0 }, new double[] { 0, 0, 0 }));
+            Thread.Sleep(2000);
             CreatePanels(uuidSusan, uuidSusan, new Transform(1, new double[] { 0.25, -0.25, -0.5 }, new double[] { 0, 0, 0 }), new Transform(1, new double[] { 0.25, 0.1, -0.5 }, new double[] { 0, 0, 0 }));
-            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidBike));
+            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidBike, new double[] { 0, 165, 0 }));
         }
 
 

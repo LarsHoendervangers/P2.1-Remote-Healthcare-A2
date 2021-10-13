@@ -202,7 +202,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         /// <returns>Returns a string of the status of the step</returns>
         private string MoveModelOverRoad()
         {
-            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel));
+            Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidModel, new double[] { 80, 0, 0 }));
             return "The bike is now moving over the route.";
         }
 

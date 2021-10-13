@@ -23,7 +23,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
     /// </summary>
     public abstract class GeneralScene
     {
-        protected TunnelHandler Handler;
+        public TunnelHandler Handler { get; set; }
         protected string uuidRoute;
         protected string uuidCamera;
         protected string uuidBike;
@@ -32,7 +32,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         protected string uuidSusan;
         protected string uuidTerrain;
         private string text;
+        private Transform susanTransform;
         private List<string> messagetext = new List<string>();
+
+
 
         /// <summary>
         /// Constructor for GeneralScene
@@ -106,7 +109,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 if (o.GetValue("name").ToString() == "Camera")
                 {
                     uuidCamera = o.GetValue("uuid").ToString();
-                    Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(), uuidBike, new Transform(1, new double[] { 0, 0, 0 }, new double[] { 90, 0, 90 })));
+                    Handler.SendToTunnel(JSONCommandHelper.UpdateNodeCamera(o.GetValue("uuid").ToString(), uuidBike, susanTransform));
 
                 } else if (o.GetValue("name").ToString() == "Head")
                 {
@@ -265,8 +268,9 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
         }
 
-        public void CreateVechile(string modelPath , Transform transform)
+        public void CreateVechile(string modelPath , Transform transform, Transform susanTransform)
         {
+            this.susanTransform = susanTransform;
             Handler.SendToTunnel(
                 JSONCommandHelper.Wrap3DObject("bike", modelPath,
                     transform), (string message) => this.uuidBike = VRUTil.GetId(message));
@@ -286,6 +290,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Thread.Sleep(2000);
             WriteTextToPanel("");
         }
+
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
     }
+    
 
 }
