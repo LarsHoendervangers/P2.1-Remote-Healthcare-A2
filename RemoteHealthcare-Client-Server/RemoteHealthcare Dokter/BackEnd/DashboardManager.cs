@@ -11,18 +11,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class DashboardManager : DataManager
     {
-        private DashboardViewModel dashboard;
-
-        public DashboardManager(DashboardViewModel dashboard)
-        {
-            this.dashboard = dashboard;
-        }
-
-
 
         public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Data received in the dashboard manager {data}");
         }
 
         private void HandleIncoming(JObject data)
@@ -32,7 +24,13 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public void RequestActiveClients()
         {
+            // Command to request all the logged in clients, see dataprotocol
+            object o = new
+            {
+                command = "getactiveclients",
+            };
 
+            SendToManagers(JObject.FromObject(o));
         }
 
         public void SendAbort(int id)
