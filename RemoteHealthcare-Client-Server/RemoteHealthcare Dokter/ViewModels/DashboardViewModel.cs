@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class DashboardViewModel
+    class DashboardViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -29,21 +29,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.manager = new DashboardManager();
             this.manager.OnPatientUpdated += (s, d) =>
             {
-                ObservableCollection<SharedPatient> ActiveSessionPatients = new ObservableCollection<SharedPatient>();
-                ObservableCollection<SharedPatient> AllPatients = new ObservableCollection<SharedPatient>();
-
-                foreach (SharedPatient p in d)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (p.InSession)
-                    {
-                        ActiveSessionPatients.Add(p);
-                    }
-
-                    AllPatients.Add(p);
-                }
-
-                this.AllPatients = AllPatients;
-                this.InSessionPatients = ActiveSessionPatients;
+                    MakeList(d);
+                });
             };
         }
 
@@ -87,17 +76,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void SendMessage()
         {
-            MessageBox.Show("Ja haai");
+            this.manager.BroadcastMessage(MessageBoxText);
+
         }
 
 
-        private ObservableCollection<SharedPatient> _Patients;
+        private ObservableCollection<SharedPatient> mAllPatients;
         public ObservableCollection<SharedPatient> AllPatients
         {
-            get { return _Patients; }
+            get { return mAllPatients; }
             set
             {
-                _Patients = value;
+                mAllPatients = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllPatients"));
             }
         }
@@ -132,6 +122,38 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void SwitchView()
         {
             this.window.Content = new PatientListViewModel(this.window);
+        }
+
+        private string _MessageBoxText;
+        public string MessageBoxText
+        {
+            get { return _MessageBoxText; }
+            set
+            {
+                _MessageBoxText = value;
+            }
+        }
+
+        private void MakeList(List<SharedPatient> d)
+        {
+            List<SharedPatient> ActiveSessionPatients = new List<SharedPatient>();
+            List<SharedPatient> AllPatients = new List<SharedPatient>();
+
+            foreach (SharedPatient p in d)
+            {
+                if (p.InSession)
+                {
+                    ActiveSessionPatients.Add(p);
+                } else
+                {
+                    AllPatients.Add(p);
+                }
+
+
+            }
+
+            this.AllPatients = new ObservableCollection<SharedPatient>(AllPatients);
+            this.InSessionPatients = new ObservableCollection<SharedPatient>(ActiveSessionPatients);
         }
     }
 }
