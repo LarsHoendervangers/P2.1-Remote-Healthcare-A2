@@ -13,13 +13,10 @@ using System.Text;
 
 namespace RemoteHealthcare_Server
 {
-  
-
     public class JSONReader
     {
         //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
-      
 
         /// <summary>
         /// Getting jsonobject..
@@ -30,7 +27,6 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-
             //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
@@ -42,15 +38,11 @@ namespace RemoteHealthcare_Server
                 MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)
                 {
-
-
                     //This if could probably be short but this is much clearer
                     if (method.GetCustomAttribute<AccesManagerAttribute>() != null && method.GetCustomAttribute<AccesManagerAttribute>().GetCommand() == command
                          && (user != null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == user.getUserType() ||
                              user == null && method.GetCustomAttribute<AccesManagerAttribute>().GetUserType() == UserTypes.Unkown))
                     {
-                        
-
                         method.Invoke(this, new object[] { jObject, sender, user, managemet });
                     }
                 }
@@ -66,7 +58,6 @@ namespace RemoteHealthcare_Server
         [AccesManager("login", UserTypes.Unkown)]
         private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
-
             JToken username = Jobject.SelectToken("data.us");
             JToken password = Jobject.SelectToken("data.pass");
             JToken flag = Jobject.SelectToken("data.flag");
@@ -88,7 +79,6 @@ namespace RemoteHealthcare_Server
                     return;
                 }
             }
-
             return;
         }
 
@@ -222,9 +212,6 @@ namespace RemoteHealthcare_Server
             Server.PrintToGUI("[Logic debug] - Getting active patients");
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
-
-
-
 
         /// <summary>
         /// Subscribes to a patient..
@@ -403,7 +390,6 @@ namespace RemoteHealthcare_Server
 
     }
 
-
     /// <summary>
     /// This is the custom attribute used for jumping to the correct method.
     /// </summary>
@@ -429,6 +415,4 @@ namespace RemoteHealthcare_Server
             return type;
         }
     }
-    
-  
 }
