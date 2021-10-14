@@ -103,15 +103,18 @@ namespace RemoteHealthcare_Server
 
             //Getting sessoin
             Session session = null;
+            int state = -1;
             if (rpm != null && speed != null && dist != null && pow != null && accpow != null && time != null)
             {
                 session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
                     (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                     int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
+                state = 0;
             }
             else if (bpm != null && time != null)
             {
                 session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+                state = 1;
             }
 
             //Sending it to the subs
@@ -125,7 +128,7 @@ namespace RemoteHealthcare_Server
                     Host h = usermanagement.FindHost(d);
                     if (h != null)
                     {
-                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
+                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender(), state);
                     }
                 }
             }

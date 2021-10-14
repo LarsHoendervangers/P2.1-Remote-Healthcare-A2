@@ -14,6 +14,8 @@ namespace RemoteHealthcare_Server
         {
             Patient = patient;
             Subscribers = new List<Doctor>();
+            this.HRMeasurements = new List<HRMeasurement>();
+            this.BikeMeasurements = new List<BikeMeasurement>();
         }
 
 
@@ -24,10 +26,8 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public List<HRMeasurement> HRMeasurements
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
         }
 
         /// <summary>
@@ -35,10 +35,9 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public List<BikeMeasurement> BikeMeasurements
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
+           
         }
 
 
