@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoteHealthcare Dokter", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsClient", "UnitTestsClient\UnitTestsClient.csproj", "{FBC0430E-EF11-4F40-846C-4B884109774C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsDokter", "UnitTestsDokter\UnitTestsDokter.csproj", "{57ED530C-2090-49D8-8895-907E46DE6796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestsDokter", "UnitTestsDokter\UnitTestsDokter.csproj", "{57ED530C-2090-49D8-8895-907E46DE6796}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestServer", "UnitTestServer\UnitTestServer.csproj", "{E762D760-ACE2-4318-9F22-A29BC1B2BE3C}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -47,6 +49,10 @@ Global
 		{57ED530C-2090-49D8-8895-907E46DE6796}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57ED530C-2090-49D8-8895-907E46DE6796}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57ED530C-2090-49D8-8895-907E46DE6796}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E762D760-ACE2-4318-9F22-A29BC1B2BE3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E762D760-ACE2-4318-9F22-A29BC1B2BE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E762D760-ACE2-4318-9F22-A29BC1B2BE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E762D760-ACE2-4318-9F22-A29BC1B2BE3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
