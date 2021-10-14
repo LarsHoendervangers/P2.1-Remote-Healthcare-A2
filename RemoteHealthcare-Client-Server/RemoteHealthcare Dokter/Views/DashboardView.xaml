@@ -14,7 +14,7 @@
 
         <!-- Session listview -->
         <Label Content="Patienten in een sessie:" HorizontalAlignment="Left" Margin="458,33,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
-        <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" >
+        <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" SelectedItem="{Binding SelectedPatientWithSession}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -26,8 +26,16 @@
         
         <!-- Without Session listview -->
         <Label Content="Patienten zonder sessie:&#xD;&#xA;&#xA;" HorizontalAlignment="Left" Margin="1120,35,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
-        <ListView Margin="1120,83,116,609" ItemsSource="{Binding AllPatients, Mode=TwoWay}">
-            
+        <ListView Margin="1120,83,116,609" ItemsSource="{Binding AllPatients, Mode=TwoWay}"  SelectedItem="{Binding SelectedPatientWithoutSession}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="250"/>
+                        <TextBlock Text="{Binding ID}" FontSize="20" Width="50"/>
+                        <TextBlock Text="Start sessie..."/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         
         <!-- Broadcast chat -->
