@@ -243,10 +243,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Handler.SendToTunnel(
                 JSONCommandHelper.WrapShowTerrain("ground",
                     new Transform(1, new double[3] { -128, 0, -128 }, new double[3] { 0, 0, 0 })), (string message) => this.uuidTerrain = VRUTil.GetId(message));
-            Thread.Sleep(2000);
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(uuidTerrain,
-                pathNormal,
-                pathDiffuse, 0, 3, 1));
+            while (uuidTerrain == null)
+            {
+            }
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddTexture(uuidTerrain, pathNormal, pathDiffuse, 0, 3, 1));
             Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(RemoveGroundPlaneCallback));
 
         }
@@ -255,16 +255,20 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors),
                 (string message) => this.uuidRoute = VRUTil.GetId(message));
-            Thread.Sleep(2000);
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
-            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute,pathDiffuse,pathDiffuse,pathSpecular));
+            while (uuidRoute == null)
+            {
+            }
+            Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute, pathDiffuse, pathDiffuse, pathSpecular));
+
         }
 
         public void CreateRoute(PosVector[] posVectors)
         {
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRoute(posVectors),
                 (string message) => this.uuidRoute = VRUTil.GetId(message));
-            Thread.Sleep(2000);
+            while (uuidRoute == null)
+            {
+            }
             Handler.SendToTunnel(JSONCommandHelper.WrapAddRouteTerrain(uuidRoute));
         }
 
@@ -274,9 +278,13 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Handler.SendToTunnel(
                 JSONCommandHelper.Wrap3DObject("bike", modelPath,
                     transform), (string message) => this.uuidBike = VRUTil.GetId(message));
-            Thread.Sleep(2000);
+            while (uuidBike == null)
+            {
+            }
             Handler.SendToTunnel(JSONCommandHelper.GetAllNodes(), new Action<string>(AttachCameraToBike));
-            Thread.Sleep(2000);
+            while (uuidSusan == null)
+            {
+            }
         }
 
         public void CreatePanels(string dataPanelParent, string textPanelParent, Transform transformDataPanel, Transform transformTextPanel)
@@ -287,7 +295,9 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
             Handler.SendToTunnel(
                 JSONCommandHelper.WrapPanel("panelText", textPanelParent, transformTextPanel,
                     0.5, 0.5, 512, 512, true), (string message) => this.uuidTextPanel = VRUTil.GetId(message));
-            Thread.Sleep(2000);
+            while (uuidTextPanel == null)
+            {
+            }
             WriteTextToPanel("");
         }
 
