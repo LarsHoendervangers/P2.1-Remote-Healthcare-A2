@@ -1,14 +1,9 @@
 ﻿using CommClass;
 using RemoteHealthcare_Shared;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace RemoteHealthcare_Client.TCP
 {
@@ -57,14 +52,17 @@ namespace RemoteHealthcare_Client.TCP
                         // Call the event with the message received
                         if (stream != null)
                         {
-                            string message = this.Sender.ReadMessage();
+                            string message = this.Sender?.ReadMessage();
                             OnMessageReceived.Invoke(this, message);
+                        } else
+                        {
+                            break;
                         }
                     }
 
                     // Shutting down
                     stream?.Close();
-
+                    Debug.WriteLine("Stopped read thread");
                 }).Start();
         }
 
@@ -92,6 +90,7 @@ namespace RemoteHealthcare_Client.TCP
                 // When running tis set true we start the loop for incoming messages
                 HandleIncoming();
             else
+                Debug.WriteLine("Disabling read");
                 running = false;
         }
     }
