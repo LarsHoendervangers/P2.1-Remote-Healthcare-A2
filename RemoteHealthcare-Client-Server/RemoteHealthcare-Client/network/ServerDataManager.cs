@@ -27,15 +27,11 @@ namespace RemoteHealthcare_Client
 
         private void OnMessageReceived(object sender, string message)
         {
-            // REMOVE
-            Trace.WriteLine("---------------------" + message);
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-            if (jobject != null) HandleIncoming(jobject); else
-            {
-                Debug.WriteLine("JObject is null");
-            };
+            if (jobject != null) HandleIncoming(jobject); 
+            else Debug.WriteLine("JObject is null");
         }
 
         private void HandleIncoming(JObject jobject)
@@ -54,7 +50,6 @@ namespace RemoteHealthcare_Client
             // Looking at the command and switching what behaviour is required
             switch(value.ToString())
             {
-
                 case "message":
                     HandleMessageCommand(jobject);
                     break;
@@ -62,8 +57,6 @@ namespace RemoteHealthcare_Client
                     // DataManager does not need the command, sending to all others
                     this.SendToManagers(jobject);
                     break;
-
-
             }
         }
 
