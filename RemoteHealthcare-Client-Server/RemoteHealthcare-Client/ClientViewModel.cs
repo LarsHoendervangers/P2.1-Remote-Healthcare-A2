@@ -48,6 +48,7 @@ namespace RemoteHealthcare_Client
                 {
                     SubmitText = "Start the connection to the server";
                     WrongCredentialsOpacity = 0;
+                    RightCredentialsOpacity = 100;
                 }
 
                 if (!d) WrongCredentialsOpacity = 100;
@@ -200,6 +201,19 @@ namespace RemoteHealthcare_Client
 
                 mWrongCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
+
+            }
+        }
+
+        private int mRightCredentialsOpacity = 0;
+        public int RightCredentialsOpacity
+        {
+            get { return mRightCredentialsOpacity; }
+            set
+            {
+
+                mRightCredentialsOpacity = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RightCredentialsOpacity"));
 
             }
         }
