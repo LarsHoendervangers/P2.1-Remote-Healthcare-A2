@@ -37,7 +37,7 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,82,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
+        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,72,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
         <Label Content="{Binding BPM}" HorizontalAlignment="Left" Margin="1157,149,0,0" VerticalAlignment="Top" FontSize="22"/>
         <Label Content="{Binding RPM}" HorizontalAlignment="Left" Margin="1157,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="{Binding Speed}" HorizontalAlignment="Left" Margin="1532,146,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
@@ -49,14 +49,14 @@
         <Button Content="-" HorizontalAlignment="Left" Margin="1167,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
         <Button Content="+" HorizontalAlignment="Left" Margin="1274,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
         <Label Content="6" HorizontalAlignment="Left" Margin="1229,445,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="407,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="529,323,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18">
-  
+        <Button Content="Start" HorizontalAlignment="Left" Margin="396,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18">
+
         </Button>
-        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,324,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18">
-            
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,322,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18">
+
         </Button>
-        <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="407,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
+        <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
         <Label Content="Noodgeval:" HorizontalAlignment="Left" Margin="831,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
 
     </Grid>
