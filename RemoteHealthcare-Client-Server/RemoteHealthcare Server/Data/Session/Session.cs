@@ -13,13 +13,12 @@ namespace RemoteHealthcare_Server
         public Session(Patient patient)
         {
             Patient = patient;
+            Subscribers = new List<Doctor>();
+            this.HRMeasurements = new List<HRMeasurement>();
+            this.BikeMeasurements = new List<BikeMeasurement>();
         }
 
 
-
-        //****************this class needs fixing*************** 
-        //All the set methods are broken why................
-        //I off
 
 
         /// <summary>
@@ -27,10 +26,8 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public List<HRMeasurement> HRMeasurements
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
         }
 
         /// <summary>
@@ -38,10 +35,9 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public List<BikeMeasurement> BikeMeasurements
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
+           
         }
 
 
@@ -57,10 +53,9 @@ namespace RemoteHealthcare_Server
 
         public Patient Patient
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
+            
         }
 
         public DateTime StartTime

@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                
                         s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
 
 
@@ -63,7 +63,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                       
                         s.HRMeasurements.Add(new HRMeasurement(time, bpm));
                         return s;
                     }
@@ -123,13 +123,13 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         /// Starts a session
         /// </summary>
         /// <param name="user"></param>
-        public void SessionStart(IUser user)
+        public void SessionStart(Patient p)
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (p.getUserType() == UserTypes.Patient)
                 {
-                    UserManagement.activeSessions.Add(new Session((Patient)user));
+                    UserManagement.activeSessions.Add(new Session(p));
                 }
             }
         }

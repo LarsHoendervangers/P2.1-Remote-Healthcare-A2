@@ -23,10 +23,26 @@ namespace RemoteHealthcare_Server.Data.Logic
         /// <returns></returns>
         public Patient FindPatient(string patientID)
         {
-            List<Patient> patients = (List<Patient>)UserManagement.users.Where(e => e.getUserType() == UserTypes.Patient);
-            List<Patient> selected = patients.Where(p => p.PatientID == patientID).ToList();
-            if (selected.Count == 1) return selected[0];
-            else return null;
+
+            List<Patient> patients = new List<Patient>();
+            foreach (IUser user in UserManagement.users)
+            {
+                if (user.getUserType() == UserTypes.Patient)
+                {
+                    patients.Add(user as Patient);
+                }
+            }
+
+            foreach (Patient p in patients)
+            {
+                if (p.PatientID == patientID)
+                {
+
+                    return p;
+                }
+            }
+            
+            return null;
         }
 
         /// <summary>
@@ -38,7 +54,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         {
             foreach (Host h in this.management.activeHosts)
             {
-                if (h.GetUser().getUserType() == UserTypes.Patient)
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Patient)
                 {
                     Patient p = (Patient)h.GetUser();
                     if (p.PatientID == patientID)
@@ -60,7 +76,9 @@ namespace RemoteHealthcare_Server.Data.Logic
             List<string> activePatients = new List<string>();
             foreach (Host h in this.management.activeHosts)
             {
-                if (h.GetUser().getUserType() == UserTypes.Patient)
+
+
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Patient)
                 {
                     Patient p = (Patient)h.GetUser();
                     activePatients.Add(p.PatientID);
@@ -96,7 +114,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         {
             foreach (Host h in this.management.activeHosts)
             {
-                if (h.GetUser().getUserType() == UserTypes.Doctor)
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Doctor)
                 {
                     Doctor doctor = h.GetUser() as Doctor;
                     if (doctor == d)
@@ -119,7 +137,7 @@ namespace RemoteHealthcare_Server.Data.Logic
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }

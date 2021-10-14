@@ -36,7 +36,7 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void StartServer()
         {
-            PrintToGUI($"Server started on {this.Ip}:{this.Port}.");
+            PrintToGUI($"[Server debug] - Server started on {this.Ip}:{this.Port}.");
             this.tcpListener.Start();
             RunServer();
         }
@@ -89,7 +89,7 @@ namespace RemoteHealthcare_Server
             }
             this.userManagement.OnDestroy();
             this.tcpListener.Stop();
-            PrintToGUI("Server stopped.");
+            PrintToGUI("[Server debug] - Server stopped.");
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace RemoteHealthcare_Server
         /// <param name="host">Host object that will be added.</param>
         public void OnConnect(Host host)
         {
-            PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} connected.");
+            PrintToGUI($"[Server debug] - {host.tcpclient.Client.RemoteEndPoint} connected.");
             this.userManagement.activeHosts.Add(host);
         }
 
@@ -112,7 +112,7 @@ namespace RemoteHealthcare_Server
         {
             if (host != null)
             {
-                PrintToGUI($"{host.tcpclient.Client.RemoteEndPoint} disconnected.");
+                PrintToGUI($"[Server debug] - {host.tcpclient.Client?.RemoteEndPoint.ToString() ?? "Unknown user"} disconnected.");
                 this.userManagement.activeHosts.Remove(host);
                 host.tcpclient.Close();
             }
@@ -128,7 +128,7 @@ namespace RemoteHealthcare_Server
             {
                 try
                 {
-                    window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + msg));
+                    window.debugTextBlock.Dispatcher.Invoke(() => window.debugTextBlock.Text += ("\n" + DateTime.Now +": " + msg));
                 } catch (Exception e)
                 {
                     Debug.WriteLine($"Error: {e.Message}. The server was probably closing.");

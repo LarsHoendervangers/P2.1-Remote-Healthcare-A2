@@ -13,13 +13,15 @@ using System.Text;
 
 namespace RemoteHealthcare_Server
 {
-  
-
     public class JSONReader
     {
+
+
         //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
-      
+
+
+        #region decoder...
 
         /// <summary>
         /// Getting jsonobject..
@@ -30,11 +32,16 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
+            
+
+            //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
             {
+                //Getting command
                 string command = token.ToString();
 
+                //Going to method with reflection
                 MethodInfo[] methods = typeof(JSONReader).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.ExactBinding);
                 foreach (MethodInfo method in methods)
                 {
@@ -49,6 +56,9 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        #endregion
+
+        #region functions..
         /// <summary>
         /// Login function
         /// </summary>
@@ -58,38 +68,27 @@ namespace RemoteHealthcare_Server
         [AccesManager("login", UserTypes.Unkown)]
         private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
-            Server.PrintToGUI("Login");
-            Debug.WriteLine("login");
-
-            //Checking op login string
-            string command = Jobject.GetValue("command").ToString();
-            if (command == "login")
+            JToken username = Jobject.SelectToken("data.us");
+            JToken password = Jobject.SelectToken("data.pass");
+            JToken flag = Jobject.SelectToken("data.flag");
+            if (username != null && password != null && flag != null)
             {
-                //Getting alle the amazing data
-                JObject data = (JObject)Jobject.GetValue("data");
-                string username = data.GetValue("us").ToString();
-                string password = data.GetValue("pass").ToString();
-                int flag = int.Parse(data.GetValue("flag").ToString());
-
-
                 //Getting the user
-                IUser user = management.Credentials(username, password, flag);
+                IUser user = management.Credentials(username.ToString(), password.ToString(), int.Parse(flag.ToString()));
                 if (user != null)
                 {
                     JSONWriter.LoginWrite(true, sender);
-                    Server.PrintToGUI("Authenticated....");
+                    Server.PrintToGUI("[Login debug] - " + username.ToString()+ " has logged on to the server.");
                     CallBack?.Invoke(this, user);
                     return;
                 }
                 else
                 {
                     JSONWriter.LoginWrite(false, sender);
-                    Server.PrintToGUI("Not a user....");
+                    Server.PrintToGUI("[Login debug] - The following request was not a valid user.");
                     return;
                 }
             }
-
-            //Not valid as command
             return;
         }
 
@@ -103,51 +102,51 @@ namespace RemoteHealthcare_Server
         [AccesManager("ergodata", UserTypes.Patient)]
         private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
-            Server.PrintToGUI("Got your data");
-            if (user != null)
+           // Server.PrintToGUI(Jobject.ToString());
+
+            //All data from the jobject
+            JToken rpm = Jobject.SelectToken("data.rpm");
+            JToken speed = Jobject.SelectToken("data.speed");
+            JToken dist = Jobject.SelectToken("data.dist");
+            JToken pow = Jobject.SelectToken("data.pow");
+            JToken accpow = Jobject.SelectToken("data.accpow");
+            JToken bpm = Jobject.SelectToken("data.bpm");
+            JToken time = Jobject.SelectToken("data.time");
+
+            //Getting sessoin
+            Session session = null;
+            bool bikestate = false;
+            bool bpmstate = false;
+            if (rpm != null && speed != null && dist != null && pow != null && accpow != null && time != null)
             {
-                //Bike
-                JToken rpm = Jobject.SelectToken("data.rpm");
-                JToken speed = Jobject.SelectToken("data.speed");
-                JToken dist = Jobject.SelectToken("data.dist");
-                JToken pow = Jobject.SelectToken("data.pow");
-                JToken accpow = Jobject.SelectToken("data.accpow");
+                session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
+                    (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
+                    int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
+                bikestate = true;
+            }
+            
+            if (bpm != null && time != null)
+            {
+                session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
+                bpmstate = true;
+            }
 
-                //Heart
-                JToken bpm = Jobject.SelectToken("data.bpm");
+            //Sending it to the subs
+            if (session != null)
+            {
+           
+                Patient p = user as Patient;
+                List<Doctor> subs = session.Subscribers;
 
-                //All
-                JToken time = Jobject.SelectToken("data.time");
-
-
-                //Checks
-                Session session = null;
-                if (rpm != null)
+                for (int i = 0; i < subs.Count; i++)
                 {
-                   session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
-                        (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
-                        int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
-                }
-                else if (bpm != null)
-                {
-                   session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
-                }
 
-                //Sending it to the subs
-                if (session != null)
-                {
-                    Patient p = user as Patient;
-                    List<Doctor> subs = session.Subscribers;
-                    foreach(Doctor d in subs)
+                    Host h = usermanagement.FindHost(subs[i]);
+                    if (h != null)
                     {
-                        Host h = usermanagement.FindHost(d);
-                        if (h != null)
-                        {
-                            JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender());
-                        }
+                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender(), bikestate, bpmstate);
                     }
                 }
-                
             }
         }
 
@@ -167,6 +166,7 @@ namespace RemoteHealthcare_Server
             if (patientIDs != null && resitance != null)
             {
                 //Getting patients
+                Server.PrintToGUI("[Session debug] - Request for changing resistance");
                 List<Patient> targetPatients = new List<Patient>();
                 foreach (JObject patientID in (JArray)patientIDs)
                 {
@@ -190,11 +190,14 @@ namespace RemoteHealthcare_Server
             JToken patientIDs = jObject.SelectToken("data.patid");
             if (patientIDs != null)
             {
+                Server.PrintToGUI("[Session debug] - Aborting patients");
                 //Getting patients
                 List<Patient> targetPatients = new List<Patient>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    Host h = managemet.FindHost(patientID.ToString());
+                    Host h = managemet.FindHost(patientID);
+                    h.Stop(h);
+
                     JSONWriter.AbortWrite(h.GetSender());
                 }
             }
@@ -212,6 +215,7 @@ namespace RemoteHealthcare_Server
         private void GetAllClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
+            Server.PrintToGUI("[Logic debug] - Getting all patients");
             JSONWriter.AllPatientWrite(managemet.GetAllPatients(), sender);
         }
 
@@ -226,11 +230,9 @@ namespace RemoteHealthcare_Server
         private void GetActiveClients(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
             //Sending patient IDS back
+            Server.PrintToGUI("[Logic debug] - Getting active patients");
             JSONWriter.ActivePatientWrite(managemet.GetActivePatients(), sender);
         }
-
-
-
 
         /// <summary>
         /// Subscribes to a patient..
@@ -248,9 +250,9 @@ namespace RemoteHealthcare_Server
             {
                 //Getting patient IDs..
                 List<string> patientIdentiefiers = new List<string>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    patientIdentiefiers.Add(patientID.ToString());
+                    patientIdentiefiers.Add(patientID);
                 }
 
                 //Getting state
@@ -259,8 +261,8 @@ namespace RemoteHealthcare_Server
                 //Subs or unsubing...
                 if (user.getUserType() == UserTypes.Doctor) {
                     Doctor d = user as Doctor;
-                    if (state) management.Subscribe(d, patientIdentiefiers);
-                    else management.Unsubscribe(d, patientIdentiefiers);
+                    if (state) { management.Subscribe(d, patientIdentiefiers); Server.PrintToGUI("[Session debug] - Subbing to session"); }
+                    else { management.Unsubscribe(d, patientIdentiefiers); Server.PrintToGUI("[Session debug] - Unsubbing to session"); }
                 }        
             }
         }
@@ -275,6 +277,7 @@ namespace RemoteHealthcare_Server
         [AccesManager("newsession", UserTypes.Doctor)]
         private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
+            
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");
             JToken sessionState = jObject.SelectToken("data.state");
@@ -284,9 +287,10 @@ namespace RemoteHealthcare_Server
             {
                 //Getting patients
                 List<Patient> targetPatients = new List<Patient>();
-                foreach(JObject patientID in (JArray)patientIDs)
+                //Afvangen cast.....
+                foreach(string patientID in patientIDs)
                 {
-                    Patient p = management.FindPatient(patientID.ToString());
+                    Patient p = management.FindPatient(patientID);
                     if (p != null) targetPatients.Add(p);
                 }
 
@@ -296,8 +300,16 @@ namespace RemoteHealthcare_Server
                 //Executing action
                 foreach(Patient p in targetPatients)
                 {
-                    if (state) management.SessionStart(user);
-                     else management.SessionEnd(user);
+                    if (state) { 
+                        management.SessionStart(p); 
+                        Server.PrintToGUI("[Session debug] - Starting to patient");
+                        JSONWriter.WriteMessage("[Server] Doctor started session", new List<Host>() { management.FindHost(p.PatientID) });
+                    }
+                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Stopping to patient");
+                        JSONWriter.WriteMessage("[Server] Doctor stopped session", new List<Host>() { management.FindHost(p.PatientID) });
+
+
+                    }
                 }
             }
         }
@@ -310,21 +322,25 @@ namespace RemoteHealthcare_Server
         /// <param name="user"></param>
         /// <param name="management"></param>
         [AccesManager("getdetailpatient", UserTypes.Doctor)]
-        public void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
+        private void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
 
-        
-            JToken patientIDs = jObject.SelectToken("data.patid");
+          
+            JToken patientIDs = jObject.SelectToken("data");
             if (patientIDs != null)
             {
                 //Getting patient IDs..
                 List<string> patientIdentiefiers = new List<string>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    patientIdentiefiers.Add(patientID.ToString());
+                    patientIdentiefiers.Add(patientID);
+                   
                 }
 
+
+
                 //Getting detailed data
+                Server.PrintToGUI("[Logic debug] - Getting details from patients");
                 List<SharedPatient> patients = new List<SharedPatient>();
                 foreach (string id in patientIdentiefiers)
                 {
@@ -338,22 +354,25 @@ namespace RemoteHealthcare_Server
                             serverPatient.DateOfBirth);
 
                         patients.Add(sharedPatient);
-
+                   
                     }
                 }
 
                 //Sending patients over..
                 JSONWriter.SendDetails(patients, sender);
+
+
             }
         }
 
         //Sends back all the session of a patient...
         [AccesManager("getsessions", UserTypes.Doctor)]
-        public void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
+        private void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
             JToken patientID = jObject.SelectToken("data");
             if (patientID != null)
             {
+                Server.PrintToGUI("[Logic debug] - Getting sessions history");
                 string id = patientID.ToString();
                 Patient p = management.FindPatient(id);
 
@@ -366,10 +385,44 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        /// <summary>
+        /// Message funtion to vr engine.
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
+        [AccesManager("message", UserTypes.Doctor)]
+        private void ResendMessage(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+            JToken message = jObject.SelectToken("data.message");
+            JToken patids = jObject.SelectToken("data.patid");
+            if (message != null)
+            {
+                Server.PrintToGUI("[Logic debug] - message send");
+                //If there are no patient ids
+                if (patids == null) JSONWriter.WriteMessage("[Doctor] " + message.ToString(), management.activeHosts.Where(host => host.GetUser() != null && host.GetUser().getUserType() == UserTypes.Patient).ToList());
+                //If there are....
+                else
+                {
+                    //Getting targets
+                    List<Host> targets = new List<Host>();
+                    foreach (string id in (JArray)patids)
+                    {
+                        targets.Add( management.FindHost(id));
+                    }
+
+                    //Sending it over
+                    JSONWriter.WriteMessage(message.ToString(), targets);
+                }
+            }
+        }
+        #endregion
 
     }
 
 
+    #region attribute..
     /// <summary>
     /// This is the custom attribute used for jumping to the correct method.
     /// </summary>
@@ -395,6 +448,6 @@ namespace RemoteHealthcare_Server
             return type;
         }
     }
-    
-  
+
+    #endregion
 }

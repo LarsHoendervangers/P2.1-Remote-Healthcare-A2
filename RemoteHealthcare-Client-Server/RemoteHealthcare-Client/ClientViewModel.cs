@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -36,23 +37,29 @@ namespace RemoteHealthcare_Client
             // Setting the event for the device callbacks
             this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
             this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
-            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
             this.loader.OnLoginResponseReceived += (s, d) =>
             {
                 this.isLoggedIn = d;
-                if (d) SubmitText = "Start the connection to the server";
-                
+                if (d)
+                {
+                    SubmitText = "Start the connection to the server";
+                    WrongCredentialsOpacity = 0;
+                    RightCredentialsOpacity = 100;
+                }
+
+                if (!d) WrongCredentialsOpacity = 100;
             };
 
             // Calling the first statup method for the loader
             this.loader.Init();
             
             // Setting the list with Scenes the user can choose from
-            List<string> scenes = new List<string>();
-            scenes.Add(new SimpleScene(new TunnelHandler()).ToString());
-            this.mScenes = new ObservableCollection<string>(scenes);
+            List<GeneralScene> scenes = new List<GeneralScene>();
+            scenes.Add(new SimpleScene(new TunnelHandler()));
+            scenes.Add(new PodraceScene(new TunnelHandler()));
+            this.mScenes = new ObservableCollection<GeneralScene>(scenes);
+            this.SelectedScene = scenes[0];
         }
-
 
         private string mSubmitText = "Submit login";
         public string SubmitText
@@ -60,11 +67,9 @@ namespace RemoteHealthcare_Client
             get { return mSubmitText; }
             set
             {
-
                 mSubmitText = value;
                 Console.WriteLine("Nieuwe waarde voor knop: " + value);
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
-
             }
         }
 
@@ -76,11 +81,9 @@ namespace RemoteHealthcare_Client
         {
             get { return mVRServers; }
             set
-            {   
-
+            {
                 mVRServers = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
-
             }
         }
 
@@ -107,10 +110,8 @@ namespace RemoteHealthcare_Client
             get { return mBLEDevices; }
             set
             {
-
                 mBLEDevices = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BLEDevices"));
-
             }
         }
 
@@ -131,14 +132,25 @@ namespace RemoteHealthcare_Client
         /// <summary>
         /// Binded list attribute that contains the scenes
         /// </summary>
-        private ObservableCollection<string> mScenes;
-        public ObservableCollection<string> Scenes
+        private ObservableCollection<GeneralScene> mScenes;
+        public ObservableCollection<GeneralScene> Scenes
         {
             get { return mScenes; }
             set
             {
                 mScenes = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Scenes"));
+            }
+        }
+
+        private GeneralScene mSelectedScene = null;
+        public GeneralScene SelectedScene
+        {
+            get { return mSelectedScene; }
+            set
+            {
+                mSelectedScene = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedScene"));
             }
         }
 
@@ -169,7 +181,29 @@ namespace RemoteHealthcare_Client
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-        
+
+        private int mWrongCredentialsOpacity = 0;
+        public int WrongCredentialsOpacity
+        {
+            get { return mWrongCredentialsOpacity; }
+            set
+            {
+                mWrongCredentialsOpacity = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
+            }
+        }
+
+        private int mRightCredentialsOpacity = 0;
+        public int RightCredentialsOpacity
+        {
+            get { return mRightCredentialsOpacity; }
+            set
+            {
+                mRightCredentialsOpacity = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RightCredentialsOpacity"));
+            }
+        }
+
         public bool isLoggedIn = false;
 
         /// <summary>
@@ -196,7 +230,6 @@ namespace RemoteHealthcare_Client
                 }
                 return mStartCommand;
             }
-
         }
 
         /// <summary>
@@ -215,7 +248,24 @@ namespace RemoteHealthcare_Client
         private void StartApplicaton()
         {
             Debug.WriteLine("Starting Application");
-            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress);
+            this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress, this.SelectedScene);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                loader.GetAvailableVRConnections();
+                Thread.Sleep(3000);
+            }
+        }
+
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                loader.GetAvailableBLEDevices();
+            }
         }
     }
 }

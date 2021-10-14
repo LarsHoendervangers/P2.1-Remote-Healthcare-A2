@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
@@ -7,11 +7,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
+        private string ip = "127.0.0.1";
+        private int port = 6969;
+
         private DataManager serverDataManager;
         private DataManager deviceDataManager;
         private DataManager vrDataManager;
@@ -25,14 +29,20 @@ namespace RemoteHealthcare_Client
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
 
+            this.OnLoginResponseReceived += ((s, d) =>
+            {
+                Debug.WriteLine("OnLoginResponseReceived fired");
+            });
+
             // starting up the connection to the server
-            this.serverDataManager = new ServerDataManager("145.49.26.175", 6969);
+            this.serverDataManager = new ServerDataManager(this.ip, this.port);
         }
 
-        public void Start(string device, string vrServerID)
+        public void Start(string device, string vrServerID, GeneralScene generalScene)
         {
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
+            (this.vrDataManager as VRDataManager).Scene = generalScene;
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
         }
 
@@ -61,7 +71,6 @@ namespace RemoteHealthcare_Client
         [Obsolete] //This was the old, ugly way of starting up
         public void SetupServerConnection(string ip, int port, string device, string vrServerID, string username, string password)
         {
-
             // Setting op serverDataManager, it creates the connection to the server
             this.serverDataManager = new ServerDataManager(ip, port);
 
@@ -84,6 +93,12 @@ namespace RemoteHealthcare_Client
 
         public void Login(string userName, string password)
         {
+            if ((this.serverDataManager as ServerDataManager).GetStream() == null)
+            {
+                Debug.WriteLine("Reconnecting");
+                (this.serverDataManager as ServerDataManager).ReconnectWithServer(this.ip, this.port);
+            }
+
             // Setting the callback event for the login
             (this.serverDataManager as ServerDataManager).OnLoginResponseReceived += (s, d) => OnLoginResponseReceived?.Invoke(this, d);
 
@@ -100,7 +115,7 @@ namespace RemoteHealthcare_Client
                     }
                 });
 
-            // Seniding the login data to the server
+            // Sending the login data to the server
             this.serverDataManager?.ReceivedData(loginCommand);
         }
     }

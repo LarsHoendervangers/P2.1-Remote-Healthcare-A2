@@ -1,5 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using RemoteHealthcare_Shared.DataStructs;
@@ -38,7 +39,7 @@ namespace RemoteHealthcare_Server
                     command = "message",
                     data = "failed connect",
                     flag = 1
-            };
+                };
             }
 
             //Writing answer...
@@ -75,7 +76,7 @@ namespace RemoteHealthcare_Server
                 data = resistance
             };
 
-            
+
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
@@ -133,28 +134,41 @@ namespace RemoteHealthcare_Server
         /// </summary>
         /// <param name="h"></param>
         /// <param name="s"></param>
-        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender)
+        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, bool bike, bool bpm)
         {
-            //Getting lastest measurment...
-            BikeMeasurement latestBikeMeasurent = s.BikeMeasurements.Last();
-            HRMeasurement latestHeartMeasurent = s.HRMeasurements.Last();
 
-            //Which is the latest....
-            var LatestMeasurement = latestHeartMeasurent;
-            if ( latestBikeMeasurent.MeasurementTime > latestHeartMeasurent.MeasurementTime)
-            LatestMeasurement = latestHeartMeasurent;
-
-            //Sending it over...
-            object o = new
+            if (bike && s.BikeMeasurements.Count > 0)
             {
-                command = "livepatientdata",
-                data = new
+                //Sending it over...
+                object o = new
                 {
-                    id = id,
-                    data = latestBikeMeasurent
-                }
-            };
-            sender.SendMessage(JsonConvert.SerializeObject(o));
+                    command = "livepatientdata",
+                    data = new
+                    {
+                        id = id,
+                        data = s.BikeMeasurements.Last()
+                    }
+                };
+
+               
+                sender.SendMessage(JsonConvert.SerializeObject(o));
+
+            } 
+            if (bpm && s.HRMeasurements.Count > 0)
+            {
+                //Sending it over...
+                object o = new
+                {
+                    command = "livepatientdata",
+                    data = new
+                    {
+                        id = id,
+                        data = s.HRMeasurements.Last()
+                    }
+                };
+
+                sender.SendMessage(JsonConvert.SerializeObject(o));
+            }
         }
 
         /// <summary>
@@ -167,10 +181,8 @@ namespace RemoteHealthcare_Server
             object o = new
             {
                 command = "detaildata",
-                data = new
-                {
-                    data = patients
-                }
+                data = patients
+                
             };
             sender.SendMessage(JsonConvert.SerializeObject(o));
         }
@@ -194,6 +206,25 @@ namespace RemoteHealthcare_Server
             };
 
             sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void WriteMessage(string message, List<Host> activeHosts)
+        {
+            //Message
+            object o = new
+            {
+                command = "message",
+                flag = "2",
+                data = message
+
+            };
+
+            //Sending
+            foreach (Host h in activeHosts)
+            {
+                h.GetSender().SendMessage(JsonConvert.SerializeObject(o));
+            }
+
         }
     }
 }

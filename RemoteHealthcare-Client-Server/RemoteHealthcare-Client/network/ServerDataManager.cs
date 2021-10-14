@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 
 namespace RemoteHealthcare_Client
@@ -19,23 +20,17 @@ namespace RemoteHealthcare_Client
         public ServerDataManager(string ip, int port)
         {
             this.TCPClientHandler = new TCPClientHandler(ip, port, true);
-
             this.TCPClientHandler.SetRunning(true);
-
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
         }
 
         private void OnMessageReceived(object sender, string message)
         {
-            // REMOVE
-            Trace.WriteLine("---------------------" + message);
             //Reading input
             JObject jobject = JsonConvert.DeserializeObject(message) as JObject;
 
-            if (jobject != null) HandleIncoming(jobject); else
-            {
-                Debug.WriteLine("JObject is null");
-            };
+            if (jobject != null) HandleIncoming(jobject); 
+            else Debug.WriteLine("JObject is null");
         }
 
         private void HandleIncoming(JObject jobject)
@@ -54,7 +49,6 @@ namespace RemoteHealthcare_Client
             // Looking at the command and switching what behaviour is required
             switch(value.ToString())
             {
-
                 case "message":
                     HandleMessageCommand(jobject);
                     break;
@@ -62,8 +56,6 @@ namespace RemoteHealthcare_Client
                     // DataManager does not need the command, sending to all others
                     this.SendToManagers(jobject);
                     break;
-
-
             }
         }
 
@@ -87,7 +79,6 @@ namespace RemoteHealthcare_Client
                 default:
                     Trace.WriteLine($"Error received from server{jobject.GetValue("data")}");
                     break;
-
             }
         }
 
@@ -98,5 +89,17 @@ namespace RemoteHealthcare_Client
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
 
+        public void ReconnectWithServer(string ip, int port)
+        {
+            this.TCPClientHandler.SetRunning(false);
+            this.TCPClientHandler = new TCPClientHandler(ip, port, true);
+            this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
+            this.TCPClientHandler.SetRunning(true);
+        }
+
+        public NetworkStream GetStream()
+        {
+            return this.TCPClientHandler.stream;
+        }
     }
 }

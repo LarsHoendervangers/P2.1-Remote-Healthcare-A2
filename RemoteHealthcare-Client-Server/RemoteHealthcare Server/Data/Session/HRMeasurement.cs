@@ -9,18 +9,16 @@ namespace RemoteHealthcare_Server
     {
         public DateTime MeasurementTime
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
+            
         }
 
         public int CurrentHeartrate
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
+            
         }
 
         public HRMeasurement(DateTime measurementTime, int currentHeartrate)

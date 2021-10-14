@@ -1,16 +1,11 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 
 namespace RemoteHealthcare_Server
@@ -82,6 +77,7 @@ namespace RemoteHealthcare_Server
         {
             this.stop = true;
             this.usermanagement.SessionEnd(user);
+            this.usermanagement.activeHosts.Remove(this);
         }
 
         /// <summary>
