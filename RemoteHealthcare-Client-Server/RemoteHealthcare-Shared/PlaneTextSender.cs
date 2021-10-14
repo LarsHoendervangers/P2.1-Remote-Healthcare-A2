@@ -17,6 +17,7 @@ namespace CommClass
 
         public void SendMessage(string message)
         {
+            if (!stream.CanWrite) return;
             Communications.WriteData(Encoding.ASCII.GetBytes(message), stream);
         }
 

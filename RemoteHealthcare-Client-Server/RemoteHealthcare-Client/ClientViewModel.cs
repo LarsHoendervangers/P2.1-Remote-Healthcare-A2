@@ -185,7 +185,6 @@ namespace RemoteHealthcare_Client
             set
             {
                 mPassword = value;
-                
             }
         }
 
@@ -195,10 +194,8 @@ namespace RemoteHealthcare_Client
             get { return mWrongCredentialsOpacity; }
             set
             {
-
                 mWrongCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
-
             }
         }
 
@@ -208,10 +205,8 @@ namespace RemoteHealthcare_Client
             get { return mRightCredentialsOpacity; }
             set
             {
-
                 mRightCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RightCredentialsOpacity"));
-
             }
         }
 
@@ -232,9 +227,7 @@ namespace RemoteHealthcare_Client
                         {
                             if (!isLoggedIn)
                                 this.loader.Login(UserName, Password);
-                            else
-                                StartApplicaton();
-                                Debug.WriteLine("Logged in successfully");
+                            else StartApplicaton();
                         },
                         param => NullCheck() //check if all the fields are filled
                         );
