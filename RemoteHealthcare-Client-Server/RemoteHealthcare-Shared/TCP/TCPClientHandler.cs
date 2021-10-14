@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Client.TCP
     {
         public event EventHandler<string> OnMessageReceived;
         private bool running = false;
-        private readonly NetworkStream stream;
+        public readonly NetworkStream stream;
         private ISender Sender;
 
         /// <summary>
