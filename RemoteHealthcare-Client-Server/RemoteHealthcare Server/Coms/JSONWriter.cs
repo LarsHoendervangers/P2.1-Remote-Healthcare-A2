@@ -134,10 +134,10 @@ namespace RemoteHealthcare_Server
         /// </summary>
         /// <param name="h"></param>
         /// <param name="s"></param>
-        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, int state)
+        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, bool bike, bool bpm)
         {
 
-            if (state == 0 && s.BikeMeasurements.Count > 0)
+            if (bike && s.BikeMeasurements.Count > 0)
             {
                 //Sending it over...
                 object o = new
@@ -150,9 +150,11 @@ namespace RemoteHealthcare_Server
                     }
                 };
 
+               
                 sender.SendMessage(JsonConvert.SerializeObject(o));
 
-            } else if (state == 1)
+            } 
+            if (bpm && s.HRMeasurements.Count > 0)
             {
                 //Sending it over...
                 object o = new

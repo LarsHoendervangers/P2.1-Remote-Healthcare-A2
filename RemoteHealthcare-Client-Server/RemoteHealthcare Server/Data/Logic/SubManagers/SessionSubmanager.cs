@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                
                         s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
 
 
@@ -63,7 +63,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                       
                         s.HRMeasurements.Add(new HRMeasurement(time, bpm));
                         return s;
                     }
