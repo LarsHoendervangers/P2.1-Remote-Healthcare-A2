@@ -75,7 +75,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 command = "message",
                 data = new
                 {
-                    message = message,
+                    message = message
                 },
                 flag = "2"
             };
@@ -83,25 +83,21 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.SendToManagers(JObject.FromObject(o));
         }
 
-        public void StartSession(int id)
+        public void StartSession(SharedPatient patient)
         {
+            // JSON object to start a new session
+            object o = new
+            {
+                command = "newsession",
+                data = new
+                {
+                    patid = patient.ID,
+                    state = 1
+                }
+            };
 
+            //Asking the sever to start a session, no further actions are taken until new userineraction
+            this.SendToManagers(JObject.FromObject(o));
         }
-
-        public void SubToPatient(int id)
-        {
-            
-        }
-
-        private void WrapIncomingClients(JObject data)
-        {
-
-        }
-
-        private void WrapIncomingErgoData(JObject data)
-        {
-
-        }
-
     }
 }
