@@ -155,5 +155,41 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.AllPatients = new ObservableCollection<SharedPatient>(AllPatients);
             this.InSessionPatients = new ObservableCollection<SharedPatient>(ActiveSessionPatients);
         }
+
+        private SharedPatient _SelectedPatientWithoutSession;
+        public SharedPatient SelectedPatientWithoutSession
+        {
+            get { return _SelectedPatientWithoutSession; }
+            set
+            {
+                _SelectedPatientWithoutSession = value;
+                StartSessionPopUp();
+            }
+        }
+
+        private void StartSessionPopUp()
+        {
+            if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName, "Sessie", MessageBoxButton.YesNo) != MessageBoxResult.No)
+            {
+                this.manager.StartSession(SelectedPatientWithoutSession);
+                this.manager.RequestActiveClients();
+            }
+        }
+
+        private SharedPatient _SelectedPatientWithSession;
+        public SharedPatient SelectedPatientWithSession
+        {
+            get { return _SelectedPatientWithSession; }
+            set
+            {
+                _SelectedPatientWithSession = value;
+                ShowDetailWindow();
+            }
+        }
+
+        private void ShowDetailWindow()
+        {
+            this.window.Content = new SessionDetailViewModel(this.window, SelectedPatientWithSession);
+        }
     }
 }
