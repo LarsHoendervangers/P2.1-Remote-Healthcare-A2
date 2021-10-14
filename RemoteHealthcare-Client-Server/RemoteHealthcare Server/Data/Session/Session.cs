@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Server
         public Session(Patient patient)
         {
             Patient = patient;
+            Subscribers = new List<Doctor>();
         }
 
 

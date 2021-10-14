@@ -229,9 +229,9 @@ namespace RemoteHealthcare_Server
             {
                 //Getting patient IDs..
                 List<string> patientIdentiefiers = new List<string>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    patientIdentiefiers.Add(patientID.ToString());
+                    patientIdentiefiers.Add(patientID);
                 }
 
                 //Getting state
