@@ -68,7 +68,7 @@ namespace RemoteHealthcare_Client.TCP
 
         public string ReadMessage()
         {
-            return this.Sender.ReadMessage();
+            return this.Sender?.ReadMessage();
         }
 
         /// <summary>

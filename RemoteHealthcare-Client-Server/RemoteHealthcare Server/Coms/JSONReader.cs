@@ -15,8 +15,13 @@ namespace RemoteHealthcare_Server
 {
     public class JSONReader
     {
+
+
         //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
+
+
+        #region decoder...
 
         /// <summary>
         /// Getting jsonobject..
@@ -27,6 +32,8 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
+            
+
             //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
@@ -49,6 +56,9 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        #endregion
+
+        #region functions..
         /// <summary>
         /// Login function
         /// </summary>
@@ -92,8 +102,6 @@ namespace RemoteHealthcare_Server
         [AccesManager("ergodata", UserTypes.Patient)]
         private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
-
-
            // Server.PrintToGUI(Jobject.ToString());
 
             //All data from the jobject
@@ -138,11 +146,7 @@ namespace RemoteHealthcare_Server
                     {
                         JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender(), bikestate, bpmstate);
                     }
-
-
-
                 }
-                
             }
         }
 
@@ -189,9 +193,11 @@ namespace RemoteHealthcare_Server
                 Server.PrintToGUI("[Session debug] - Aborting patients");
                 //Getting patients
                 List<Patient> targetPatients = new List<Patient>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
-                    Host h = managemet.FindHost(patientID.ToString());
+                    Host h = managemet.FindHost(patientID);
+                    h.Stop(h);
+
                     JSONWriter.AbortWrite(h.GetSender());
                 }
             }
@@ -411,10 +417,12 @@ namespace RemoteHealthcare_Server
                 }
             }
         }
-
+        #endregion
 
     }
 
+
+    #region attribute..
     /// <summary>
     /// This is the custom attribute used for jumping to the correct method.
     /// </summary>
@@ -440,4 +448,6 @@ namespace RemoteHealthcare_Server
             return type;
         }
     }
+
+    #endregion
 }
