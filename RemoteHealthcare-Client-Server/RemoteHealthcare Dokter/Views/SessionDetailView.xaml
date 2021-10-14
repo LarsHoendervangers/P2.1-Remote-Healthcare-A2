@@ -19,7 +19,7 @@
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,161,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
 
         <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
-        <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="28" Height="45" FontWeight="Bold"/>
+        <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="30" Height="45" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
         <Button Content="Send" HorizontalAlignment="Left" Margin="997,912,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold">
             <Button.Resources>
@@ -29,20 +29,35 @@
             </Button.Resources>
         </Button>
         <ListView Margin="391,576,845,128">
-
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel VerticalAlignment="Bottom"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
-        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,82,0,0" VerticalAlignment="Top" FontSize="28" FontWeight="Bold" Height="56"/>
-        <Label Content="BPM:" HorizontalAlignment="Left" Margin="1157,149,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="RPM:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Speed:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1532,146,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Distance:" HorizontalAlignment="Left" Margin="1532,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Huidig:" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+
+        <!-- Current data -->
+        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,82,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
+        <Label Content="{Binding BPM}" HorizontalAlignment="Left" Margin="1157,149,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding RPM}" HorizontalAlignment="Left" Margin="1157,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed}" HorizontalAlignment="Left" Margin="1532,146,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Distance}" HorizontalAlignment="Left" Margin="1532,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Label Content="Totaal:" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="1157,397,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Button Content="-" HorizontalAlignment="Left" Margin="1167,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
         <Button Content="+" HorizontalAlignment="Left" Margin="1274,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
         <Label Content="6" HorizontalAlignment="Left" Margin="1229,445,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="407,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="529,323,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18">
+  
+        </Button>
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,324,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18">
+            
+        </Button>
+        <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="407,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
+        <Label Content="Noodgeval:" HorizontalAlignment="Left" Margin="831,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
 
     </Grid>
 </Page>

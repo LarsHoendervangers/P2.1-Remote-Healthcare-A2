@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private SharedPatient Patient;
         private SessionManager manager;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public SessionDetailViewModel(Window window, SharedPatient patient)
         {
             this.window = window;
@@ -25,6 +28,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
             this.ID = "ID persoon:\t" + this.Patient.ID;
+
+            this.manager.NewDataTriggered += (s, d) =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    
+                });
+            };
         }
 
         private SharedPatient _SelectedSessionPatient;
@@ -91,6 +102,66 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _ID = value;
+            }
+        }
+
+        private string _RPM;
+        public string RPM
+        {
+            get { return _RPM; }
+            set
+            {
+                _RPM = value;
+            }
+        }
+
+        private string _BPM;
+        public string BPM
+        {
+            get { return _BPM; }
+            set
+            {
+                _BPM = value;
+            }
+        }
+
+        private string _Speed;
+        public string Speed
+        {
+            get { return _Speed; }
+            set
+            {
+                _Speed = value;
+            }
+        }
+
+        private string _Distance;
+        public string Distance
+        {
+            get { return _Distance; }
+            set
+            {
+                _Distance = value;
+            }
+        }
+
+        private string _CurrentW;
+        public string CurrentW
+        {
+            get { return _CurrentW; }
+            set
+            {
+                _CurrentW = value;
+            }
+        }
+
+        private string _TotalW;
+        public string TotalW
+        {
+            get { return _TotalW; }
+            set
+            {
+                _TotalW = value;
             }
         }
     }

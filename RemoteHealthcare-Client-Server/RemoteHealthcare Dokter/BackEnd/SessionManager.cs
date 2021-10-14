@@ -14,6 +14,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class SessionManager : DataManager
     {
+        public List<HRMeasurement> hRMeasurements;
+        public List<BikeMeasurement> bikeMeasurements;
+
+        public event EventHandler NewDataTriggered;
 
         public SessionManager() { }
 
