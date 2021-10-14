@@ -32,8 +32,8 @@
         
         <Button Name="SubmitButton" Content="{Binding SubmitText}" HorizontalAlignment="Center" Margin="0,362,25,0" VerticalAlignment="Top" Command="{Binding Path=StartCommand}"/>
         <Label Content="" HorizontalAlignment="Left" Margin="42,271,0,0" VerticalAlignment="Top" FontSize="11" Background="Transparent" Foreground="Red"/>
-        <TextBox HorizontalAlignment="Left" Height="49" Margin="44,274,0,0" TextWrapping="Wrap" Text="Wachtwoord of Gebruikersnaam is verkeerd" VerticalAlignment="Top" Width="146" BorderBrush="#00ABADB3" FontSize="11" Foreground="Red" Opacity="{Binding Path=WrongCredentialsOpacity}" Background="Transparent"/>
-        <TextBox HorizontalAlignment="Left" Height="49" Margin="44,274,0,0" TextWrapping="Wrap" Text="Login was Succesvol" VerticalAlignment="Top" Width="146" BorderBrush="#00ABADB3" FontSize="11" Foreground="Lime" Opacity="{Binding RightCredentialsOpacity}" Background="Transparent"/>
+        <TextBlock HorizontalAlignment="Left" Height="49" Margin="47,274,0,0" TextWrapping="Wrap" Text="Wachtwoord of Gebruikersnaam is verkeerd" VerticalAlignment="Top" Width="146" FontSize="11" Foreground="Red" Opacity="{Binding Path=WrongCredentialsOpacity}" Background="Transparent"/>
+        <TextBlock HorizontalAlignment="Left" Height="49" Margin="47,274,0,0" TextWrapping="Wrap" Text="Login was Succesvol" VerticalAlignment="Top" Width="146" FontSize="11" Foreground="Lime" Opacity="{Binding RightCredentialsOpacity}" Background="Transparent"/>
 
 
         <!--
