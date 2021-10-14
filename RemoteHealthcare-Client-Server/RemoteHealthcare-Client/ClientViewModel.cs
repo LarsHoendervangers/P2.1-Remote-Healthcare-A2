@@ -37,7 +37,6 @@ namespace RemoteHealthcare_Client
             // Setting the event for the device callbacks
             this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
             this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
-            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
             this.loader.OnLoginResponseReceived += (s, d) =>
             {
                 this.isLoggedIn = d;
@@ -68,11 +67,9 @@ namespace RemoteHealthcare_Client
             get { return mSubmitText; }
             set
             {
-
                 mSubmitText = value;
                 Console.WriteLine("Nieuwe waarde voor knop: " + value);
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
-
             }
         }
 
@@ -84,11 +81,9 @@ namespace RemoteHealthcare_Client
         {
             get { return mVRServers; }
             set
-            {   
-
+            {
                 mVRServers = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
-
             }
         }
 
@@ -193,10 +188,8 @@ namespace RemoteHealthcare_Client
             get { return mWrongCredentialsOpacity; }
             set
             {
-
                 mWrongCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
-
             }
         }
 
@@ -206,10 +199,8 @@ namespace RemoteHealthcare_Client
             get { return mRightCredentialsOpacity; }
             set
             {
-
                 mRightCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RightCredentialsOpacity"));
-
             }
         }
 
