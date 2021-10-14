@@ -33,7 +33,8 @@ namespace RemoteHealthcare_Server.Data.Logic
                 {
 
                     Patient p = (Patient)user;
-                    if (p.Password == HashProcessing.HashString(password) && p.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0) 
+                    if (p.Password == HashProcessing.HashString(password) && 
+                        p.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0) 
                     {
                         return user;
                     }
@@ -41,7 +42,8 @@ namespace RemoteHealthcare_Server.Data.Logic
                 else if (user.getUserType() == UserTypes.Doctor && flag == 1)
                 {
                     Doctor d = (Doctor)user;
-                    if (d.Password == HashProcessing.HashString(password) && d.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0)
+                    if (d.Password == HashProcessing.HashString(password) && 
+                        d.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0)
                     {
                         return user;
                     }
@@ -50,7 +52,8 @@ namespace RemoteHealthcare_Server.Data.Logic
                 {
                     Admin a = (Admin)user;
                     Console.WriteLine(a.Password);
-                    if (a.Password == HashProcessing.HashString(password) && a.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0)
+                    if (a.Password == HashProcessing.HashString(password) && 
+                        a.Username == username && management.activeHosts.Where(e => e.GetUser() == user).ToList().Count <= 0)
                     {
                         return user;
                     }
