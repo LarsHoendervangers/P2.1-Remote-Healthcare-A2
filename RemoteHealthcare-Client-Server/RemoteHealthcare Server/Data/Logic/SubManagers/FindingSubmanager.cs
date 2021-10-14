@@ -129,7 +129,6 @@ namespace RemoteHealthcare_Server.Data.Logic
 
         public bool GetSession(Patient p)
         {
-            Server.PrintToGUI(UserManagement.activeSessions.Count + " count of sessions");
             foreach (Session s in UserManagement.activeSessions)
             {
                 if (s.Patient == p)
