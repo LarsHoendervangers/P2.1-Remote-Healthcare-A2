@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using LiveCharts.Geared;
+using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
 using RemoteHealthcare_Shared.DataStructs;
 
@@ -37,6 +41,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 });
             };
             this.manager = new SessionManager(patient);
+
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.MessageList = new ObservableCollection<string>();
+            });
         }
 
         private SharedPatient _SelectedSessionPatient;
@@ -164,6 +174,80 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 _TotalW = value;
             }
+        }
+
+        private ICommand _AbortCommand;
+        public ICommand AbortCommand
+        {
+            get
+            {
+                if (_AbortCommand == null)
+                {
+                    _AbortCommand = new GeneralCommand(
+                        param => SendAbort()
+                        ); ;
+                }
+                return _AbortCommand;
+            }
+
+        }
+
+        private void SendAbort()
+        {
+            this.manager.AbortSession();
+            this.window.Content = new DashboardViewModel(this.window);
+        }
+
+        private ICommand _SendMessage;
+        public ICommand SendMessage
+        {
+            get
+            {
+                if (_SendMessage == null)
+                {
+                    _SendMessage = new GeneralCommand(
+                        param => SendPersonalMessage()
+                        ); ;
+                }
+                return _SendMessage;
+            }
+
+        }
+
+        private string _Message;
+        public string Message
+        {
+            get { return _Message; }
+            set
+            {
+                _Message = value;
+            }
+        }
+
+        private void SendPersonalMessage()
+        {
+            this.manager.PersonalMessage(Message);
+            UpdateListView();
+        }
+
+        private ObservableCollection<string> _MessageList;
+        public ObservableCollection<string> MessageList
+        {
+            get { return _MessageList; }
+            set
+            {
+                _MessageList = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageList"));
+            }
+        }
+
+        private void UpdateListView()
+        {
+            ObservableCollection<string> TempList = MessageList;
+
+            TempList.Add(Message);
+
+            MessageList = new ObservableCollection<string>(TempList);
         }
     }
 }

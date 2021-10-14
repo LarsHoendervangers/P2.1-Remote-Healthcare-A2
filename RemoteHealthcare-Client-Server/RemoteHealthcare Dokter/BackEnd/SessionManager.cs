@@ -18,12 +18,14 @@ namespace RemoteHealthcare_Dokter.BackEnd
         public List<BikeMeasurement> bikeMeasurements;
 
         public event EventHandler NewDataTriggered;
+        private SharedPatient Patient;
 
         public SessionManager() { }
 
         public SessionManager(SharedPatient patient)
         {
             SubscribeToPatient(patient, false);
+            this.Patient = patient;
         }
 
         public override void ReceivedData(JObject data)
@@ -67,6 +69,40 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SendToManagers(JObject.FromObject(o));
         }
 
+        public void AbortSession()
+        {
+            
 
+            // JSON object to start a new session
+            object o = new
+            {
+                command = "abort",
+                data = new
+                {
+                    
+                }
+            };
+
+            //Asking the sever to start a session, no further actions are taken until new userineraction
+            this.SendToManagers(JObject.FromObject(o));
+        }
+
+        public void PersonalMessage(string message)
+        {
+            string[] patients = new string[] { this.Patient.ID };
+
+            object o = new
+            {
+                command = "message",
+                data = new
+                {
+                    message = message,
+                    patid = patients
+                },
+                flag = "2"
+            };
+
+            this.SendToManagers(JObject.FromObject(o));
+        }
     }
 }

@@ -20,15 +20,15 @@
 
         <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="30" Height="45" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="997,912,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold">
+        <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="997,912,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,576,845,128">
+        <ListView Margin="391,576,845,128" ItemsSource="{Binding MessageList}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -50,10 +50,10 @@
         <Button Content="+" HorizontalAlignment="Left" Margin="1274,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
         <Label Content="6" HorizontalAlignment="Left" Margin="1229,445,0,0" VerticalAlignment="Top" FontSize="22"/>
         <Button Content="Start" HorizontalAlignment="Left" Margin="396,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18">
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
 
         </Button>
-        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,322,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18">
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,322,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
 
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
