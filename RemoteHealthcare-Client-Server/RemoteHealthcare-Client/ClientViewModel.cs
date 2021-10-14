@@ -36,8 +36,6 @@ namespace RemoteHealthcare_Client
         /// <param name="loader">The StartupLoader that handles startup</param>
         public ClientViewModel(StartupLoader loader)
         {
-            
-
             this.loader = loader;
 
             // Setting the event for the device callbacks
@@ -76,11 +74,9 @@ namespace RemoteHealthcare_Client
             get { return mSubmitText; }
             set
             {
-
                 mSubmitText = value;
                 Console.WriteLine("Nieuwe waarde voor knop: " + value);
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
-
             }
         }
 
@@ -92,11 +88,9 @@ namespace RemoteHealthcare_Client
         {
             get { return mVRServers; }
             set
-            {   
-
+            {
                 mVRServers = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
-
             }
         }
 
@@ -257,8 +251,6 @@ namespace RemoteHealthcare_Client
         private bool NullCheck()
         {
             return
-                this.SelectedDevice != null &
-                this.SelectedVRServer.NullCheck() &
                 this.Password != null &
                 this.UserName != null;
         }
