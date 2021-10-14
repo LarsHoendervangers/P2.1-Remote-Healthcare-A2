@@ -29,6 +29,11 @@ namespace RemoteHealthcare_Client
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
 
+            this.OnLoginResponseReceived += ((s, d) =>
+            {
+                Debug.WriteLine("OnLoginResponseReceived fired");
+            });
+
             // starting up the connection to the server
             this.serverDataManager = new ServerDataManager(this.ip, this.port);
         }
@@ -91,8 +96,9 @@ namespace RemoteHealthcare_Client
             if ((this.serverDataManager as ServerDataManager).GetStream() == null)
             {
                 Debug.WriteLine("Reconnecting");
-                ReconnectWithServer();
+                (this.serverDataManager as ServerDataManager).ReconnectWithServer(this.ip, this.port);
             }
+
             // Setting the callback event for the login
             (this.serverDataManager as ServerDataManager).OnLoginResponseReceived += (s, d) => OnLoginResponseReceived?.Invoke(this, d);
 
@@ -109,13 +115,8 @@ namespace RemoteHealthcare_Client
                     }
                 });
 
-            // Seniding the login data to the server
+            // Sending the login data to the server
             this.serverDataManager?.ReceivedData(loginCommand);
-        }
-
-        public void ReconnectWithServer()
-        {
-            (this.serverDataManager as ServerDataManager).ReconnectWithServer(this.ip, this.port);
         }
     }
 }

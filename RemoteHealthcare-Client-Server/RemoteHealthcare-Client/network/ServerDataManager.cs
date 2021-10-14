@@ -20,9 +20,7 @@ namespace RemoteHealthcare_Client
         public ServerDataManager(string ip, int port)
         {
             this.TCPClientHandler = new TCPClientHandler(ip, port, true);
-
             this.TCPClientHandler.SetRunning(true);
-
             this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
         }
 
@@ -95,6 +93,8 @@ namespace RemoteHealthcare_Client
         {
             this.TCPClientHandler.SetRunning(false);
             this.TCPClientHandler = new TCPClientHandler(ip, port, true);
+            this.TCPClientHandler.OnMessageReceived += OnMessageReceived;
+            this.TCPClientHandler.SetRunning(true);
         }
 
         public NetworkStream GetStream()

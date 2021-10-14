@@ -32,8 +32,6 @@ namespace RemoteHealthcare_Client
         /// <param name="loader">The StartupLoader that handles startup</param>
         public ClientViewModel(StartupLoader loader)
         {
-            
-
             this.loader = loader;
 
             // Setting the event for the device callbacks
@@ -51,7 +49,6 @@ namespace RemoteHealthcare_Client
                 }
 
                 if (!d) WrongCredentialsOpacity = 100;
-
             };
 
             // Calling the first statup method for the loader
@@ -64,7 +61,6 @@ namespace RemoteHealthcare_Client
             this.mScenes = new ObservableCollection<GeneralScene>(scenes);
             this.SelectedScene = scenes[0];
         }
-
 
         private string mSubmitText = "Submit login";
         public string SubmitText
@@ -243,7 +239,6 @@ namespace RemoteHealthcare_Client
                 }
                 return mStartCommand;
             }
-
         }
 
         /// <summary>
@@ -272,15 +267,14 @@ namespace RemoteHealthcare_Client
                 loader.GetAvailableVRConnections();
                 Thread.Sleep(3000);
             }
-
         }
+
         private void UpdateBLEDevices()
         {
             while (true)
             {
                 loader.GetAvailableBLEDevices();
             }
-
         }
     }
 }
