@@ -56,6 +56,7 @@ namespace RemoteHealthcare_Client
             // To get this list it is needed to start up the vrDataManager
             VRDataManager dataManager = new VRDataManager();
             List<ClientData> clientVREngines =  dataManager.VRTunnelHandler.GetAvailableClients();
+            clientVREngines.Reverse();
 
             this.vrDataManager = dataManager;
 
