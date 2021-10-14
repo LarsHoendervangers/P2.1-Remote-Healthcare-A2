@@ -1,5 +1,6 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using RemoteHealthcare_Shared.DataStructs;
@@ -192,6 +193,25 @@ namespace RemoteHealthcare_Server
             };
 
             sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        public static void WriteMessage(string message, List<Host> activeHosts)
+        {
+            //Message
+            object o = new
+            {
+                command = "message",
+                flag = "2",
+                data = message
+
+            };
+
+            //Sending
+            foreach (Host h in activeHosts)
+            {
+                h.GetSender().SendMessage(JsonConvert.SerializeObject(o));
+            }
+
         }
     }
 }

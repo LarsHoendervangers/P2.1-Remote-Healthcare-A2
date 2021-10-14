@@ -23,6 +23,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         /// <returns></returns>
         public Patient FindPatient(string patientID)
         {
+
             List<Patient> patients = new List<Patient>();
             foreach (IUser user in UserManagement.users)
             {
