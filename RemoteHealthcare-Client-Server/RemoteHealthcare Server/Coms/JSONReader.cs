@@ -92,6 +92,10 @@ namespace RemoteHealthcare_Server
         [AccesManager("ergodata", UserTypes.Patient)]
         private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
+
+
+           // Server.PrintToGUI(Jobject.ToString());
+
             //All data from the jobject
             JToken rpm = Jobject.SelectToken("data.rpm");
             JToken speed = Jobject.SelectToken("data.speed");
@@ -103,34 +107,42 @@ namespace RemoteHealthcare_Server
 
             //Getting sessoin
             Session session = null;
-            int state = -1;
+            bool bikestate = false;
+            bool bpmstate = false;
             if (rpm != null && speed != null && dist != null && pow != null && accpow != null && time != null)
             {
                 session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
                     (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                     int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
-                state = 0;
+                bikestate = true;
             }
-            else if (bpm != null && time != null)
+            
+            if (bpm != null && time != null)
             {
                 session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
-                state = 1;
+                bpmstate = true;
             }
 
             //Sending it to the subs
             if (session != null)
             {
-                Server.PrintToGUI("[Session debug] - Data is added to a session");
+           
                 Patient p = user as Patient;
                 List<Doctor> subs = session.Subscribers;
-                foreach(Doctor d in subs)
+
+                for (int i = 0; i < subs.Count; i++)
                 {
-                    Host h = usermanagement.FindHost(d);
+
+                    Host h = usermanagement.FindHost(subs[i]);
                     if (h != null)
                     {
-                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender(), state);
+                        JSONWriter.DoctorSubWriter(h, session, p.PatientID, h.GetSender(), bikestate, bpmstate);
                     }
+
+
+
                 }
+                
             }
         }
 
