@@ -256,6 +256,7 @@ namespace RemoteHealthcare_Server
         [AccesManager("newsession", UserTypes.Doctor)]
         private void StartNewSession(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
+            
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");
             JToken sessionState = jObject.SelectToken("data.state");
@@ -265,9 +266,10 @@ namespace RemoteHealthcare_Server
             {
                 //Getting patients
                 List<Patient> targetPatients = new List<Patient>();
-                foreach(JObject patientID in (JArray)patientIDs)
+                //Afvangen cast.....
+                foreach(string patientID in patientIDs)
                 {
-                    Patient p = management.FindPatient(patientID.ToString());
+                    Patient p = management.FindPatient(patientID);
                     if (p != null) targetPatients.Add(p);
                 }
 
@@ -277,8 +279,8 @@ namespace RemoteHealthcare_Server
                 //Executing action
                 foreach(Patient p in targetPatients)
                 {
-                    if (state) { management.SessionStart(user); Server.PrintToGUI("[Session debug] - Subbing to patient"); }
-                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Unsubbing to patient"); }
+                    if (state) { management.SessionStart(user); Server.PrintToGUI("[Session debug] - Starting to patient"); }
+                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Stopping to patient"); }
                 }
             }
         }
@@ -370,7 +372,7 @@ namespace RemoteHealthcare_Server
             {
                 Server.PrintToGUI("[Logic debug] - message send");
                 //If there are no patient ids
-                if (patids == null) JSONWriter.WriteMessage(message.ToString(), management.activeHosts.Where(host => host.GetUser().getUserType() == UserTypes.Patient).ToList());
+                if (patids == null) JSONWriter.WriteMessage(message.ToString(), management.activeHosts.Where(host => host.GetUser() != null && host.GetUser().getUserType() == UserTypes.Patient).ToList());
                 //If there are....
                 else
                 {
