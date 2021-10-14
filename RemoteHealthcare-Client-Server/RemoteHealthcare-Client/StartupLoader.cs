@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;

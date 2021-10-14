@@ -236,7 +236,7 @@ namespace RemoteHealthcare_Client
         {
             while (true)
             {
-                this.mVRServers = new ObservableCollection<ClientData>(loader.GetVRConnections());
+                loader.GetAvailableVRConnections();
                 Thread.Sleep(3000);
             }
 
@@ -245,10 +245,7 @@ namespace RemoteHealthcare_Client
         {
             while (true)
             {
-                List<string> blDevices = PhysicalDevice.ReadAllDevices();
-                blDevices.Add("Simulator");
-                this.mBLEDevices = new ObservableCollection<string>(blDevices);
-                Thread.Sleep(3000);
+                loader.GetAvailableBLEDevices();
             }
 
         }
