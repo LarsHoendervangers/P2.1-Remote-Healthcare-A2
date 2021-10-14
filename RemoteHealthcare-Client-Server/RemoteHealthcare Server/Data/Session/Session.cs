@@ -17,10 +17,6 @@ namespace RemoteHealthcare_Server
 
 
 
-        //****************this class needs fixing*************** 
-        //All the set methods are broken why................
-        //I off
-
 
         /// <summary>
         /// List of HRMeasurements in this current session
@@ -57,10 +53,9 @@ namespace RemoteHealthcare_Server
 
         public Patient Patient
         {
-            get => default;
-            set
-            {
-            }
+            get ;
+            set;
+            
         }
 
         public DateTime StartTime

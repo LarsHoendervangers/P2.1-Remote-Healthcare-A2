@@ -123,13 +123,13 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         /// Starts a session
         /// </summary>
         /// <param name="user"></param>
-        public void SessionStart(IUser user)
+        public void SessionStart(Patient p)
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (p.getUserType() == UserTypes.Patient)
                 {
-                    UserManagement.activeSessions.Add(new Session((Patient)user));
+                    UserManagement.activeSessions.Add(new Session(p));
                 }
             }
         }

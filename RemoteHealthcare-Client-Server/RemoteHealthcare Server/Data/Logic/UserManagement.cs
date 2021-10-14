@@ -111,9 +111,9 @@ namespace RemoteHealthcare_Server.Data
             return this.findingSubmanager.FindPatient(v);
         }
 
-        internal void SessionStart(IUser user)
+        internal void SessionStart(Patient p)
         {
-            this.sessionManager.SessionStart(user);
+            this.sessionManager.SessionStart(p);
         }
 
         internal void SessionEnd(IUser user)

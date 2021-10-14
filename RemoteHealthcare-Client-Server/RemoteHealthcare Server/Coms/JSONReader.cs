@@ -280,7 +280,7 @@ namespace RemoteHealthcare_Server
                 foreach(Patient p in targetPatients)
                 {
                     if (state) { 
-                        management.SessionStart(user); 
+                        management.SessionStart(p); 
                         Server.PrintToGUI("[Session debug] - Starting to patient");
                         JSONWriter.WriteMessage("[Server] Doctor started session", new List<Host>() { management.FindHost(p.PatientID) });
                     }
