@@ -37,7 +37,13 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    
+                    this.RPM = "RPM: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentRPM;
+                    this.Speed = "Snelheid: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentSpeed;
+                    this.TotalW = "Totaal: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentTotalWattage;
+                    this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentWattage;
+                    this.Distance = "Afstand: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentTotalDistance;
+
+                    this.BPM = "BPM: " + this.manager.HRMeasurements[this.manager.HRMeasurements.Count].CurrentHeartrate;
                 });
             };
             this.manager = new SessionManager(patient);
@@ -123,6 +129,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _RPM = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RPM"));
             }
         }
 
@@ -133,6 +140,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _BPM = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BPM"));
             }
         }
 
@@ -143,6 +151,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Speed = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Speed"));
             }
         }
 
@@ -153,6 +162,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Distance = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Distance"));
             }
         }
 
@@ -163,6 +173,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _CurrentW = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentW"));
             }
         }
 
@@ -173,6 +184,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _TotalW = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalW"));
             }
         }
 
