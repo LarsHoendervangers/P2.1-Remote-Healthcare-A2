@@ -59,7 +59,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void OnButtonClick(Window window)
         {
             this.window = window;
-            Trace.WriteLine("Piew");
             SendMessage(UserName, Password);
         }
 

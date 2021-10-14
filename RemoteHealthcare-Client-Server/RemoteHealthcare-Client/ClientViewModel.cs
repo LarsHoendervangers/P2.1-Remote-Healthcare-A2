@@ -3,7 +3,6 @@ using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 using RemoteHealthcare_Client.ClientVREngine.Tunnel;
-using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

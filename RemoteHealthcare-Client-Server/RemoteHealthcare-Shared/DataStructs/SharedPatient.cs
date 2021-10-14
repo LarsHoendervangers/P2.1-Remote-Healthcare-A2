@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace RemoteHealthcare_Shared.DataStructs

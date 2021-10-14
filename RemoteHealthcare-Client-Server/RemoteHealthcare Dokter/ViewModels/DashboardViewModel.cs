@@ -2,8 +2,11 @@
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
 using RemoteHealthcare_Server;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +15,25 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class DashboardViewModel
+    class DashboardViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private Window window;
+        private DashboardManager manager;
 
         public DashboardViewModel(Window window)
         {
             this.window = window;
+
+            this.manager = new DashboardManager();
+            this.manager.OnPatientUpdated += (s, d) =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MakeList(d);
+                });
+            };
         }
 
         private ICommand _AddSessionCommand;
@@ -61,15 +76,31 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void SendMessage()
         {
-            MessageBox.Show("Ja haai");
+            this.manager.BroadcastMessage(MessageBoxText);
+
         }
 
 
-        private List<Session> _SessionsList;
-        public List<Session> SessionsList
+        private ObservableCollection<SharedPatient> mAllPatients;
+        public ObservableCollection<SharedPatient> AllPatients
         {
-            get { return _SessionsList; }
-            set { _SessionsList = value; }
+            get { return mAllPatients; }
+            set
+            {
+                mAllPatients = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AllPatients"));
+            }
+        }
+
+        private ObservableCollection<SharedPatient> _InSessionPatients;
+        public ObservableCollection<SharedPatient> InSessionPatients
+        {
+            get { return _InSessionPatients; }
+            set
+            {
+                _InSessionPatients = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InSessionPatients"));
+            }
         }
 
         private ICommand _SwitchToPatientView;
@@ -90,7 +121,39 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void SwitchView()
         {
-            this.window.Content = new PatientListViewModel();
+            this.window.Content = new PatientListViewModel(this.window);
+        }
+
+        private string _MessageBoxText;
+        public string MessageBoxText
+        {
+            get { return _MessageBoxText; }
+            set
+            {
+                _MessageBoxText = value;
+            }
+        }
+
+        private void MakeList(List<SharedPatient> d)
+        {
+            List<SharedPatient> ActiveSessionPatients = new List<SharedPatient>();
+            List<SharedPatient> AllPatients = new List<SharedPatient>();
+
+            foreach (SharedPatient p in d)
+            {
+                if (p.InSession)
+                {
+                    ActiveSessionPatients.Add(p);
+                } else
+                {
+                    AllPatients.Add(p);
+                }
+
+
+            }
+
+            this.AllPatients = new ObservableCollection<SharedPatient>(AllPatients);
+            this.InSessionPatients = new ObservableCollection<SharedPatient>(ActiveSessionPatients);
         }
     }
 }

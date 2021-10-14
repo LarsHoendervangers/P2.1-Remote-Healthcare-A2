@@ -46,10 +46,8 @@ namespace RemoteHealthcare_Client
             for (int i = 0; i < DataManager.NetworkManagers.Count; i++)
             {
                 if (DataManager.NetworkManagers[i].Equals(this))
-                {
                     continue;
-                }
-
+                
                 DataManager.NetworkManagers[i].ReceivedData(data);
             }
         }

@@ -41,11 +41,13 @@ namespace RemoteHealthcare_Dokter
 
         private void Patient_Click(object sender, RoutedEventArgs e)
         {
+            /*
             var bc = new BrushConverter();
 
             DataContext = new PatientListViewModel();
             DokterButton.Background = (Brush)bc.ConvertFrom("#FFFFFFFF");
             PatientButton.Background = (Brush)bc.ConvertFrom("#FFFFFDFD");
+            */
         }
     }
 }

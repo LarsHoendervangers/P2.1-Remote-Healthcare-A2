@@ -26,14 +26,13 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override void ReceivedData(JObject data)
         {
-            // The server will only get messages to login, all other is not defined in the data protocol.
-            Trace.WriteLine($"received data from server: {data}");
+            Trace.WriteLine("OUTGOING " + data);
             this.tcpClientHandler.WriteMessage(data.ToString());
         }
 
         private void HandleServerMessage(JObject data)
         {
-            Trace.WriteLine(data);
+            Trace.WriteLine("INCOMMING " + data);
             this.SendToManagers(data);
         }
 
