@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Windows;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
@@ -25,6 +26,8 @@ namespace RemoteHealthcare_Client
         {
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
+            // new Thread(UpdateVRServers).Start();
+            // new Thread(UpdateBLEDevices).Start();
 
             // starting up the connection to the server
             this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
@@ -125,6 +128,25 @@ namespace RemoteHealthcare_Client
 
             // Seniding the login data to the server
             this.serverDataManager?.ReceivedData(loginCommand);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableVRConnections);
+                Thread.Sleep(5000);
+            }
+
+        }
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableBLEDevices);
+                Thread.Sleep(5000);
+            }
+
         }
     }
 }
