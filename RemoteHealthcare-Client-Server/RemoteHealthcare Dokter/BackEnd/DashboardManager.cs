@@ -20,23 +20,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
         {
             // Oncreation the server wil ask the server for all active clients
             RequestActiveClients();
-
-            StartSession(new SharedPatient("hoi", "doei", "A12347", false, DateTime.Now));
-            //Thread.Sleep(5000);
-            //
-            //string[] patients = new string[] { "A12347" };
-            //object o = new
-            //{
-            //    command = "newsession",
-            //    data = new
-            //    {
-            //        patid = "A12347",
-            //        state = 1
-            //    }
-            //};
-
-            //Asking the sever to start a session, no further actions are taken until new userineraction
-            //this.SendToManagers(JObject.FromObject(o));
         }
 
         public override void ReceivedData(JObject data)
