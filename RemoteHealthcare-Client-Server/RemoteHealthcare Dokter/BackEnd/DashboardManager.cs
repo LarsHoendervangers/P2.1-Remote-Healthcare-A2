@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Dokter.BackEnd
@@ -19,6 +20,23 @@ namespace RemoteHealthcare_Dokter.BackEnd
         {
             // Oncreation the server wil ask the server for all active clients
             RequestActiveClients();
+
+            StartSession(new SharedPatient("hoi", "doei", "A12347", false, DateTime.Now));
+            //Thread.Sleep(5000);
+            //
+            //string[] patients = new string[] { "A12347" };
+            //object o = new
+            //{
+            //    command = "newsession",
+            //    data = new
+            //    {
+            //        patid = "A12347",
+            //        state = 1
+            //    }
+            //};
+
+            //Asking the sever to start a session, no further actions are taken until new userineraction
+            //this.SendToManagers(JObject.FromObject(o));
         }
 
         public override void ReceivedData(JObject data)
@@ -85,14 +103,16 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public void StartSession(SharedPatient patient)
         {
+            string[] patients = new string[] { patient.ID };
+
             // JSON object to start a new session
             object o = new
             {
                 command = "newsession",
                 data = new
                 {
-                    patid = patient.ID,
-                    state = 1
+                    patid = patients,
+                    state = 0
                 }
             };
 
