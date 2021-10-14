@@ -71,7 +71,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public void AbortSession()
         {
-            
+            string[] patients = new string[] { this.Patient.ID };
 
             // JSON object to start a new session
             object o = new
@@ -79,7 +79,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 command = "abort",
                 data = new
                 {
-                    
+                    patid = patients
                 }
             };
 
