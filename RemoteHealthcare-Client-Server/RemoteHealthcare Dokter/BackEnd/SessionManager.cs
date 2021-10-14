@@ -23,7 +23,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public SessionManager(SharedPatient patient)
         {
-            SubscribeToPatient(patient);
+            SubscribeToPatient(patient, false);
         }
 
         public override void ReceivedData(JObject data)
@@ -49,16 +49,22 @@ namespace RemoteHealthcare_Dokter.BackEnd
             Trace.WriteLine($"DATA KOMT BINNEN ERGO LIVER HETLPELPLPFLS {data}");
         }
 
-        private void SubscribeToPatient(SharedPatient patient)
+        private void SubscribeToPatient(SharedPatient patient, bool unsubscribe)
         {
             string[] patientsIDs = new string[] { patient.ID };
-
+             
             // The command to subscribe to a patient at the server
             object o = new
             {
                 command = "subtopatient",
-                data = patientsIDs
+                data = new
+                {
+                    patid = patientsIDs,
+                    state = unsubscribe ? 1 : 0
+                }
             };
+
+            SendToManagers(JObject.FromObject(o));
         }
 
 

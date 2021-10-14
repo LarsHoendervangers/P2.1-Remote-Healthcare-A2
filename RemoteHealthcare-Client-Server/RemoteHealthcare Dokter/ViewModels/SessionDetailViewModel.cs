@@ -23,7 +23,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window = window;
             this.Patient = patient;
 
-            this.manager = new SessionManager();
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
@@ -36,6 +35,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     
                 });
             };
+            this.manager = new SessionManager(patient);
         }
 
         private SharedPatient _SelectedSessionPatient;

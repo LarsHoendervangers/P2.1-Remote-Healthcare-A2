@@ -77,7 +77,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void SendMessage()
         {
             this.manager.BroadcastMessage(MessageBoxText);
-
         }
 
 

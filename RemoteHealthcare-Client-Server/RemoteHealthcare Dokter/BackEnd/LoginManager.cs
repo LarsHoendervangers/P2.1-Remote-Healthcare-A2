@@ -59,7 +59,17 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void HandleLoginResponse(JObject data)
         {
-            this.OnLoginResponseReceived?.Invoke(this, data.GetValue("data").ToString().Contains("succesfull connect"));
+            JToken flag;
+            int flagValue;
+
+            bool canParse = data.TryGetValue("flag", StringComparison.CurrentCulture, out flag);
+
+            if (!canParse) return;
+
+            if (!int.TryParse(flag.ToString(), out flagValue)) return;
+
+            if (flagValue == 1) 
+                this.OnLoginResponseReceived?.Invoke(this, data.GetValue("data").ToString().Contains("succesfull connect"));
         }
     }
 }
