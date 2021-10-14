@@ -14,16 +14,21 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class SessionManager : DataManager
     {
-        public List<HRMeasurement> hRMeasurements;
-        public List<BikeMeasurement> bikeMeasurements;
+        public List<HRMeasurement> HRMeasurements;
+        public List<BikeMeasurement> BikeMeasurements;
 
         public event EventHandler NewDataTriggered;
         private SharedPatient Patient;
 
-        public SessionManager() { }
+        public SharedPatient Patient;
 
         public SessionManager(SharedPatient patient)
         {
+            this.Patient = patient;
+
+            this.HRMeasurements = new List<HRMeasurement>();
+            this.BikeMeasurements = new List<BikeMeasurement>();
+
             SubscribeToPatient(patient, false);
             this.Patient = patient;
         }
@@ -48,7 +53,37 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         private void HandleIncomingErgoData(JObject data)
         {
-            Trace.WriteLine($"DATA KOMT BINNEN ERGO LIVER HETLPELPLPFLS {data}");
+            // Getting the data object from 
+            JToken commandData;
+            
+
+            if (data.TryGetValue("data", out commandData)) return;
+
+            // Casting the token to a usable object
+            JObject dataObject = commandData as JObject;
+
+            string patientID = (commandData as JObject)?.GetValue("id").ToString();
+
+            // Ignore if patient ID is not the current patient (for redundantie + expandability)
+            if (patientID != this.Patient.ID) return;
+
+            // Determine if the incoming data is HR or bike readings
+            bool isHR = data.TryGetValue("data", out commandData);
+
+            if (isHR)
+                this.HRMeasurements.Add(ConvertHRObject(dataObject));
+            else
+                this.BikeMeasurements.Add(ConverBikeObject(dataObject));
+
+
+        }
+
+        private HRMeasurement ConvertHRObject(JObject dataObject)
+        {
+            return new HRMeasurement(
+                DateTime.Parse(dataObject.GetValue("MeasurementTime").ToString()),
+                int.Parse(dataObject.GetValue("CurrentHeartrate").ToString())
+                );
         }
 
         private void SubscribeToPatient(SharedPatient patient, bool unsubscribe)
