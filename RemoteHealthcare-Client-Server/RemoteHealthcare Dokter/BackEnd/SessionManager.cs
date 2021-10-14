@@ -2,6 +2,7 @@
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.ViewModels;
 using RemoteHealthcare_Server;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class SessionManager : DataManager
     {
-        private Patient patient;
-        private Session session;
-        private SessionDetailViewModel DetailViewModel;
 
-        public SessionManager(Patient patient, Session session, SessionDetailViewModel sessionDetailViewModel)
+        public SessionManager() { }
+
+        public SessionManager(SharedPatient patient)
         {
-            this.patient = patient;
-            this.session = session;
-            this.DetailViewModel = sessionDetailViewModel;
+            SubscribeToPatient(patient);
         }
 
         public override void ReceivedData(JObject data)
@@ -38,24 +36,18 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         }
 
-        public void SendAbort()
+        private void SubscribeToPatient(SharedPatient patient)
         {
+            string[] patientsIDs = new string[] { patient.ID };
 
+            // The command to subscribe to a patient at the server
+            object o = new
+            {
+                command = "subtopatient",
+                data = patientsIDs
+            };
         }
 
-        public void SendResistance(int res)
-        {
 
-        }
-
-        public void SendStopSession()
-        {
-
-        }
-
-        public void SendMessage(string message)
-        {
-
-        }
     }
 }
