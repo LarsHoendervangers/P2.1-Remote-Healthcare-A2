@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 
 namespace RemoteHealthcare_Client
@@ -80,7 +81,6 @@ namespace RemoteHealthcare_Client
                 default:
                     Trace.WriteLine($"Error received from server{jobject.GetValue("data")}");
                     break;
-
             }
         }
 
@@ -91,5 +91,15 @@ namespace RemoteHealthcare_Client
             this.TCPClientHandler.WriteMessage(data.ToString());
         }
 
+        public void ReconnectWithServer(string ip, int port)
+        {
+            this.TCPClientHandler.SetRunning(false);
+            this.TCPClientHandler = new TCPClientHandler(ip, port, true);
+        }
+
+        public NetworkStream GetStream()
+        {
+            return this.TCPClientHandler.stream;
+        }
     }
 }
