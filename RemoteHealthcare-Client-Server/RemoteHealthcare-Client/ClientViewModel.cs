@@ -44,8 +44,14 @@ namespace RemoteHealthcare_Client
             this.loader.OnLoginResponseReceived += (s, d) =>
             {
                 this.isLoggedIn = d;
-                if (d) SubmitText = "Start the connection to the server";
-                
+                if (d)
+                {
+                    SubmitText = "Start the connection to the server";
+                    WrongCredentialsOpacity = 0;
+                }
+
+                if (!d) WrongCredentialsOpacity = 100;
+
             };
 
             // Calling the first statup method for the loader
@@ -56,6 +62,7 @@ namespace RemoteHealthcare_Client
             scenes.Add(new SimpleScene(new TunnelHandler()));
             scenes.Add(new PodraceScene(new TunnelHandler()));
             this.mScenes = new ObservableCollection<GeneralScene>(scenes);
+            this.SelectedScene = scenes[0];
         }
 
 
@@ -183,7 +190,20 @@ namespace RemoteHealthcare_Client
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-        
+
+        private int mWrongCredentialsOpacity = 0;
+        public int WrongCredentialsOpacity
+        {
+            get { return mWrongCredentialsOpacity; }
+            set
+            {
+
+                mWrongCredentialsOpacity = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
+
+            }
+        }
+
         public bool isLoggedIn = false;
 
         /// <summary>
