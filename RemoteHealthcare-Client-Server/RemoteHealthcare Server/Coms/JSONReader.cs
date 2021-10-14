@@ -279,8 +279,16 @@ namespace RemoteHealthcare_Server
                 //Executing action
                 foreach(Patient p in targetPatients)
                 {
-                    if (state) { management.SessionStart(user); Server.PrintToGUI("[Session debug] - Starting to patient"); }
-                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Stopping to patient"); }
+                    if (state) { 
+                        management.SessionStart(user); 
+                        Server.PrintToGUI("[Session debug] - Starting to patient");
+                        JSONWriter.WriteMessage("[Server] Doctor started session", new List<Host>() { management.FindHost(p.PatientID) });
+                    }
+                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Stopping to patient");
+                        JSONWriter.WriteMessage("[Server] Doctor stopped session", new List<Host>() { management.FindHost(p.PatientID) });
+
+
+                    }
                 }
             }
         }
@@ -372,7 +380,7 @@ namespace RemoteHealthcare_Server
             {
                 Server.PrintToGUI("[Logic debug] - message send");
                 //If there are no patient ids
-                if (patids == null) JSONWriter.WriteMessage(message.ToString(), management.activeHosts.Where(host => host.GetUser() != null && host.GetUser().getUserType() == UserTypes.Patient).ToList());
+                if (patids == null) JSONWriter.WriteMessage("[Doctor] " + message.ToString(), management.activeHosts.Where(host => host.GetUser() != null && host.GetUser().getUserType() == UserTypes.Patient).ToList());
                 //If there are....
                 else
                 {
