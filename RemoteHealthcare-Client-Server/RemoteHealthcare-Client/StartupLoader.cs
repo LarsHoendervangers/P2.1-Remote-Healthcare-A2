@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
 {
@@ -30,11 +31,14 @@ namespace RemoteHealthcare_Client
             //this.serverDataManager = new ServerDataManager("145.49.26.175", 6969);
         }
 
-        public void Start(string device, string vrServerID)
+        public void Start(string device, string vrServerID, GeneralScene generalScene)
         {
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
+            (this.vrDataManager as VRDataManager).Scene = generalScene;
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
+
+            
         }
 
         public void GetAvailableVRConnections()

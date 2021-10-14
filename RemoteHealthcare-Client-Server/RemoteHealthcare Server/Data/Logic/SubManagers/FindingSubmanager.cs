@@ -54,7 +54,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         {
             foreach (Host h in this.management.activeHosts)
             {
-                if (h.GetUser().getUserType() == UserTypes.Patient)
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Patient)
                 {
                     Patient p = (Patient)h.GetUser();
                     if (p.PatientID == patientID)
@@ -114,7 +114,7 @@ namespace RemoteHealthcare_Server.Data.Logic
         {
             foreach (Host h in this.management.activeHosts)
             {
-                if (h.GetUser().getUserType() == UserTypes.Doctor)
+                if (h.GetUser() != null && h.GetUser().getUserType() == UserTypes.Doctor)
                 {
                     Doctor doctor = h.GetUser() as Doctor;
                     if (doctor == d)

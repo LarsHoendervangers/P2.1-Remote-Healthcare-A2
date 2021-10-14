@@ -103,13 +103,13 @@ namespace RemoteHealthcare_Server
 
             //Getting sessoin
             Session session = null;
-            if (rpm != null)
+            if (rpm != null && speed != null && dist != null && pow != null && accpow != null && time != null)
             {
                 session =  usermanagement.SessionUpdateBike(int.Parse(rpm.ToString()),
                     (int)double.Parse(speed.ToString()), (int)double.Parse(dist.ToString()), int.Parse(pow.ToString()),
                     int.Parse(accpow.ToString()), DateTime.Parse(time.ToString()), user);
             }
-            else if (bpm != null)
+            else if (bpm != null && time != null)
             {
                 session =  usermanagement.SessionUpdateHRM(DateTime.Parse(time.ToString()), int.Parse(bpm.ToString()), user);
             }
