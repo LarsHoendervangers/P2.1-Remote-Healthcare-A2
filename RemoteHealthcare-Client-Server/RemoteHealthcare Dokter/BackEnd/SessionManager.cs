@@ -18,7 +18,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
         public List<BikeMeasurement> BikeMeasurements;
 
         public event EventHandler NewDataTriggered;
-        private SharedPatient Patient;
 
         public SharedPatient Patient;
 
@@ -30,7 +29,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.BikeMeasurements = new List<BikeMeasurement>();
 
             SubscribeToPatient(patient, false);
-            this.Patient = patient;
         }
 
         public override void ReceivedData(JObject data)
@@ -54,28 +52,33 @@ namespace RemoteHealthcare_Dokter.BackEnd
         private void HandleIncomingErgoData(JObject data)
         {
             // Getting the data object from 
-            JToken commandData;
-            
+            JToken dataObject = (data as JToken).SelectToken("data.data");
 
-            if (data.TryGetValue("data", out commandData)) return;
-
-            // Casting the token to a usable object
-            JObject dataObject = commandData as JObject;
-
-            string patientID = (commandData as JObject)?.GetValue("id").ToString();
+            if (dataObject == null) return;
 
             // Ignore if patient ID is not the current patient (for redundantie + expandability)
-            if (patientID != this.Patient.ID) return;
+            JToken patienIDToken = (data as JToken).SelectToken("data.id");
+            if (patienIDToken == null || patienIDToken.ToString() != this.Patient.ID) return;
 
             // Determine if the incoming data is HR or bike readings
-            bool isHR = data.TryGetValue("data", out commandData);
-
-            if (isHR)
-                this.HRMeasurements.Add(ConvertHRObject(dataObject));
+            if (dataObject.SelectToken("CurrentHeartrate") != null)
+                this.HRMeasurements.Add(ConvertHRObject(dataObject as JObject));
             else
-                this.BikeMeasurements.Add(ConverBikeObject(dataObject));
+                this.BikeMeasurements.Add(ConverBikeObject(dataObject as JObject));
 
+            this.NewDataTriggered?.Invoke(this, null);
+        }
 
+        private BikeMeasurement ConverBikeObject(JObject dataObject)
+        {
+            return new BikeMeasurement(
+                DateTime.Parse(dataObject.GetValue("MeasurementTime").ToString()),
+                int.Parse(dataObject.GetValue("CurrentRPM").ToString()),
+                double.Parse(dataObject.GetValue("CurrentSpeed").ToString()),
+                double.Parse(dataObject.GetValue("CurrentWattage").ToString()),
+                int.Parse(dataObject.GetValue("CurrentTotalWattage").ToString()),
+                int.Parse(dataObject.GetValue("CurrentTotalDistance").ToString())
+                );
         }
 
         private HRMeasurement ConvertHRObject(JObject dataObject)
