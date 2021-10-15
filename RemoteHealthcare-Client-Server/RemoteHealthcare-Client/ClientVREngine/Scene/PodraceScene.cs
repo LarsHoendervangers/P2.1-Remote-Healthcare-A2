@@ -32,10 +32,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                     new PosVector(new int[] {20, 0, -40}, new int[] {5, 0, 5}),
                     new PosVector(new int[] {-10, 0, -30}, new int[] {-5, 0, 5}),
                     new PosVector(new int[] {-25, 0, -5}, new int[] {-5, 0, 5})
-                });
+                    
+                }, "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Albedo.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Normal.jpg", "data/NetworkEngine/textures/terrain/uc0lbi0ew_4K_Roughness");
             CreateVechile("data/NetworkEngine/models/podracer/podracer.obj", new Transform(1, new double[] { 0, 15, 0 }, new double[] {0, 0, 0 }), new Transform(1, new double[] { 0, 0.5, 0 }, new double[] { 0, 0, 0 }));
-            Thread.Sleep(2000);
-            CreatePanels(uuidSusan, uuidSusan, new Transform(1, new double[] { 0.25, -0.25, -0.5 }, new double[] { 0, 0, 0 }), new Transform(1, new double[] { 0.25, 0.1, -0.5 }, new double[] { 0, 0, 0 }));
+            CreatePanels(uuidSusan, uuidSusan, new Transform(1, new double[] { 0.1, -0.2, -0.25 }, new double[] { -45, 0, 0 }), new Transform(1, new double[] { -0.15, -0.2, -0.25 }, new double[] { -20, 45, 0 }));
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidBike, new double[] { 0, 165, 0 }));
         }
 

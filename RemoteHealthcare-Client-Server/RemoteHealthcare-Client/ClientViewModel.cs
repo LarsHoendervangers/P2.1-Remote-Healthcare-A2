@@ -9,10 +9,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
@@ -25,6 +27,7 @@ namespace RemoteHealthcare_Client
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly StartupLoader loader;
+
 
         /// <summary>
         /// Constructor for the Client view model, starts the calls to get available bl- and vr- devices
@@ -42,7 +45,7 @@ namespace RemoteHealthcare_Client
                 this.isLoggedIn = d;
                 if (d)
                 {
-                    SubmitText = "Start the connection to the server";
+                    SubmitText = "Start VR";
                     WrongCredentialsOpacity = 0;
                     RightCredentialsOpacity = 100;
                 }
@@ -178,7 +181,6 @@ namespace RemoteHealthcare_Client
             set
             {
                 mPassword = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
 
@@ -221,9 +223,7 @@ namespace RemoteHealthcare_Client
                         {
                             if (!isLoggedIn)
                                 this.loader.Login(UserName, Password);
-                            else
-                                StartApplicaton();
-                                Debug.WriteLine("Logged in successfully");
+                            else StartApplicaton();
                         },
                         param => NullCheck() //check if all the fields are filled
                         );
@@ -239,8 +239,6 @@ namespace RemoteHealthcare_Client
         private bool NullCheck()
         {
             return
-                this.SelectedDevice != null &
-                this.SelectedVRServer.NullCheck() &
                 this.Password != null &
                 this.UserName != null;
         }

@@ -61,6 +61,11 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //Adding it to the list
+            if (jsonData == null)
+            {
+                Debug.WriteLine("TunnelHandler: No jsonData received, probably no connection to VREngine");
+                return clients;
+            }
             JArray computers = (JArray)jsonData.GetValue("data");
             foreach (JObject objects in computers)
             {

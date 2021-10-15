@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Windows;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-        private string ip = "127.0.0.1";
+        private string ip = "145.49.17.111";
         private int port = 6969;
 
         private DataManager serverDataManager;
@@ -28,6 +29,8 @@ namespace RemoteHealthcare_Client
         {
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
+            // new Thread(UpdateVRServers).Start();
+            // new Thread(UpdateBLEDevices).Start();
 
             this.OnLoginResponseReceived += ((s, d) =>
             {
@@ -52,6 +55,8 @@ namespace RemoteHealthcare_Client
             // To get this list it is needed to start up the vrDataManager
             VRDataManager dataManager = new VRDataManager();
             List<ClientData> clientVREngines =  dataManager.VRTunnelHandler.GetAvailableClients();
+            if (clientVREngines == null) return;
+            clientVREngines.Reverse();
 
             this.vrDataManager = dataManager;
 
@@ -117,6 +122,25 @@ namespace RemoteHealthcare_Client
 
             // Sending the login data to the server
             this.serverDataManager?.ReceivedData(loginCommand);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableVRConnections);
+                Thread.Sleep(5000);
+            }
+
+        }
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableBLEDevices);
+                Thread.Sleep(5000);
+            }
+
         }
     }
 }
