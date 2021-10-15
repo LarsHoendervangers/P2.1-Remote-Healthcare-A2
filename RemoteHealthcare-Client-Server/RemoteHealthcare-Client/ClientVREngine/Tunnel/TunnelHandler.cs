@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         public TunnelHandler()
         {
             SerialMap = new Dictionary<string, Action<string>>();
-            TcpHandler = new TCPClientHandler("145.48.6.10", 6666, false);
+            TcpHandler = new TCPClientHandler("192.168.68.104", 6666, false);
             SerialNumber = 0;
 
             // Setting the method to be performed when data is received

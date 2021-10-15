@@ -46,9 +46,6 @@
         <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Label Content="{Binding TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="1157,397,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Button Content="-" HorizontalAlignment="Left" Margin="1167,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
-        <Button Content="+" HorizontalAlignment="Left" Margin="1274,444,0,0" VerticalAlignment="Top" FontSize="22" Width="40" Height="40"/>
-        <Label Content="6" HorizontalAlignment="Left" Margin="1229,445,0,0" VerticalAlignment="Top" FontSize="22"/>
         <Button Content="Start" HorizontalAlignment="Left" Margin="396,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
 
@@ -58,6 +55,9 @@
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
         <Label Content="Noodgeval:" HorizontalAlignment="Left" Margin="831,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
+        
+        <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="1162,461,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
+        <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="1378,448,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
 
     </Grid>
 </Page>

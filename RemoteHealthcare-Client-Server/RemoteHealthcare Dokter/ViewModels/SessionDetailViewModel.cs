@@ -264,5 +264,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             MessageList = new ObservableCollection<string>(TempList);
         }
+
+        private int _ResistanceValue;
+        public int ResistanceValue
+        {
+            get { return _ResistanceValue; }
+            set
+            {
+                _ResistanceValue = value;
+                UpdateResistance();
+            }
+        }
+        
+
+        private void UpdateResistance()
+        {
+            this.manager.SetResistance(ResistanceValue);
+        }
     }
 }

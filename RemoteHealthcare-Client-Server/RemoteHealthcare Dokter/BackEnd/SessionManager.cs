@@ -142,5 +142,22 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
             this.SendToManagers(JObject.FromObject(o));
         }
+
+        public void SetResistance(int value)
+        {
+            string[] patients = new string[] { this.Patient.ID };
+
+            object o = new
+            {
+                command = "setresistance",
+                data = new
+                {
+                    value = value,
+                    patid = patients
+                },
+            };
+
+            this.SendToManagers(JObject.FromObject(o));
+        }
     }
 }
