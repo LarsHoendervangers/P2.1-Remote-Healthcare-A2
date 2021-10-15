@@ -37,13 +37,16 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.RPM = "RPM: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentRPM;
-                    this.Speed = "Snelheid: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentSpeed;
-                    this.TotalW = "Totaal: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentTotalWattage;
-                    this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentWattage;
-                    this.Distance = "Afstand: " + this.manager.BikeMeasurements[this.manager.BikeMeasurements.Count].CurrentTotalDistance;
+                    int BikeIndex = this.manager.BikeMeasurements.Count - 1;
+                    int HeartIndex = this.manager.BikeMeasurements.Count - 1;
 
-                    this.BPM = "BPM: " + this.manager.HRMeasurements[this.manager.HRMeasurements.Count].CurrentHeartrate;
+                    this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+                    this.Speed = "Snelheid: " + this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+                    this.TotalW = "Totaal: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage;
+                    this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
+                    this.Distance = "Afstand: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance;
+
+                    this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
                 });
             };
             this.manager = new SessionManager(patient);
