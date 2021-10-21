@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-        private string ip = "145.49.17.111";
+        private string ip = "127.0.0.1";
         private int port = 6969;
 
         private DataManager serverDataManager;
@@ -29,8 +29,6 @@ namespace RemoteHealthcare_Client
         {
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
-            // new Thread(UpdateVRServers).Start();
-            // new Thread(UpdateBLEDevices).Start();
 
             this.OnLoginResponseReceived += ((s, d) =>
             {

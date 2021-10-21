@@ -38,15 +38,24 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     int BikeIndex = this.manager.BikeMeasurements.Count - 1;
-                    int HeartIndex = this.manager.BikeMeasurements.Count - 1;
+                    int HeartIndex = this.manager.HRMeasurements.Count - 1;
 
-                    this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
-                    this.Speed = "Snelheid: " + this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
-                    this.TotalW = "Totaal: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage;
-                    this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
-                    this.Distance = "Afstand: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance;
+                    if (BikeIndex >= 0)
+                    {
+                        this.Speed = "Snelheid: " + this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+                        this.TotalW = "Totaal: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage;
+                        this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
+                        this.Distance = "Afstand: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance;
+                        this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
 
-                    this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+                    }
+
+                    if (HeartIndex >= 0)
+                    {
+                        this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+                    }
+
+                    
                 });
             };
             this.manager = new SessionManager(patient);
