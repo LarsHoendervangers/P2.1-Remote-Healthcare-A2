@@ -49,10 +49,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                     if (BikeIndex >= 0)
                     {
-                        this.Speed = "Snelheid: " + this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
-                        this.TotalW = "Totaal: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage;
-                        this.CurrentW = "Huidig: " + this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
-                        this.Distance = "Afstand: " + this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance;
+                        this.Speed = $"Snelheid: {this.manager.BikeMeasurements[BikeIndex].CurrentSpeed} km/h";
+                        this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
+                        this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
+                        this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance} m";
                         this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
 
                     }
