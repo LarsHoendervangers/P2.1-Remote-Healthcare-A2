@@ -246,7 +246,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         #region Graphs
 
         public SeriesCollection SeriesCollection { get; set; }
-        public string[] BPMLabels { get; set; }
+        public List<string> BPMLabels { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
         private double _axisMax = 150;
@@ -288,7 +288,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 }
             };
 
-            BPMLabels = new string[MAX_GRAPH_LENGHT];
+            BPMLabels = new List<string>();
             YFormatter = value => value.ToString();
         }
 
@@ -305,7 +305,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             else AxisMin = minOffset;
 
             list.Add(value);
-            //BPMLabels[list.Count - 1] = time.ToString("HH:mm:ss");
+            BPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
         #endregion
