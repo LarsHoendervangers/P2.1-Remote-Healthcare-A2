@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class SessionDetailViewModel : INotifyPropertyChanged
     {
-        private readonly int MAX_GRAPH_LENGHT = 150;
+        private readonly int MAX_GRAPH_LENGHT = 50;
 
         private Window window;
         private SharedPatient Patient;
@@ -48,7 +48,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             this.manager.NewDataTriggered += SetNewPatientData;
 
-            setupGraph();
+            SetupGraphs();
         }
 
         #region Binded Attributes
@@ -241,41 +241,67 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        private double _SpeedxMax = 150;
+        public double SpeedxMax
+        {
+            get { return _SpeedxMax; }
+            set
+            {
+                _SpeedxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SpeedxMax"));
+            }
+        }
+
+        private double _SpeedxMin = 0;
+        public double SpeedxMin
+        {
+            get { return _SpeedxMin; }
+            set
+            {
+                _SpeedxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SpeedxMin"));
+            }
+        }
+
+        private double _BPMxMax = 150;
+        public double BPMxMax
+        {
+            get { return _BPMxMax; }
+            set
+            {
+                _BPMxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BPMxMax"));
+            }
+        }
+
+        private double _BPMxMin = 0;
+        public double BPMxMin
+        {
+            get { return _BPMxMin; }
+            set
+            {
+                _BPMxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BPMxMin"));
+            }
+        }
+
         #endregion
 
         #region Graphs
 
-        public SeriesCollection SeriesCollection { get; set; }
+        public SeriesCollection BPMCollection { get; set; }
+        public SeriesCollection SpeedCollection { get; set; }
+
         public List<string> BPMLabels { get; set; }
+        public List<string> SpeedLabels { get; set; }
+
         public Func<double, string> YFormatter { get; set; }
 
-        private double _axisMax = 150;
-        public double AxisMax
+        
+        private void SetupGraphs()
         {
-            get { return _axisMax; }
-            set
-            {
-                _axisMax = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AxisMax"));
-            }
-        }
-
-        private double _axisMin = 0;
-        public double AxisMin
-        {
-            get { return _axisMin; }
-            set
-            {
-                _axisMin = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AxisMin"));
-            }
-        }
-
-
-
-        private void setupGraph()
-        {
-            SeriesCollection = new SeriesCollection
+            // Setting up the BPM Graph
+            BPMCollection = new SeriesCollection
             {
                 new LineSeries
                 {
@@ -287,22 +313,51 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     Stroke = Brushes.Red
                 }
             };
-
             BPMLabels = new List<string>();
+            
+
+            // Setting up the Speed / RPM graph
+            SpeedCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Speed",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
+                    Stroke = Brushes.Blue
+                }
+            };
+            SpeedLabels = new List<string>();
+
+
             YFormatter = value => value.ToString();
         }
 
-        private void setNewPoint(IChartValues list, double value, DateTime time)
+        private void UpdateSpeedGraph(double value, DateTime time)
         {
-            // checking if the list has reached its limit
-            //if (list.Count >= MAX_GRAPH_LENGHT) list.RemoveAt(0);
+            var list = SpeedCollection[0].Values;
 
-            AxisMax = list.Count;
+            this.SpeedxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
             int minOffset = list.Count - MAX_GRAPH_LENGHT;
-            if (minOffset < 0) AxisMin = 0; 
-            else AxisMin = minOffset;
+            this.SpeedxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            SpeedLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
+        private void UpdateBPMGraph(double value, DateTime time)
+        {
+            var list = BPMCollection[0].Values;
+
+            this.BPMxMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.BPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
             BPMLabels.Add(time.ToString("HH:mm:ss"));
@@ -331,7 +386,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
 
                     // updating the graphs
-                    
+                    UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
@@ -340,7 +395,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                     this.BPM = "BPM: " + BPM;
 
-                    setNewPoint(this.SeriesCollection[0].Values, (double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
+                    UpdateBPMGraph((double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
 
