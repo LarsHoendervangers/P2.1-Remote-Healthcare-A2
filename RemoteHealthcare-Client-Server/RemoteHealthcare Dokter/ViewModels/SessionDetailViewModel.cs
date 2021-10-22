@@ -42,7 +42,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             this.manager.NewDataTriggered += (s, d) =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     int BikeIndex = this.manager.BikeMeasurements.Count - 1;
                     int HeartIndex = this.manager.HRMeasurements.Count - 1;
@@ -317,6 +317,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void CloseDetail()
         {
+            // Telling the manager this window is closing
+            this.manager.CloseManager();
+
+            // Switching from active window
             this.window.Content = new DashboardViewModel(this.window);
         }
     }

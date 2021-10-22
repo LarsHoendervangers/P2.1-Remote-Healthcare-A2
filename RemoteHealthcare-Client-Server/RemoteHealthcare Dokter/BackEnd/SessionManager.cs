@@ -28,7 +28,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.HRMeasurements = new List<HRMeasurement>();
             this.BikeMeasurements = new List<BikeMeasurement>();
 
-            SubscribeToPatient(patient, false);
+            SubscribeToPatient(patient, true);
         }
 
         public override void ReceivedData(JObject data)
@@ -89,7 +89,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 );
         }
 
-        private void SubscribeToPatient(SharedPatient patient, bool unsubscribe)
+        private void SubscribeToPatient(SharedPatient patient, bool subscribe)
         {
             string[] patientsIDs = new string[] { patient.ID };
              
@@ -100,7 +100,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 data = new
                 {
                     patid = patientsIDs,
-                    state = unsubscribe ? 1 : 0
+                    state = subscribe ? 0 : 1
                 }
             };
 
@@ -158,6 +158,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
             };
 
             this.SendToManagers(JObject.FromObject(o));
+        }
+
+        public void CloseManager()
+        {
+            // performing all the actions needed when the window is closed
+            SubscribeToPatient(this.Patient, false);
         }
     }
 }
