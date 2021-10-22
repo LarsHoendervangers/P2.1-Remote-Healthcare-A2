@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
@@ -18,6 +19,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class SessionDetailViewModel : INotifyPropertyChanged
     {
+        private readonly int MAX_GRAPH_LENGHT = 150;
+
         private Window window;
         private SharedPatient Patient;
         private SessionManager manager;
@@ -253,16 +256,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = new ChartValues<int> {}
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 1
                 }
             };
 
             Labels = new string[] { };
             YFormatter = value => value.ToString();
+        }
 
-            //modifying any series values will also animate and update the chart
-            SeriesCollection[0].Values.Add((int)(new Random().NextDouble() * 5));
+        private void setNewPoint(IChartValues list, double value)
+        {
+            // checking if the list has reached its limit
+            if (list.Count > MAX_GRAPH_LENGHT) list.RemoveAt(0);
 
+            list.Add(value);
         }
 
         #endregion
@@ -296,7 +305,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                     this.BPM = "BPM: " + BPM;
 
-                    this.SeriesCollection[0].Values.Add(BPM);
+                    setNewPoint(this.SeriesCollection[0].Values, (double)BPM);
                 }
 
 
