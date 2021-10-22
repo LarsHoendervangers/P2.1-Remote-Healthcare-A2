@@ -252,40 +252,16 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 new LineSeries
                 {
-                    Title = "Series 1",
-                    Values = new ChartValues<double> { 4, 6, 5, 2 ,4 }
-                },
-                new LineSeries
-                {
-                    Title = "Series 2",
-                    Values = new ChartValues<double> { 6, 7, 3, 4 ,6 },
-                    PointGeometry = null
-                },
-                new LineSeries
-                {
-                    Title = "Series 3",
-                    Values = new ChartValues<double> { 4,2,7,2,7 },
-                    PointGeometry = DefaultGeometries.Square,
-                    PointGeometrySize = 15
+                    Title = "BPM",
+                    Values = new ChartValues<int> {}
                 }
             };
 
-            Labels = new[] { "Jan", "Feb", "Mar", "Apr", "May" };
-            YFormatter = value => value.ToString("C");
-
-            //modifying the series collection will animate and update the chart
-            SeriesCollection.Add(new LineSeries
-            {
-                Title = "Series 4",
-                Values = new ChartValues<double> { 5, 3, 2, 4 },
-                LineSmoothness = 0, //0: straight lines, 1: really smooth lines
-                PointGeometry = Geometry.Parse("m 25 70.36218 20 -28 -20 22 -8 -6 z"),
-                PointGeometrySize = 50,
-                PointForeground = Brushes.Gray
-            });
+            Labels = new string[] { };
+            YFormatter = value => value.ToString();
 
             //modifying any series values will also animate and update the chart
-            SeriesCollection[3].Values.Add(5d);
+            SeriesCollection[0].Values.Add((int)(new Random().NextDouble() * 5));
 
         }
 
@@ -300,17 +276,27 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                 if (BikeIndex >= 0)
                 {
-                    this.Speed = $"Snelheid: {this.manager.BikeMeasurements[BikeIndex].CurrentSpeed} km/h";
+                    double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+
+                    // setting the labels
+                    this.Speed = $"Snelheid: {speed} km/h";
                     this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
                     this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
-                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance} m";
+                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f} km";
                     this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
 
+
+                    // updating the graphs
+                    
                 }
 
                 if (HeartIndex >= 0)
                 {
-                    this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+                    int BPM = this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+
+                    this.BPM = "BPM: " + BPM;
+
+                    this.SeriesCollection[0].Values.Add(BPM);
                 }
 
 
