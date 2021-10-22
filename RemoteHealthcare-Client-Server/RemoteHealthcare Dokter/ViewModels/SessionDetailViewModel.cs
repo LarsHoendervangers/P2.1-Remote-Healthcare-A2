@@ -41,34 +41,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.RPM = "RPM: --";
             this.BPM = "BPM: --";
 
-            this.manager.NewDataTriggered += (s, d) =>
-            {
-                Application.Current?.Dispatcher.Invoke(() =>
-                {
-                    int BikeIndex = this.manager.BikeMeasurements.Count - 1;
-                    int HeartIndex = this.manager.HRMeasurements.Count - 1;
-
-                    if (BikeIndex >= 0)
-                    {
-                        this.Speed = $"Snelheid: {this.manager.BikeMeasurements[BikeIndex].CurrentSpeed} km/h";
-                        this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
-                        this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
-                        this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance} m";
-                        this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
-
-                    }
-
-                    if (HeartIndex >= 0)
-                    {
-                        this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
-                    }
-
-                    
-                });
-            };
+            this.manager.NewDataTriggered += SetNewPatientData;
    
         }
 
+        #region Binded Attributes
         private SharedPatient _SelectedSessionPatient;
         public SharedPatient SelectedSessionPatient
         {
@@ -78,11 +55,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 _SelectedSessionPatient = value;
                 HandleSessionPatientClicked();
             }
-        }
-
-        private void HandleSessionPatientClicked()
-        {
-            this.window.Content = new SessionDetailViewModel(this.window, SelectedSessionPatient);
         }
 
         private string _FullName;
@@ -103,26 +75,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
 
                 _Age = value;
-            }
-        }
-
-        private int CalculateAge()
-        {
-            int years = DateTime.Now.Year - this.Patient.DateOfBirth.Year;
-            if (DateTime.Now.Month > this.Patient.DateOfBirth.Month)
-            {
-                return years;
-            } else if (DateTime.Now.Month < this.Patient.DateOfBirth.Month)
-            {
-                return years - 1;
-            } else
-            {
-                if (DateTime.Now.Day >= this.Patient.DateOfBirth.Day)
-                {
-                    return years;
-                }
-
-                return years - 1;
             }
         }
 
@@ -218,12 +170,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
-        private void SendAbort()
-        {
-            this.manager.AbortSession();
-            this.window.Content = new DashboardViewModel(this.window);
-        }
-
         private ICommand _SendMessage;
         public ICommand SendMessage
         {
@@ -250,32 +196,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private void SendPersonalMessage()
-        {
-            this.manager.PersonalMessage(Message);
-            UpdateListView();
-        }
-
-        private ObservableCollection<string> _MessageList;
-        public ObservableCollection<string> MessageList
-        {
-            get { return _MessageList; }
-            set
-            {
-                _MessageList = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageList"));
-            }
-        }
-
-        private void UpdateListView()
-        {
-            ObservableCollection<string> TempList = MessageList;
-
-            TempList.Add(Message);
-
-            MessageList = new ObservableCollection<string>(TempList);
-        }
-
         private int _ResistanceValue;
         public int ResistanceValue
         {
@@ -286,13 +206,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 UpdateResistance();
             }
         }
-        
-
-        private void UpdateResistance()
-        {
-            this.manager.SetResistance(ResistanceValue);
-        }
-
 
         private ICommand _CloseDetailCommand;
         public ICommand CloseDetailCommand
@@ -308,6 +221,96 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 return _CloseDetailCommand;
             }
 
+        }
+
+        private ObservableCollection<string> _MessageList;
+        public ObservableCollection<string> MessageList
+        {
+            get { return _MessageList; }
+            set
+            {
+                _MessageList = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageList"));
+            }
+        }
+
+        #endregion
+
+        private void SetNewPatientData(object sender, object data)
+        {
+            Application.Current?.Dispatcher.Invoke(() =>
+            {
+                int BikeIndex = this.manager.BikeMeasurements.Count - 1;
+                int HeartIndex = this.manager.HRMeasurements.Count - 1;
+
+                if (BikeIndex >= 0)
+                {
+                    this.Speed = $"Snelheid: {this.manager.BikeMeasurements[BikeIndex].CurrentSpeed} km/h";
+                    this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
+                    this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
+                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance} m";
+                    this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+
+                }
+
+                if (HeartIndex >= 0)
+                {
+                    this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+                }
+
+
+            });
+        }
+
+        private void HandleSessionPatientClicked()
+        {
+            this.window.Content = new SessionDetailViewModel(this.window, SelectedSessionPatient);
+        }
+
+        private int CalculateAge()
+        {
+            int years = DateTime.Now.Year - this.Patient.DateOfBirth.Year;
+            if (DateTime.Now.Month > this.Patient.DateOfBirth.Month)
+            {
+                return years;
+            } else if (DateTime.Now.Month < this.Patient.DateOfBirth.Month)
+            {
+                return years - 1;
+            } else
+            {
+                if (DateTime.Now.Day >= this.Patient.DateOfBirth.Day)
+                {
+                    return years;
+                }
+
+                return years - 1;
+            }
+        }
+
+        private void SendAbort()
+        {
+            this.manager.AbortSession();
+            this.window.Content = new DashboardViewModel(this.window);
+        }
+
+        private void SendPersonalMessage()
+        {
+            this.manager.PersonalMessage(Message);
+            UpdateListView();
+        }
+
+        private void UpdateListView()
+        {
+            ObservableCollection<string> TempList = MessageList;
+
+            TempList.Add(Message);
+
+            MessageList = new ObservableCollection<string>(TempList);
+        }
+        
+        private void UpdateResistance()
+        {
+            this.manager.SetResistance(ResistanceValue);
         }
 
         private void CloseDetail()
