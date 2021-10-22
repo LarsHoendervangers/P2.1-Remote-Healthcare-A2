@@ -28,17 +28,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.Patient = patient;
 
             this.manager = new SessionManager(patient);
+            this.MessageList = new ObservableCollection<string>();
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
             this.ID = "ID persoon:\t" + this.Patient.ID;
 
-            this.Speed = "Snelheid: ";
-            this.TotalW = "Totaal: ";
-            this.CurrentW = "Huidig: ";
-            this.Distance = "Afstand: ";
-            this.RPM = "RPM: ";
-            this.BPM = "BPM: ";
+            this.Speed = "Snelheid: -- km/h";
+            this.TotalW = "Totaal: -- kW";
+            this.CurrentW = "Huidig: -- Watt";
+            this.Distance = "Afstand: -- m";
+            this.RPM = "RPM: --";
+            this.BPM = "BPM: --";
 
             this.manager.NewDataTriggered += (s, d) =>
             {
@@ -65,13 +66,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     
                 });
             };
-            this.manager = new SessionManager(patient);
-
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.MessageList = new ObservableCollection<string>();
-            });
+   
         }
 
         private SharedPatient _SelectedSessionPatient;
