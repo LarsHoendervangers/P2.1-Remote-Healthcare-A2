@@ -246,7 +246,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         #region Graphs
 
         public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
+        public string[] BPMLabels { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
         private void setupGraph()
@@ -258,20 +258,23 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     Title = "BPM",
                     Values = new ChartValues<double> {},
                     PointGeometry = null,
-                    LineSmoothness = 1
+                    LineSmoothness = 1,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
+                    Stroke = Brushes.Red
                 }
             };
 
-            Labels = new string[] { };
+            BPMLabels = new string[MAX_GRAPH_LENGHT];
             YFormatter = value => value.ToString();
         }
 
-        private void setNewPoint(IChartValues list, double value)
+        private void setNewPoint(IChartValues list, double value, DateTime time)
         {
             // checking if the list has reached its limit
-            if (list.Count > MAX_GRAPH_LENGHT) list.RemoveAt(0);
+            if (list.Count >= MAX_GRAPH_LENGHT) list.RemoveAt(0);
 
             list.Add(value);
+            BPMLabels[list.Count - 1] = time.ToString("HH:mm:ss");
         }
 
         #endregion
@@ -280,6 +283,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             Application.Current?.Dispatcher.Invoke(() =>
             {
+
                 int BikeIndex = this.manager.BikeMeasurements.Count - 1;
                 int HeartIndex = this.manager.HRMeasurements.Count - 1;
 
@@ -305,7 +309,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                     this.BPM = "BPM: " + BPM;
 
-                    setNewPoint(this.SeriesCollection[0].Values, (double)BPM);
+                    setNewPoint(this.SeriesCollection[0].Values, (double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
 
