@@ -68,7 +68,7 @@
                     <lvc:Axis Title="BPM" LabelFormatter="{Binding YFormatter}" MinValue="0" MaxValue="225"></lvc:Axis>
                 </lvc:CartesianChart.AxisY>
                 <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Time" Labels="{Binding BPMLabels}"></lvc:Axis>
+                    <lvc:Axis Title="Time" Labels="{Binding BPMLabels}" MinValue="{Binding AxisMin}" MaxValue="{Binding AxisMax}"></lvc:Axis>
                 </lvc:CartesianChart.AxisX>
             </lvc:CartesianChart>
         </Grid>

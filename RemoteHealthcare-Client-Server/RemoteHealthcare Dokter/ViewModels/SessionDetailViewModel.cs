@@ -249,6 +249,30 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public string[] BPMLabels { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
+        private double _axisMax = 150;
+        public double AxisMax
+        {
+            get { return _axisMax; }
+            set
+            {
+                _axisMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AxisMax"));
+            }
+        }
+
+        private double _axisMin = 0;
+        public double AxisMin
+        {
+            get { return _axisMin; }
+            set
+            {
+                _axisMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AxisMin"));
+            }
+        }
+
+
+
         private void setupGraph()
         {
             SeriesCollection = new SeriesCollection
@@ -258,7 +282,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     Title = "BPM",
                     Values = new ChartValues<double> {},
                     PointGeometry = null,
-                    LineSmoothness = 1,
+                    LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
                     Stroke = Brushes.Red
                 }
@@ -271,10 +295,17 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void setNewPoint(IChartValues list, double value, DateTime time)
         {
             // checking if the list has reached its limit
-            if (list.Count >= MAX_GRAPH_LENGHT) list.RemoveAt(0);
+            //if (list.Count >= MAX_GRAPH_LENGHT) list.RemoveAt(0);
+
+            AxisMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            if (minOffset < 0) AxisMin = 0; 
+            else AxisMin = minOffset;
 
             list.Add(value);
-            BPMLabels[list.Count - 1] = time.ToString("HH:mm:ss");
+            //BPMLabels[list.Count - 1] = time.ToString("HH:mm:ss");
         }
 
         #endregion
