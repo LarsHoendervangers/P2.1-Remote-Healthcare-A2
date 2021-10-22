@@ -1,5 +1,6 @@
 ﻿using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +21,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window = window;
             this.manager = new PatientManager(this);
 
-            this.PatientList = this.manager.GetAllPatients();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.PatientList = this.manager.GetAllPatients();
+            });   
         }
 
-        private List<User> _PatientsList;
-        public List<User> PatientList
+        private List<SharedPatient> _PatientsList;
+        public List<SharedPatient> PatientList
         {
             get { return _PatientsList; }
             set { _PatientsList = value; }
@@ -51,8 +55,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window.Content = new DashboardViewModel(window);
         }
 
-        private User _SelectedUser;
-        public User SelectedPatient
+        private SharedPatient _SelectedUser;
+        public SharedPatient SelectedPatient
         {
             get { return _SelectedUser; }
             set

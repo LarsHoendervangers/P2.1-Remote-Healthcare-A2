@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.ViewModels;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,9 +29,13 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         }
 
-        public List<User> GetAllPatients()
+        public List<SharedPatient> GetAllPatients()
         {
-            return null;
+            List<SharedPatient> patients = new List<SharedPatient>();
+
+            patients.Add(new SharedPatient("Twan", "Van Noorloos", "1", false, DateTime.Now));
+
+            return patients;
         }
 
         private void HandleIncomingPatients(JObject data)

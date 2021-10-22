@@ -6,7 +6,7 @@
       xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="1080" d:DataContext="{d:DesignInstance local:SessionDetailView}"
+      d:DesignHeight="1080"
       Title="SessionDetailView" Width="1920">
 
     <Grid Width="1920" Background="White">

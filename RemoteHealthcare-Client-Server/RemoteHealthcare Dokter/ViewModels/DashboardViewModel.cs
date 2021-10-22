@@ -36,28 +36,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
         }
 
-        private ICommand _AddSessionCommand;
-        public ICommand AddSessionCommand
-        {
-            get
-            {
-                if (_AddSessionCommand == null)
-                {
-                    _AddSessionCommand = new GeneralCommand(
-                        param => ShowPopUp()
-                        );
-                }
-                return _AddSessionCommand;
-            }
-
-        }
-
-        private void ShowPopUp()
-        {
-            SessionPopUp s = new SessionPopUp();
-            s.Show();
-        }
-
         private ICommand _SendMessageCommand;
         public ICommand SendMessageCommand
         {

@@ -8,7 +8,7 @@
              d:DesignHeight="1080" Width="1920">
     <Grid Width="1920" Background="White">
         <Label Content="Alle patienten:&#xD;&#xA;" HorizontalAlignment="Left" Margin="454,23,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="53"/>
-        <ListView Margin="454,76,203,67" SelectedItem="{Binding SelectedPatient}" BorderBrush="#FFC6002A" FontSize="20" ItemsSource="{Binding PatientsList}">
+        <ListView Margin="454,76,203,67" SelectedItem="{Binding SelectedPatient}" BorderBrush="#FFC6002A" FontSize="20" ItemsSource="{Binding PatientList}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
