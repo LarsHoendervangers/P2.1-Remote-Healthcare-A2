@@ -28,9 +28,9 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         }
 
-        public void GetAllPatients()
+        public List<User> GetAllPatients()
         {
-
+            return null;
         }
 
         private void HandleIncomingPatients(JObject data)

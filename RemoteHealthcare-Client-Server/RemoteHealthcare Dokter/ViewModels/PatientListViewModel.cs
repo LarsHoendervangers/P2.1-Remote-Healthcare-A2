@@ -1,4 +1,5 @@
 ﻿using RemoteHealthcare_Client;
+using RemoteHealthcare_Dokter.BackEnd;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
     class PatientListViewModel
     {
         private Window window;
+        private PatientManager manager;
 
         public PatientListViewModel(Window window)
         {
             this.window = window;
+            this.manager = new PatientManager(this);
+
+            this.PatientList = this.manager.GetAllPatients();
         }
 
         private List<User> _PatientsList;
@@ -44,6 +49,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void SwitchView()
         {
             this.window.Content = new DashboardViewModel(window);
+        }
+
+        private User _SelectedUser;
+        public User SelectedPatient
+        {
+            get { return _SelectedUser; }
+            set
+            {
+                _SelectedUser = value;
+                OpenHistoryWindow();
+            }
+        }
+
+        private void OpenHistoryWindow()
+        {
+            this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient);
         }
     }
 }

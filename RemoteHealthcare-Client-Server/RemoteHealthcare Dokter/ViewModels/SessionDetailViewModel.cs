@@ -14,7 +14,7 @@ using RemoteHealthcare_Shared.DataStructs;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class SessionDetailViewModel
+    class SessionDetailViewModel : INotifyPropertyChanged
     {
         private Window window;
         private SharedPatient Patient;
@@ -32,6 +32,13 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
             this.ID = "ID persoon:\t" + this.Patient.ID;
+
+            this.Speed = "Snelheid: ";
+            this.TotalW = "Totaal: ";
+            this.CurrentW = "Huidig: ";
+            this.Distance = "Afstand: ";
+            this.RPM = "RPM: ";
+            this.BPM = "BPM: ";
 
             this.manager.NewDataTriggered += (s, d) =>
             {
@@ -163,7 +170,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Speed = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Speed"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Speed)));
             }
         }
 
@@ -289,6 +296,28 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void UpdateResistance()
         {
             this.manager.SetResistance(ResistanceValue);
+        }
+
+
+        private ICommand _CloseDetailCommand;
+        public ICommand CloseDetailCommand
+        {
+            get
+            {
+                if (_CloseDetailCommand == null)
+                {
+                    _CloseDetailCommand = new GeneralCommand(
+                        param => CloseDetail()
+                        ); ; ;
+                }
+                return _CloseDetailCommand;
+            }
+
+        }
+
+        private void CloseDetail()
+        {
+            this.window.Content = new DashboardViewModel(this.window);
         }
     }
 }

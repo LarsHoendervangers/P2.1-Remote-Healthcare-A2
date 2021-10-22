@@ -17,8 +17,10 @@
         <ListView Margin="456,80,892,144" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" SelectedItem="{Binding SelectedPatientWithSession}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding FirstName}"/>
+                    <StackPanel Orientation="Horizontal" Height="35">
+                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="180" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ID}" FontSize="20" Width="180"  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DateOfBirth}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -29,10 +31,10 @@
         <ListView Margin="1120,83,116,609" ItemsSource="{Binding AllPatients, Mode=TwoWay}"  SelectedItem="{Binding SelectedPatientWithoutSession}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="250"/>
-                        <TextBlock Text="{Binding ID}" FontSize="20" Width="50"/>
-                        <TextBlock Text="Start sessie..."/>
+                    <StackPanel Orientation="Horizontal" Height="35">
+                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="250" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ID}" FontSize="20" Width="200"  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DateOfBirth}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

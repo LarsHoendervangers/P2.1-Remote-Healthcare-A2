@@ -14,9 +14,9 @@
         <Button Content="Dashboard" HorizontalAlignment="Left" Margin="0,370,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="White" BorderBrush="White" FontWeight="Bold" FontSize="22"/>
         <Button Content="Patienten" HorizontalAlignment="Left" Margin="0,438,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="#FFF3EEEE" BorderBrush="White" FontWeight="Bold" FontSize="22" Command="{Binding Path=SwitchToPatientView}"/>
 
-        <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,34,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
-        <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,119,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
-        <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,161,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+        <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
+        <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+        <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
 
         <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="30" Height="45" FontWeight="Bold"/>
@@ -37,14 +37,14 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,72,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
-        <Label Content="{Binding BPM}" HorizontalAlignment="Left" Margin="1157,149,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="{Binding RPM}" HorizontalAlignment="Left" Margin="1157,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed}" HorizontalAlignment="Left" Margin="1532,146,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Distance}" HorizontalAlignment="Left" Margin="1532,200,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
+        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="1157,179,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1157,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1532,172,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1532,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Label Content="{Binding TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="1157,397,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Button Content="Start" HorizontalAlignment="Left" Margin="396,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
@@ -55,9 +55,11 @@
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
         <Label Content="Noodgeval:" HorizontalAlignment="Left" Margin="831,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
-        
+
         <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="1162,461,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
         <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="1378,448,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
+        <Label Content="Gegevens:" HorizontalAlignment="Left" Margin="395,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
+        <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
 
     </Grid>
 </Page>
