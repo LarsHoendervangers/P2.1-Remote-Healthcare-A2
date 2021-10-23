@@ -18,8 +18,8 @@
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="515"/>
-        <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="30" Height="45" FontWeight="Bold"/>
+        <Rectangle HorizontalAlignment="Left" Height="299" Margin="391,668,0,0" Stroke="Black" VerticalAlignment="Top" Width="515"/>
+        <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="389,608,0,0" VerticalAlignment="Top" FontSize="30" Height="44" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" Height="40" FontSize="20"/>
         <Button Content="Send" HorizontalAlignment="Left" Margin="786,912,0,0" VerticalAlignment="Top" Height="40" Width="106" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
             <Button.Resources>
@@ -28,7 +28,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,576,1014,173" ItemsSource="{Binding MessageList}">
+        <ListView Margin="391,668,1014,131" ItemsSource="{Binding MessageList}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -45,28 +45,27 @@
         <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="1157,397,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="396,321,0,0" VerticalAlignment="Top" Height="40" Width="80" FontSize="18" IsEnabled="False"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="514,322,0,0" VerticalAlignment="Top" Height="40" Width="80" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
+        <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="408,414,0,0" VerticalAlignment="Top" Height="40" Width="130" FontSize="18" IsEnabled="False"/>
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="582,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
 
         </Button>
-        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="831,322,0,0" VerticalAlignment="Top" Height="40" Width="122" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="763,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
 
         </Button>
-        <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
-        <Label Content="Noodgeval:" HorizontalAlignment="Left" Margin="831,275,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
+        <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,363,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
 
-        <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="1162,461,0,0" VerticalAlignment="Top" Width="200" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
-        <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="1378,448,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
+        <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="410,556,0,0" VerticalAlignment="Top" Width="400" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
+        <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="854,522,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
         <Label Content="Gegevens:" HorizontalAlignment="Left" Margin="395,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
         <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
 
         <!-- Live graph section -->
-        
+
         <!-- BPM Graph-->
         <Grid Margin="949,576,532,113">
             <Border BorderBrush="Red" BorderThickness="2">
-                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5">
+                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="435">
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -84,7 +83,7 @@
                 </lvc:CartesianChart>
             </Border>
         </Grid>
-       
+
         <!-- Speed / RPM Graph -->
         <Grid Margin="1412,576,43,113">
             <Border BorderBrush="Blue" BorderThickness="2">
@@ -106,6 +105,6 @@
                 </lvc:CartesianChart>
             </Border>
         </Grid>
-        
+
     </Grid>
 </Page>
