@@ -7,7 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using LiveCharts.Geared;
+using System.Windows.Media;
+using LiveCharts;
+using LiveCharts.Configurations;
+using LiveCharts.Wpf;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
 using RemoteHealthcare_Shared.DataStructs;
@@ -16,6 +19,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
 {
     class SessionDetailViewModel : INotifyPropertyChanged
     {
+        private readonly int MAX_GRAPH_LENGHT = 50;
+
         private Window window;
         private SharedPatient Patient;
         private SessionManager manager;
@@ -42,10 +47,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.BPM = "BPM: --";
 
             this.manager.NewDataTriggered += SetNewPatientData;
-   
+
+            SetupGraphs();
         }
 
         #region Binded Attributes
+
         private SharedPatient _SelectedSessionPatient;
         public SharedPatient SelectedSessionPatient
         {
@@ -234,28 +241,161 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        private double _SpeedxMax = 150;
+        public double SpeedxMax
+        {
+            get { return _SpeedxMax; }
+            set
+            {
+                _SpeedxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SpeedxMax"));
+            }
+        }
+
+        private double _SpeedxMin = 0;
+        public double SpeedxMin
+        {
+            get { return _SpeedxMin; }
+            set
+            {
+                _SpeedxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SpeedxMin"));
+            }
+        }
+
+        private double _BPMxMax = 150;
+        public double BPMxMax
+        {
+            get { return _BPMxMax; }
+            set
+            {
+                _BPMxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BPMxMax"));
+            }
+        }
+
+        private double _BPMxMin = 0;
+        public double BPMxMin
+        {
+            get { return _BPMxMin; }
+            set
+            {
+                _BPMxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("BPMxMin"));
+            }
+        }
+
+        #endregion
+
+        #region Graphs
+
+        public SeriesCollection BPMCollection { get; set; }
+        public SeriesCollection SpeedCollection { get; set; }
+
+        public List<string> BPMLabels { get; set; }
+        public List<string> SpeedLabels { get; set; }
+
+        public Func<double, string> YFormatter { get; set; }
+
+        
+        private void SetupGraphs()
+        {
+            // Setting up the BPM Graph
+            BPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "BPM",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
+                    Stroke = Brushes.Red
+                }
+            };
+            BPMLabels = new List<string>();
+            
+
+            // Setting up the Speed / RPM graph
+            SpeedCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Speed",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
+                    Stroke = Brushes.Blue
+                }
+            };
+            SpeedLabels = new List<string>();
+
+
+            YFormatter = value => value.ToString();
+        }
+
+        private void UpdateSpeedGraph(double value, DateTime time)
+        {
+            var list = SpeedCollection[0].Values;
+
+            this.SpeedxMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.SpeedxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            SpeedLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
+        private void UpdateBPMGraph(double value, DateTime time)
+        {
+            var list = BPMCollection[0].Values;
+
+            this.BPMxMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.BPMxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            BPMLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
         #endregion
 
         private void SetNewPatientData(object sender, object data)
         {
             Application.Current?.Dispatcher.Invoke(() =>
             {
+
                 int BikeIndex = this.manager.BikeMeasurements.Count - 1;
                 int HeartIndex = this.manager.HRMeasurements.Count - 1;
 
                 if (BikeIndex >= 0)
                 {
-                    this.Speed = $"Snelheid: {this.manager.BikeMeasurements[BikeIndex].CurrentSpeed} km/h";
+                    double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+
+                    // setting the labels
+                    this.Speed = $"Snelheid: {speed} km/h";
                     this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
                     this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
-                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance} m";
+                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f} km";
                     this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
 
+
+                    // updating the graphs
+                    UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
                 {
-                    this.BPM = "BPM: " + this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+                    int BPM = this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
+
+                    this.BPM = "BPM: " + BPM;
+
+                    UpdateBPMGraph((double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
 

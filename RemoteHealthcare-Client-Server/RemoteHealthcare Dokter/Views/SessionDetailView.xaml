@@ -18,17 +18,17 @@
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
+        <Rectangle HorizontalAlignment="Left" Height="391" Margin="391,576,0,0" Stroke="Black" VerticalAlignment="Top" Width="515"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,0,0,0" VerticalAlignment="Center" FontSize="30" Height="45" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="997,912,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
+        <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" Height="40" FontSize="20"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="786,912,0,0" VerticalAlignment="Top" Height="40" Width="106" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,576,845,128" ItemsSource="{Binding MessageList}">
+        <ListView Margin="391,576,1014,173" ItemsSource="{Binding MessageList}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -61,5 +61,51 @@
         <Label Content="Gegevens:" HorizontalAlignment="Left" Margin="395,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
         <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
 
+        <!-- Live graph section -->
+        
+        <!-- BPM Graph-->
+        <Grid Margin="949,576,532,113">
+            <Border BorderBrush="Red" BorderThickness="2">
+                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5">
+                    <lvc:CartesianChart.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="-0.386"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="-0.993"/>
+                        </TransformGroup>
+                    </lvc:CartesianChart.RenderTransform>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" Labels="{Binding BPMLabels}" MinValue="{Binding BPMxMin}" MaxValue="{Binding BPMxMax}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+       
+        <!-- Speed / RPM Graph -->
+        <Grid Margin="1412,576,43,113">
+            <Border BorderBrush="Blue" BorderThickness="2">
+                <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5">
+                    <lvc:CartesianChart.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="-0.386"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="-0.993"/>
+                        </TransformGroup>
+                    </lvc:CartesianChart.RenderTransform>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" Labels="{Binding SpeedLabels}" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+        
     </Grid>
 </Page>

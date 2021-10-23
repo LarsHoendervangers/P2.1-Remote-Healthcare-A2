@@ -14,11 +14,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
     {
         public event EventHandler<bool> OnLoginResponseReceived;
 
-        public LoginManager()
-        {
-
-        }
-
         public override void ReceivedData(JObject data)
         {
             HandleIncoming(data);
