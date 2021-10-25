@@ -307,15 +307,63 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        private double _RPMxMax = 150;
+        public double RPMxMax
+        {
+            get { return _RPMxMax; }
+            set
+            {
+                _RPMxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RPMxMax"));
+            }
+        }
+
+        private double _RPMxMin = 0;
+        public double RPMxMin
+        {
+            get { return _RPMxMin; }
+            set
+            {
+                _RPMxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RPMxMin"));
+            }
+        }
+
+        private double _DistancexMax = 150;
+        public double DistancexMax
+        {
+            get { return _DistancexMax; }
+            set
+            {
+                _DistancexMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistancexMax"));
+            }
+        }
+
+        private double _DistancexMin = 0;
+        public double DistancexMin
+        {
+            get { return _DistancexMin; }
+            set
+            {
+                _DistancexMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistancexMin"));
+            }
+        }
+
         #endregion
 
         #region Graphs
 
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
+        public SeriesCollection RPMCollection { get; set; }
+        public SeriesCollection DistanceCollection { get; set; }
 
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
+        public List<string> RPMLabels { get; set; }
+        public List<string> DistanceLabels { get; set; }
 
         public Func<int, string> YFormatter { get; set; }
 
@@ -353,6 +401,33 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
             SpeedLabels = new List<string>();
 
+            RPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "RPM",
+                    Values = new ChartValues<int> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
+                    Stroke = Brushes.Blue
+                }
+            };
+            RPMLabels = new List<string>();
+
+            DistanceCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Distance",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
+                    Stroke = Brushes.Blue
+                }
+            };
+            SpeedLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
@@ -385,6 +460,34 @@ namespace RemoteHealthcare_Dokter.ViewModels
             BPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
+        private void UpdateRPMGraph(int value, DateTime time)
+        {
+            var list = RPMCollection[0].Values;
+
+            this.RPMxMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.RPMxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            RPMLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
+        private void UpdateDistanceGraph(double value, DateTime time)
+        {
+            var list = DistanceCollection[0].Values;
+
+            this.DistancexMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.DistancexMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            DistanceLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
         #endregion
 
         private void SetNewPatientData(object sender, object data)
@@ -398,17 +501,21 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 if (BikeIndex >= 0)
                 {
                     double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+                    int rpm = this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+                    double distance = this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f;
 
                     // setting the labels
-                    this.Speed = $"Snelheid: {speed} km/h";
+                    this.Speed = $"{speed} km/h";
                     this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
                     this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
-                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f} km";
-                    this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+                    this.Distance = $"{distance} km";
+                    this.RPM = "RPM: " + rpm;
 
 
                     // updating the graphs
                     UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateRPMGraph(rpm, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateDistanceGraph(distance, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
