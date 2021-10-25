@@ -96,6 +96,18 @@ namespace RemoteHealthcare_Client
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
+            if (value.ToString() == "abort")
+            {
+                this.Device.OnResistanceCall(this, 0);
+                foreach (var process in Process.GetProcesses())
+                {
+                    if (process.ProcessName == "NetworkEngine")
+                    {
+                        process.Kill();
+                    }
+
+                }
+            }
         }
 
         /// <summary>
