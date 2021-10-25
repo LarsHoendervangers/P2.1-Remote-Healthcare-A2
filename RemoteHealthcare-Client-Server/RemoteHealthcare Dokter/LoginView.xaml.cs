@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RemoteHealthcare_Dokter.ViewModels;
 
 namespace RemoteHealthcare_Dokter.Views
 {
@@ -27,6 +28,12 @@ namespace RemoteHealthcare_Dokter.Views
             dataManager = new ServerDataManager();
 
 
+        }
+
+        private void PassBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((LoginViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
         }
     }
 }
