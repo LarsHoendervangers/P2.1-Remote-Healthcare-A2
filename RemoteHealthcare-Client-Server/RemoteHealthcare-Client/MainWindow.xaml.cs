@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RemoteHealthcare_Client.Ergometer.Software;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,12 @@ namespace RemoteHealthcare_Client
         public MainWindow()
         {
             InitializeComponent();
+            this.Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
