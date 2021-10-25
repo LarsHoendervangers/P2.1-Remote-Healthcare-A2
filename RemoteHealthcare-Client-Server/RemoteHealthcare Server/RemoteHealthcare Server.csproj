@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>RemoteHealthcare_Server</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Remove="GUI\**" />
+    <EmbeddedResource Remove="GUI\**" />
+    <None Remove="GUI\**" />
+    <Page Remove="GUI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="server.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Server.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="server.pvk">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RemoteHealthcare_Server.Server">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAABAAgAAACAAAASEAEAAAIAAAAEAAAJAA=</HashCode>
+      <FileName>Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.Host">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAIEABwAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Host.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Database" />
+      <Property Name="JSONReader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.FileProcessing">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>FileProcessing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.HRMeasurement">
+    <Position X="8.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HRMeasurement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.BikeMeasurement">
+    <Position X="10.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAQAAQAAAAAEAAAAAEAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>BikeMeasurement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.JSONReader">
+    <Position X="6" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>JSONReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.Session">
+    <Position X="9.25" Y="5" Width="1.75" />
+    <AssociationLine Name="BikeMeasurement" Type="RemoteHealthcare_Server.BikeMeasurement">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.463" Y="0.07" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AACAQBCAAAAAAAAAAAAAAAAIIAAgAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="HRMeasurement" />
+      <Property Name="BikeMeasurement" />
+      <Property Name="Patient" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RemoteHealthcare_Server.Patient">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAQAAAAAAAAAQCAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Patient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Host" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

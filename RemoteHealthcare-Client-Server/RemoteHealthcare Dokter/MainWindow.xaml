@@ -1,0 +1,44 @@
+﻿<Window x:Class="RemoteHealthcare_Dokter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RemoteHealthcare_Dokter"
+        xmlns:viewmodels="clr-namespace:RemoteHealthcare_Dokter.ViewModels"
+        xmlns:views="clr-namespace:RemoteHealthcare_Dokter.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1080" Width="1920">
+    <Window.DataContext>
+        <viewmodels:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="#c6002a" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
+
+        </DockPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <Button Name="DokterButton" Content="Dashboard" Click="Dashboard_Clicked" Height="60" FontSize="24" Background="#FFFFFDFD" FontWeight="Bold" BorderBrush="White"/>
+            <Button Name="PatientButton" Content="Patienten" Click="Patient_Click" Height="60" FontSize="24" Background="#FFEEEEEE" FontWeight="Bold" BorderBrush="#FFEEEEEE"/>
+        </StackPanel>
+
+        <Image Width="200" Height="200" Grid.Row="0" Grid.Column="0"/>
+        <Label Content="Twan van Noorloos" Margin="84,10,84,159" Grid.Row="1" FontSize="22" FontStyle="Normal" FontWeight="Bold"/>
+
+        <ContentControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="5" Content="{Binding}"/>
+    </Grid>
+</Window>

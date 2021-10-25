@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Constructor even generiek maken, met IP en poort niet als magicnumbers">
+    <Position X="15.537" Y="10.361" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="RemoteHealthcare_Client.Ergometer.Software.Device">
+    <Position X="20.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAABAAAAAAABAAQAAAAAACABEgAAAAAAAAA=</HashCode>
+      <FileName>Ergometer\Software\Device.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Client.ClientVREngine.Tunnel.TunnelHandler">
+    <Position X="7.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAgAAAAAEAAAAEAAAAQABAAgQ=</HashCode>
+      <FileName>ClientVREngine\Tunnel\TunnelHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Client.ClientViewModel">
+    <Position X="14" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClientViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Client.ServerDataManager">
+    <Position X="13.75" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AIAEAAAAAAAAAAAAACAAAAAAAAAAAAAACABAAAAAAgg=</HashCode>
+      <FileName>network\ServerDataManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.657" />
+  </Class>
+  <Class Name="RemoteHealthcare_Client.DeviceDataManager">
+    <Position X="17.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAgAAACAAAAAAAAAAAAAgCAAAAAAAAQg=</HashCode>
+      <FileName>network\DeviceDataManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Device" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RemoteHealthcare_Client.VRDataManager">
+    <Position X="10" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAACAAAAAAAAAAAAACCAAAAAAAAAA=</HashCode>
+      <FileName>network\VRDataManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TunnelHandler" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="RemoteHealthcare_Client.TCP.TCPClientHandler">
+    <Position X="14" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAQAAAABAAAgAAAAACAABAAAAAgA=</HashCode>
+      <FileName>TCP\TCPClientHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemoteHealthcare_Client.ClientVREngine.Scene.GeneralScene">
+    <Position X="5.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAIAAAAAAAACAAAAAAAAAgAAAAAAAAAAQA=</HashCode>
+      <FileName>ClientVREngine\Scene\GeneralScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="RemoteHealthcare_Client.DataManager">
+    <Position X="5.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
