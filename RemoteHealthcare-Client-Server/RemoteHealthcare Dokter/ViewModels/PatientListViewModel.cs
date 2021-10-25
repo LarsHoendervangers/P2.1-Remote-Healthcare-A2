@@ -20,7 +20,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public PatientListViewModel(Window window)
         {
             this.window = window;
-            this.manager = new PatientManager(this);
+            this.manager = new PatientManager();
 
             Application.Current.Dispatcher.Invoke(() =>
             {

@@ -12,11 +12,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class PatientManager : DataManager
     {
-        private PatientListViewModel PatientViewModel;
+        public event EventHandler<List<SharedPatient>> OnPatientsReceived;
+        public event EventHandler<List<SessionWrap>> OnSessionReceived;
 
-        public PatientManager(PatientListViewModel patientViewModel)
+        public PatientManager()
         {
-            PatientViewModel = patientViewModel;
+
         }
 
         public override void ReceivedData(JObject data)
