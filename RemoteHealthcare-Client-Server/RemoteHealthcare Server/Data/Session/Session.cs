@@ -1,19 +1,24 @@
-﻿using RemoteHealthcare_Server.Data.User;
+﻿using Newtonsoft.Json;
+using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace RemoteHealthcare_Server
 {
     public class Session
     {
+
+        [JsonIgnore]
         public List<Doctor> Subscribers { get; set; }
 
         public Session(Patient patient)
         {
             Patient = patient;
             Subscribers = new List<Doctor>();
+            this.StartTime = DateTime.Now;
             this.HRMeasurements = new List<HRMeasurement>();
             this.BikeMeasurements = new List<BikeMeasurement>();
         }
@@ -51,6 +56,7 @@ namespace RemoteHealthcare_Server
             }
         }
 
+        [JsonIgnore]
         public Patient Patient
         {
             get ;
@@ -60,15 +66,15 @@ namespace RemoteHealthcare_Server
 
         public DateTime StartTime
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
+            
+            
         }
 
         public DateTime EndTime
         {
-            get => default;
+            get => DateTime.Now;
             set
             {
             }
