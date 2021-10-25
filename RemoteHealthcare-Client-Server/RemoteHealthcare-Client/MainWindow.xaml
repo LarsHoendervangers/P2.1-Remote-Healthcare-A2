@@ -13,7 +13,6 @@
         <Label Content="Gebruikersnaam:&#xD;&#xA;" HorizontalAlignment="Left" Margin="43,157,0,0" VerticalAlignment="Top" Height="27"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="47,186,0,0" TextWrapping="Wrap" Text="{Binding UserName}" VerticalAlignment="Top" Width="120" TabIndex="0"/>
         <Label Content="Wachtwoord:" HorizontalAlignment="Left" Margin="43,219,0,0" VerticalAlignment="Top" Height="27"/>
-        <!--<TextBox HorizontalAlignment="Left" Height="23" Margin="47,251,0,0" TextWrapping="Wrap" Text="{Binding Password}" VerticalAlignment="Top" Width="120" />-->
         <GridSplitter HorizontalAlignment="Left" Height="253" Margin="254,70,0,0" VerticalAlignment="Top" Width="2" IsTabStop="False"/>
 
         <Label Content="2. Fiets en simulator" HorizontalAlignment="Left" Margin="290
@@ -35,42 +34,6 @@
         <TextBlock HorizontalAlignment="Left" Height="49" Margin="47,274,0,0" TextWrapping="Wrap" Text="Wachtwoord of Gebruikersnaam is verkeerd" VerticalAlignment="Top" Width="146" FontSize="11" Foreground="Red" Opacity="{Binding Path=WrongCredentialsOpacity}" Background="Transparent"/>
         <TextBlock HorizontalAlignment="Left" Height="49" Margin="47,274,0,0" TextWrapping="Wrap" Text="Login was Succesvol" VerticalAlignment="Top" Width="146" FontSize="11" Foreground="Lime" Opacity="{Binding RightCredentialsOpacity}" Background="Transparent" />
         <PasswordBox HorizontalAlignment="Left" Margin="47,251,0,0" VerticalAlignment="Top" Width="120" Height="23" PasswordChanged="PasswordBox_PasswordChanged" TabIndex="1"/>
-
-
-        <!--
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"></ColumnDefinition>
-            <ColumnDefinition Width="100"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Row0 Column0" Grid.Row="0" Grid.Column="0" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-
-        Listview for vr server selection
-        <ListView Name="vrServersListView" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding VRServers, Mode=OneWay}" SelectedItem="{Binding SelectedVRServer}"  >
-            <ListView.View>
-                <GridView x:Name="vrServersGrid">
-                    <GridViewColumn Header="User" DisplayMemberBinding="{Binding User}" Width="50"/>
-                    <GridViewColumn Header="Host" DisplayMemberBinding="{Binding Host}" Width="150"/>
-                    <GridViewColumn Header="GPU" DisplayMemberBinding="{Binding GPU}" Width="200"/>
-                    <GridViewColumn Header="Adress" DisplayMemberBinding="{Binding Adress}" Width="250"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-
-        Listview for Bike device selection
-        <ListView Name="deviceListView" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BLEDevices, Mode=OneWay}" SelectedItem="{Binding SelectedDevice}"  >
-            <ListView.View>
-                <GridView x:Name="deviceGrid">
-                    <GridViewColumn Header="FIETSEN" Width="150"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        
-        Start button
-        <Button Content="START" Grid.Row="0" Grid.Column="1" Command="{Binding Path=StartCommand}"  />
-        -->
-
     </Grid>
-
 </Window>
 
