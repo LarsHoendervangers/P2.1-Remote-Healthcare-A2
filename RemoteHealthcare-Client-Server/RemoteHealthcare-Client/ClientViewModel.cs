@@ -3,17 +3,18 @@ using RemoteHealthcare.ClientVREngine.Util.Structs;
 using RemoteHealthcare.Ergometer.Software;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 using RemoteHealthcare_Client.ClientVREngine.Tunnel;
-using RemoteHealthcare_Client.TCP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RemoteHealthcare_Client
@@ -27,32 +28,29 @@ namespace RemoteHealthcare_Client
 
         private readonly StartupLoader loader;
 
+
         /// <summary>
         /// Constructor for the Client view model, starts the calls to get available bl- and vr- devices
         /// </summary>
         /// <param name="loader">The StartupLoader that handles startup</param>
         public ClientViewModel(StartupLoader loader)
         {
-            
-
             this.loader = loader;
 
             // Setting the event for the device callbacks
             this.loader.OnVRConnectionsReceived += (s, d) => this.mVRServers = new ObservableCollection<ClientData>(d);
             this.loader.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
-            //PhysicalDevice.OnBLEDeviceReceived += (s, d) => this.mBLEDevices = new ObservableCollection<string>(d);
             this.loader.OnLoginResponseReceived += (s, d) =>
             {
                 this.isLoggedIn = d;
                 if (d)
                 {
-                    SubmitText = "Start the connection to the server";
+                    SubmitText = "Start VR";
                     WrongCredentialsOpacity = 0;
                     RightCredentialsOpacity = 100;
                 }
 
                 if (!d) WrongCredentialsOpacity = 100;
-
             };
 
             // Calling the first statup method for the loader
@@ -66,18 +64,15 @@ namespace RemoteHealthcare_Client
             this.SelectedScene = scenes[0];
         }
 
-
         private string mSubmitText = "Submit login";
         public string SubmitText
         {
             get { return mSubmitText; }
             set
             {
-
                 mSubmitText = value;
                 Console.WriteLine("Nieuwe waarde voor knop: " + value);
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
-
             }
         }
 
@@ -89,11 +84,9 @@ namespace RemoteHealthcare_Client
         {
             get { return mVRServers; }
             set
-            {   
-
+            {
                 mVRServers = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("VRServers"));
-
             }
         }
 
@@ -188,7 +181,6 @@ namespace RemoteHealthcare_Client
             set
             {
                 mPassword = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
 
@@ -198,10 +190,8 @@ namespace RemoteHealthcare_Client
             get { return mWrongCredentialsOpacity; }
             set
             {
-
                 mWrongCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WrongCredentialsOpacity"));
-
             }
         }
 
@@ -211,10 +201,8 @@ namespace RemoteHealthcare_Client
             get { return mRightCredentialsOpacity; }
             set
             {
-
                 mRightCredentialsOpacity = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RightCredentialsOpacity"));
-
             }
         }
 
@@ -235,16 +223,13 @@ namespace RemoteHealthcare_Client
                         {
                             if (!isLoggedIn)
                                 this.loader.Login(UserName, Password);
-                            else
-                                StartApplicaton();
-                                Debug.WriteLine("Logged in successfully");
+                            else StartApplicaton();
                         },
                         param => NullCheck() //check if all the fields are filled
                         );
                 }
                 return mStartCommand;
             }
-
         }
 
         /// <summary>
@@ -254,8 +239,6 @@ namespace RemoteHealthcare_Client
         private bool NullCheck()
         {
             return
-                this.SelectedDevice != null &
-                this.SelectedVRServer.NullCheck() &
                 this.Password != null &
                 this.UserName != null;
         }
@@ -273,15 +256,14 @@ namespace RemoteHealthcare_Client
                 loader.GetAvailableVRConnections();
                 Thread.Sleep(3000);
             }
-
         }
+
         private void UpdateBLEDevices()
         {
             while (true)
             {
                 loader.GetAvailableBLEDevices();
             }
-
         }
     }
 }

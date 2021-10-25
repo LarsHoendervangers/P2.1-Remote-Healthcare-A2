@@ -26,9 +26,5 @@ namespace RemoteHealthcare_Dokter.Views
             InitializeComponent();
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataContext = new PatientHistoryViewModel();
-        }
     }
 }

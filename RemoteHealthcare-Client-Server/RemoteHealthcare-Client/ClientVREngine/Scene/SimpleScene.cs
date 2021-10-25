@@ -39,8 +39,8 @@ namespace RemoteHealthcare_Client.ClientVREngine.Scene
                 "data/NetworkEngine/textures/terrain/vhwmdias_2K_Roughness.jpg");
 
             CreateVechile("data/NetworkEngine/models/bike/bike.blend", new Transform(1, new double[3] { 0, 5, 0 }, new double[3] { 270, 270, 0 }), new Transform(1, new double[] { 0, 0, 0 }, new double[] { 90, 0, 90 }));
-            Thread.Sleep(2000);
-            CreatePanels(uuidSusan,uuidSusan, new Transform(1, new double[] { 0.25, -0.25, -0.5 }, new double[] { 0, 0, 0 }), new Transform(1, new double[] { 0.25, 0.1, -0.5 }, new double[] { 0, 0, 0 }));
+            
+            CreatePanels(uuidSusan,uuidSusan, new Transform(1, new double[] { 0.1, -0.4, -0.25 }, new double[] { -45, 0, 0 }), new Transform(1, new double[] { -0.15, -0.4, -0.25 }, new double[] { -20, 45, 0 }));
             Handler.SendToTunnel(JSONCommandHelper.WrapFollow(uuidRoute, uuidBike, new double[] { 80, 0, 0 }));
 
 

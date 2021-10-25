@@ -11,14 +11,14 @@ namespace RemoteHealthcare_Client
     /// </summary>
     public abstract class DataManager
     {
-        public IList<DataManager> NetworkManagers { get; set; }
+        protected static readonly IList<DataManager> NetworkManagers = new List<DataManager>();
 
         /// <summary>
         /// Constructor for the DataManager
         /// </summary>
         protected DataManager()
         {
-            NetworkManagers = new List<DataManager>();
+            DataManager.NetworkManagers.Add(this);
         }
 
         /// <summary>
@@ -33,9 +33,22 @@ namespace RemoteHealthcare_Client
         /// <param name="data">The data to be send</param>
         protected void SendToManagers(JObject data)
         {
-            foreach(DataManager manager in NetworkManagers)
+            /*
+            foreach(DataManager manager in DataManager.NetworkManagers)
             {
+                if (manager.Equals(this))
+                    continue;
+
                 manager.ReceivedData(data);
+            }
+            */
+
+            for (int i = 0; i < DataManager.NetworkManagers.Count; i++)
+            {
+                if (DataManager.NetworkManagers[i].Equals(this))
+                    continue;
+                
+                DataManager.NetworkManagers[i].ReceivedData(data);
             }
         }
     }

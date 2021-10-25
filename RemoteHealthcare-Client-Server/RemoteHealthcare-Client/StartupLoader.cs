@@ -7,12 +7,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.Windows;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
+        private string ip = "127.0.0.1";
+        private int port = 6969;
+
         private DataManager serverDataManager;
         private DataManager deviceDataManager;
         private DataManager vrDataManager;
@@ -26,28 +30,21 @@ namespace RemoteHealthcare_Client
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
 
+            this.OnLoginResponseReceived += ((s, d) =>
+            {
+                Debug.WriteLine("OnLoginResponseReceived fired");
+            });
+
             // starting up the connection to the server
-            this.serverDataManager = new ServerDataManager("127.0.0.1", 6969);
+            this.serverDataManager = new ServerDataManager(this.ip, this.port);
         }
 
         public void Start(string device, string vrServerID, GeneralScene generalScene)
         {
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
 
-            this.serverDataManager.NetworkManagers.Add(deviceDataManager);
-            this.serverDataManager.NetworkManagers.Add(vrDataManager);
-
-            this.vrDataManager.NetworkManagers.Add(serverDataManager);
-            this.vrDataManager.NetworkManagers.Add(deviceDataManager);
-
-            this.deviceDataManager.NetworkManagers.Add(serverDataManager);
-            this.deviceDataManager.NetworkManagers.Add(vrDataManager);
-
             (this.vrDataManager as VRDataManager).Scene = generalScene;
-
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
-
-            
         }
 
         public void GetAvailableVRConnections()
@@ -56,6 +53,8 @@ namespace RemoteHealthcare_Client
             // To get this list it is needed to start up the vrDataManager
             VRDataManager dataManager = new VRDataManager();
             List<ClientData> clientVREngines =  dataManager.VRTunnelHandler.GetAvailableClients();
+            if (clientVREngines == null) return;
+            clientVREngines.Reverse();
 
             this.vrDataManager = dataManager;
 
@@ -75,20 +74,10 @@ namespace RemoteHealthcare_Client
         [Obsolete] //This was the old, ugly way of starting up
         public void SetupServerConnection(string ip, int port, string device, string vrServerID, string username, string password)
         {
-
             // Setting op serverDataManager, it creates the connection to the server
             this.serverDataManager = new ServerDataManager(ip, port);
 
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
-
-            this.serverDataManager.NetworkManagers.Add(deviceDataManager);
-            this.serverDataManager.NetworkManagers.Add(vrDataManager);
-
-            this.vrDataManager.NetworkManagers.Add(serverDataManager);
-            this.vrDataManager.NetworkManagers.Add(deviceDataManager);
-
-            this.deviceDataManager.NetworkManagers.Add(serverDataManager);
-            this.deviceDataManager.NetworkManagers.Add(vrDataManager);
 
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
 
@@ -107,6 +96,12 @@ namespace RemoteHealthcare_Client
 
         public void Login(string userName, string password)
         {
+            if ((this.serverDataManager as ServerDataManager).GetStream() == null)
+            {
+                Debug.WriteLine("Reconnecting");
+                (this.serverDataManager as ServerDataManager).ReconnectWithServer(this.ip, this.port);
+            }
+
             // Setting the callback event for the login
             (this.serverDataManager as ServerDataManager).OnLoginResponseReceived += (s, d) => OnLoginResponseReceived?.Invoke(this, d);
 
@@ -123,8 +118,27 @@ namespace RemoteHealthcare_Client
                     }
                 });
 
-            // Seniding the login data to the server
+            // Sending the login data to the server
             this.serverDataManager?.ReceivedData(loginCommand);
+        }
+
+        private void UpdateVRServers()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableVRConnections);
+                Thread.Sleep(5000);
+            }
+
+        }
+        private void UpdateBLEDevices()
+        {
+            while (true)
+            {
+                Application.Current.Dispatcher.Invoke(GetAvailableBLEDevices);
+                Thread.Sleep(5000);
+            }
+
         }
     }
 }

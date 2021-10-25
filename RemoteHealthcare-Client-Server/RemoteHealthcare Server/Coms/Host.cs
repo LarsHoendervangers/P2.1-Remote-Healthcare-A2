@@ -1,20 +1,17 @@
 ﻿using CommClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
 using RemoteHealthcare_Server.Data;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 
 namespace RemoteHealthcare_Server
 {
+    public delegate void Notify(Host host);
+
     public class Host
     {
         //Needed for assigment
@@ -25,6 +22,9 @@ namespace RemoteHealthcare_Server
 
         //Only assign 
         IUser user;
+
+        private bool stop = false;
+        public event Notify Disconnecting;
 
         /// <summary>
         /// Constructor for the session
@@ -40,6 +40,8 @@ namespace RemoteHealthcare_Server
             this.reader = new JSONReader();
             this.reader.CallBack += ChangeUser;
 
+            this.Disconnecting += Stop;
+
             //Starting reading thread
             new Thread(ReadData).Start();
         }
@@ -49,26 +51,34 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public void ReadData()
         {
-            while (true)
+            while (!this.stop)
             {
                 //Getting json object
-                string data = sender.ReadMessage();
-                JObject json = (JObject)JsonConvert.DeserializeObject(data);
+                try
+                {
+                    string data = sender.ReadMessage();
+                    if (data.Length == 0) break;
+                    JObject json = (JObject)JsonConvert.DeserializeObject(data);
 
-                //Reading json object
-                this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                    //Reading json object
+                    this.reader.DecodeJsonObject(json, this.sender, this.user, this.usermanagement);
+                } catch (Exception)
+                {
+                    break;
+                }
             }
+            FireDisconnectingEvent();
         }
 
         /// <summary>
         /// Shutting down for user
         /// </summary>
-        public void Stop()
+        public void Stop(Host host)
         {
+            this.stop = true;
             this.usermanagement.SessionEnd(user);
-            this.tcpclient.Close();
+            this.usermanagement.activeHosts.Remove(this);
         }
-
 
         /// <summary>
         /// Callback for IUSer object
@@ -89,8 +99,13 @@ namespace RemoteHealthcare_Server
         {
             return this.sender;
         }
-    }
-       
 
-   
+        /// <summary>
+        /// Fire the disconnecting event.
+        /// </summary>
+        public void FireDisconnectingEvent()
+        {
+            this.Disconnecting?.Invoke(this);
+        }
+    }
 }

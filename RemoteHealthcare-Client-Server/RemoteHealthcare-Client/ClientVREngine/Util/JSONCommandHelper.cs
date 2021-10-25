@@ -294,7 +294,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                         {
                             size = new double[] { sizeX, sizeY },
                             resolution = new int[] { resolutionX, resolutionY },
-                            background = new int[] { 1, 1, 1, 0 },
+                            background = new int[] { 0, 0, 0, 0 },
                             castShadow
                         }
                     }
@@ -315,7 +315,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                     text,
                     position,
                     size,
-                    color = new int[] { 0, 0, 0, 1 },
+                    color = new int[] { 1, 1, 1, 1 },
                     font
                 }
             };

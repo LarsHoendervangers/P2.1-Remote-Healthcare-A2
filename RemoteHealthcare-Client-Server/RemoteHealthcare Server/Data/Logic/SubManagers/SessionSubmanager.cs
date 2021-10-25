@@ -1,6 +1,7 @@
 ﻿using RemoteHealthcare_Server.Data.User;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                
                         s.BikeMeasurements.Add(new BikeMeasurement(time, rpm, speed, pow, accpow, dist));
 
 
@@ -62,9 +63,8 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     if (s.Patient == (Patient)user)
                     {
-                        Server.PrintToGUI("Added new measurement");
+                       
                         s.HRMeasurements.Add(new HRMeasurement(time, bpm));
-
                         return s;
                     }
                 }
@@ -123,13 +123,13 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         /// Starts a session
         /// </summary>
         /// <param name="user"></param>
-        public void SessionStart(IUser user)
+        public void SessionStart(Patient p)
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (p.getUserType() == UserTypes.Patient)
                 {
-                    UserManagement.activeSessions.Add(new Session((Patient)user));
+                    UserManagement.activeSessions.Add(new Session(p));
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
         {
             lock (this)
             {
-                if (user.getUserType() == UserTypes.Patient)
+                if (user != null && user.getUserType() == UserTypes.Patient)
                 {
                     foreach (Session s in UserManagement.activeSessions)
                     {
@@ -152,7 +152,6 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                             return;
                         }
                     }
-
                 }
             }
         }

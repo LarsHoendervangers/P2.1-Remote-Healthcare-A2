@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -26,7 +27,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
     {
         private string DestinationID;
         private readonly Dictionary<string, Action<string>> SerialMap;
-        private readonly TCPClientHandler TcpHandler;
+        private TCPClientHandler TcpHandler;
         private int SerialNumber;
         private JObject message;
 
@@ -37,11 +38,19 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         public TunnelHandler()
         {
             SerialMap = new Dictionary<string, Action<string>>();
-            TcpHandler = new TCPClientHandler("145.48.6.10", 6666, false);
             SerialNumber = 0;
 
-            // Setting the method to be performed when data is received
-            TcpHandler.OnMessageReceived += OnMessageReceived;
+            // starting the connection apart from the UI thread
+            new Thread(() =>
+            {
+
+                this.TcpHandler = new TCPClientHandler("192.168.68.104", 6666, false);
+
+
+                // Setting the method to be performed when data is received
+                this.TcpHandler.OnMessageReceived += OnMessageReceived;
+
+            }).Start();   
         }
 
         /// <summary>
@@ -54,13 +63,22 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 
             //Writing for connection 
             string startingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapRequest());
-            TcpHandler.WriteMessage(startingCode);
+            TcpHandler?.WriteMessage(startingCode);
 
             //Reading for clients
-            string jsonString = TcpHandler.ReadMessage();
+            string jsonString = TcpHandler?.ReadMessage();
+
+            //Checking if value is not null
+            if (jsonString == null) return clients;
+
             JObject jsonData = (JObject)JsonConvert.DeserializeObject(jsonString);
 
             //Adding it to the list
+            if (jsonData == null)
+            {
+                Debug.WriteLine("TunnelHandler: No jsonData received, probably no connection to VREngine");
+                return clients;
+            }
             JArray computers = (JArray)jsonData.GetValue("data");
             foreach (JObject objects in computers)
             {
@@ -89,10 +107,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             //Sending tunneling request to vps
             string requestingCode = JsonConvert.SerializeObject(JSONCommandHelper.WrapTunnel(connectionID));
             Trace.WriteLine($"TunnelHandler: json to connect is {requestingCode} \n");
-            TcpHandler.WriteMessage(requestingCode);
+            TcpHandler?.WriteMessage(requestingCode);
 
             //Receiving ok or error
-            string jsonString = TcpHandler.ReadMessage();
+            string jsonString = TcpHandler?.ReadMessage();
             JObject jsonData = null;
             try
             {
@@ -131,7 +149,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
                         DestinationID = id;
 
                         //Setting reader on.
-                        TcpHandler.SetRunning(true);
+                        TcpHandler?.SetRunning(true);
                         return true;
                     case "error":
                         MessageBox.Show("Failed to connect to VrEngine", "Error");
@@ -191,7 +209,7 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
         {
             object totalStream = JSONCommandHelper.WrapHeader(DestinationID, message);
             Trace.WriteLine($"TunnelHandler: Sending data to server: {JsonConvert.SerializeObject(totalStream)} \n");
-            TcpHandler.WriteMessage(JsonConvert.SerializeObject(totalStream));
+            TcpHandler?.WriteMessage(JsonConvert.SerializeObject(totalStream));
         }
 
         /// <summary>

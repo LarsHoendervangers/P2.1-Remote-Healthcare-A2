@@ -5,11 +5,18 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1080" Width="1920"
       Title="PatientHistoryView">
 
-    <Grid>
-        <Label Content="Patient naam" HorizontalAlignment="Left" Margin="33,25,0,0" VerticalAlignment="Top"/>
+    <Grid Background="White">
+        <Rectangle HorizontalAlignment="Left" Height="1080" Stroke="#FFC6002A" VerticalAlignment="Bottom" Width="350" Fill="#FFC6002A"/>
+        <Button Content="Dashboard" HorizontalAlignment="Left" Margin="0,370,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="#FFF3EEEE" BorderBrush="White" FontWeight="Bold" FontSize="22" Command="{Binding Path=SwitchToDashboardView}"/>
+        <Button Content="Patienten" HorizontalAlignment="Left" Margin="0,438,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="White" BorderBrush="White" FontWeight="Bold" FontSize="22"/>
 
+        <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
+        <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+        <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+
+        <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseHistoryCommand}"/>
     </Grid>
 </Page>

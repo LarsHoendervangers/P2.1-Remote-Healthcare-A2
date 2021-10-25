@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 
@@ -15,8 +16,16 @@ namespace CommClass
             byte[] final = Combine(length, payload);
 
             //Debug print of data that is send
-            stream.Write(final, 0, data.Length + 4);
-            stream.Flush();
+            try
+            {
+                stream?.Write(final, 0, data.Length + 4);
+                stream?.Flush();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+            
         }
 
         private static byte[] Combine(byte[] first, byte[] second)

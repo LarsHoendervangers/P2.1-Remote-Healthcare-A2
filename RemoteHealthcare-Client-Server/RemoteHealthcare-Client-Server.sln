@@ -16,6 +16,7 @@ Global
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{74dbd5f8-b8b9-4767-8158-1621f05e6146}*SharedItemsImports = 4
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{7e1ba417-e958-49ca-8c3b-4204368929c1}*SharedItemsImports = 13
 		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{a520c21d-7bd4-42aa-9a50-fb5ac2cdd64b}*SharedItemsImports = 5
+		RemoteHealthcare-Shared\RemoteHealthcare-Shared.projitems*{f2d93f91-f508-43ae-8e83-220d5b39d10e}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

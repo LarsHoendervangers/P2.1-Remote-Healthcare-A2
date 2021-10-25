@@ -8,6 +8,7 @@ using RemoteHealthcare_Client.ClientVREngine.Scene;
 using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System.Diagnostics;
 using System.Windows;
+using System.Threading;
 
 namespace RemoteHealthcare_Client
 {
@@ -20,7 +21,7 @@ namespace RemoteHealthcare_Client
         
         public VRDataManager()
         {
-            VRTunnelHandler = new TunnelHandler();
+            this.VRTunnelHandler = new TunnelHandler();
             //this.Scene = new SimpleScene(this.VRTunnelHandler);
         }
 
@@ -30,10 +31,16 @@ namespace RemoteHealthcare_Client
             Scene.Handler = VRTunnelHandler;
 
             this.isConnected = this.VRTunnelHandler.SetUpConnection(vrServerID);
-            
-            this.Scene.InitScene();
 
-            this.Scene.LoadScene();
+            // Starting a new thread on building the scene, so the UI has no wait
+            new Thread(() => {
+
+                this.Scene.InitScene();
+
+                this.Scene.LoadScene();
+
+            }).Start();
+            
         }
 
         public override void ReceivedData(JObject data)

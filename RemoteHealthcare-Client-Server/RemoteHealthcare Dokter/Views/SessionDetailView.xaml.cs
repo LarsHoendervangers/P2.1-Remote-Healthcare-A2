@@ -13,24 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RemoteHealthcare_Client
+namespace RemoteHealthcare_Dokter.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SessionDetailView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SessionDetailView : Page
     {
-
-        public MainWindow()
+        public SessionDetailView()
         {
             InitializeComponent();
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext != null)
-            { ((ClientViewModel)this.DataContext).Password = ((PasswordBox)sender).Password; }
+
         }
     }
 }
-

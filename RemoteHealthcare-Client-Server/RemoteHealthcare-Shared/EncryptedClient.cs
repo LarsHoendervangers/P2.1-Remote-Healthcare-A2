@@ -35,15 +35,15 @@ namespace RemoteHealthcare_Shared
             }
         }
 
-        #warning SERVER CERTIFICATE AUTHENTICATION IS DISABLED!
+        //#warning SERVER CERTIFICATE AUTHENTICATION IS DISABLED!
 
         // The following method is invoked by the RemoteCertificateValidationDelegate.
         public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             // Currently disabled for development purposes
-            Debug.Indent();
+            /*Debug.Indent();
             Debug.WriteLine("SERVER CERTIFICATE AUTHENTICATION DISABLED! DATA IS STILL ENCRYPTED OVER THE NETWORK!");
-            Debug.Unindent();
+            Debug.Unindent();*/
 
             if (sslPolicyErrors == SslPolicyErrors.None)
             {
