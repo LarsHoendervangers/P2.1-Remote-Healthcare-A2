@@ -28,7 +28,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
-                        <TextBlock Text="{Binding Startdate}" FontSize="20" Width="180" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding}" FontSize="20" VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

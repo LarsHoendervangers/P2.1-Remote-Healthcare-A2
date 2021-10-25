@@ -13,8 +13,8 @@ namespace RemoteHealthcare_Dokter.BackEnd
         public List<HRMeasurement> HRMeasurements;
         public List<BikeMeasurement> BikeMeasurements;
 
-        public DateTime Startdate;
-        public DateTime Enddate;
+        public DateTime Startdate { get; set; }
+        public DateTime Enddate { get; set; }
 
         public SessionWrap(List<HRMeasurement> hRMeasurements, List<BikeMeasurement> bikeMeasurements, DateTime startdate, DateTime enddate)
         {
@@ -22,6 +22,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             BikeMeasurements = bikeMeasurements;
             Startdate = startdate;
             Enddate = enddate;
+        }
+
+        public override string ToString()
+        {
+            return $"{this.Startdate.ToString("dddd d MMMM yyyy hh:mm:ss")} - {this.Enddate.Subtract(this.Startdate).Minutes} minuten";
         }
     }
 }
