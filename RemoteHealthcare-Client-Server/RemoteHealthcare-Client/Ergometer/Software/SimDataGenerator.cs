@@ -37,7 +37,6 @@ namespace RemoteHealthcare_Client.Ergometer.Software
         public event EventHandler<int> GeneratedCurrentPower;
         public event EventHandler<int> GeneratedTotalPower;
 
-        public static Thread simulationThread;
 
         /// <summary>
         /// This is the constuctor SimDataGenetor with no need for ranges.
@@ -58,7 +57,7 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             powerlevelRange = new int[] { 150, 350 };
 
 
-            simulationThread = new Thread(() =>
+            new Thread(() =>
             {
                 //Needs signaling but it also works with a wait i guesss
                 //TODO Maybe fix with signaling because it can give some potential issues.
@@ -66,8 +65,8 @@ namespace RemoteHealthcare_Client.Ergometer.Software
 
                 Simulation();
 
-            });
-            simulationThread.Start();
+            }).Start();
+
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             running = true;
             random = new Random();
 
-            simulationThread = new Thread(() =>
+            new Thread(() =>
             {
                 //Needs signaling but it also works with a wait i guesss
                 //TODO Maybe fix with signaling because it can give some potential issues.
@@ -96,10 +95,10 @@ namespace RemoteHealthcare_Client.Ergometer.Software
 
                 Simulation();
 
-            });
-            simulationThread.Start();
+            }).Start();
 
         }
+
 
         /// <summary>
         /// This the simulation that sends data to the simulation device.
@@ -115,7 +114,6 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             //Loop for generating each value each second
             while (running)
             {
-                if (!running) break;
                 elapsedTime += 1;
                 GeneratedTime?.Invoke(this, elapsedTime);
 
@@ -157,6 +155,7 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             float output = SimplexNoise.Noise.CalcPixel1D(startingpoint + (int)elapsedTime, scale);
             return output / 255;
         }
+
     }
 
 
