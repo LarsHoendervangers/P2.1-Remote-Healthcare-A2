@@ -37,14 +37,13 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
-        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="1000,538,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1010,861,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1462,546,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1466,865,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="998,285,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1001,619,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1460,291,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1464,621,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1007,907,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="Wattage:" HorizontalAlignment="Left" Margin="988,792,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
+        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1486,882,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Button Content="Start" HorizontalAlignment="Left" Margin="408,414,0,0" VerticalAlignment="Top" Height="40" Width="130" FontSize="18" IsEnabled="False"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="582,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
@@ -63,7 +62,7 @@
         <!-- Live graph section -->
 
         <!-- BPM Graph-->
-        <Grid Margin="981,382,500,401">
+        <Grid Margin="981,126,500,657">
             <Label Content="BPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
@@ -87,7 +86,7 @@
         </Grid>
 
         <!-- Speed -->
-        <Grid Margin="1443,382,12,401">
+        <Grid Margin="1443,126,12,657">
             <Label Content="Speed" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
@@ -111,7 +110,7 @@
         <GridSplitter HorizontalAlignment="Left" Margin="948,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
 
         <!-- RPM Graph -->
-        <Grid Margin="988,701,493,82">
+        <Grid Margin="981,457,499,326">
             <Label Content="RPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
@@ -135,7 +134,7 @@
         </Grid>
 
         <!-- Distance Graph-->
-        <Grid Margin="1443,705,12,78">
+        <Grid Margin="1443,457,12,326">
             <Label Content="Distance" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding DistanceCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">

@@ -420,14 +420,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "Distance",
-                    Values = new ChartValues<double> {},
+                    Values = new ChartValues<int> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
                     Stroke = Brushes.Blue
                 }
             };
-            SpeedLabels = new List<string>();
+            DistanceLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
@@ -474,7 +474,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
-        private void UpdateDistanceGraph(double value, DateTime time)
+        private void UpdateDistanceGraph(int value, DateTime time)
         {
             var list = DistanceCollection[0].Values;
 
@@ -515,7 +515,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     // updating the graphs
                     UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                     UpdateRPMGraph(rpm, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
-                    UpdateDistanceGraph(distance, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateDistanceGraph((int)distance, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
