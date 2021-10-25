@@ -445,8 +445,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     Values = new ChartValues<double> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
-                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
-                    Stroke = Brushes.Blue
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0.5f, 0.5f, 0f)),
+                    Stroke = Brushes.Yellow
                 }
             };
             CurrentWLabels = new List<string>();
