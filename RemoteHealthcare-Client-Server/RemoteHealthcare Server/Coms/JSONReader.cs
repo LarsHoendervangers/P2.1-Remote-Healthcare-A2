@@ -368,7 +368,14 @@ namespace RemoteHealthcare_Server
             }
         }
 
-        //Sends back all the session of a patient...
+
+        /// <summary>
+        /// Sends back all history dates of sessoins
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
         [AccesManager("getsessions", UserTypes.Doctor)]
         private void GettingSessions(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
@@ -382,11 +389,52 @@ namespace RemoteHealthcare_Server
                 if (p != null)
                 {
                     List<Session> sessoins = FileProcessing.LoadSessions(p);
-
-                    JSONWriter.HistoryWrite(sender, sessoins, p.PatientID);
+                    JSONWriter.HistoryDates(sender, sessoins, p.PatientID);
                 }
             }
         }
+
+        /// <summary>
+        /// Writing session based on date.
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        /// <param name="management"></param>
+        [AccesManager("getsessionsdetails", UserTypes.Doctor)]
+        private void GettingSessionsDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
+        {
+            JToken patientID = jObject.SelectToken("data.patid");
+            JToken date = jObject.SelectToken("data.date");
+            if (patientID != null && date != null)
+            {
+                //Debug
+                Server.PrintToGUI("[Logic debug] - Getting sessions history");
+
+                //Attributes
+                string id = patientID.ToString();
+                DateTime time = DateTime.Parse(date.ToString());
+
+                //Casting
+                Patient p = management.FindPatient(id);
+
+                //Sending it over..
+                if (p != null)
+                {
+                    List<Session> sessoins = FileProcessing.LoadSessions(p);
+                    foreach (Session s in sessoins)
+                    {
+                        if (s.EndTime == time)
+                        {
+                            JSONWriter.HistoryWrite(sender, s, p.PatientID);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Message funtion to vr engine.

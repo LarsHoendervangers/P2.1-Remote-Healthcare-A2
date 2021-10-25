@@ -188,24 +188,56 @@ namespace RemoteHealthcare_Server
         }
 
         /// <summary>
-        /// Writes the history to the doctor
+        /// Writes the history to the doctor from one patient form one session
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="sessoins"></param>
         /// <param name="patientID"></param>
-        public static void HistoryWrite(ISender sender, List<Session> sessoins, string patientID)
+        public static void HistoryWrite(ISender sender, Session session, string patientID)
         {
             object o = new
             {
-                command = "getsessions",
+                command = "getsessionsdetails",
                 data = new
                 {
                     patientid = patientID,
-                    sessions = sessoins
+                    session = new
+                    {
+                        startdate = session.StartTime,
+                        enddate = session.EndTime,
+                        hrdata = session.HRMeasurements,
+                        bikedata = session.BikeMeasurements
+                    }
                 }
             };
 
             sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+        /// <summary>
+        /// Writes all the dates...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="sessions"></param>
+        /// <param name="patientID"></param>
+        public static void HistoryDates(ISender sender, List<Session> sessions, string patientID)
+        {
+            //Getting dates.
+            List<DateTime> dates = new List<DateTime>();
+            foreach (Session s in sessions)
+            {
+                dates.Add(s.EndTime);
+            }
+
+            object o = new
+            {
+                command = "getsessionsdetails",
+                data = new
+                {
+                    patientid = patientID,
+                    dates = dates
+                }
+            };
         }
 
         public static void WriteMessage(string message, List<Host> activeHosts)
