@@ -65,7 +65,7 @@ namespace RemoteHealthcare_Server
         public static void SaveSession(Session s)
         {
             //Directory name....
-            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.Username);
+            string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), s.Patient.FirstName + " " + s.Patient.LastName);
 
             //If the dir doesn't exist
             if (!Directory.Exists(FolderPath)) Directory.CreateDirectory(FolderPath);
@@ -85,7 +85,7 @@ namespace RemoteHealthcare_Server
             List<Session> sessions = new List<Session>();
 
             //Path for the directory
-            string dirPath = Path.Combine(Directory.GetCurrentDirectory(), p.Username);
+            string dirPath = Path.Combine(Directory.GetCurrentDirectory(), p.FirstName+ " " + p.LastName);
             if (Directory.Exists(dirPath))
             {
                 //Getting sessions
@@ -115,7 +115,8 @@ namespace RemoteHealthcare_Server
         {
             //Settingup variables
             JObject Jsession = JObject.FromObject(s);
-            string FileName = s.Patient.Username + "-" + s.StartTime;
+            string FileName = "session date, "+ s.EndTime.Year;
+            FileName = FileName.Replace(":", "-");
             string FilePath = Path.Combine(folderpath, FileName);
 
             //Writing it...

@@ -14,6 +14,7 @@ namespace RemoteHealthcare_Server
         {
             Patient = patient;
             Subscribers = new List<Doctor>();
+            this.StartTime = DateTime.Now;
             this.HRMeasurements = new List<HRMeasurement>();
             this.BikeMeasurements = new List<BikeMeasurement>();
         }
@@ -68,7 +69,7 @@ namespace RemoteHealthcare_Server
 
         public DateTime EndTime
         {
-            get => default;
+            get => DateTime.Now;
             set
             {
             }

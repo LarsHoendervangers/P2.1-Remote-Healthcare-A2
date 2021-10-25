@@ -162,13 +162,13 @@ namespace RemoteHealthcare_Server
         {
             //Getting data
             JToken patientIDs = jObject.SelectToken("data.patid");
-            JToken resitance = jObject.SelectToken("data.resistance");
+            JToken resitance = jObject.SelectToken("data.value");
             if (patientIDs != null && resitance != null)
             {
                 //Getting patients
                 Server.PrintToGUI("[Session debug] - Request for changing resistance");
                 List<Patient> targetPatients = new List<Patient>();
-                foreach (JObject patientID in (JArray)patientIDs)
+                foreach (string patientID in (JArray)patientIDs)
                 {
                     Host h = managemet.FindHost(patientID.ToString());
                     JSONWriter.ResistanceWrite(int.Parse(resitance.ToString()), h.GetSender());
@@ -305,7 +305,10 @@ namespace RemoteHealthcare_Server
                         Server.PrintToGUI("[Session debug] - Starting to patient");
                         JSONWriter.WriteMessage("[Server] Doctor started session", new List<Host>() { management.FindHost(p.PatientID) });
                     }
-                    else { management.SessionEnd(user); Server.PrintToGUI("[Logic debug] - Stopping to patient");
+                    else { management.SessionEnd(p); 
+                        Server.PrintToGUI("[Logic debug] - Stopping to patient");
+                 
+
                         JSONWriter.WriteMessage("[Server] Doctor stopped session", new List<Host>() { management.FindHost(p.PatientID) });
 
 

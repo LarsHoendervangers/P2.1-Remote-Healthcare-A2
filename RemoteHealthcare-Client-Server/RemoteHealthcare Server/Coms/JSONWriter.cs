@@ -222,7 +222,10 @@ namespace RemoteHealthcare_Server
             //Sending
             foreach (Host h in activeHosts)
             {
-                h.GetSender().SendMessage(JsonConvert.SerializeObject(o));
+                if (h != null)
+                {
+                    h.GetSender().SendMessage(JsonConvert.SerializeObject(o));
+                }
             }
 
         }
