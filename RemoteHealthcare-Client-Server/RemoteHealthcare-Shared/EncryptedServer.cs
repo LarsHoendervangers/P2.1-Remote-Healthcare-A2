@@ -12,14 +12,21 @@ using System.Text;
 
 namespace CommClass
 {
+    /// <summary>
+    /// Class that handles the client inherits from EncryptedSenderReceiver.
+    /// </summary>
     public class EncryptedServer : EncryptedSenderReceiver
     {
         static X509Certificate serverCertificate = null;
 
+        /// <summary>
+        /// Constructor that is used to create a new certificate object.
+        /// </summary>
+        /// <param name="network">The network stream that will be encrypted.</param>
         public EncryptedServer(NetworkStream network)
         {
             base.sslStream = new SslStream(network, false);
-            // Try to create a new certificate.
+            // Try to create a new certificate from the Server.pfx.
             try
             {
                 string path = Path.Combine(Directory.GetCurrentDirectory(), @"Server.pfx");
@@ -57,6 +64,10 @@ namespace CommClass
             }
         }
 
+        /// <summary>
+        /// Displays the cipher, hash and key exchange strengths. Also displays the protocol.
+        /// </summary>
+        /// <param name="stream">Stream to get the certificate data from.</param>
         static void DisplaySecurityLevel(SslStream stream)
         {
             Debug.WriteLine($"Cipher: {stream.CipherAlgorithm} strength {stream.CipherStrength}");
@@ -65,6 +76,11 @@ namespace CommClass
             Debug.WriteLine($"Protocol: {stream.SslProtocol}");
         }
 
+        /// <summary>
+        /// Displays if the stream is authenticated and if it is a server.
+        /// Also displays if the stream is signed and if it is encrypted.
+        /// </summary>
+        /// <param name="stream">Stream to get the certificate data from.</param>
         static void DisplaySecurityServices(SslStream stream)
         {
             Debug.WriteLine($"Is authenticated: {stream.IsAuthenticated} as server? {stream.IsServer}");
@@ -72,12 +88,20 @@ namespace CommClass
             Debug.WriteLine($"Is Encrypted: {stream.IsEncrypted}");
         }
 
+        /// <summary>
+        /// Displays if the stream can be read and written to. Also displays if the stream can time out.
+        /// </summary>
+        /// <param name="stream">Stream to get the certificate data from.</param>
         static void DisplayStreamProperties(SslStream stream)
         {
             Debug.WriteLine($"Can read: {stream.CanRead}, write {stream.CanWrite}");
             Debug.WriteLine($"Can timeout: {stream.CanTimeout}");
         }
 
+        /// <summary>
+        /// Displays some basic certificate information.
+        /// </summary>
+        /// <param name="stream">Stream to get the certificate data from.</param>
         static void DisplayCertificateInformation(SslStream stream)
         {
             Debug.WriteLine($"Certificate revocation list checked: {stream.CheckCertRevocationStatus}");

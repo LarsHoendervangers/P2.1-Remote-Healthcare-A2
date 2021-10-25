@@ -16,7 +16,7 @@
 
 
         <Label Content="Password" HorizontalAlignment="Left" Margin="296,200,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="PassBox" HorizontalAlignment="Left" Margin="301,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Text="{Binding Password}"/>
+        <PasswordBox Name="PassBox" HorizontalAlignment="Left" Margin="301,226,0,0"  VerticalAlignment="Top" Width="180" PasswordChanged="PassBox_OnPasswordChanged"/>
 
         <Button Content="Button" HorizontalAlignment="Left" Margin="379,307,0,0" VerticalAlignment="Top" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
         <TextBox HorizontalAlignment="Left" Margin="301,163,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="17"/>

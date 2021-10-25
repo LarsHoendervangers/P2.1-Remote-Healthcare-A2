@@ -149,7 +149,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
             object o = new
             {
-                command = "setresist",
+                command = "setresistance",
                 data = new
                 {
                     value = value,
@@ -164,25 +164,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
         {
             // performing all the actions needed when the window is closed
             SubscribeToPatient(this.Patient, false);
-        }
-
-        public void StopSession(SharedPatient patient)
-        {
-            string[] patients = new string[] { patient.ID };
-
-            // JSON object to start a new session
-            object o = new
-            {
-                command = "newsession",
-                data = new
-                {
-                    patid = patients,
-                    state = 1
-                }
-            };
-
-            //Asking the sever to start a session, no further actions are taken until new userineraction
-            this.SendToManagers(JObject.FromObject(o));
         }
     }
 }

@@ -59,10 +59,10 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         }
 
         /// <summary>
-        /// Returns a
+        /// Converts the byte to an int.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="targetByte"></param>
+        /// <param name="data">The data to search in.</param>
+        /// <param name="targetByte">The position in the data.</param>
         /// <returns>returns the asked byte as int</returns>
         public static int ReadByte(byte[] data, int targetByte)
         {
