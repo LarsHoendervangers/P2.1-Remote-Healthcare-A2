@@ -16,31 +16,23 @@ namespace RemoteHealthcare_Server
     class JSONWriter
     {
         /// <summary>
-        /// Writes wether an action was succesfull or not..
+        /// Writes if an action was succesfull or not..
         /// </summary>
-        /// <param name="succes"></param>
-        /// <param name="sender"></param>
+        /// <param name="succes">Boolean that indicates the state</param>
+        /// <param name="sender">Sender for the selected target</param>
         public static void LoginWrite(bool succes, ISender sender)
         {
+            //Response..
+            string state = succes ? "succesfull connect" : "failed connect";
+
             //Selecting object
             object o;
-            if (succes)
+            o = new
             {
-                o = new
-                {
-                    command = "message",
-                    data = "succesfull connect",
-                    flag = 1
-                };
-            } else
-            {
-                o = new
-                {
-                    command = "message",
-                    data = "failed connect",
-                    flag = 1
-                };
-            }
+                command = "message",
+                data = state,
+                flag = 1
+            };
 
             //Writing answer...
             sender.SendMessage(JsonConvert.SerializeObject(o));
@@ -134,41 +126,25 @@ namespace RemoteHealthcare_Server
         /// </summary>
         /// <param name="h"></param>
         /// <param name="s"></param>
-        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, bool bike, bool bpm)
+        public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, bool type)
         {
+            //Getting latest measurment
+            object measurement = type && s.BikeMeasurements.Count > 0  && s.HRMeasurements.Count > 0
+                ? s.BikeMeasurements.Last() : s.HRMeasurements.Last();
 
-            if (bike && s.BikeMeasurements.Count > 0)
+            //Parsing it to an object.
+            object o = new
             {
-                //Sending it over...
-                object o = new
+                command = "livepatientdata",
+                data = new
                 {
-                    command = "livepatientdata",
-                    data = new
-                    {
-                        id = id,
-                        data = s.BikeMeasurements.Last()
-                    }
-                };
+                    id = id,
+                    data = measurement
+                }
+            };
 
-               
-                sender.SendMessage(JsonConvert.SerializeObject(o));
-
-            } 
-            if (bpm && s.HRMeasurements.Count > 0)
-            {
-                //Sending it over...
-                object o = new
-                {
-                    command = "livepatientdata",
-                    data = new
-                    {
-                        id = id,
-                        data = s.HRMeasurements.Last()
-                    }
-                };
-
-                sender.SendMessage(JsonConvert.SerializeObject(o));
-            }
+            //Sending it over.
+            sender.SendMessage(JsonConvert.SerializeObject(o));
         }
 
         /// <summary>
@@ -231,7 +207,7 @@ namespace RemoteHealthcare_Server
 
             object o = new
             {
-                command = "getsessionsdetails",
+                command = "getsessions",
                 data = new
                 {
                     patientid = patientID,
