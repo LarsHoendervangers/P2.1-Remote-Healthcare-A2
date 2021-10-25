@@ -10,6 +10,10 @@ namespace CommClass
     {
         private NetworkStream stream;
 
+        /// <summary>
+        /// Constructor. Unencrypted networkstream.
+        /// </summary>
+        /// <param name="network"></param>
         public PlaneTextSender(NetworkStream network)
         {
             stream = network;
