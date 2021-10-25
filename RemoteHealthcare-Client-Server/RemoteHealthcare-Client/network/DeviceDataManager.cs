@@ -94,6 +94,18 @@ namespace RemoteHealthcare_Client
             // only data command comming to the device data manager is 'setresist'
             if (value.ToString() == "setresist")
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
+            else if (value.ToString() == "abort")
+            {
+                this.Device.OnResistanceCall(this, 0);
+                foreach (var process in Process.GetProcesses())
+                {
+                    if (process.ProcessName == "NetworkEngine")
+                    {
+                        process.Kill();
+                    }
+
+                }
+            }
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
         }

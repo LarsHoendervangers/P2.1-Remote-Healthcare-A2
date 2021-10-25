@@ -43,5 +43,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
         {
 
         }
+
+        internal void GetSessions()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
