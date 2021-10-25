@@ -86,7 +86,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     foreach (string id in patientIDS)
                     {
-                        if (s.Patient.PatientID == id)
+                        if (s.Patient.PatientID == id && !s.Subscribers.Contains(d))
                         {
                             s.Subscribers.Add(d);
                         }

@@ -41,10 +41,11 @@ namespace RemoteHealthcare_Server
         /// <summary>
         /// Writes a message to the host that is selected...
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">Message to client</param>
         /// <param name="sender"></param>
         public static void MessageWrite(string msg, ISender sender)
         {
+            //Sending over message to client
             object o = new
             {
                 command = "message",
@@ -129,8 +130,9 @@ namespace RemoteHealthcare_Server
         public static void DoctorSubWriter(Host h, Session s, string id, ISender sender, bool type)
         {
             //Getting latest measurment
-            object measurement = type && s.BikeMeasurements.Count > 0  && s.HRMeasurements.Count > 0
-                ? s.BikeMeasurements.Last() : s.HRMeasurements.Last();
+            object measurement = null;
+            if (type && s.BikeMeasurements.Count > 0) measurement = s.BikeMeasurements.Last();
+            else if (!type && s.HRMeasurements.Count > 0) measurement =  s.HRMeasurements.Last();
 
             //Parsing it to an object.
             object o = new
@@ -199,10 +201,12 @@ namespace RemoteHealthcare_Server
         public static void HistoryDates(ISender sender, List<Session> sessions, string patientID)
         {
             //Getting dates.
-            List<DateTime> dates = new List<DateTime>();
+            List<DateTime> startdates = new List<DateTime>();
+            List<DateTime> enddates = new List<DateTime>();
             foreach (Session s in sessions)
             {
-                dates.Add(s.EndTime);
+                startdates.Add(s.StartTime);
+                enddates.Add(s.EndTime);
             }
 
             object o = new
@@ -211,7 +215,8 @@ namespace RemoteHealthcare_Server
                 data = new
                 {
                     patientid = patientID,
-                    dates = dates
+                    startdates = startdates,
+                    enddates = enddates
                 }
             };
         }

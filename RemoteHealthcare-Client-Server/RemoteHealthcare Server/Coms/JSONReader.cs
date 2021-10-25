@@ -16,9 +16,11 @@ namespace RemoteHealthcare_Server
     public class JSONReader
     {
 
-
+        #region callback...
         //Callback for the Iuser object...
         public event EventHandler<IUser> CallBack;
+
+        #endregion
 
 
         #region decoder...
@@ -32,8 +34,6 @@ namespace RemoteHealthcare_Server
         /// <param name="managemet"></param>
         public void DecodeJsonObject(JObject jObject, ISender sender, IUser user, UserManagement managemet)
         {
-            
-
             //Checking if it is safe...
             JToken token;
             if (jObject != null && jObject.TryGetValue("command", out token))
@@ -68,27 +68,40 @@ namespace RemoteHealthcare_Server
         [AccesManager("login", UserTypes.Unkown)]
         private void LoginAction(JObject Jobject, ISender sender, IUser u, UserManagement management)
         {
+            //Data objects
             JToken username = Jobject.SelectToken("data.us");
             JToken password = Jobject.SelectToken("data.pass");
             JToken flag = Jobject.SelectToken("data.flag");
+
+            //If they are valid the credentials will be tested
             if (username != null && password != null && flag != null)
             {
                 //Getting the user
                 IUser user = management.Credentials(username.ToString(), password.ToString(), int.Parse(flag.ToString()));
+
+                //If there is a user then sendback and callback
                 if (user != null)
                 {
+                    //Sendback & Callback
                     JSONWriter.LoginWrite(true, sender);
-                    Server.PrintToGUI("[Login debug] - " + username.ToString()+ " has logged on to the server.");
                     CallBack?.Invoke(this, user);
+
+                    //Debug
+                    Server.PrintToGUI("[Login debug] - " + username.ToString()+ " has logged on to the server.");
                     return;
                 }
                 else
                 {
+                    //Sendback
                     JSONWriter.LoginWrite(false, sender);
+
+                    //Debug
                     Server.PrintToGUI("[Login debug] - The following request was not a valid user.");
                     return;
                 }
             }
+
+            //NO VALID OBJECT...
             return;
         }
 
@@ -102,8 +115,6 @@ namespace RemoteHealthcare_Server
         [AccesManager("ergodata", UserTypes.Patient)]
         private void ReceiveMeasurement(JObject Jobject, ISender sender, IUser user, UserManagement usermanagement)
         {
-           // Server.PrintToGUI(Jobject.ToString());
-
             //All data from the jobject....
             JToken rpm = Jobject.SelectToken("data.rpm");
             JToken speed = Jobject.SelectToken("data.speed");
@@ -138,10 +149,10 @@ namespace RemoteHealthcare_Server
                 List<Doctor> subs = session.Subscribers;
 
                 //Finding host by doctor
-                foreach (Doctor d in subs)
+                for (int i = 0; i < subs.Count; i++)
                 {
                     //Finding host.
-                    Host h = usermanagement.FindHost(d);
+                    Host h = usermanagement.FindHost(subs[i]);
                     if (h != null)
                     {
                         //Sending over if there is new data.
@@ -329,8 +340,6 @@ namespace RemoteHealthcare_Server
         [AccesManager("getdetailpatient", UserTypes.Doctor)]
         private void GettingDetails(JObject jObject, ISender sender, IUser user, UserManagement management)
         {
-
-          
             JToken patientIDs = jObject.SelectToken("data");
             if (patientIDs != null)
             {
@@ -339,10 +348,7 @@ namespace RemoteHealthcare_Server
                 foreach (string patientID in (JArray)patientIDs)
                 {
                     patientIdentiefiers.Add(patientID);
-                   
                 }
-
-
 
                 //Getting detailed data
                 Server.PrintToGUI("[Logic debug] - Getting details from patients");
@@ -359,14 +365,11 @@ namespace RemoteHealthcare_Server
                             serverPatient.DateOfBirth);
 
                         patients.Add(sharedPatient);
-                   
                     }
                 }
 
                 //Sending patients over..
                 JSONWriter.SendDetails(patients, sender);
-
-
             }
         }
 

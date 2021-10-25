@@ -66,10 +66,10 @@ namespace RemoteHealthcare_Server
 
         public DateTime StartTime
         {
-            get => default;
-            set
-            {
-            }
+            get;
+            set;
+            
+            
         }
 
         public DateTime EndTime
