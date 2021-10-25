@@ -1,4 +1,8 @@
-﻿using RemoteHealthcare_Client;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using RemoteHealthcare_Client;
+using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
@@ -7,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
@@ -14,11 +19,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         private Window window;
         private SharedPatient Patient;
+        private SessionWrap Session;
+        private PatientHisoryManager manager;
 
-        public PatientHistoryViewModel(Window window, SharedPatient selectedPatient)
+        public PatientHistoryViewModel(Window window, SharedPatient selectedPatient, SessionWrap selectedSession)
         {
             this.window = window;
             this.Patient = selectedPatient;
+            this.Session = selectedSession;
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
@@ -97,6 +105,53 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void CloseHistory()
         {
             this.window.Content = new PatientListViewModel(this.window);
+        }
+
+
+
+        public SeriesCollection BPMCollection { get; set; }
+        public SeriesCollection SpeedCollection { get; set; }
+
+        public List<string> BPMLabels { get; set; }
+        public List<string> SpeedLabels { get; set; }
+
+        public Func<double, string> YFormatter { get; set; }
+
+        private void SetupGraphs()
+        {
+            // Setting up the BPM Graph
+            BPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "BPM",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
+                    Stroke = Brushes.Red
+                }
+            };
+            BPMLabels = new List<string>();
+
+
+            // Setting up the Speed / RPM graph
+            SpeedCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Speed",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
+                    Stroke = Brushes.Blue
+                }
+            };
+            SpeedLabels = new List<string>();
+
+
+            YFormatter = value => value.ToString();
         }
     }
 }
