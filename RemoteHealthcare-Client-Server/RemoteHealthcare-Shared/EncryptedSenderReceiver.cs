@@ -21,24 +21,34 @@ namespace RemoteHealthcare_Shared
         {
             // 4 bytes length == 32 bits, always positive unsigned
             byte[] lengthArray = new byte[4];
-            if (sslStream.CanRead) {
-                sslStream.Read(lengthArray, 0, 4);
-                int length = BitConverter.ToInt32(lengthArray, 0);
 
-                byte[] buffer = new byte[length];
-                int totalRead = 0;
-
-                //read bytes until stream indicates there are no more
-                while (totalRead < length)
+            try
+            {
+                if (sslStream.CanRead)
                 {
-                    int read = sslStream.Read(buffer, totalRead, buffer.Length - totalRead);
-                    totalRead += read;
+                    sslStream.Read(lengthArray, 0, 4);
+                    int length = BitConverter.ToInt32(lengthArray, 0);
+
+                    byte[] buffer = new byte[length];
+                    int totalRead = 0;
+
+                    //read bytes until stream indicates there are no more
+                    while (totalRead < length)
+                    {
+                        int read = sslStream.Read(buffer, totalRead, buffer.Length - totalRead);
+                        totalRead += read;
+                    }
+                    //Can also return an empty string.
+                    return Encoding.ASCII.GetString(buffer);
                 }
-                //Can also return an empty string.
-                return Encoding.ASCII.GetString(buffer);
+                else throw new Exception("EncryptedSenderReceiver exception");
             }
-            //Empty string is caught in the Host class which will terminate the connection.
-            return "";
+            catch (Exception e)
+            {
+                //Empty string is caught in the Host class which will terminate the connection.
+                Debug.WriteLine("EncryptedSenderReceiver: " + e.Message, "Exception");
+                return "";
+            }
         }
 
         /// <summary>

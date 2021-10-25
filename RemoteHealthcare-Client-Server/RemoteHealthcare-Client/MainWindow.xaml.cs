@@ -24,6 +24,12 @@ namespace RemoteHealthcare_Client
         public MainWindow()
         {
             InitializeComponent();
+            this.Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
