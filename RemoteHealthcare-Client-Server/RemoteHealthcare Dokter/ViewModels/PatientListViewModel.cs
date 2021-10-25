@@ -1,5 +1,6 @@
 ﻿using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
@@ -62,13 +63,40 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _SelectedUser = value;
+                GetSessionsWithPatient();
+            }
+        }
+
+        private void GetSessionsWithPatient()
+        {
+            throw new NotImplementedException();
+        }
+
+        private List<Session> _SessionList;
+        public List<Session> SessionList
+        {
+            get { return _SessionList; }
+            set
+            {
+                _SessionList = value;
+
+            }
+        }
+
+        private Session _SelectedSession;
+        public Session SelectedSession
+        {
+            get { return _SelectedSession; }
+            set
+            {
+                _SelectedSession = value;
                 OpenHistoryWindow();
             }
         }
 
         private void OpenHistoryWindow()
         {
-            this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient);
+            this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient, SelectedSession);
         }
     }
 }

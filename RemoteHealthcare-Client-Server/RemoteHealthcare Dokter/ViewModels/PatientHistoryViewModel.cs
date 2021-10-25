@@ -1,4 +1,6 @@
 ﻿using RemoteHealthcare_Client;
+using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         private Window window;
         private SharedPatient Patient;
+        private Session Session;
+        private PatientHisoryManager manager;
 
-        public PatientHistoryViewModel(Window window, SharedPatient selectedPatient)
+        public PatientHistoryViewModel(Window window, SharedPatient selectedPatient, Session selectedSession)
         {
             this.window = window;
             this.Patient = selectedPatient;
+            this.Session = selectedSession;
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
