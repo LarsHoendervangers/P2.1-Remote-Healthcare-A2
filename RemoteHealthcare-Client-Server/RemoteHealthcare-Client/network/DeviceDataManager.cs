@@ -91,15 +91,15 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-            // only data command comming to the device data manager is 'setresist'
+            // only two data command comming to the device data manager is 'setresist' and 'abort'
             if (value.ToString() == "setresist")
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
             else if (value.ToString() == "abort")
             {
-                this.Device.OnResistanceCall(this, 0);
+                this.Device.OnResistanceCall(this, 100);
                 foreach (var process in Process.GetProcesses())
                 {
-                    Debug.WriteLine(process.ProcessName);
+                    // kills the NetworkEngine and the client application when abort is called 
                     if (process.ProcessName == "NetworkEngine" || process.ProcessName == "RemoteHealthcare-Client")
                     {
                         process.Kill();
