@@ -8,7 +8,7 @@ using System.Threading;
 namespace RemoteHealthcare_Client.TCP
 {
     /// <summary>
-    /// Class that handles the TCP connection between a other program, taking ip- and portadress
+    /// Class that handles the TCP connection between another program.
     /// </summary>
     class TCPClientHandler
     {
@@ -18,8 +18,11 @@ namespace RemoteHealthcare_Client.TCP
         private ISender Sender;
 
         /// <summary>
-        /// Constructor for TCPClientHandler
+        /// Constructor of the TCPClientHandler class.
         /// </summary>
+        /// <param name="ip">The IP of the other program you want to connect with.</param>
+        /// <param name="port">Port of the other program you want to connect with.</param>
+        /// <param name="useEncryption">Decides whether the connection should be encrypted.</param>
         public TCPClientHandler(string ip, int port, bool useEncryption)
         {
             try
@@ -37,7 +40,7 @@ namespace RemoteHealthcare_Client.TCP
         }
 
         /// <summary>
-        /// Starts a thread with a loop that receives all the data en envokes it up.
+        /// Starts a thread with a loop that receives all the data and then invokes the MessageReceived event.
         /// </summary>
         private void HandleIncoming()
         {
@@ -66,28 +69,33 @@ namespace RemoteHealthcare_Client.TCP
                 }).Start();
         }
 
+        /// <summary>
+        /// Can be used to read the stream only once.
+        /// </summary>
+        /// <returns></returns>
         public string ReadMessage()
         {
             return this.Sender?.ReadMessage();
         }
 
         /// <summary>
-        /// Writes the message as a string as input.
+        /// Writes a string to the stream.
         /// </summary>
-        /// <param name="message">the message that is send to the server</param>
+        /// <param name="message">Message that will be send to the other program.</param>
         public void WriteMessage(string message)
         {
             this.Sender?.SendMessage(message);
         }
 
         /// <summary>
-        /// Sets the read function on or of
+        /// Sets the state of the read loop. You should only set it to true once per instance!
         /// </summary>
-        /// <param name="state">boolean to set the state to</param>
+        /// <param name="state">State of the read loop.
+        /// True: Starts the reading loop.
+        /// False: Stops the reading loop.</param>
         public void SetRunning(bool state)
         {
             if (state)
-                // When running tis set true we start the loop for incoming messages
                 HandleIncoming();
             else
                 Debug.WriteLine("Disabling read");

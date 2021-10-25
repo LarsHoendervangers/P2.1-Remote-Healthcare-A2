@@ -6,10 +6,17 @@ using System.Text;
 
 namespace RemoteHealthcare_Shared
 {
+    /// <summary>
+    /// Abstract class to handle the reading and writing of an SSL encrypted stream.
+    /// </summary>
     public class EncryptedSenderReceiver : ISender
     {
         protected SslStream sslStream;
 
+        /// <summary>
+        /// Read the encrypted message.
+        /// </summary>
+        /// <returns>The string that was received.</returns>
         public string ReadMessage()
         {
             // 4 bytes length == 32 bits, always positive unsigned
@@ -34,6 +41,10 @@ namespace RemoteHealthcare_Shared
             return "";
         }
 
+        /// <summary>
+        /// Sends a string to the connection.
+        /// </summary>
+        /// <param name="message">String to send.</param>
         public void SendMessage(string message)
         {
             byte[] data = Encoding.ASCII.GetBytes(message);
@@ -47,6 +58,12 @@ namespace RemoteHealthcare_Shared
             sslStream.Flush();
         }
 
+        /// <summary>
+        /// Combines two byte arrays into one.
+        /// </summary>
+        /// <param name="first">This byte array will be placed infront of the second byte array.</param>
+        /// <param name="second">This byte array will be placed behind the first byte array.</param>
+        /// <returns>A byte array that contains these byte arrays.</returns>
         private static byte[] Combine(byte[] first, byte[] second)
         {
             byte[] bytes = new byte[first.Length + second.Length];
