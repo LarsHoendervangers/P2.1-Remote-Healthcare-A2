@@ -81,12 +81,30 @@ namespace RemoteHealthcare_Dokter.BackEnd
             }
 
             // Invoking the event to tell the GUI to update the list
-            this.OnPatientsReceived.Invoke(this, patients);
+            this.OnPatientsReceived?.Invoke(this, patients);
         }
 
         private void HandleIncomingSessions(JObject data)
         {
+            // Getting the patientID and date fields on the json object
+            JToken patientID = data.SelectToken("data.patientid");
+            JArray startDates = data.SelectToken("data.startdates") as JArray;
+            JArray endDates = data.SelectToken("data.enddates") as JArray;
 
+            // Checking for possible errors in data: objects could not parse && if Arrays match in size
+            // Resending the getSession command if the patientID is oke
+            if (patientID == null) return;
+            if (startDates == null || endDates == null || startDates.Count != endDates.Count) GetSessions(patientID.ToString());
+
+            // Looping trough dates and creating sessions
+            List<SessionWrap> sessions = new List<SessionWrap>();
+            for (int i = 0; i < startDates.Count; i++)
+            {
+                sessions.Add(new SessionWrap(null, null, DateTime.Parse(startDates[i].ToString()), DateTime.Parse(endDates[i].ToString())));
+            }
+
+            // Invoking the event to tell the GUI to update the list
+            this.OnSessionReceived?.Invoke(this, sessions);
         }
 
         public void GetAllPatients()
@@ -100,9 +118,20 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SendToManagers(JObject.FromObject(o));
         }
 
-        internal void GetSessions()
+        /// <summary>
+        /// Method creates the json object to request all sessions from a given patient.
+        /// </summary>
+        /// <param name="userID">The ID of the patient data is asked from</param>
+        public void GetSessions(string userID)
         {
-            throw new NotImplementedException();
+            // Command to request all sessions from a given patients
+            object o = new
+            {
+                command = "getsessions",
+                data = userID
+            };
+
+            SendToManagers(JObject.FromObject(o));
         }
     }
 }

@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.SessionList = d;
+                    this.SessionList = new ObservableCollection<SessionWrap>(d);
                 });
             };
         }
@@ -87,11 +87,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void GetSessionsWithPatient()
         {
-            this.manager.GetSessions();
+            this.manager.GetSessions(SelectedPatient.ID);
         }
 
-        private List<SessionWrap> _SessionList;
-        public List<SessionWrap> SessionList
+        private ObservableCollection<SessionWrap> _SessionList;
+        public ObservableCollection<SessionWrap> SessionList
         {
             get { return _SessionList; }
             set
