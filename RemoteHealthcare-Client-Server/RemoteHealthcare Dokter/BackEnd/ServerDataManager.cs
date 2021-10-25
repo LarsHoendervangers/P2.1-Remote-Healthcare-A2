@@ -17,7 +17,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public ServerDataManager()
         {
-            this.tcpClientHandler = new TCPClientHandler("145.49.45.116", 6969, true);
+            this.tcpClientHandler = new TCPClientHandler("145.49.46.0", 6969, true);
 
             this.tcpClientHandler.SetRunning(true);
 

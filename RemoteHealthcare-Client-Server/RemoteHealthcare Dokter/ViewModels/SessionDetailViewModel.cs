@@ -317,7 +317,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
 
-        public Func<double, string> YFormatter { get; set; }
+        public Func<int, string> YFormatter { get; set; }
 
         
         private void SetupGraphs()
@@ -328,7 +328,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = new ChartValues<double> {},
+                    Values = new ChartValues<int> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
@@ -371,7 +371,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             SpeedLabels.Add(time.ToString("HH:mm:ss"));
         }
 
-        private void UpdateBPMGraph(double value, DateTime time)
+        private void UpdateBPMGraph(int value, DateTime time)
         {
             var list = BPMCollection[0].Values;
 
@@ -415,9 +415,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 {
                     int BPM = this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
 
-                    this.BPM = "BPM: " + BPM;
+                    this.BPM = "" + BPM;
 
-                    UpdateBPMGraph((double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
+                    UpdateBPMGraph(BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
 

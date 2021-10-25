@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-        private string ip = "127.0.0.1";
+        private string ip = "145.49.46.0";
         private int port = 6969;
 
         private DataManager serverDataManager;

@@ -38,9 +38,9 @@
 
         <!-- Current data -->
         <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
-        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="1157,179,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="1017,744,0,0" VerticalAlignment="Top" FontSize="22"/>
         <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1157,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1532,172,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1473,726,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1532,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
@@ -63,9 +63,11 @@
         <!-- Live graph section -->
 
         <!-- BPM Graph-->
-        <Grid Margin="949,576,532,113">
+        <Grid Margin="981,576,500,170">
+            <Label Content="BPM" Width="100" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="Red" BorderThickness="2">
-                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="435">
+                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,66,0,18">
+
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -78,16 +80,17 @@
                         <lvc:Axis LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Time" Labels="{Binding BPMLabels}" MinValue="{Binding BPMxMin}" MaxValue="{Binding BPMxMax}"></lvc:Axis>
+                        <lvc:Axis Title="Time" MinValue="{Binding BPMxMin}" MaxValue="{Binding BPMxMax}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </Border>
         </Grid>
 
         <!-- Speed / RPM Graph -->
-        <Grid Margin="1412,576,43,113">
+        <Grid Margin="1430,576,25,170">
+            <Label Content="Speed" Width="100" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="Blue" BorderThickness="2">
-                <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5">
+                <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,66,18,18">
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -100,11 +103,12 @@
                         <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Time" Labels="{Binding SpeedLabels}" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
+                        <lvc:Axis Title="Time" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </Border>
         </Grid>
+        <GridSplitter HorizontalAlignment="Left" Margin="948,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
 
     </Grid>
 </Page>
