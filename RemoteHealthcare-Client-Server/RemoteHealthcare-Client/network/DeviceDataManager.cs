@@ -99,7 +99,8 @@ namespace RemoteHealthcare_Client
                 this.Device.OnResistanceCall(this, 0);
                 foreach (var process in Process.GetProcesses())
                 {
-                    if (process.ProcessName == "NetworkEngine")
+                    Debug.WriteLine(process.ProcessName);
+                    if (process.ProcessName == "NetworkEngine" || process.ProcessName == "RemoteHealthcare-Client")
                     {
                         process.Kill();
                     }
@@ -108,6 +109,7 @@ namespace RemoteHealthcare_Client
             }
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
+
         }
 
         /// <summary>
