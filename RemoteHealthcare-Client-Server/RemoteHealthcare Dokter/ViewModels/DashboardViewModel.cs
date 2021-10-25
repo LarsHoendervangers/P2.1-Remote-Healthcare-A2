@@ -25,7 +25,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public DashboardViewModel(Window window)
         {
             this.window = window;
-            this.window.ResizeMode = ResizeMode.NoResize;
 
             this.manager = new DashboardManager();
             this.manager.OnPatientUpdated += (s, d) =>
