@@ -351,6 +351,28 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        private double _CurrentWxMax = 150;
+        public double CurrentWxMax
+        {
+            get { return _CurrentWxMax; }
+            set
+            {
+                _CurrentWxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWxMax"));
+            }
+        }
+
+        private double _CurrentWxMin = 0;
+        public double CurrentWxMin
+        {
+            get { return _CurrentWxMin; }
+            set
+            {
+                _CurrentWxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWxMin"));
+            }
+        }
+
         #endregion
 
         #region Graphs
@@ -358,12 +380,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
         public SeriesCollection RPMCollection { get; set; }
-        public SeriesCollection DistanceCollection { get; set; }
+        public SeriesCollection CurrentWCollection { get; set; }
 
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
         public List<string> RPMLabels { get; set; }
-        public List<string> DistanceLabels { get; set; }
+        public List<string> CurrentWLabels { get; set; }
 
         public Func<int, string> YFormatter { get; set; }
 
@@ -409,25 +431,25 @@ namespace RemoteHealthcare_Dokter.ViewModels
                     Values = new ChartValues<int> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
-                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
-                    Stroke = Brushes.Blue
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0.5f, 0f)),
+                    Stroke = Brushes.Green
                 }
             };
             RPMLabels = new List<string>();
 
-            DistanceCollection = new SeriesCollection
+            CurrentWCollection = new SeriesCollection
             {
                 new LineSeries
                 {
-                    Title = "Distance",
-                    Values = new ChartValues<int> {},
+                    Title = "CurrentW",
+                    Values = new ChartValues<double> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
                     Stroke = Brushes.Blue
                 }
             };
-            DistanceLabels = new List<string>();
+            CurrentWLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
@@ -474,18 +496,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
             RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
-        private void UpdateDistanceGraph(int value, DateTime time)
+        private void UpdateCurrentWGraph(double value, DateTime time)
         {
-            var list = DistanceCollection[0].Values;
+            var list = CurrentWCollection[0].Values;
 
-            this.DistancexMax = list.Count;
+            this.RPMxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
             int minOffset = list.Count - MAX_GRAPH_LENGHT;
-            this.DistancexMin = minOffset < 0 ? 0 : minOffset;
+            this.RPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
-            DistanceLabels.Add(time.ToString("HH:mm:ss"));
+            RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
         #endregion
@@ -502,20 +524,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 {
                     double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
                     int rpm = this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
-                    double distance = this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f;
+                    double distance = Math.Round(this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f, 2);
+                    double CurrentWattage = this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
+                    double TotalWattage = Math.Round(this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f, 2);
 
                     // setting the labels
                     this.Speed = $"{speed} km/h";
-                    this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
-                    this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
+                    this.TotalW = $"{TotalWattage} kW";
+                    this.CurrentW = $"{CurrentWattage} W";
                     this.Distance = $"{distance} km";
-                    this.RPM = "RPM: " + rpm;
+                    this.RPM = $"{rpm}";
 
 
                     // updating the graphs
                     UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                     UpdateRPMGraph(rpm, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
-                    UpdateDistanceGraph((int)distance, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateCurrentWGraph(CurrentWattage, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
