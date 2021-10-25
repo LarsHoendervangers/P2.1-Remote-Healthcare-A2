@@ -19,14 +19,34 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         private Window window;
         private SharedPatient Patient;
-        private SessionWrap Session;
+        private SessionWrap SessionWrap;
         private PatientHisoryManager manager;
 
         public PatientHistoryViewModel(Window window, SharedPatient selectedPatient, SessionWrap selectedSession)
         {
             this.window = window;
             this.Patient = selectedPatient;
-            this.Session = selectedSession;
+            this.SessionWrap = selectedSession;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.HRValues = new List<int>();
+                this.RPMValues = new List<int>();
+                this.SpeedValues = new List<double>();
+                this.CurrentWValues = new List<double>();
+
+                foreach (HRMeasurement m in this.SessionWrap.HRMeasurements)
+                {
+                    this.HRValues.Add(m.CurrentHeartrate);
+                }
+
+                foreach (BikeMeasurement m in this.SessionWrap.BikeMeasurements)
+                {
+                    this.RPMValues.Add(m.CurrentRPM);
+                    this.CurrentWValues.Add(m.CurrentWattage);
+                    this.SpeedValues.Add(m.CurrentSpeed);
+                }
+            });
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
@@ -107,15 +127,58 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window.Content = new PatientListViewModel(this.window);
         }
 
+        private List<int> _HRValues;
+        public List<int> HRValues
+        {
+            get { return _HRValues; }
+            set
+            {
+                _HRValues = value;
+            }
+        }
 
+        private List<int> _RPMValues;
+        public List<int> RPMValues
+        {
+            get { return _RPMValues; }
+            set
+            {
+                _RPMValues = value;
+            }
+        }
+
+        private List<double> _SpeedValues;
+        public List<double> SpeedValues
+        {
+            get { return _SpeedValues; }
+            set
+            {
+                _SpeedValues = value;
+            }
+        }
+
+        private List<double> _CurrentWValues;
+        public List<double> CurrentWValues
+        {
+            get { return _CurrentWValues; }
+            set
+            {
+                _CurrentWValues = value;
+            }
+        }
 
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
+        public SeriesCollection RPMCollection { get; set; }
+        public SeriesCollection CurrentWCollection { get; set; }
 
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
+        public List<string> RPMLabels { get; set; }
+        public List<string> CurrentWLabels { get; set; }
 
-        public Func<double, string> YFormatter { get; set; }
+        public Func<int, string> YFormatter { get; set; }
+
 
         private void SetupGraphs()
         {
@@ -125,7 +188,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = new ChartValues<double> {},
+                    Values = (IChartValues)HRValues,
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
@@ -141,7 +204,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "Speed",
-                    Values = new ChartValues<double> {},
+                    Values = (IChartValues)SpeedValues,
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
@@ -150,6 +213,33 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
             SpeedLabels = new List<string>();
 
+            RPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "RPM",
+                    Values = (IChartValues)RPMValues,
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0.5f, 0f)),
+                    Stroke = Brushes.Green
+                }
+            };
+            RPMLabels = new List<string>();
+
+            CurrentWCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "CurrentW",
+                    Values = (IChartValues)CurrentWValues,
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0.5f, 0.5f, 0f)),
+                    Stroke = Brushes.Yellow
+                }
+            };
+            CurrentWLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
