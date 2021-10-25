@@ -96,7 +96,7 @@ namespace RemoteHealthcare_Client
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
             else if (value.ToString() == "abort")
             {
-                this.Device.OnResistanceCall(this, 100);
+                this.Device.OnResistanceCall(this, 0);
                 foreach (var process in Process.GetProcesses())
                 {
                     // kills the NetworkEngine and the client application when abort is called 
