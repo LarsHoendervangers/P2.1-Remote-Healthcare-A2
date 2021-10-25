@@ -36,4 +36,3 @@
         <PasswordBox HorizontalAlignment="Left" Margin="47,251,0,0" VerticalAlignment="Top" Width="120" Height="23" PasswordChanged="PasswordBox_PasswordChanged" TabIndex="1"/>
     </Grid>
 </Window>
-

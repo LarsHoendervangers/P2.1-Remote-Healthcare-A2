@@ -75,7 +75,14 @@ namespace RemoteHealthcare_Client.TCP
         /// <returns></returns>
         public string ReadMessage()
         {
-            return this.Sender?.ReadMessage();
+            try
+            {
+                return this.Sender?.ReadMessage();
+            } catch (Exception e)
+            {
+                Debug.WriteLine("TCPClientHandler: " + e.Message);
+                return "";
+            }
         }
 
         /// <summary>
