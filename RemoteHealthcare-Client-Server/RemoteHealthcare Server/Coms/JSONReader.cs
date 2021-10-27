@@ -211,7 +211,9 @@ namespace RemoteHealthcare_Server
                     Host h = managemet.FindHost(patientID);
                     h.Stop(h);
 
+                    JSONWriter.MessageWrite("NOOD STOP: STAP AF!", h.GetSender());
                     JSONWriter.AbortWrite(h.GetSender());
+                    
                 }
             }
         }

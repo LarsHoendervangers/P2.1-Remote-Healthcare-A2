@@ -48,11 +48,12 @@ namespace RemoteHealthcare_Client
                     SubmitText = "Start VR";
                     WrongCredentialsOpacity = 0;
                     RightCredentialsOpacity = 100;
+                    IsEnabledCredentialBoxes = false;
+                    IsEnabledComboBoxes = true;
                 }
 
                 if (!d) WrongCredentialsOpacity = 100;
             };
-
             // Calling the first statup method for the loader
             this.loader.Init();
             
@@ -184,6 +185,39 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        private bool mIsEnabledCredentialBoxes = true;
+        public bool IsEnabledCredentialBoxes
+        {
+            get { return mIsEnabledCredentialBoxes; }
+            set
+            {
+                mIsEnabledCredentialBoxes = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEnabledCredentialBoxes"));
+            }
+        }
+
+        private bool mIsEnabledComboBoxes = false;
+        public bool IsEnabledComboBoxes
+        {
+            get { return mIsEnabledComboBoxes; }
+            set
+            {
+                mIsEnabledComboBoxes = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEnabledComboBoxes"));
+            }
+        }
+
+        private bool mIsEnabledStartButton = true;
+        public bool IsEnabledStartButton
+        {
+            get { return mIsEnabledStartButton; }
+            set
+            {
+                mIsEnabledStartButton = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsEnabledStartButton"));
+            }
+        }
+
         private int mWrongCredentialsOpacity = 0;
         public int WrongCredentialsOpacity
         {
@@ -253,8 +287,11 @@ namespace RemoteHealthcare_Client
 
         private void StartApplicaton()
         {
+
             Debug.WriteLine("Starting Application");
             this.loader.Start(this.SelectedDevice, this.SelectedVRServer.Adress, this.SelectedScene);
+            IsEnabledStartButton = false;
+            IsEnabledComboBoxes = false;
         }
 
         private void UpdateVRServers()
