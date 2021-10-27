@@ -52,6 +52,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
                         SpeedMeasurements.Add(m.CurrentSpeed);
                     }
 
+
+
                     this.BPMCollection[0].Values.AddRange(HRMeasurements.AsEnumerable<object>());
                     this.RPMCollection[0].Values.AddRange(RPMMeasurements.AsEnumerable<object>());
                     this.SpeedCollection[0].Values.AddRange(SpeedMeasurements.AsEnumerable<object>());

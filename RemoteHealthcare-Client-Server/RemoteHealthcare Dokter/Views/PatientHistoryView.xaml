@@ -18,8 +18,8 @@
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="Startdatum:" HorizontalAlignment="Left" Margin="391,291,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
         <Label Content="Einddatum:" HorizontalAlignment="Left" Margin="391,431,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
-        <Label Content="{Binding StartDate}" HorizontalAlignment="Left" Margin="391,351,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
-        <Label Content="{Binding EndDate}" HorizontalAlignment="Left" Margin="391,491,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="{Binding StartDate}" HorizontalAlignment="Left" Margin="391,331,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding EndDate}" HorizontalAlignment="Left" Margin="391,471,0,0" VerticalAlignment="Top" FontSize="22"/>
 
 
         <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseHistoryCommand}"/>
