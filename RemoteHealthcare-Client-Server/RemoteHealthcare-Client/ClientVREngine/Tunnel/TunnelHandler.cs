@@ -46,11 +46,10 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
 
                 this.TcpHandler = new TCPClientHandler("192.168.68.104", 6666, false);
 
-
                 // Setting the method to be performed when data is received
                 this.TcpHandler.OnMessageReceived += OnMessageReceived;
 
-            }).Start();   
+            }).Start();
         }
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace RemoteHealthcare_Client
             // The gui needs all the available vr servers to connect to
             // To get this list it is needed to start up the vrDataManager
             VRDataManager dataManager = new VRDataManager();
-            List<ClientData> clientVREngines =  dataManager.VRTunnelHandler.GetAvailableClients();
+            List<ClientData> clientVREngines = dataManager.VRTunnelHandler.GetAvailableClients();
             if (clientVREngines == null) return;
             clientVREngines.Reverse();
 
