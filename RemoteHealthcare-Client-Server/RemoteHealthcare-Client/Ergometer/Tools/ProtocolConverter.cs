@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Client.Ergometer.Tools
 {
-    class ProtocolConverter
+    public class ProtocolConverter
     {
         /// <summary>
         /// Converts a bytearray to a string, this can be used for displaying the contents of the array.
