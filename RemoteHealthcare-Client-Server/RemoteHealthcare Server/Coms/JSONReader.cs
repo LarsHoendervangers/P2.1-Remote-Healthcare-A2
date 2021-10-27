@@ -429,7 +429,7 @@ namespace RemoteHealthcare_Server
                     List<Session> sessoins = FileProcessing.LoadSessions(p);
                     foreach (Session s in sessoins)
                     {
-                        if (s.EndTime == time)
+                        if ((s.EndTime - time).TotalSeconds <= 1)
                         {
                             JSONWriter.HistoryWrite(sender, s, p.PatientID);
                             break;

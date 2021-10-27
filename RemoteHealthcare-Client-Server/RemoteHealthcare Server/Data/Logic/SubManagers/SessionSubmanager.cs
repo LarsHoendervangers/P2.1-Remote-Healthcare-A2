@@ -148,7 +148,9 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                     {
                         if (s.Patient == (Patient)user)
                         {
+                            s.SetEndTime();
                             FileProcessing.SaveSession(s);
+                           
                             UserManagement.activeSessions.Remove(s);
                             return;
                         }

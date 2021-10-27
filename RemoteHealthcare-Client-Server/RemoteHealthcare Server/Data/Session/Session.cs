@@ -74,10 +74,14 @@ namespace RemoteHealthcare_Server
 
         public DateTime EndTime
         {
-            get => DateTime.Now;
-            set
-            {
-            }
+            get; 
+            set;
+            
+        }
+
+        public void SetEndTime()
+        {
+            EndTime = DateTime.Now;
         }
     }
 }
