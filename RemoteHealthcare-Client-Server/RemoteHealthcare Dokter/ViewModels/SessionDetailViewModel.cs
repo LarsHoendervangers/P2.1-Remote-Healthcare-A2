@@ -610,5 +610,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
 
         }
+
+        private void SendStopSession()
+        {
+            this.manager.StopSession(this.Patient);
+            this.window.Content = new DashboardViewModel(this.window);
+        }
     }
 }
