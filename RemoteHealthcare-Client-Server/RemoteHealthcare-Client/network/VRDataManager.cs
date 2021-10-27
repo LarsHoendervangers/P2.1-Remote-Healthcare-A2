@@ -68,7 +68,6 @@ namespace RemoteHealthcare_Client
             {
 
                 case "message":
-                    
                     Scene.WriteTextToPanel(Scene.HandelTextMessages(8,25,data));
                     break;
                 case "ergodata":
