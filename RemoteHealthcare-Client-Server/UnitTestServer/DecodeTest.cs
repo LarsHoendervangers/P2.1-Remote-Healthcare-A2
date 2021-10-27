@@ -7,6 +7,7 @@ using RemoteHealthcare_Server.Data.Processing;
 using RemoteHealthcare_Server.Data.User;
 using RemoteHealthcare_Shared;
 using System;
+using System.Threading;
 
 namespace UnitTestServer
 {
@@ -139,6 +140,38 @@ namespace UnitTestServer
             // Assert
             reader.CallBack += (s, u) => Assert.IsTrue(u == null);
         }
+
+        [TestMethod]
+        public void Test_Unauthorized_Method()
+        {
+            // Arrange
+            //Data needed for test
+            object o = new
+            {
+                command = "getallpatients",
+            };
+
+            IUser user = null;
+            JSONReader reader = new JSONReader();
+            UnitSender sender = new UnitSender(JsonConvert.SerializeObject(o));
+            UserManagement management = new UserManagement();
+            UserManagement.users.Add(
+               new Patient("TestUser", "TestPassword",
+               DateTime.Now, null, null, null, true));
+
+            //Act
+            sender.CheckCallback += (s, b) =>
+            {
+                Assert.IsTrue(b);
+            };
+
+
+            //Assert
+            reader.DecodeJsonObject(JObject.FromObject(o), sender, user, management);
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+        }
+
+
 
 
 
