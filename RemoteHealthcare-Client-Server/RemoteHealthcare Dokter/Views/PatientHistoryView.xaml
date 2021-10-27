@@ -16,6 +16,11 @@
         <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+        <Label Content="Startdatum:" HorizontalAlignment="Left" Margin="391,291,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Einddatum:" HorizontalAlignment="Left" Margin="391,431,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="{Binding StartDate}" HorizontalAlignment="Left" Margin="391,351,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="{Binding EndDate}" HorizontalAlignment="Left" Margin="391,491,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+
 
         <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseHistoryCommand}"/>
 
@@ -114,5 +119,6 @@
         </Grid>
 
         <GridSplitter HorizontalAlignment="Left" Margin="928,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
+        
     </Grid>
 </Page>

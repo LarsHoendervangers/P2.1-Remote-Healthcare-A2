@@ -218,5 +218,16 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             YFormatter = value => value.ToString();
         }
+
+        public string StartDate
+        {
+            get { return this.SessionWrap.Startdate.Day + "/" + this.SessionWrap.Startdate.Month + "/" + this.SessionWrap.Startdate.Year + " om " + this.SessionWrap.Startdate.TimeOfDay; }
+        }
+
+        public string EndDate
+        {
+            get { return this.SessionWrap.Enddate.Day + "/" + this.SessionWrap.Enddate.Month + "/" + this.SessionWrap.Enddate.Year + " om " + this.SessionWrap.Enddate.TimeOfDay; }
+        }
+
     }
 }
