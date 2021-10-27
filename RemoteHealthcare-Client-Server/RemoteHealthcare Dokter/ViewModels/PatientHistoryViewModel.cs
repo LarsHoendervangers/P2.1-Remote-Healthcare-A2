@@ -34,10 +34,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    List<int> HRMeasurements = new List<int>();
-                    List<int> RPMMeasurements = new List<int>();
-                    List<double> CurrentWMeasurements = new List<double>();
-                    List<double> SpeedMeasurements = new List<double>();
+                    // object types are of object, because the chars library only supports List<object>
+                    List<object> HRMeasurements = new List<object>();
+                    List<object> RPMMeasurements = new List<object>();
+                    List<object> CurrentWMeasurements = new List<object>();
+                    List<object> SpeedMeasurements = new List<object>();
 
                     foreach (HRMeasurement m in d.HRMeasurements)
                     {
@@ -51,10 +52,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
                         SpeedMeasurements.Add(m.CurrentSpeed);
                     }
 
-                    this.BPMCollection.AddRange((IEnumerable<object>)HRMeasurements);
-                    this.RPMCollection.AddRange((IEnumerable<object>)RPMMeasurements);
-                    this.SpeedCollection.AddRange((IEnumerable<object>)SpeedMeasurements);
-                    this.CurrentWCollection.AddRange((IEnumerable<object>)CurrentWMeasurements);
+                    this.BPMCollection[0].Values.AddRange(HRMeasurements.AsEnumerable<object>());
+                    this.RPMCollection[0].Values.AddRange(RPMMeasurements.AsEnumerable<object>());
+                    this.SpeedCollection[0].Values.AddRange(SpeedMeasurements.AsEnumerable<object>());
+                    this.CurrentWCollection[0].Values.AddRange(CurrentWMeasurements.AsEnumerable<object>());
                 });
             };
 
