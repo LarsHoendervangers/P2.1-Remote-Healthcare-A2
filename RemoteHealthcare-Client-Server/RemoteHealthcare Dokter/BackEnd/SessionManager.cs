@@ -62,31 +62,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
             // Determine if the incoming data is HR or bike readings
             if (dataObject.SelectToken("CurrentHeartrate") != null)
-                this.HRMeasurements.Add(ConvertHRObject(dataObject as JObject));
+                this.HRMeasurements.Add(JSONConverter.ConvertHRObject(dataObject as JObject));
             else
-                this.BikeMeasurements.Add(ConverBikeObject(dataObject as JObject));
+                this.BikeMeasurements.Add(JSONConverter.ConverBikeObject(dataObject as JObject));
 
             this.NewDataTriggered?.Invoke(this, null);
-        }
-
-        private BikeMeasurement ConverBikeObject(JObject dataObject)
-        {
-            return new BikeMeasurement(
-                DateTime.Parse(dataObject.GetValue("MeasurementTime").ToString()),
-                int.Parse(dataObject.GetValue("CurrentRPM").ToString()),
-                double.Parse(dataObject.GetValue("CurrentSpeed").ToString()),
-                double.Parse(dataObject.GetValue("CurrentWattage").ToString()),
-                int.Parse(dataObject.GetValue("CurrentTotalWattage").ToString()),
-                int.Parse(dataObject.GetValue("CurrentTotalDistance").ToString())
-                );
-        }
-
-        private HRMeasurement ConvertHRObject(JObject dataObject)
-        {
-            return new HRMeasurement(
-                DateTime.Parse(dataObject.GetValue("MeasurementTime").ToString()),
-                int.Parse(dataObject.GetValue("CurrentHeartrate").ToString())
-                );
         }
 
         private void SubscribeToPatient(SharedPatient patient, bool subscribe)

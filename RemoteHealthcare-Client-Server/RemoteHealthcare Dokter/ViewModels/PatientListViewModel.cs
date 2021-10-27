@@ -4,6 +4,8 @@ using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +14,9 @@ using System.Windows.Input;
 
 namespace RemoteHealthcare_Dokter.ViewModels
 {
-    class PatientListViewModel
+    class PatientListViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private Window window;
         private PatientManager manager;
 
@@ -26,7 +29,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.PatientList = d;
+                    this.PatientList = new ObservableCollection<SharedPatient>(d);
                 });
             };
 
@@ -34,16 +37,20 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.SessionList = d;
+                    this.SessionList = new ObservableCollection<SessionWrap>(d);
                 });
             };
         }
 
-        private List<SharedPatient> _PatientsList;
-        public List<SharedPatient> PatientList
+        private ObservableCollection<SharedPatient> _PatientsList;
+        public ObservableCollection<SharedPatient> PatientList
         {
             get { return _PatientsList; }
-            set { _PatientsList = value; }
+            set 
+            { 
+                _PatientsList = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PatientList"));
+            }
         }
 
         private ICommand _SwitchToDashboardView;
@@ -80,17 +87,17 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void GetSessionsWithPatient()
         {
-            this.manager.GetSessions();
+            this.manager.GetSessions(SelectedPatient.ID);
         }
 
-        private List<SessionWrap> _SessionList;
-        public List<SessionWrap> SessionList
+        private ObservableCollection<SessionWrap> _SessionList;
+        public ObservableCollection<SessionWrap> SessionList
         {
             get { return _SessionList; }
             set
             {
                 _SessionList = value;
-
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SessionList"));
             }
         }
 
@@ -108,6 +115,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void OpenHistoryWindow()
         {
             this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient, SelectedSession);
+            this.manager.DeleteManager(this.manager);
         }
     }
 }

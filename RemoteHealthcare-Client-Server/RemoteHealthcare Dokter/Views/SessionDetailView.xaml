@@ -37,21 +37,33 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="Huidige data:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1157,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
-        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="1157,179,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1157,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1532,172,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1532,210,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1157,326,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="Wattage:" HorizontalAlignment="Left" Margin="1157,275,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1532,330,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="998,256,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1003,584,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1462,258,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1163,881,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1460,585,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1634,875,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="408,414,0,0" VerticalAlignment="Top" Height="40" Width="130" FontSize="18" IsEnabled="False"/>
+        <Button Content="Start" HorizontalAlignment="Left" Margin="408,414,0,0" VerticalAlignment="Top" Height="40" Width="130" FontSize="18" IsEnabled="False">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="582,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
-
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
         </Button>
         <Button Content="Noodstop" HorizontalAlignment="Left" Margin="763,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
-
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,363,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
 
@@ -63,9 +75,11 @@
         <!-- Live graph section -->
 
         <!-- BPM Graph-->
-        <Grid Margin="949,576,532,113">
-            <Border BorderBrush="Red" BorderThickness="2">
-                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Right" Width="435">
+        <Grid Margin="981,126,500,692">
+            <Label Content="BPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
+                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
+
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -78,16 +92,17 @@
                         <lvc:Axis LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Time" Labels="{Binding BPMLabels}" MinValue="{Binding BPMxMin}" MaxValue="{Binding BPMxMax}"></lvc:Axis>
+                        <lvc:Axis Title="Time" MinValue="{Binding BPMxMin}" MaxValue="{Binding BPMxMax}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </Border>
         </Grid>
 
-        <!-- Speed / RPM Graph -->
-        <Grid Margin="1412,576,43,113">
-            <Border BorderBrush="Blue" BorderThickness="2">
-                <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="Right" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5">
+        <!-- Speed -->
+        <Grid Margin="1443,126,12,692">
+            <Label Content="Speed" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
+                <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -100,10 +115,69 @@
                         <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Time" Labels="{Binding SpeedLabels}" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
+                        <lvc:Axis Title="Time" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
                     </lvc:CartesianChart.AxisX>
                 </lvc:CartesianChart>
             </Border>
+        </Grid>
+        <GridSplitter HorizontalAlignment="Left" Margin="948,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
+
+        <!-- RPM Graph -->
+        <Grid Margin="981,425,499,358">
+            <Label Content="RPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
+                <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
+
+                    <lvc:CartesianChart.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="-0.386"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="-0.993"/>
+                        </TransformGroup>
+                    </lvc:CartesianChart.RenderTransform>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis LabelFormatter="{Binding YFormatter}" MinValue="0"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" MinValue="{Binding RPMxMin}" MaxValue="{Binding RPMxMax}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+
+
+        <!-- Current w Graph-->
+        <Grid Margin="1443,427,12,356">
+            <Label Content="Huidig&#xD;&#xA;wattage" Width="100" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="15,104,0,109"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
+                <lvc:CartesianChart Series="{Binding CurrentWCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
+                    <lvc:CartesianChart.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleY="-0.386"/>
+                            <RotateTransform/>
+                            <TranslateTransform Y="-0.993"/>
+                        </TransformGroup>
+                    </lvc:CartesianChart.RenderTransform>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Time" MinValue="{Binding SpeedxMin}" MaxValue="{Binding SpeedxMax}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Border>
+        </Grid>
+
+        <Grid Margin="1443,753,12,74">
+            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,107"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+        </Grid>
+
+        <Grid Margin="983,753,499,74">
+            <Label Content="Afstand" Width="86" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,114"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" Margin="0,0,-7,0"/>
         </Grid>
 
     </Grid>

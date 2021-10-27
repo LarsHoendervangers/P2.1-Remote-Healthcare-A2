@@ -6,6 +6,7 @@ using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +20,48 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         private Window window;
         private SharedPatient Patient;
-        private SessionWrap Session;
+        private SessionWrap SessionWrap;
         private PatientHisoryManager manager;
 
         public PatientHistoryViewModel(Window window, SharedPatient selectedPatient, SessionWrap selectedSession)
         {
             this.window = window;
             this.Patient = selectedPatient;
-            this.Session = selectedSession;
+            this.SessionWrap = selectedSession;
+            this.manager = new PatientHisoryManager(selectedSession, selectedPatient.ID);
+
+            this.manager.OnSessionUpdate += (s, d) =>
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    // object types are of object, because the chars library only supports List<object>
+                    List<object> HRMeasurements = new List<object>();
+                    List<object> RPMMeasurements = new List<object>();
+                    List<object> CurrentWMeasurements = new List<object>();
+                    List<object> SpeedMeasurements = new List<object>();
+
+                    foreach (HRMeasurement m in d.HRMeasurements)
+                    {
+                        HRMeasurements.Add(m.CurrentHeartrate);
+                    }
+
+                    foreach (BikeMeasurement m in d.BikeMeasurements)
+                    {
+                        RPMMeasurements.Add(m.CurrentRPM);
+                        CurrentWMeasurements.Add(m.CurrentWattage);
+                        SpeedMeasurements.Add(m.CurrentSpeed);
+                    }
+
+
+
+                    this.BPMCollection[0].Values.AddRange(HRMeasurements.AsEnumerable<object>());
+                    this.RPMCollection[0].Values.AddRange(RPMMeasurements.AsEnumerable<object>());
+                    this.SpeedCollection[0].Values.AddRange(SpeedMeasurements.AsEnumerable<object>());
+                    this.CurrentWCollection[0].Values.AddRange(CurrentWMeasurements.AsEnumerable<object>());
+                });
+            };
+
+            SetupGraphs();
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
@@ -105,17 +140,22 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void CloseHistory()
         {
             this.window.Content = new PatientListViewModel(this.window);
+            this.manager.DeleteManager(this.manager);
         }
 
-
-
+        
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
+        public SeriesCollection RPMCollection { get; set; }
+        public SeriesCollection CurrentWCollection { get; set; }
 
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
+        public List<string> RPMLabels { get; set; }
+        public List<string> CurrentWLabels { get; set; }
 
-        public Func<double, string> YFormatter { get; set; }
+        public Func<int, string> YFormatter { get; set; }
+
 
         private void SetupGraphs()
         {
@@ -125,7 +165,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = new ChartValues<double> {},
+                    Values = new ChartValues<int>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
@@ -141,7 +181,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "Speed",
-                    Values = new ChartValues<double> {},
+                    Values = new ChartValues<double>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
@@ -150,8 +190,46 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
             SpeedLabels = new List<string>();
 
+            RPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "RPM",
+                    Values = new ChartValues<int>() { },
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0.5f, 0f)),
+                    Stroke = Brushes.Green
+                }
+            };
+            RPMLabels = new List<string>();
+
+            CurrentWCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "CurrentW",
+                    Values = new ChartValues<double>() { },
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0.5f, 0.5f, 0f)),
+                    Stroke = Brushes.Yellow
+                }
+            };
+            CurrentWLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
+
+        public string StartDate
+        {
+            get { return this.SessionWrap.Startdate.Day + "/" + this.SessionWrap.Startdate.Month + "/" + this.SessionWrap.Startdate.Year + " om " + this.SessionWrap.Startdate.TimeOfDay; }
+        }
+
+        public string EndDate
+        {
+            get { return this.SessionWrap.Enddate.Day + "/" + this.SessionWrap.Enddate.Month + "/" + this.SessionWrap.Enddate.Year + " om " + this.SessionWrap.Enddate.TimeOfDay; }
+        }
+
     }
 }

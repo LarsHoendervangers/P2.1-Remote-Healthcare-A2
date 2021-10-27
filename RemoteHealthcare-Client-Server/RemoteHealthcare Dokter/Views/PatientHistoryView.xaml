@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
+      xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       mc:Ignorable="d" 
       d:DesignHeight="1080" Width="1920"
       Title="PatientHistoryView">
@@ -16,7 +16,109 @@
         <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
+        <Label Content="Startdatum:" HorizontalAlignment="Left" Margin="391,291,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="Einddatum:" HorizontalAlignment="Left" Margin="391,431,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold"/>
+        <Label Content="{Binding StartDate}" HorizontalAlignment="Left" Margin="391,331,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding EndDate}" HorizontalAlignment="Left" Margin="391,471,0,0" VerticalAlignment="Top" FontSize="22"/>
+
 
         <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseHistoryCommand}"/>
+
+        <Grid x:Name="TotalWattage" Margin="1441,718,14,109">
+            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="9,7,0,0"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+        </Grid>
+
+        <Grid x:Name="Distance" Margin="955,718,500,109">
+            <Label Content="Afstand" Width="157" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="9,7,0,204"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+        </Grid>
+
+        <Grid x:Name="RPM" Margin="955,436,500,391">
+            <Label Content="RPM" Width="157" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="9,7,0,206"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+            <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="18,47,18,18">
+                <lvc:CartesianChart.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.386"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.993"/>
+                    </TransformGroup>
+                </lvc:CartesianChart.RenderTransform>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Time" ></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+
+        <Grid x:Name="BPM" Margin="955,158,500,669">
+            <Label Content="BPM" Width="157" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="9,7,0,210"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+            <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="18,47,18,18">
+                <lvc:CartesianChart.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.386"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.993"/>
+                    </TransformGroup>
+                </lvc:CartesianChart.RenderTransform>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Time" ></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+
+        <Grid x:Name="Speed" Margin="1441,158,14,669">
+            <Label Content="Snelheid" Width="157" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="9,7,0,206"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+            <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="18,47,18,18">
+                <lvc:CartesianChart.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.386"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.993"/>
+                    </TransformGroup>
+                </lvc:CartesianChart.RenderTransform>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Time" ></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+
+        <Grid x:Name="CurrentWattage" Margin="1441,436,14,391">
+            <Label Content="Huidig wattage" Width="157" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="9,7,0,204"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+            <lvc:CartesianChart Series="{Binding CurrentWCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="18,47,18,18">
+                <lvc:CartesianChart.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.386"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.993"/>
+                    </TransformGroup>
+                </lvc:CartesianChart.RenderTransform>
+                <lvc:CartesianChart.AxisY>
+                    <lvc:Axis LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                </lvc:CartesianChart.AxisY>
+                <lvc:CartesianChart.AxisX>
+                    <lvc:Axis Title="Time" ></lvc:Axis>
+                </lvc:CartesianChart.AxisX>
+            </lvc:CartesianChart>
+        </Grid>
+
+        <GridSplitter HorizontalAlignment="Left" Margin="928,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
+        
     </Grid>
 </Page>
