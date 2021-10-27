@@ -29,6 +29,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             this.manager = new LoginManager();
 
+            App.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            App.Current.MainWindow.Width = 350;
+            App.Current.MainWindow.Height = 250;
+            App.Current.MainWindow.Title = "Login";
 
             this.manager.OnLoginResponseReceived += (s, d) =>
             {

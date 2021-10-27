@@ -69,7 +69,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.NewDataTriggered?.Invoke(this, null);
         }
 
-        private void SubscribeToPatient(SharedPatient patient, bool subscribe)
+        public void SubscribeToPatient(SharedPatient patient, bool subscribe)
         {
             string[] patientsIDs = new string[] { patient.ID };
              

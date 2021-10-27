@@ -591,6 +591,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             // Switching from active window
             this.window.Content = new DashboardViewModel(this.window);
+
+            this.manager.SubscribeToPatient(this.Patient, false);
         }
     }
 }
