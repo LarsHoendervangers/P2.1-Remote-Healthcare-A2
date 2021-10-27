@@ -28,7 +28,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,668,1014,151" ItemsSource="{Binding MessageList}">
+        <ListView Margin="391,668,1014,151" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
