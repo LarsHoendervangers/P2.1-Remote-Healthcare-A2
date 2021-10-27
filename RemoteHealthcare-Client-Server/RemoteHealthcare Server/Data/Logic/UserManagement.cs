@@ -68,6 +68,8 @@ namespace RemoteHealthcare_Server.Data
             users.Add(new Patient("RCADuinen", "ElpticCurves", new DateTime(1969, 2, 2), "Ronald", "Duinen", "A12346", true));
             users.Add(new Patient("AESPeeren", "AESisTheBest", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A12347", true));
             users.Add(new Patient(" ", " ", new DateTime(1969, 2, 2), "Arnold", "Peeren", "A69420", true));
+            users.Add(new Patient("Lars", " ", new DateTime(1969, 2, 2), "Lars", "Hoendervangers", "A42069", true));
+            users.Add(new Patient("Luuk", " ", new DateTime(1969, 2, 2), "Luuk", "van Berkel", "A96669", true));
             users.Add(new Doctor("COMBomen", "Communication", new DateTime(1969, 2, 2), "Cornee", "Bomen", 
                 "Doctor FyssioTherapy", "PHD Avans Hogeschool", true));
             users.Add(new Doctor("Twan", "wachtwoord", new DateTime(2002, 5, 8), "Twan", "van Noorloos",
