@@ -166,7 +166,7 @@ namespace RemoteHealthcare_Server
         }
 
         /// <summary>
-        /// Writes the history to the doctor from one patient form one session
+        /// Writes the history to the doctor from one patient for one session
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="sessoins"></param>

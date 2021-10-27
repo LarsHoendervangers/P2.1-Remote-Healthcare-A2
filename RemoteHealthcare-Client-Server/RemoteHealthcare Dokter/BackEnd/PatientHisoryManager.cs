@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.ViewModels;
+using RemoteHealthcare_Server;
+using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
     {
         private PatientHistoryViewModel HistoryViewModel;
 
-        public PatientHisoryManager(PatientHistoryViewModel historyViewModel)
+        public PatientHisoryManager(PatientHistoryViewModel historyViewModel, SessionWrap session)
         {
             HistoryViewModel = historyViewModel;
         }

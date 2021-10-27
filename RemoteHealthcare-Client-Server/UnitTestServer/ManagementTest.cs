@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RemoteHealthcare_Server;
 
 namespace UnitTestServer
 {
@@ -8,6 +9,7 @@ namespace UnitTestServer
         [TestMethod]
         public void TestMethod1()
         {
+            //Host host = new Host();
         }
     }
 }

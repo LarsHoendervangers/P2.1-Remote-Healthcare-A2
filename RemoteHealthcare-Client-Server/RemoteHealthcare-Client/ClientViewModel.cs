@@ -222,7 +222,15 @@ namespace RemoteHealthcare_Client
                         param =>
                         {
                             if (!isLoggedIn)
+                            {
+                                if(UserName.ToLower().Contains("Twan".ToLower()))
+                                {
+                                    MessageBox.Show("Twan.exe has stopped working", "ERROR");
+                                    return;
+                                }
                                 this.loader.Login(UserName, Password);
+                            }
+                                
                             else StartApplicaton();
                         },
                         param => NullCheck() //check if all the fields are filled
