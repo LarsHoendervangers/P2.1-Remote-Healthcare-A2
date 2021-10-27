@@ -77,6 +77,7 @@ namespace UnitTestServer
             Assert.IsTrue(passed);
         }
 
+        [TestMethod]
         public void Test_Management_SessionEnd_Failed()
         {
             //Arrange
