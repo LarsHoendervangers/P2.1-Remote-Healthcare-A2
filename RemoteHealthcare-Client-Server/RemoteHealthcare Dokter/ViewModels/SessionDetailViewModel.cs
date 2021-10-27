@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -436,6 +437,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = SpeedCollection[0].Values;
 
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            {
+                double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
+                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
+                list = new ChartValues<double>(copyList);
+            }
+
             this.SpeedxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
@@ -449,6 +458,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void UpdateBPMGraph(int value, DateTime time)
         {
             var list = BPMCollection[0].Values;
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            {
+                int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
+                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
+                list = new ChartValues<int>(copyList);
+            }
 
             this.BPMxMax = list.Count;
 
@@ -464,6 +481,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = RPMCollection[0].Values;
 
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            {
+                int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
+                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
+                list = new ChartValues<int>(copyList);
+            }
+
             this.RPMxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
@@ -477,6 +502,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void UpdateCurrentWGraph(double value, DateTime time)
         {
             var list = CurrentWCollection[0].Values;
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            {
+                double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
+                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
+                list = new ChartValues<double>(copyList);
+            }
 
             this.RPMxMax = list.Count;
 
