@@ -33,6 +33,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.SessionWrap = selectedSession;
             this.manager = new PatientHisoryManager(selectedSession, selectedPatient.ID);
 
+            this.BPMOpacity = 100;
+            this.RPMOpacity = 100;
+            this.SpeedOpacity = 100;
+            this.WattageOpacity = 100;
+
             this.manager.OnSessionUpdate += (s, d) =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
@@ -54,11 +59,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
                         CurrentWMeasurements.Add(m.CurrentWattage);
                         SpeedMeasurements.Add(m.CurrentSpeed);
                     }
-
-                    this.BPMOpacity = 100;
-                    this.RPMOpacity = 100;
-                    this.SpeedOpacity = 100;
-                    this.WattageOpacity = 100;
 
                     this.WattageTotal = this.SessionWrap.BikeMeasurements[this.SessionWrap.BikeMeasurements.Count - 1].CurrentTotalWattage / 1000f + " kW";
                     this.DistanceTotal = this.SessionWrap.BikeMeasurements[this.SessionWrap.BikeMeasurements.Count - 1].CurrentTotalDistance / 1000f + " km";

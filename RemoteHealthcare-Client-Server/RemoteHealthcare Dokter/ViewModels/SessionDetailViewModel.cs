@@ -438,12 +438,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             var list = SpeedCollection[0].Values;
 
             // Checking the list size, if to large unused data is deleted
+            /*
             if (list.Count >= MAX_GRAPH_LENGHT * 2)
             {
                 double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
                 list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
                 list = new ChartValues<double>(copyList);
             }
+            */
 
             this.SpeedxMax = list.Count;
 
@@ -460,12 +462,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             var list = BPMCollection[0].Values;
 
             // Checking the list size, if to large unused data is deleted
+            /*
             if (list.Count >= MAX_GRAPH_LENGHT * 2)
             {
                 int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
                 list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
                 list = new ChartValues<int>(copyList);
             }
+            */
 
             this.BPMxMax = list.Count;
 
@@ -482,12 +486,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             var list = RPMCollection[0].Values;
 
             // Checking the list size, if to large unused data is deleted
+            /*
             if (list.Count >= MAX_GRAPH_LENGHT * 2)
             {
                 int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
                 list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
                 list = new ChartValues<int>(copyList);
             }
+            */
 
             this.RPMxMax = list.Count;
 
@@ -504,13 +510,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             var list = CurrentWCollection[0].Values;
 
             // Checking the list size, if to large unused data is deleted
+            /*
             if (list.Count >= MAX_GRAPH_LENGHT * 2)
             {
                 double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
                 list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
                 list = new ChartValues<double>(copyList);
             }
-
+            */
             this.RPMxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
