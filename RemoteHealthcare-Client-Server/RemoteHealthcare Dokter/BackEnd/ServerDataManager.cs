@@ -27,23 +27,32 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override void ReceivedData(JObject data)
         {
-            Trace.WriteLine("OUTGOING " + data);
             this.tcpClientHandler.WriteMessage(data.ToString());
         }
 
         private void HandleServerMessage(JObject data)
         {
-            Trace.WriteLine("INCOMMING " + data);
             this.SendToManagers(data);
         }
 
         private void OnServerMessageReceived(object sender, string message)
         {
+            //Empty message == error in the connection
+            if (message == "") onNetworkError();
+
             JObject jObject = JsonConvert.DeserializeObject(message) as JObject;
 
             if (jObject == null) return;
 
             HandleServerMessage(jObject);
+        }
+
+        private void onNetworkError()
+        {
+            // Closing the tcp handler to prevent data from going there
+            this.tcpClientHandler.SetRunning(false);
+
+            // Notifying the user of the connection error
         }
     }
 }
