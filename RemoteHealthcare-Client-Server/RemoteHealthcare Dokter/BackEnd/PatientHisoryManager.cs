@@ -13,11 +13,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class PatientHisoryManager : DataManager
     {
-        private PatientHistoryViewModel HistoryViewModel;
 
-        public PatientHisoryManager(PatientHistoryViewModel historyViewModel, SessionWrap session)
+
+        public PatientHisoryManager(SessionWrap session, string id)
         {
-            HistoryViewModel = historyViewModel;
+            
         }
 
         public override void ReceivedData(JObject data)

@@ -27,6 +27,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window = window;
             this.Patient = selectedPatient;
             this.SessionWrap = selectedSession;
+            this.manager = new PatientHisoryManager(selectedSession, selectedPatient.ID);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

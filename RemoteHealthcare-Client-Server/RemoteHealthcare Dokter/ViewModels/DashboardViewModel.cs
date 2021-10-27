@@ -147,7 +147,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void StartSessionPopUp()
         {
-            if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName, "Sessie", MessageBoxButton.YesNo) != MessageBoxResult.No)
+            if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName + "?", "Sessie starten", MessageBoxButton.YesNo) != MessageBoxResult.No)
             {
                 this.manager.StartSession(SelectedPatientWithoutSession);
                 this.manager.RequestActiveClients();
