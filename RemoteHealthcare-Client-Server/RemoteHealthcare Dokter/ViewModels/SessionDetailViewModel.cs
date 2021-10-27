@@ -594,5 +594,21 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             this.manager.SubscribeToPatient(this.Patient, false);
         }
+
+        private ICommand _StopSessionCommand;
+        public ICommand StopSessionCommand
+        {
+            get
+            {
+                if (_StopSessionCommand == null)
+                {
+                    _StopSessionCommand = new GeneralCommand(
+                        param => SendStopSession()
+                        );
+                }
+                return _StopSessionCommand;
+            }
+
+        }
     }
 }
