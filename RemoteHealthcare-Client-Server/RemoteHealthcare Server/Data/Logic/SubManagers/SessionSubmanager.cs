@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.Logic.SubManagers
 {
-    partial class SessionSubmanager 
+    public class SessionSubmanager 
     {
 
         private UserManagement management;

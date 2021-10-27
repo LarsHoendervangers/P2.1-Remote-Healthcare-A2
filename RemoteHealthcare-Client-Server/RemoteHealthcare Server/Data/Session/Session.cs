@@ -10,7 +10,6 @@ namespace RemoteHealthcare_Server
 {
     public class Session
     {
-
         [JsonIgnore]
         public List<Doctor> Subscribers { get; set; }
 
@@ -22,9 +21,6 @@ namespace RemoteHealthcare_Server
             this.HRMeasurements = new List<HRMeasurement>();
             this.BikeMeasurements = new List<BikeMeasurement>();
         }
-
-
-
 
         /// <summary>
         /// List of HRMeasurements in this current session
@@ -40,13 +36,9 @@ namespace RemoteHealthcare_Server
         /// </summary>
         public List<BikeMeasurement> BikeMeasurements
         {
-            get ;
+            get;
             set;
-           
         }
-
-
-
 
         public int SessionID
         {
@@ -59,24 +51,20 @@ namespace RemoteHealthcare_Server
         [JsonIgnore]
         public Patient Patient
         {
-            get ;
+            get;
             set;
-            
         }
 
         public DateTime StartTime
         {
             get;
             set;
-            
-            
         }
 
         public DateTime EndTime
         {
             get; 
             set;
-            
         }
 
         public void SetEndTime()
