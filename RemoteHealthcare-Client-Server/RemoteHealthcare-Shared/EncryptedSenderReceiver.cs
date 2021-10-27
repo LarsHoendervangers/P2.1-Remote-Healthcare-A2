@@ -63,9 +63,17 @@ namespace RemoteHealthcare_Shared
             length = BitConverter.GetBytes(data.Length);
             byte[] final = Combine(length, payload);
 
-            //Debug print of data that is send
-            sslStream.Write(final, 0, data.Length + 4);
-            sslStream.Flush();
+            try
+            {
+                //Debug print of data that is send
+                sslStream.Write(final, 0, data.Length + 4);
+                sslStream.Flush();
+            }
+            catch (Exception e)
+            {
+                //Empty string is caught in the Host class which will terminate the connection.
+                Debug.WriteLine("EncryptedSenderReceiver: " + e.Message, "Exception");
+            }
         }
 
         /// <summary>
