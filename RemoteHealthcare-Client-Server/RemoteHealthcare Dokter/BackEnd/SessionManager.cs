@@ -129,7 +129,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
             object o = new
             {
-                command = "setresistance",
+                command = "setresist",
                 data = new
                 {
                     value = value,
