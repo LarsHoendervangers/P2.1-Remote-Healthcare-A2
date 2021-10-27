@@ -13,6 +13,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class PatientHisoryManager : DataManager
     {
+        public event EventHandler<Session> OnSessionUpdate;
 
         public PatientHisoryManager(SessionWrap session, string userID)
         {

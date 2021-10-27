@@ -29,25 +29,29 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.SessionWrap = selectedSession;
             this.manager = new PatientHisoryManager(selectedSession, selectedPatient.ID);
 
-            Application.Current.Dispatcher.Invoke(() =>
+            this.manager.OnSessionUpdate += (s, d) =>
             {
-                this.HRValues = new List<int>();
-                this.RPMValues = new List<int>();
-                this.SpeedValues = new List<double>();
-                this.CurrentWValues = new List<double>();
-
-                foreach (HRMeasurement m in this.SessionWrap.HRMeasurements)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.HRValues.Add(m.CurrentHeartrate);
-                }
+                    this.HRValues = new List<int>();
+                    this.RPMValues = new List<int>();
+                    this.SpeedValues = new List<double>();
+                    this.CurrentWValues = new List<double>();
 
-                foreach (BikeMeasurement m in this.SessionWrap.BikeMeasurements)
-                {
-                    this.RPMValues.Add(m.CurrentRPM);
-                    this.CurrentWValues.Add(m.CurrentWattage);
-                    this.SpeedValues.Add(m.CurrentSpeed);
-                }
-            });
+                    foreach (HRMeasurement m in d.HRMeasurements)
+                    {
+                        this.HRValues.Add(m.CurrentHeartrate);
+                    }
+
+                    foreach (BikeMeasurement m in d.BikeMeasurements)
+                    {
+                        this.RPMValues.Add(m.CurrentRPM);
+                        this.CurrentWValues.Add(m.CurrentWattage);
+                        this.SpeedValues.Add(m.CurrentSpeed);
+                    }
+                });
+            };
+            
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
