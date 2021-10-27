@@ -9,13 +9,14 @@ using System.Net;
 using System.Threading;
 using System.Windows;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
+using RemoteHealthcare_Shared.Settings;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-        private string ip = "192.168.68.104";
-        private int port = 6969;
+        private string ip = ServerSettings.IP;
+        private int port = ServerSettings.Port;
 
         private DataManager serverDataManager;
         private DataManager deviceDataManager;

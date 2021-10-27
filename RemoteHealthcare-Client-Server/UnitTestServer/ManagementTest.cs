@@ -4,7 +4,7 @@ using RemoteHealthcare_Server;
 namespace UnitTestServer
 {
     [TestClass]
-    public class UnitTest1
+    public class ManagementTest
     {
         [TestMethod]
         public void TestMethod1()

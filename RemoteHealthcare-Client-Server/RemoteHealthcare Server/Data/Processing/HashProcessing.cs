@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.Processing
 {
-    class HashProcessing
+    public class HashProcessing
     {
         private static SHA256 shaM = new SHA256Managed();
 

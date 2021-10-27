@@ -206,7 +206,7 @@ namespace RemoteHealthcare_Server
             foreach (Session s in sessions)
             {
                 startdates.Add(s.StartTime);
-                enddates.Add(s.EndTime);
+                enddates.Add(s.EndTime);   
             }
 
             object o = new
@@ -219,6 +219,9 @@ namespace RemoteHealthcare_Server
                     enddates = enddates
                 }
             };
+
+            sender.SendMessage(JsonConvert.SerializeObject(o));
+
         }
 
         public static void WriteMessage(string message, List<Host> activeHosts)
