@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Client.TCP;
+using RemoteHealthcare_Shared.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public ServerDataManager()
         {
-            this.tcpClientHandler = new TCPClientHandler("145.49.57.2", 6969, true);
+            this.tcpClientHandler = new TCPClientHandler(ServerSettings.IP, ServerSettings.Port, true);
 
             this.tcpClientHandler.SetRunning(true);
 
