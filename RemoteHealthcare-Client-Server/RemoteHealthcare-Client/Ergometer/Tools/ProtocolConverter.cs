@@ -20,7 +20,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
             {
                 toReturn += name;
             }
-
             return toReturn;
         }
 
@@ -114,7 +113,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         /// <returns></returns>
         public static bool MichaelChecksum(byte[] data)
         {
-
             if (data.Length == 13)
             {
                 byte sendChecksum = data[12];
@@ -139,7 +137,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
             {
                 checksum = checksum ^ data[i];
             }
-
             return checksum;
         }
 
@@ -153,7 +150,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         /// <returns></returns>
         public static int rollOver(int value, ref int oldValue, ref int valueCounter)
         {
-
             if (value < oldValue)
             {
                 valueCounter++;

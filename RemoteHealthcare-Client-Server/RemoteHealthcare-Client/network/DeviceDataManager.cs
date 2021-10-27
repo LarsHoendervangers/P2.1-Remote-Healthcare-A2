@@ -71,7 +71,6 @@ namespace RemoteHealthcare_Client
                         this.SendToManagers(wrappedCommand);
 
                         Thread.Sleep(DeviceDataManager.BufferDelay);
-
                     }
                 })).Start();
         }
@@ -104,12 +103,10 @@ namespace RemoteHealthcare_Client
                     {
                         process.Kill();
                     }
-
                 }
             }
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
-
         }
 
         /// <summary>

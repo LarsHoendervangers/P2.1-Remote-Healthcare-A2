@@ -78,7 +78,6 @@ namespace RemoteHealthcare_Client
                     // TODO HANDLE NOT SUPPORTER
                     Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
                     break;
-
             }
         }
     }

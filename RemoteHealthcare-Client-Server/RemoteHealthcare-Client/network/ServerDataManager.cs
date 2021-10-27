@@ -12,7 +12,6 @@ namespace RemoteHealthcare_Client
 {
     public class ServerDataManager : DataManager
     {
-       
         private TCPClientHandler TCPClientHandler { get; set; }
 
         public event EventHandler<bool> OnLoginResponseReceived;
