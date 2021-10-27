@@ -14,15 +14,30 @@ namespace RemoteHealthcare_Dokter.BackEnd
     class PatientHisoryManager : DataManager
     {
 
-
-        public PatientHisoryManager(SessionWrap session, string id)
+        public PatientHisoryManager(PatientHistoryViewModel historyViewModel, SessionWrap session, string userID)
         {
-            
+            HistoryViewModel = historyViewModel;
+
+            GetSessionData(session.Enddate, userID);
         }
 
         public override void ReceivedData(JObject data)
         {
-            throw new NotImplementedException();
+            JToken value;
+
+            // Try to get the command tab of the data
+            bool correctCommand = data.TryGetValue("command", StringComparison.InvariantCulture, out value);
+
+            // Return if the parsing of command was not succesfull
+            if (!correctCommand) return;
+
+            switch (value.ToString())
+            {
+                case "getsessionsdetails":
+                    // Calling the method that handles the getsessions command
+                    WrapSessionData(data);
+                    break;
+            }
         }
 
         private void HandleIncoming(JObject data)
@@ -30,22 +45,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         }
 
-        public void GetPreviousSessions(int id)
+        public void GetSessionData(DateTime dateTime, string userID)
         {
 
         }
 
-        private void WrapPreviousSessionResponse(JObject data)
-        {
-
-        }
-
-        public void GetPatientData(int id)
-        {
-
-        }
-
-        private void WrapPatientData(JObject data)
+        private void WrapSessionData(JObject data)
         {
 
         }
