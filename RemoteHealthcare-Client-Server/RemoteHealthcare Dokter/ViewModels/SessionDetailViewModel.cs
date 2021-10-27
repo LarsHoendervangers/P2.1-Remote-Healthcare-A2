@@ -609,7 +609,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void CloseDetail()
         {
             // Telling the manager this window is closing
-            this.manager.CloseManager();
+            this.manager.DeleteManager(this.manager);
 
             // Switching from active window
             this.window.Content = new DashboardViewModel(this.window);

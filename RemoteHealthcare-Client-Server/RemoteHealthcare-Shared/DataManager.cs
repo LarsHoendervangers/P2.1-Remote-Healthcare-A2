@@ -51,5 +51,10 @@ namespace RemoteHealthcare_Client
                 DataManager.NetworkManagers[i].ReceivedData(data);
             }
         }
+
+        public void DeleteManager(DataManager manager)
+        {
+            DataManager.NetworkManagers.Remove(manager);
+        }
     }
 }

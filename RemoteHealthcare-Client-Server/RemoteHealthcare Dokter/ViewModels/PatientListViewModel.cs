@@ -115,6 +115,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void OpenHistoryWindow()
         {
             this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient, SelectedSession);
+            this.manager.DeleteManager(this.manager);
         }
     }
 }

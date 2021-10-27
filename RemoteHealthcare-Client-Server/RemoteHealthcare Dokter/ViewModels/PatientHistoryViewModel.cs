@@ -126,6 +126,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void CloseHistory()
         {
             this.window.Content = new PatientListViewModel(this.window);
+            this.manager.DeleteManager(this.manager);
         }
 
         private List<int> _HRValues;

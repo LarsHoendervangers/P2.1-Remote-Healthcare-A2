@@ -14,10 +14,8 @@ namespace RemoteHealthcare_Dokter.BackEnd
     class PatientHisoryManager : DataManager
     {
 
-        public PatientHisoryManager(PatientHistoryViewModel historyViewModel, SessionWrap session, string userID)
+        public PatientHisoryManager(SessionWrap session, string userID)
         {
-            HistoryViewModel = historyViewModel;
-
             GetSessionData(session.Enddate, userID);
         }
 
