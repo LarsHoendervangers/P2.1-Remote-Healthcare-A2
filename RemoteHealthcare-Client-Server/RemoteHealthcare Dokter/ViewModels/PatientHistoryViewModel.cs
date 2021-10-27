@@ -6,6 +6,7 @@ using RemoteHealthcare_Server;
 using RemoteHealthcare_Shared.DataStructs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,25 +34,31 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.HRValues = new List<int>();
-                    this.RPMValues = new List<int>();
-                    this.SpeedValues = new List<double>();
-                    this.CurrentWValues = new List<double>();
+                    List<int> HRMeasurements = new List<int>();
+                    List<int> RPMMeasurements = new List<int>();
+                    List<double> CurrentWMeasurements = new List<double>();
+                    List<double> SpeedMeasurements = new List<double>();
 
                     foreach (HRMeasurement m in d.HRMeasurements)
                     {
-                        this.HRValues.Add(m.CurrentHeartrate);
+                        HRMeasurements.Add(m.CurrentHeartrate);
                     }
 
                     foreach (BikeMeasurement m in d.BikeMeasurements)
                     {
-                        this.RPMValues.Add(m.CurrentRPM);
-                        this.CurrentWValues.Add(m.CurrentWattage);
-                        this.SpeedValues.Add(m.CurrentSpeed);
+                        RPMMeasurements.Add(m.CurrentRPM);
+                        CurrentWMeasurements.Add(m.CurrentWattage);
+                        SpeedMeasurements.Add(m.CurrentSpeed);
                     }
+
+                    this.BPMCollection.AddRange((IEnumerable<object>)HRMeasurements);
+                    this.RPMCollection.AddRange((IEnumerable<object>)RPMMeasurements);
+                    this.SpeedCollection.AddRange((IEnumerable<object>)SpeedMeasurements);
+                    this.CurrentWCollection.AddRange((IEnumerable<object>)CurrentWMeasurements);
                 });
             };
-            
+
+            SetupGraphs();
 
             this.FullName = this.Patient.FirstName + " " + this.Patient.LastName;
             this.Age = "Leeftijd:\t\t" + CalculateAge();
@@ -133,46 +140,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.manager.DeleteManager(this.manager);
         }
 
-        private List<int> _HRValues;
-        public List<int> HRValues
-        {
-            get { return _HRValues; }
-            set
-            {
-                _HRValues = value;
-            }
-        }
-
-        private List<int> _RPMValues;
-        public List<int> RPMValues
-        {
-            get { return _RPMValues; }
-            set
-            {
-                _RPMValues = value;
-            }
-        }
-
-        private List<double> _SpeedValues;
-        public List<double> SpeedValues
-        {
-            get { return _SpeedValues; }
-            set
-            {
-                _SpeedValues = value;
-            }
-        }
-
-        private List<double> _CurrentWValues;
-        public List<double> CurrentWValues
-        {
-            get { return _CurrentWValues; }
-            set
-            {
-                _CurrentWValues = value;
-            }
-        }
-
+        
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
         public SeriesCollection RPMCollection { get; set; }
@@ -194,7 +162,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = (IChartValues)HRValues,
+                    Values = new ChartValues<int>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
@@ -210,7 +178,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "Speed",
-                    Values = (IChartValues)SpeedValues,
+                    Values = new ChartValues<double>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0f, 1f)),
@@ -224,7 +192,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "RPM",
-                    Values = (IChartValues)RPMValues,
+                    Values = new ChartValues<int>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0.5f, 0f)),
@@ -238,7 +206,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 new LineSeries
                 {
                     Title = "CurrentW",
-                    Values = (IChartValues)CurrentWValues,
+                    Values = new ChartValues<double>() { },
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0.5f, 0.5f, 0f)),
