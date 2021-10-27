@@ -9,7 +9,6 @@ namespace UnitTestServer
 {
     class UnitSender : ISender
     {
-
         public event EventHandler<bool> CheckCallback;
         public string ExpectedOutput { get; set; }
 

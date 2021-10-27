@@ -130,8 +130,8 @@ namespace RemoteHealthcare_Client
                 Application.Current.Dispatcher.Invoke(GetAvailableVRConnections);
                 Thread.Sleep(5000);
             }
-
         }
+
         private void UpdateBLEDevices()
         {
             while (true)
@@ -139,7 +139,6 @@ namespace RemoteHealthcare_Client
                 Application.Current.Dispatcher.Invoke(GetAvailableBLEDevices);
                 Thread.Sleep(5000);
             }
-
         }
     }
 }
