@@ -624,6 +624,30 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             // Switching from active window
             this.window.Content = new DashboardViewModel(this.window);
+
+            this.manager.SubscribeToPatient(this.Patient, false);
+        }
+
+        private ICommand _StopSessionCommand;
+        public ICommand StopSessionCommand
+        {
+            get
+            {
+                if (_StopSessionCommand == null)
+                {
+                    _StopSessionCommand = new GeneralCommand(
+                        param => SendStopSession()
+                        );
+                }
+                return _StopSessionCommand;
+            }
+
+        }
+
+        private void SendStopSession()
+        {
+            this.manager.StopSession(this.Patient);
+            this.window.Content = new DashboardViewModel(this.window);
         }
     }
 }
