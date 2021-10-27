@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Dokter.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -50,7 +51,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 win.WindowState = WindowState.Maximized;
                 win.Content = new DashboardViewModel(win);
+                win.Closed += (s, e) => Environment.Exit(Environment.ExitCode);
                 win.Show();
+
+                LoginView view = ((this.window) as LoginView);
+                if(view != null)
+                    view.Shutdown = false;
 
                 this.window.Close();
             });
@@ -80,29 +86,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
             get { return _Password; }
             set
             {
-                Trace.WriteLine(value);
                 _Password = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-
-        /*
-        private ICommand _SendLoginCommand;
-        public ICommand SendLoginCommand
-        {
-            get
-            {
-                if (_SendLoginCommand == null)
-                {
-                    _SendLoginCommand = new GeneralCommand(
-                        param => SendMessage(UserName, Password)
-                        );
-                }
-                return _SendLoginCommand;
-            }
-
-        }
-        */
 
         private void SendMessage(string UserName, string Password)
         {
