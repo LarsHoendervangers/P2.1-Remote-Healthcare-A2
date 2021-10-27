@@ -14,7 +14,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     class PatientHisoryManager : DataManager
     {
-        public event EventHandler<Session> OnSessionUpdate;
+        public event EventHandler<SessionWrap> OnSessionUpdate;
         SessionWrap session;
         
         public PatientHisoryManager(SessionWrap session, string userID)
@@ -68,15 +68,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             // Checking if the fields exist
             if (patientID == null || session == null) return;
 
-            //Parsing the measurements
-            JObject startDates = session.SelectToken("startdates") as JObject;
-            JObject endDates = session.SelectToken("enddates") as JObject;
-
             JArray hrJson = session.SelectToken("hrdata") as JArray;
             JArray bikeJson = session.SelectToken("bikedata") as JArray;
 
             // Returning if the values are null
-            if (startDates == null || endDates == null || hrJson == null || bikeJson == null) return;
+            if (hrJson == null || bikeJson == null) return;
 
             List<HRMeasurement> hRMeasurements = new List<HRMeasurement>();
             foreach(JObject hr in hrJson)
@@ -93,7 +89,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.session.BikeMeasurements = bikeMeasurements;
             this.session.HRMeasurements = hRMeasurements;
             // Invoking the event to tell the GUI to update the list
-            //this.OnSessionReceived?.Invoke(this, sessions);
+            this.OnSessionUpdate?.Invoke(this, this.session);
         }
     }
 }
