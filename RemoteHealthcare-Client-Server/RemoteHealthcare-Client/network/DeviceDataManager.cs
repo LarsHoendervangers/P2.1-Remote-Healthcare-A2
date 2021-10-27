@@ -71,7 +71,6 @@ namespace RemoteHealthcare_Client
                         this.SendToManagers(wrappedCommand);
 
                         Thread.Sleep(DeviceDataManager.BufferDelay);
-
                     }
                 })).Start();
         }
@@ -91,7 +90,7 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-            // only data command comming to the device data manager is 'setresist'
+            // only two data command comming to the device data manager is 'setresist' and 'abort'
             if (value.ToString() == "setresist")
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
             else if (value.ToString() == "abort")
@@ -99,11 +98,11 @@ namespace RemoteHealthcare_Client
                 this.Device.OnResistanceCall(this, 0);
                 foreach (var process in Process.GetProcesses())
                 {
-                    if (process.ProcessName == "NetworkEngine")
+                    // kills the NetworkEngine and the client application when abort is called 
+                    if  (process.ProcessName == "RemoteHealthcare-Client")
                     {
                         process.Kill();
                     }
-
                 }
             }
             else

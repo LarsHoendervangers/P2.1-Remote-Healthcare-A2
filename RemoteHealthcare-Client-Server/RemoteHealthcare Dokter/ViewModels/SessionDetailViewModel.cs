@@ -193,28 +193,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
-        private ICommand _StopSessionCommand;
-        public ICommand StopSessionCommand
-        {
-            get
-            {
-                if (_StopSessionCommand == null)
-                {
-                    _StopSessionCommand = new GeneralCommand(
-                        param => SendStopSession()
-                        ); ; ;
-                }
-                return _StopSessionCommand;
-            }
-
-        }
-        
-        private void SendStopSession()
-        {
-            this.manager.StopSession(this.Patient);
-            this.window.Content = new DashboardViewModel(this.window);
-        }
-
         private string _Message;
         public string Message
         {
@@ -603,7 +581,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         
         private void UpdateResistance()
         {
-            this.manager.SetResistance(ResistanceValue * 2);
+            this.manager.SetResistance(ResistanceValue);
         }
 
         private void CloseDetail()

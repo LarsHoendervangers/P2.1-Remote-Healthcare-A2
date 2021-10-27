@@ -6,9 +6,8 @@ using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 
 namespace RemoteHealthcare.ClientVREngine.Util
 {
-    static class VRUTil
+    public static class VRUTil
     {
-        
         /// <summary>
         /// Given JSON data returned from the server this method finds the uuid of the data
         /// </summary>
@@ -49,11 +48,6 @@ namespace RemoteHealthcare.ClientVREngine.Util
 
                 }
             }
-
-
-
-
-
             return terrain;
         }
 
@@ -68,14 +62,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 {
                     Console.Write("\n");
                 }
-
             }
-
         }
-        
-
     }
-
-
-
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.Logic.SubManagers
 {
-    partial class SessionSubmanager 
+    public class SessionSubmanager 
     {
 
         private UserManagement management;
@@ -86,7 +86,7 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                 {
                     foreach (string id in patientIDS)
                     {
-                        if (s.Patient.PatientID == id)
+                        if (s.Patient.PatientID == id && !s.Subscribers.Contains(d))
                         {
                             s.Subscribers.Add(d);
                         }
@@ -148,6 +148,9 @@ namespace RemoteHealthcare_Server.Data.Logic.SubManagers
                     {
                         if (s.Patient == (Patient)user)
                         {
+                            s.SetEndTime();
+                            FileProcessing.SaveSession(s);
+                           
                             UserManagement.activeSessions.Remove(s);
                             return;
                         }

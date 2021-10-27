@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Server.Data.Logic
 {
-    class FindingSubmanager
+    public class FindingSubmanager
     {
         private UserManagement management;
 

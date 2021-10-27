@@ -565,7 +565,6 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 {
                     filename,
                     overwrite = true
-
                 }
             };
         }
@@ -586,10 +585,5 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 }
             };
         }
-
-
     }
-
 }
-
-

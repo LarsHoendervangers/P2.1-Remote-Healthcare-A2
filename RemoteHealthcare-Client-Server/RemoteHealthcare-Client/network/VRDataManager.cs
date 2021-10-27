@@ -68,7 +68,6 @@ namespace RemoteHealthcare_Client
             {
 
                 case "message":
-                    
                     Scene.WriteTextToPanel(Scene.HandelTextMessages(8,25,data));
                     break;
                 case "ergodata":
@@ -79,7 +78,6 @@ namespace RemoteHealthcare_Client
                     // TODO HANDLE NOT SUPPORTER
                     Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
                     break;
-
             }
         }
     }

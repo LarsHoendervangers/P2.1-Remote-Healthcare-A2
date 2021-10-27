@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Client.Ergometer.Tools
 {
-    class ProtocolConverter
+    public class ProtocolConverter
     {
         /// <summary>
         /// Converts a bytearray to a string, this can be used for displaying the contents of the array.
@@ -20,7 +20,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
             {
                 toReturn += name;
             }
-
             return toReturn;
         }
 
@@ -59,10 +58,10 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         }
 
         /// <summary>
-        /// Returns a
+        /// Converts the byte to an int.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="targetByte"></param>
+        /// <param name="data">The data to search in.</param>
+        /// <param name="targetByte">The position in the data.</param>
         /// <returns>returns the asked byte as int</returns>
         public static int ReadByte(byte[] data, int targetByte)
         {
@@ -114,7 +113,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         /// <returns></returns>
         public static bool MichaelChecksum(byte[] data)
         {
-
             if (data.Length == 13)
             {
                 byte sendChecksum = data[12];
@@ -139,7 +137,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
             {
                 checksum = checksum ^ data[i];
             }
-
             return checksum;
         }
 
@@ -153,7 +150,6 @@ namespace RemoteHealthcare_Client.Ergometer.Tools
         /// <returns></returns>
         public static int rollOver(int value, ref int oldValue, ref int valueCounter)
         {
-
             if (value < oldValue)
             {
                 valueCounter++;

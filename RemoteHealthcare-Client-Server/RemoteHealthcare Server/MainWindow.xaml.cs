@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteHealthcare_Shared.Settings;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -27,8 +28,7 @@ namespace RemoteHealthcare_Server
         public MainWindow()
         {
             InitializeComponent();
-            //this.server = new Server(this, IPAddress.Parse("145.49.40.199"), 6969);
-            this.server = new Server(this, IPAddress.Any, 6969);
+            this.server = new Server(this, IPAddress.Any, ServerSettings.Port);
             this.server.StartServer();
             this.Closing += OnDestroy;
         }

@@ -28,8 +28,7 @@ namespace RemoteHealthcare_Client
         /// Constructor for General command, canExecute is set to null
         /// </summary>
         /// <param name="execute">The action performed when method is called</param>
-        public GeneralCommand(Action<object> execute)
-            : this(execute, null)
+        public GeneralCommand(Action<object> execute) : this(execute, null)
         {
         }
 
@@ -40,7 +39,6 @@ namespace RemoteHealthcare_Client
         /// <param name="canExecute">The function that determens if the action is allowed</param>
         public GeneralCommand(Action<object> execute, Predicate<object> canExecute)
         {
-
             ExecuteCommand = execute;
             CanExecuteAction = canExecute;
         }
