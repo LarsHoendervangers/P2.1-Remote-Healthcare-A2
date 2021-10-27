@@ -100,7 +100,7 @@ namespace RemoteHealthcare_Client
                 foreach (var process in Process.GetProcesses())
                 {
                     // kills the NetworkEngine and the client application when abort is called 
-                    if (process.ProcessName == "NetworkEngine" || process.ProcessName == "RemoteHealthcare-Client")
+                    if  (process.ProcessName == "RemoteHealthcare-Client")
                     {
                         process.Kill();
                     }

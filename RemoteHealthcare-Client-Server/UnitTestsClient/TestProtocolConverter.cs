@@ -119,14 +119,28 @@ namespace UnitTestsClient
         public void Test_DataToPayload_Success()
         {
             // Arrange
-            byte[] bytesToTest = new byte[] { 0b1111, 0b1010, 0b1111, 0b1010, 0b1011, 0b0001, 0b0110, 0b0101, 0b0001, 0b1010, 0b0010, 0b0011, 0b0100 };
-            byte[] expected = new byte[] { 0b1011, 0b0001, 0b0110, 0b0101, 0b0001, 0b1010, 0b0010, 0b0011 };
+            byte[] bytesToTest = new byte[] { 15, 56, 1, 67, 90, 123, 34, 4, 87, 56, 99, 9, 3 };
+            byte[] expected = new byte[] { 90, 123, 34, 4, 87, 56, 99, 9 };
 
             // Act
             byte[] result = ProtocolConverter.DataToPayload(bytesToTest);
+            bool isTheSame = false;
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                if (result[i] != expected[i])
+                {
+                    isTheSame = false;
+                    break;
+                }
+                else
+                {
+                    isTheSame = true;
+                }
+            }
 
             // Assert
-            Assert.AreEqual(expected, result);
+            Assert.IsTrue(isTheSame);
         }
 
         [TestMethod]
@@ -134,13 +148,139 @@ namespace UnitTestsClient
         {
             // Arrange
             byte[] bytesToTest = new byte[] { 0b1111, 0b1010, 0b1111, 0b1010, 0b1011, 0b0001, 0b0110, 0b0101, 0b0001, 0b1010, 0b0010 };
-            byte[] expected = new byte[8];
+            byte[] expected = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0};
 
             // Act
             byte[] result = ProtocolConverter.DataToPayload(bytesToTest);
+            bool isZero = false;
+            
+            foreach (byte b in result)
+            {
+                if (b != 0)
+                {
+                    isZero = false;
+                    break;
+                } else
+                {
+                    isZero = true;
+                }
+            }
+
+            // Assert
+            Assert.IsTrue(isZero);
+        }
+
+        [TestMethod]
+        public void Test_CombineBits_Succes()
+        {
+            // Arrange
+            byte byte1 = 0b10101010;
+            byte byte2 = 0b01010101;
+            ushort expected = 43605;
+
+            // Act
+            ushort result = ProtocolConverter.CombineBits(byte1, byte2);
 
             // Assert
             Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Test_MichaelChecksum_Succes()
+        {
+            // Arrange
+            byte[] bytes = new byte[] { 15, 56, 1, 67, 90, 123, 34, 4, 87, 56, 99, 9, 119 };
+            
+            // Act
+            bool result = ProtocolConverter.MichaelChecksum(bytes);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Test_MichaelChecksum_Fail()
+        {
+            // Arrange
+            byte[] bytes = new byte[] { 15, 56, 1, 67, 90, 123, 34, 4, 87, 56, 99, 9 };
+            
+            // Act
+            bool result = ProtocolConverter.MichaelChecksum(bytes);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Test_RollOver_Success()
+        {
+            // Arrange
+            int value = 513;
+            int oldValue = 512;
+            int counter = 2;
+            int expected = counter * 256 + value;
+
+            // Act
+            int result = ProtocolConverter.rollOver(value, ref oldValue, ref counter);
+
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Test_RollOverTotalPower_Success()
+        {
+            // Arrange
+            int value = 65536 * 2;
+            int oldValue = (65536 * 2) - 1;
+            int counter = 2;
+            int expected = counter * 65536 + value;
+
+            // Act
+            int result = ProtocolConverter.rollOverTotalPower(value, ref oldValue, ref counter);
+
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void Test_ConfirmPageData_Success()
+        {
+            // Arrange
+            byte[] bytes = new byte[] { 0x16, 0x10, 0x00 };
+
+            // Act
+            bool result = ProtocolConverter.ConfirmPageData(bytes);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void Test_ConfirmPageData_Fail()
+        {
+            // Arrange
+            byte[] bytes = new byte[] { 0x15, 0x10, 0x00 };
+
+            // Act
+            bool result = ProtocolConverter.ConfirmPageData(bytes);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Test_TransformtoKMH_Success()
+        {
+            // Arrange
+            double value = 15;
+            double expected = 0.054;
+
+            // Act
+            double result = ProtocolConverter.TransformtoKMH(value);
+
+            // Assert
+            Assert.IsTrue(result == expected);
         }
     }
 }
