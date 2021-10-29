@@ -18,9 +18,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
-                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="180" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding FirstName}" FontSize="20" Width="200" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding ID}" FontSize="20" Width="180"  VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding DateOfBirth}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DateString}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -34,7 +34,7 @@
                     <StackPanel Orientation="Horizontal" Height="35">
                         <TextBlock Text="{Binding FirstName}" FontSize="20" Width="250" VerticalAlignment="Center"/>
                         <TextBlock Text="{Binding ID}" FontSize="20" Width="200"  VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding DateOfBirth}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DateString}" FontSize="20" Width="300"  VerticalAlignment="Center"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
