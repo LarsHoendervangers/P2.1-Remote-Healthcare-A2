@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Window window;
+        public Window window;
         private DashboardManager manager;
 
         public DashboardViewModel(Window window)
@@ -124,6 +124,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void SwitchView()
         {
+            this.manager.running = false;
             this.window.Content = new PatientListViewModel(this.window);
         }
 
