@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows;
 
 namespace RemoteHealthcare_Client.TCP
 {
@@ -27,7 +28,14 @@ namespace RemoteHealthcare_Client.TCP
         {
             try
             {
-                TcpClient client = new TcpClient(ip, port);
+                //TcpClient client = new TcpClient(ip, port);
+
+                TcpClient client = new TcpClient();
+                if (!client.ConnectAsync(ip, port).Wait(5000))
+                {
+                    throw new Exception("Failed to connect with server.");
+                }
+
                 stream = client.GetStream();
 
                 if (useEncryption) this.Sender = new EncryptedClient(stream);
@@ -35,7 +43,8 @@ namespace RemoteHealthcare_Client.TCP
             }
             catch (Exception e)
             {
-                Trace.WriteLine("Error: " + e.Message);
+                MessageBox.Show("Er kan geen verbinding worden gemaakt met de server!", "RemoteHealthcare", MessageBoxButton.OK, MessageBoxImage.Error);
+                Debug.WriteLine("Error: " + e.Message);
             }
         }
 
