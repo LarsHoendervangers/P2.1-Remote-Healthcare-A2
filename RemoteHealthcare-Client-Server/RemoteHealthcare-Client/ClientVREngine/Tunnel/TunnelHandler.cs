@@ -224,12 +224,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
                 message = JsonConvert.DeserializeObject(input) as JObject;
             }
 
+            if (message == null) return;
 
             //Check if serial exist if so then...
             JToken token = message.SelectToken("data.data.serial");
             if (token is null)
             {
-                Debug.WriteLine("TunnelHandler: unable to seledct serial token");
                 return;
             }
                 
