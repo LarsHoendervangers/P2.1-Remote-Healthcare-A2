@@ -9,14 +9,17 @@
       d:DesignHeight="1000" Title="SessionDetailView" Width="1780">
 
     <Grid Width="Auto" Height="Auto" Background="White">
+        <!-- Menu on the left side -->
         <Rectangle HorizontalAlignment="Left" Height="1080" Stroke="#FFC6002A" VerticalAlignment="Bottom" Width="350" Fill="#FFC6002A"/>
         <Button Content="Sessies" HorizontalAlignment="Left" Margin="0,370,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="White" BorderBrush="White" FontWeight="Bold" FontSize="22"/>
         <Button Content="Geschiedenis" HorizontalAlignment="Left" Margin="0,438,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="#FFF3EEEE" BorderBrush="White" FontWeight="Bold" FontSize="22" Command="{Binding Path=SwitchToPatientView}"/>
 
+        <!-- Patient details -->
         <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         
+        <!-- Chat -->
         <Border BorderThickness="1" CornerRadius="5" BorderBrush="LightGray" Background="White" HorizontalAlignment="Left" Height="242" Margin="391,620,0,0" Width="445"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="389,608,0,0" VerticalAlignment="Top" FontSize="30" Height="44" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Margin="408,860,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" Height="40" FontSize="20"/>
@@ -42,13 +45,7 @@
             </ListView.ItemsPanel>
         </ListView>
 
-        <!-- Current data -->
-
-
-
-
-
-
+        <!-- Session commands-->
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="392,414,0,0" VerticalAlignment="Top" Height="40" Width="190" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
             <Button.Resources>
@@ -65,10 +62,11 @@
             </Button.Resources>
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,363,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
-
         <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="410,556,0,0" VerticalAlignment="Top" Width="350" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
         <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="809,545,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
         <Label Content="Gegevens:" HorizontalAlignment="Left" Margin="395,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
+        
+        <!-- Close window -->
         <Button Content="X" HorizontalAlignment="Left" Margin="1712,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
 
         <!-- Live graph section -->
@@ -173,12 +171,14 @@
             </Border>
         </Grid>
 
+        <!-- Total wattage box -->
         <Grid Margin="1356,705,40,72">
             <Label Content="Totale wattage" Width="157" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
             <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Height="41" FontStyle="Italic" Width="200" HorizontalContentAlignment="Center"/>
         </Grid>
 
+        <!-- Total distance box -->
         <Grid Margin="937,703,459,74">
             <Label Content="Afstand" Width="126" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" />

@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" Width="1780">
     <Grid Width="1780" Height="1000" Background="White">
-        <Label Content="Alle patienten:&#xD;&#xA;" VerticalContentAlignment="Stretch" Margin="1076,69,484,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="48" Width="220"/>
+        
+        <!-- Patienten ListView -->
+        <Label Content="Alle patienten:&#xD;&#xA;" VerticalContentAlignment="Stretch" Margin="410,69,1106,883" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="48" Width="220"/>
         <ListView Margin="412,129,796,61" SelectedItem="{Binding SelectedPatient}" FontSize="20" ItemsSource="{Binding PatientList}">
             <ListView.Template>
                 <ControlTemplate>
@@ -27,10 +29,12 @@
             </ListView.ItemTemplate>
         </ListView>
 
+        <!-- Menu on the left side-->
         <Rectangle Height="1000" Stroke="#FFC6002A" Width="350" Fill="#FFC6002A" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.RowSpan="2"/>
         <Button Content="Sessies"  Width="350" Height="70" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#FFF3EEEE" BorderBrush="White" FontWeight="Bold" FontSize="22" Command="{Binding Path=SwitchToDashboardView}" Margin="0, -70, 0, 0"/>
         <Button Content="Geschiedenis" Width="350" Height="70" Background="White" HorizontalAlignment="Left" VerticalAlignment="Center" BorderBrush="White" FontWeight="Bold" FontSize="22" Margin="0, 70, 0, 0" />
 
+        <!-- Sessies listview -->
         <ListView Margin="1079,129,103,62" SelectedItem="{Binding SelectedSession}" FontSize="20" ItemsSource="{Binding SessionList}">
             <ListView.Template>
                 <ControlTemplate>
@@ -47,7 +51,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label Content="Sessies bij patiënt:&#xD;&#xA;" Margin="410,69,1106,883" FontWeight="Bold" FontSize="28" Height="48" Width="264"/>
+        <Label Content="Sessies bij patiënt:&#xD;&#xA;" Margin="1072,75,444,877" FontWeight="Bold" FontSize="28" Height="48" Width="264"/>
 
     </Grid>
 </UserControl>
