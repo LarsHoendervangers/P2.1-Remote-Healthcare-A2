@@ -16,8 +16,8 @@
         <Label Content="{Binding Path=FullName}" HorizontalAlignment="Left" Margin="391,30,0,0" VerticalAlignment="Top" FontSize="48" FontWeight="Bold" Height="74"/>
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
-
-        <Rectangle HorizontalAlignment="Left" Height="242" Margin="391,668,0,0" Stroke="Black" VerticalAlignment="Top" Width="445"/>
+        
+        <Border BorderThickness="1" CornerRadius="5" BorderBrush="LightGray" Background="White" HorizontalAlignment="Left" Height="242" Margin="391,620,0,0" Width="445"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="389,608,0,0" VerticalAlignment="Top" FontSize="30" Height="44" FontWeight="Bold"/>
         <TextBox HorizontalAlignment="Left" Margin="408,860,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" Height="40" FontSize="20"/>
         <Button Content="Send" HorizontalAlignment="Left" Margin="738,861,0,0" VerticalAlignment="Top" Height="40" Width="81" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
@@ -28,6 +28,13 @@
             </Button.Resources>
         </Button>
         <ListView Margin="391,668,944,110" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right" FontSize="20" Width="445">
+            <ListView.Template>
+                <ControlTemplate>
+                    <Border CornerRadius="5, 5, 0, 0" BorderThickness="1" BorderBrush="LightGray">
+                        <ItemsPresenter></ItemsPresenter>
+                    </Border>
+                </ControlTemplate>
+            </ListView.Template>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>

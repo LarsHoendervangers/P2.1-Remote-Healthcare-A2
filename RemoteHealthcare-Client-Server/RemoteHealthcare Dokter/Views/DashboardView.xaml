@@ -15,6 +15,13 @@
         <!-- Session listview -->
         <Label Content="Patienten in een sessie:" HorizontalAlignment="Left" Margin="415,33,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
         <ListView Margin="415,80,806,85" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" SelectedItem="{Binding SelectedPatientWithSession}">
+            <ListView.Template>
+                <ControlTemplate>
+                    <Border CornerRadius="10" BorderThickness="2" BorderBrush="LightGray">
+                        <ItemsPresenter></ItemsPresenter>
+                    </Border>
+                </ControlTemplate>
+            </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
@@ -29,6 +36,13 @@
         <!-- Without Session listview -->
         <Label Content="Patienten zonder sessie:&#xD;&#xA;&#xA;" HorizontalAlignment="Left" Margin="1040,35,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
         <ListView Margin="1040,83,56,514" Width="684" ItemsSource="{Binding AllPatients, Mode=TwoWay}"  SelectedItem="{Binding SelectedPatientWithoutSession}">
+            <ListView.Template>
+                <ControlTemplate>
+                    <Border CornerRadius="10" BorderThickness="2" BorderBrush="LightGray">
+                        <ItemsPresenter></ItemsPresenter>
+                    </Border>
+                </ControlTemplate>
+            </ListView.Template>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
@@ -43,8 +57,15 @@
         <!-- Broadcast chat -->
 
         <Label Content="Broadcast chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1040,504,0,0" VerticalAlignment="Top" FontSize="28" Height="45" FontWeight="Bold"/>
-        <Rectangle HorizontalAlignment="Left" Height="359" Margin="1044,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
+        <Border BorderThickness="1"   CornerRadius="10" BorderBrush="Gray" Background="White" HorizontalAlignment="Left" Height="359" Margin="1044,470,0,0" Width="684"/>
         <ListView Margin="1044,554,52,158" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Right" FontSize="20" Width="684">
+            <ListView.Template>
+                <ControlTemplate>
+                    <Border CornerRadius="10, 10, 0, 0" BorderThickness="2" BorderBrush="LightGray">
+                        <ItemsPresenter></ItemsPresenter>
+                    </Border>
+                </ControlTemplate>
+            </ListView.Template>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
