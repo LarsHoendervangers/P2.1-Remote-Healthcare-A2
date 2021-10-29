@@ -54,7 +54,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlaneTextSender.cs" />
     <Compile Include="TestProtocolConverter.cs" />
     <Compile Include="TestVRUtil.cs" />
     <Compile Include="UnitTest1.cs" />
