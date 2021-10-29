@@ -29,6 +29,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
+                    //Update the PatientList to a new ObservableCollection of SharedPatient
                     this.PatientList = new ObservableCollection<SharedPatient>(d);
                 });
             };
@@ -37,10 +38,13 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
+                    //Update the Session to a new ObservableCollection of SessionWrap
                     this.SessionList = new ObservableCollection<SessionWrap>(d);
                 });
             };
         }
+
+        #region ListViews data
 
         private ObservableCollection<SharedPatient> _PatientsList;
         public ObservableCollection<SharedPatient> PatientList
@@ -53,38 +57,20 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private ICommand _SwitchToDashboardView;
-        public ICommand SwitchToDashboardView
-        {
-            get
-            {
-                if (_SwitchToDashboardView == null)
-                {
-                    _SwitchToDashboardView = new GeneralCommand(
-                        param => SwitchView()
-                        );
-                }
-                return _SwitchToDashboardView;
-            }
-
-        }
-
-        private void SwitchView()
-        {
-            this.window.Content = new DashboardViewModel(window);
-        }
-
-        private SharedPatient _SelectedUser;
+        private SharedPatient _SelectedPatient;
         public SharedPatient SelectedPatient
         {
-            get { return _SelectedUser; }
+            get { return _SelectedPatient; }
             set
             {
-                _SelectedUser = value;
+                _SelectedPatient = value;
                 GetSessionsWithPatient();
             }
         }
 
+        /// <summary>
+        /// Method which aks to get all the sessions from a certain patient
+        /// </summary>
         private void GetSessionsWithPatient()
         {
             this.manager.GetSessions(SelectedPatient.ID);
@@ -112,10 +98,47 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        #endregion
+
+        #region SwitchingViews
+
+        /// <summary>
+        /// Command which is called on when the Dashboard button has been clicked
+        /// </summary>
+        private ICommand _SwitchToDashboardView;
+        public ICommand SwitchToDashboardView
+        {
+            get
+            {
+                if (_SwitchToDashboardView == null)
+                {
+                    _SwitchToDashboardView = new GeneralCommand(
+                        param => SwitchView()
+                        );
+                }
+                return _SwitchToDashboardView;
+            }
+
+        }
+
+        /// <summary>
+        /// Method which switches the content of the current window back to a DasboardViewModel
+        /// </summary>
+        private void SwitchView()
+        {
+            this.window.Content = new DashboardViewModel(window);
+        }
+
+        
+        /// <summary>
+        /// Method which sets the content of the current window to a PatientHistoryViewModel and deletes this current manager from the managers list
+        /// </summary>
         private void OpenHistoryWindow()
         {
             this.window.Content = new PatientHistoryViewModel(this.window, SelectedPatient, SelectedSession);
             this.manager.DeleteManager(this.manager);
         }
+
+        #endregion
     }
 }

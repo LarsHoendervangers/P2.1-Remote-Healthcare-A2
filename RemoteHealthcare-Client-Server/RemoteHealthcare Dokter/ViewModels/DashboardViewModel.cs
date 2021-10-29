@@ -39,6 +39,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
         }
 
+        #region Broadcast
+
+        /// <summary>
+        /// Command which is used when the send button for the broadcast is pressed
+        /// Calls the SendMessage() method
+        /// </summary>
         private ICommand _SendMessageCommand;
         public ICommand SendMessageCommand
         {
@@ -55,6 +61,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
+        /// <summary>
+        /// Method which calls the BroadcastMessage() method from the manager, updates the listview for the messages and clears the textbox
+        /// </summary>
         private void SendMessage()
         {
             this.manager.BroadcastMessage(MessageBoxText);
@@ -62,6 +71,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.MessageBoxText = "";
         }
 
+        /// <summary>
+        /// Method which creates a new temproary list, adds the message from the textbox and assigns the temporary list to
+        /// the Messages list, updating the listview. Also clears the text from the textbox
+        /// </summary>
         private void UpdateListView()
         {
             ObservableCollection<string> TempList = Messages;
@@ -71,6 +84,17 @@ namespace RemoteHealthcare_Dokter.ViewModels
             Messages = new ObservableCollection<string>(TempList);
 
             MessageBoxText = "";
+        }
+
+        private string _MessageBoxText;
+        public string MessageBoxText
+        {
+            get { return _MessageBoxText; }
+            set
+            {
+                _MessageBoxText = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageBoxText"));
+            }
         }
 
         private ObservableCollection<string> _messages;
@@ -83,6 +107,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Messages"));
             }
         }
+
+        #endregion
+
+        #region ListViews
 
         private ObservableCollection<SharedPatient> mAllPatients;
         public ObservableCollection<SharedPatient> AllPatients
@@ -105,39 +133,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("InSessionPatients"));
             }
         }
-
-        private ICommand _SwitchToPatientView;
-        public ICommand SwitchToPatientView
-        {
-            get
-            {
-                if (_SwitchToPatientView == null)
-                {
-                    _SwitchToPatientView = new GeneralCommand(
-                        param => SwitchView()
-                        );
-                }
-                return _SwitchToPatientView;
-            }
-
-        }
-
-        private void SwitchView()
-        {
-            this.window.Content = new PatientListViewModel(this.window);
-        }
-
-        private string _MessageBoxText;
-        public string MessageBoxText
-        {
-            get { return _MessageBoxText; }
-            set
-            {
-                _MessageBoxText = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageBoxText"));
-            }
-        }
-
+        
+        /// <summary>
+        /// Method which creates 2 different lists, one list with SharedPatiens which are in a session, and a list with those who are not
+        /// </summary>
+        /// <param name="d"></param>
         private void MakeList(List<SharedPatient> d)
         {
             List<SharedPatient> ActiveSessionPatients = new List<SharedPatient>();
@@ -171,6 +171,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        /// <summary>
+        /// Method which shows an pop up asking to start a session with the selected patient, has to be answered with the yes or no buttons
+        /// </summary>
         private void StartSessionPopUp()
         {
             if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName + "?", "Sessie starten", MessageBoxButton.YesNo) != MessageBoxResult.No)
@@ -191,9 +194,45 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        #endregion
+
+        #region SwitchingViews
+
+        /// <summary>
+        /// Command which is called on when the button to switch to patients has been clicked
+        /// </summary>
+        private ICommand _SwitchToPatientView;
+        public ICommand SwitchToPatientView
+        {
+            get
+            {
+                if (_SwitchToPatientView == null)
+                {
+                    _SwitchToPatientView = new GeneralCommand(
+                        param => SwitchView()
+                        );
+                }
+                return _SwitchToPatientView;
+            }
+
+        }
+
+        /// <summary>
+        /// Method which is used to set the content of the window to a PatientViewModel
+        /// </summary>
+        private void SwitchView()
+        {
+            this.window.Content = new PatientListViewModel(this.window);
+        }
+
+        /// <summary>
+        /// Method which is used to set the content of the window to a SessionDetailViewModel
+        /// </summary>
         private void ShowDetailWindow()
         {
             this.window.Content = new SessionDetailViewModel(this.window, SelectedPatientWithSession);
         }
+
+        #endregion
     }
 }

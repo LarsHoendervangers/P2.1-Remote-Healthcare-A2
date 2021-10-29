@@ -86,6 +86,29 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        //Method which returns the age of the person
+        private int CalculateAge()
+        {
+            int years = DateTime.Now.Year - this.Patient.DateOfBirth.Year;
+            if (DateTime.Now.Month > this.Patient.DateOfBirth.Month)
+            {
+                return years;
+            }
+            else if (DateTime.Now.Month < this.Patient.DateOfBirth.Month)
+            {
+                return years - 1;
+            }
+            else
+            {
+                if (DateTime.Now.Day >= this.Patient.DateOfBirth.Day)
+                {
+                    return years;
+                }
+
+                return years - 1;
+            }
+        }
+
         private string _ID;
         public string ID
         {
@@ -162,38 +185,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private ICommand _AbortCommand;
-        public ICommand AbortCommand
-        {
-            get
-            {
-                if (_AbortCommand == null)
-                {
-                    _AbortCommand = new GeneralCommand(
-                        param => SendAbort()
-                        ); ;
-                }
-                return _AbortCommand;
-            }
-
-        }
-
-        private ICommand _SendMessage;
-        public ICommand SendMessage
-        {
-            get
-            {
-                if (_SendMessage == null)
-                {
-                    _SendMessage = new GeneralCommand(
-                        param => SendPersonalMessage()
-                        ); ;
-                }
-                return _SendMessage;
-            }
-
-        }
-
         private string _Message;
         public string Message
         {
@@ -214,22 +205,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 _ResistanceValue = value;
                 UpdateResistance();
             }
-        }
-
-        private ICommand _CloseDetailCommand;
-        public ICommand CloseDetailCommand
-        {
-            get
-            {
-                if (_CloseDetailCommand == null)
-                {
-                    _CloseDetailCommand = new GeneralCommand(
-                        param => CloseDetail()
-                        ); ; ;
-                }
-                return _CloseDetailCommand;
-            }
-
         }
 
         private ObservableCollection<string> _MessageList;
@@ -557,6 +532,12 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         #endregion
 
+        #region MethodsAndCommands
+        /// <summary>
+        /// Method which Sets all the new data for the graphs and the labels showing the values
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="data"></param>
         private void SetNewPatientData(object sender, object data)
         {
             Application.Current?.Dispatcher.Invoke(() =>
@@ -567,6 +548,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                 if (BikeIndex >= 0)
                 {
+                    // Getting the data
                     double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
                     int rpm = this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
                     double distance = Math.Round(this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f, 2);
@@ -589,10 +571,13 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
                 if (HeartIndex >= 0)
                 {
+                    // Getting the data
                     int BPM = this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
 
+                    // Setting the labels
                     this.BPM = "" + BPM;
 
+                    // Updating the graphs
                     UpdateBPMGraph(BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
@@ -600,37 +585,26 @@ namespace RemoteHealthcare_Dokter.ViewModels
             });
         }
 
+        /// <summary>
+        /// Method which sets the content of the current window to a SessionDetailViewModel
+        /// </summary>
         private void HandleSessionPatientClicked()
         {
             this.window.Content = new SessionDetailViewModel(this.window, SelectedSessionPatient);
         }
 
-        private int CalculateAge()
-        {
-            int years = DateTime.Now.Year - this.Patient.DateOfBirth.Year;
-            if (DateTime.Now.Month > this.Patient.DateOfBirth.Month)
-            {
-                return years;
-            } else if (DateTime.Now.Month < this.Patient.DateOfBirth.Month)
-            {
-                return years - 1;
-            } else
-            {
-                if (DateTime.Now.Day >= this.Patient.DateOfBirth.Day)
-                {
-                    return years;
-                }
-
-                return years - 1;
-            }
-        }
-
+        /// <summary>
+        /// Method which send an abort to the manager and sets the content of the current window to a DasboardViewModel
+        /// </summary>
         private void SendAbort()
         {
             this.manager.AbortSession();
             this.window.Content = new DashboardViewModel(this.window);
         }
 
+        /// <summary>
+        /// Method which sends a personal message to the manager, updates the listview of the messages and clears the textbox
+        /// </summary>
         private void SendPersonalMessage()
         {
             this.manager.PersonalMessage(Message);
@@ -638,6 +612,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.Message = "";
         }
 
+        /// <summary>
+        /// Method which creates a temproary list, adds a new value to this list and this list is assigned to the MessagesList, updating the ListView
+        /// </summary>
         private void UpdateListView()
         {
             ObservableCollection<string> TempList = MessageList;
@@ -647,11 +624,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
             MessageList = new ObservableCollection<string>(TempList);
         }
         
+        /// <summary>
+        /// Method sends the resistance to the manager
+        /// </summary>
         private void UpdateResistance()
         {
             this.manager.SetResistance(ResistanceValue);
         }
 
+        /// <summary>
+        /// Method which removes the current manager from the managers list, sets the content of the
+        /// current window to a DashboardViewModel and unsubscribes to a certain patient
+        /// </summary>
         private void CloseDetail()
         {
             // Telling the manager this window is closing
@@ -663,6 +647,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.manager.SubscribeToPatient(this.Patient, false);
         }
 
+        /// <summary>
+        /// Command which is called when the StopSession button has been clicked
+        /// </summary>
         private ICommand _StopSessionCommand;
         public ICommand StopSessionCommand
         {
@@ -679,10 +666,70 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         }
 
+        //method which stops a session and sets the content of the current window to a new DashboardViewModel
         private void SendStopSession()
         {
             this.manager.StopSession(this.Patient);
             this.window.Content = new DashboardViewModel(this.window);
         }
+
+        /// <summary>
+        /// Command which is called on when the abort button has been clicked
+        /// </summary>
+        private ICommand _AbortCommand;
+        public ICommand AbortCommand
+        {
+            get
+            {
+                if (_AbortCommand == null)
+                {
+                    _AbortCommand = new GeneralCommand(
+                        param => SendAbort()
+                        ); ;
+                }
+                return _AbortCommand;
+            }
+
+        }
+
+        /// <summary>
+        /// Command which is called ono when the Send message button has been clicked
+        /// </summary>
+        private ICommand _SendMessage;
+        public ICommand SendMessage
+        {
+            get
+            {
+                if (_SendMessage == null)
+                {
+                    _SendMessage = new GeneralCommand(
+                        param => SendPersonalMessage()
+                        ); ;
+                }
+                return _SendMessage;
+            }
+
+        }
+
+        /// <summary>
+        /// COmmand which is called on when the x in the top right corner of the screen has been clicked
+        /// </summary>
+        private ICommand _CloseDetailCommand;
+        public ICommand CloseDetailCommand
+        {
+            get
+            {
+                if (_CloseDetailCommand == null)
+                {
+                    _CloseDetailCommand = new GeneralCommand(
+                        param => CloseDetail()
+                        ); ; ;
+                }
+                return _CloseDetailCommand;
+            }
+
+        }
+
+        #endregion
     }
 }

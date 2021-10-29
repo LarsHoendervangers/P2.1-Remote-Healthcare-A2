@@ -86,6 +86,8 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.Birthday = "Geboortedatum:\t" + this.Patient.DateOfBirth.ToString("dd MMMM yyyy");
         }
 
+        #region SessionDetails
+
         private string _FullName;
         public string FullName
         {
@@ -149,6 +151,53 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        public string StartDate
+        {
+            get { return this.SessionWrap.Startdate.ToString("dddd dd MMMM yyyy") + " om " + this.SessionWrap.Startdate.ToString("HH:mm"); }
+        }
+
+        public string EndDate
+        {
+            get { return this.SessionWrap.Enddate.ToString("dddd dd MMMM yyyy") + " om " + this.SessionWrap.Enddate.ToString("HH:mm"); }
+        }
+
+        private string _Duration;
+        public string Duration
+        {
+            get { return _Duration; }
+            set
+            {
+                _Duration = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Duration"));
+            }
+        }
+
+        private string _WattageTotal;
+        public string WattageTotal
+        {
+            get { return _WattageTotal; }
+            set
+            {
+                _WattageTotal = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WattageTotal"));
+            }
+        }
+
+        private string _DistanceTotal;
+        public string DistanceTotal
+        {
+            get { return _DistanceTotal; }
+            set
+            {
+                _DistanceTotal = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistanceTotal"));
+            }
+        }
+
+        #endregion
+
+        #region SwitchingViews
+
         private ICommand _CloseHistoryCommand;
         public ICommand CloseHistoryCommand
         {
@@ -171,7 +220,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.manager.DeleteManager(this.manager);
         }
 
-        
+        #endregion
+
+        #region GraphsRegion
+
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
         public SeriesCollection RPMCollection { get; set; }
@@ -249,15 +301,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             YFormatter = value => value.ToString();
         }
 
-        public string StartDate
-        {
-            get { return this.SessionWrap.Startdate.ToString("dddd dd MMMM yyyy") + " om " + this.SessionWrap.Startdate.ToString("HH:mm"); }
-        }
+        #endregion
 
-        public string EndDate
-        {
-            get { return this.SessionWrap.Enddate.ToString("dddd dd MMMM yyyy") + " om " + this.SessionWrap.Enddate.ToString("HH:mm"); }
-        }
+        #region OpacityForLoadingLabels
 
         private int _WattageOpacity;
         public int WattageOpacity
@@ -303,37 +349,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private string _WattageTotal;
-        public string WattageTotal
-        {
-            get { return _WattageTotal; }
-            set
-            {
-                _WattageTotal = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WattageTotal"));
-            }
-        }
-
-        private string _DistanceTotal;
-        public string DistanceTotal
-        {
-            get { return _DistanceTotal; }
-            set
-            {
-                _DistanceTotal = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistanceTotal"));
-            }
-        }
-
-        private string _Duration;
-        public string Duration
-        {
-            get { return _Duration; }
-            set
-            {
-                _Duration = value;
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Duration"));
-            }
-        }
+        #endregion
     }
 }

@@ -47,6 +47,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
         }
 
+        /// <summary>
+        /// Method which opens a new window with a DashboardViewModel and closes the current window, all on a different thread than the WPF
+        /// </summary>
         private void StartDokterGUI()
         {
             Application.Current.Dispatcher?.Invoke(() =>
@@ -67,10 +70,19 @@ namespace RemoteHealthcare_Dokter.ViewModels
             });
         }
 
+        /// <summary>
+        /// Method which gets the current window as a paramter and sends the Login message to the manager
+        /// </summary>
+        /// <param name="window"></param>
         private void OnButtonClick(Window window)
         {
             this.window = window;
             SendMessage(UserName, Password);
+        }
+
+        private void SendMessage(string UserName, string Password)
+        {
+            this.manager.SendLogin(UserName, Password);
         }
 
         private string _UserName;
@@ -96,11 +108,6 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
-        private void SendMessage(string UserName, string Password)
-        {
-            string message = "User " + UserName + " Pass " + Password;
-
-            this.manager.SendLogin(UserName, Password);
-        }
+        
     }
 }
