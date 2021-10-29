@@ -17,7 +17,7 @@ namespace RemoteHealthcare_Client
     {
         public GeneralScene Scene { get; set; }
         private bool isConnected;
-        private static  bool enabledSelfDestruct = false;
+        private static bool enabledSelfDestruct = false;
 
         public TunnelHandler VRTunnelHandler { get; set; }
         
@@ -35,13 +35,9 @@ namespace RemoteHealthcare_Client
 
             // Starting a new thread on building the scene, so the UI has no wait
             new Thread(() => {
-
                 this.Scene.InitScene();
-
                 this.Scene.LoadScene();
-
             }).Start();
-            
         }
 
         public override void ReceivedData(JObject data)
@@ -64,33 +60,32 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-            if (!enabledSelfDestruct) ;
-            // Looking at the command and switching what behaviour is required
-            switch (value.ToString())
+            if (!enabledSelfDestruct)
             {
+                // Looking at the command and switching what behaviour is required
+                switch (value.ToString())
+                {
 
-                case "message":
-                    Scene.WriteTextToPanel(Scene.HandelTextMessages(8,25,data));
-                    break;
-                case "ergodata":
-                    Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
-                    Scene.WriteDataToPanel(data);
-                    break;
+                    case "message":
+                        Scene.WriteTextToPanel(Scene.HandelTextMessages(8, 25, data));
+                        break;
+                    case "ergodata":
+                        Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
+                        Scene.WriteDataToPanel(data);
+                        break;
 
-                case "abort":
-                    //Exiting
-                    enabledSelfDestruct = true;
-                    Scene.WriteDataToPanel(AbortObject());
-                    System.Environment.Exit(0);
-                    break;
-                default:
-                    // TODO HANDLE NOT SUPPORTER
-                    Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
-                    break;
+                    case "abort":
+                        //Exiting
+                        enabledSelfDestruct = true;
+                        Scene.WriteDataToPanel(AbortObject());
+                        System.Environment.Exit(0);
+                        break;
+                    default:
+                        // TODO HANDLE NOT SUPPORTER
+                        Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
+                        break;
+                }
             }
-
-
-            
         }
 
         private JObject AbortObject()
@@ -109,10 +104,7 @@ namespace RemoteHealthcare_Client
             data.Add("accpow", 0);
             ergoObject.Add("data", data);
 
-
             return ergoObject;
         }
-    }
-
-    
+    } 
 }
