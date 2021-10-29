@@ -41,17 +41,28 @@
         </ListView>
 
         <!-- Broadcast chat -->
+<<<<<<< HEAD
         <Label Content="Broadcast chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1040,504,0,0" VerticalAlignment="Top" FontSize="28" Height="45" FontWeight="Bold"/>
         <Rectangle HorizontalAlignment="Left" Height="382" Margin="1044,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
         <ListView Margin="1044,554,56,133" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Right" FontSize="20" Width="684">
+=======
+        <Label Content="Broadcast chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1120,504,0,0" VerticalAlignment="Top" FontSize="28" Height="45" FontWeight="Bold"/>
+        <Rectangle HorizontalAlignment="Left" Height="382" Margin="1120,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
+        <ListView Margin="1120,554,116,210" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Right" FontSize="20">
+>>>>>>> DokterLayoutFixes
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
+<<<<<<< HEAD
         <TextBox HorizontalAlignment="Left" Margin="1058,883,0,0" Text="{Binding MessageBoxText}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
         <Button Content="Send" HorizontalAlignment="Left" Margin="1654,883,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding Path=SendMessageCommand}">
+=======
+        <TextBox HorizontalAlignment="Left" Margin="1134,883,0,0" Text="{Binding MessageBoxText}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="1730,883,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding Path=SendMessageCommand}">
+>>>>>>> DokterLayoutFixes
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
