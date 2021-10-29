@@ -13,6 +13,10 @@ namespace RemoteHealthcare_Shared.DataStructs
         public string ID { get; set; }
         public bool InSession { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public string DateString
+        {
+            get { return DateOfBirth.ToString("dd/MM/yyyy"); }
+        }
 
         /// <summary>
         /// Struct that is used to store the patient data.
