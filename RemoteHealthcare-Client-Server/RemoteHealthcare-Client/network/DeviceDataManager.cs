@@ -96,14 +96,8 @@ namespace RemoteHealthcare_Client
             else if (value.ToString() == "abort")
             {
                 this.Device.OnResistanceCall(this, 0);
-                foreach (var process in Process.GetProcesses())
-                {
-                    // kills the NetworkEngine and the client application when abort is called 
-                    if  (process.ProcessName == "RemoteHealthcare-Client")
-                    {
-                        process.Kill();
-                    }
-                }
+                //Waiting for exit
+                
             }
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");

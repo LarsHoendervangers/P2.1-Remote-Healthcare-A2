@@ -9,6 +9,7 @@ using RemoteHealthcare_Client.ClientVREngine.Tunnel;
 using System.Diagnostics;
 using System.Windows;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace RemoteHealthcare_Client
 {
@@ -16,6 +17,7 @@ namespace RemoteHealthcare_Client
     {
         public GeneralScene Scene { get; set; }
         private bool isConnected;
+        private static  bool enabledSelfDestruct = false;
 
         public TunnelHandler VRTunnelHandler { get; set; }
         
@@ -62,6 +64,7 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
+            if (!enabledSelfDestruct) ;
             // Looking at the command and switching what behaviour is required
             switch (value.ToString())
             {
@@ -73,11 +76,43 @@ namespace RemoteHealthcare_Client
                     Trace.WriteLine($"Ergo data received by vr engine{data.GetValue("data")}");
                     Scene.WriteDataToPanel(data);
                     break;
+
+                case "abort":
+                    //Exiting
+                    enabledSelfDestruct = true;
+                    Scene.WriteDataToPanel(AbortObject());
+                    System.Environment.Exit(0);
+                    break;
                 default:
                     // TODO HANDLE NOT SUPPORTER
                     Trace.WriteLine("Error in VRDataManager, data received does not meet spec");
                     break;
             }
+
+
+            
+        }
+
+        private JObject AbortObject()
+        {
+            JObject ergoObject = new JObject();
+
+            ergoObject.Add("command", "ergodata");
+
+            JObject data = new JObject();
+            data.Add("time", DateTime.Now.ToString());
+            data.Add("rpm", 0);
+            data.Add("bpm", 0);
+            data.Add("speed", 0);
+            data.Add("dist", 0);
+            data.Add("pow", 0);
+            data.Add("accpow", 0);
+            ergoObject.Add("data", data);
+
+
+            return ergoObject;
         }
     }
+
+    
 }
