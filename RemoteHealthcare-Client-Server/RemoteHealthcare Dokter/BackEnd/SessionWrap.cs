@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Dokter.BackEnd
 {
-    class SessionWrap
+    public class SessionWrap
     {
 
         public List<HRMeasurement> HRMeasurements;

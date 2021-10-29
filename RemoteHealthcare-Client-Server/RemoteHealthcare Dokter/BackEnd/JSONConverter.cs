@@ -10,7 +10,6 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     public static class JSONConverter
     {
-
         public static BikeMeasurement ConverBikeObject(JObject dataObject)
         {
             return new BikeMeasurement(
@@ -30,6 +29,5 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 int.Parse(dataObject.GetValue("CurrentHeartrate").ToString())
                 );
         }
-
     }
 }
