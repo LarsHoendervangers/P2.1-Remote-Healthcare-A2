@@ -59,7 +59,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             this.manager.BroadcastMessage(MessageBoxText);
             UpdateListView();
-            
+            this.MessageBoxText = "";
         }
 
         private void UpdateListView()

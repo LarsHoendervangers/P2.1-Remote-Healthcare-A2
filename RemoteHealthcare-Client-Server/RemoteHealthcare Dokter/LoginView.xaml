@@ -12,14 +12,14 @@
         <viewmodels:LoginViewModel/>
     </Window.DataContext>
     <Grid>
-        <Label Content="Username" HorizontalAlignment="Center" Margin="0,-80,0,0" VerticalAlignment="Center" Width="180"/>
+        <Label Content="Gebruikersnaam:" HorizontalAlignment="Left" Margin="72,22,0,0" VerticalAlignment="Top" Width="180"/>
 
 
-        <Label Content="Password" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="180"/>
-        <PasswordBox Name="PassBox" Margin="0,70,0,0"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="180" PasswordChanged="PassBox_OnPasswordChanged"/>
+        <Label Content="Wachtwoord:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180" Margin="72,77,0,0"/>
+        <PasswordBox Name="PassBox"  VerticalAlignment="Top" HorizontalAlignment="Center" Width="180" PasswordChanged="PassBox_OnPasswordChanged" Margin="0,100,0,0"/>
 
-        <Button Content="Log in" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Center" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,-40,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Center" Width="180" Height="17"/>
+        <Button Content="Inloggen" HorizontalAlignment="Center" Margin="0,148,0,0" Width="100" Height="25" VerticalAlignment="Top" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,47,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="17"/>
 
     </Grid>
 </Window>
