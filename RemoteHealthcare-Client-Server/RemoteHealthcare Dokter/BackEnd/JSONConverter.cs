@@ -10,6 +10,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
 {
     public static class JSONConverter
     {
+        /// <summary>
+        /// Method which Creates a BikeMeasurement from the JObject in the parameters of the method
+        /// </summary>
+        /// <param name="dataObject"></param>
+        /// <returns></returns>
         public static BikeMeasurement ConverBikeObject(JObject dataObject)
         {
             return new BikeMeasurement(
@@ -22,6 +27,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 );
         }
 
+        /// <summary>
+        /// Method which Creates a HRMeasurement from the JObject in the parameters of the method
+        /// </summary>
+        /// <param name="dataObject"></param>
+        /// <returns></returns>
         public static HRMeasurement ConvertHRObject(JObject dataObject)
         {
             return new HRMeasurement(

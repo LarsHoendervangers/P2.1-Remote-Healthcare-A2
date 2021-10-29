@@ -31,6 +31,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SubscribeToPatient(patient, true);
         }
 
+        /// <summary>
+        /// Method which checks whether a command is valid and calls the right method belong to the command
+        /// </summary>
+        /// <param name="data"></param>
         public override void ReceivedData(JObject data)
         {
             JToken value;
@@ -49,6 +53,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             }
         }
 
+        /// <summary>
+        /// Method which checks if the data from the JObjebct is pasable and adds a new HRMeasurement and BikeMeasurement to their
+        /// corresponding lists. Also invokes the NewDataTriggered event
+        /// </summary>
+        /// <param name="data"></param>
         private void HandleIncomingErgoData(JObject data)
         {
             // Getting the data object from 
@@ -69,6 +78,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.NewDataTriggered?.Invoke(this, null);
         }
 
+        /// <summary>
+        /// Method which sends an object to all handlers asking to sub to all patients
+        /// from the list from the parameters
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <param name="subscribe"></param>
         public void SubscribeToPatient(SharedPatient patient, bool subscribe)
         {
             string[] patientsIDs = new string[] { patient.ID };
@@ -87,6 +102,9 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// method which sends an object to all the handlers asking to abort an session
+        /// </summary>
         public void AbortSession()
         {
             string[] patients = new string[] { this.Patient.ID };
@@ -105,6 +123,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// Method which sends an object to all the handlers asking to send a personal message to a 
+        /// specific person.
+        /// </summary>
+        /// <param name="message"></param>
         public void PersonalMessage(string message)
         {
             string[] patients = new string[] { this.Patient.ID };
@@ -123,6 +146,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// method which sends an object to all the handlers to set the resistance of the bike to a certain value for a psecific person
+        /// </summary>
+        /// <param name="value"></param>
         public void SetResistance(int value)
         {
             string[] patients = new string[] { this.Patient.ID };
@@ -140,12 +167,19 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// Method whihc unsubscribes to a certain patient when the window is closed
+        /// </summary>
         public void CloseManager()
         {
             // performing all the actions needed when the window is closed
             SubscribeToPatient(this.Patient, false);
         }
 
+        /// <summary>
+        /// Method which sends an object to all hadlers asking to stop the session with a specific person
+        /// </summary>
+        /// <param name="patient"></param>
         public void StopSession(SharedPatient patient)
         {
             string[] patients = new string[] { patient.ID };

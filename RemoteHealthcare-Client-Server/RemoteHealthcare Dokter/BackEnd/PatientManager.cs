@@ -84,6 +84,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.OnPatientsReceived?.Invoke(this, patients);
         }
 
+        /// <summary>
+        /// Method which handles the incoming sessions. First checks whether all the data can be found and
+        /// parsed from the JObject. next it creates an SessionWrap for each session that has been found 
+        /// within the JArray parsed from the JObject
+        /// </summary>
+        /// <param name="data"></param>
         private void HandleIncomingSessions(JObject data)
         {
             // Getting the patientID and date fields on the json object
@@ -107,6 +113,9 @@ namespace RemoteHealthcare_Dokter.BackEnd
             this.OnSessionReceived?.Invoke(this, sessions);
         }
 
+        /// <summary>
+        /// Method which sends an object asking for all the clients from the server to all the handlers
+        /// </summary>
         public void GetAllPatients()
         {
             // Command to request all clients that are stored in the server, see dataprotocol

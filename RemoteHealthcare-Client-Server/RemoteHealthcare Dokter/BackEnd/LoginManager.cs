@@ -19,6 +19,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
             HandleIncoming(data);
         }
 
+        /// <summary>
+        /// Method which checks whether a command is valid and calls the right method belong to the command
+        /// </summary>
+        /// <param name="data"></param>
         private void HandleIncoming(JObject data)
         {
             JToken value;
@@ -36,6 +40,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
                 HandleLoginResponse(data);
         }
 
+        /// <summary>
+        /// Method which sends an object to all the managers to Log in to the server
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         public void SendLogin(string username, string password)
         {
             object o = new
@@ -52,6 +61,11 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// Method which checks wheter the command that was returned from the server is valid and
+        /// notifies the OnLoginResponseReceived that there is an response from the server
+        /// </summary>
+        /// <param name="data"></param>
         private void HandleLoginResponse(JObject data)
         {
             JToken flag;

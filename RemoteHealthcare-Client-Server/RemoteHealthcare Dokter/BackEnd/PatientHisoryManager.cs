@@ -24,6 +24,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
             GetSessionData(userID);
         }
 
+        /// <summary>
+        /// Method which checks whether a command is valid and calls the right method belong to the command
+        /// </summary>
+        /// <param name="data"></param>
         public override void ReceivedData(JObject data)
         {
             JToken value;
@@ -43,6 +47,10 @@ namespace RemoteHealthcare_Dokter.BackEnd
             }
         }
 
+        /// <summary>
+        /// Method which sends an object asking for all the current data from a user to all the handlers
+        /// </summary>
+        /// <param name="userID"></param>
         public void GetSessionData(string userID)
         {
             // Command to request details from a session, see dataprotocol
@@ -59,6 +67,12 @@ namespace RemoteHealthcare_Dokter.BackEnd
             SendToManagers(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// Method which is called on when a response from rhe server for the getsessiondata method. 
+        /// Checks whether all the data from the JObject can be found and parsed and creates a 
+        /// BikeMeasuremnt and HRMeasurement List. Also calls the invoke of the OnSessionUpdate event
+        /// </summary>
+        /// <param name="data"></param>
         private void HandleIncomingSession(JObject data)
         {
             // Getting the patientID and sesion fields on the json object
