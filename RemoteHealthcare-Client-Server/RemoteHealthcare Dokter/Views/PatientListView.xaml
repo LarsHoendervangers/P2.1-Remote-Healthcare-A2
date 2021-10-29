@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" Width="1780">
     <Grid Width="1780" Height="1000" Background="White">
-        
+
         <!-- Patienten ListView -->
-        <Label Content="Alle patienten:&#xD;&#xA;" VerticalContentAlignment="Stretch" Margin="410,69,1106,883" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="48" Width="220"/>
+        <Label Content="Alle patienten:&#xD;&#xA;" VerticalContentAlignment="Stretch" Margin="412,69,1148,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="48" Width="220"/>
         <ListView Margin="412,129,796,61" SelectedItem="{Binding SelectedPatient}" FontSize="20" ItemsSource="{Binding PatientList}">
             <ListView.Template>
                 <ControlTemplate>

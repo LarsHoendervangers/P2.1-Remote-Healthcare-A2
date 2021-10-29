@@ -12,33 +12,6 @@
         <viewmodels:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <DockPanel Background="#c6002a" Grid.Row="0" Grid.Column="0" Grid.RowSpan="5">
-
-        </DockPanel>
-
-        <StackPanel Grid.Row="2" Grid.Column="0">
-            <Button Name="DokterButton" Content="Dashboard" Height="60" FontSize="24" Background="#FFFFFDFD" FontWeight="Bold" BorderBrush="White"/>
-            <Button Name="PatientButton" Content="Patienten" Height="60" FontSize="24" Background="#FFEEEEEE" FontWeight="Bold" BorderBrush="#FFEEEEEE"/>
-        </StackPanel>
-
-        <Image Width="200" Height="200" Grid.Row="0" Grid.Column="0"/>
-        <Label Content="Twan van Noorloos" Margin="84,10,84,159" Grid.Row="1" FontSize="22" FontStyle="Normal" FontWeight="Bold"/>
-
-        <ContentControl Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="5" Content="{Binding}"/>
+        
     </Grid>
 </Window>

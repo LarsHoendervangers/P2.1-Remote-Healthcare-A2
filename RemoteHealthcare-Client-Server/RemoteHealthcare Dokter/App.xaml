@@ -6,6 +6,8 @@
              xmlns:views="clr-namespace:RemoteHealthcare_Dokter.Views"
              StartupUri="LoginView.xaml">
     <Application.Resources>
+        
+        <!-- Linking all viewmodels to views -->
         <DataTemplate x:Name="DashBoardViewTemplate" DataType="{x:Type viewmodels:DashboardViewModel}">
             <views:DashboardView/>
         </DataTemplate>
