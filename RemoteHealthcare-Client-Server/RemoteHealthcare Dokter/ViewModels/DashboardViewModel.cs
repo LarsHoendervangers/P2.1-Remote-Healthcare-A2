@@ -25,7 +25,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public DashboardViewModel(Window window)
         {
             this.window = window;
-            this.window.ResizeMode = ResizeMode.CanMinimize;
+            this.window.ResizeMode = ResizeMode.CanResize;
             this.Messages = new ObservableCollection<string>();
 
             this.manager = new DashboardManager();
@@ -58,7 +58,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             this.manager.BroadcastMessage(MessageBoxText);
             UpdateListView();
-            
+            this.MessageBoxText = "";
         }
 
         private void UpdateListView()

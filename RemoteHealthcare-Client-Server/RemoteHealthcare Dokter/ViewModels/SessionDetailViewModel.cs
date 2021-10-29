@@ -201,6 +201,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Message = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Message"));
             }
         }
 
@@ -634,6 +635,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             this.manager.PersonalMessage(Message);
             UpdateListView();
+            this.Message = "";
         }
 
         private void UpdateListView()
