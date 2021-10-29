@@ -168,7 +168,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _SelectedPatientWithoutSession = value;
+
                 StartSessionPopUp();
+
             }
         }
 
@@ -188,12 +190,14 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _SelectedPatientWithSession = value;
+
                 ShowDetailWindow();
             }
         }
 
         private void ShowDetailWindow()
         {
+            this.manager.running = false;
             this.window.Content = new SessionDetailViewModel(this.window, SelectedPatientWithSession);
         }
     }
