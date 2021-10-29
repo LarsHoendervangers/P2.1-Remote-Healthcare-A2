@@ -14,7 +14,7 @@
 
         <!-- Session listview -->
         <Label Content="Patienten in een sessie:" HorizontalAlignment="Left" Margin="415,33,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
-        <ListView Margin="415,80,806,60" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" SelectedItem="{Binding SelectedPatientWithSession}">
+        <ListView Margin="415,80,806,85" ItemsSource="{Binding InSessionPatients, Mode=TwoWay}" SelectedItem="{Binding SelectedPatientWithSession}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
@@ -28,7 +28,7 @@
 
         <!-- Without Session listview -->
         <Label Content="Patienten zonder sessie:&#xD;&#xA;&#xA;" HorizontalAlignment="Left" Margin="1040,35,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="28" Height="43"/>
-        <ListView Margin="1040,83,56,609" Width="684" ItemsSource="{Binding AllPatients, Mode=TwoWay}"  SelectedItem="{Binding SelectedPatientWithoutSession}">
+        <ListView Margin="1040,83,56,514" Width="684" ItemsSource="{Binding AllPatients, Mode=TwoWay}"  SelectedItem="{Binding SelectedPatientWithoutSession}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Height="35">
@@ -43,8 +43,8 @@
         <!-- Broadcast chat -->
 
         <Label Content="Broadcast chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="1040,504,0,0" VerticalAlignment="Top" FontSize="28" Height="45" FontWeight="Bold"/>
-        <Rectangle HorizontalAlignment="Left" Height="382" Margin="1044,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
-        <ListView Margin="1044,554,56,133" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Right" FontSize="20" Width="684">
+        <Rectangle HorizontalAlignment="Left" Height="359" Margin="1044,554,0,0" Stroke="Black" VerticalAlignment="Top" Width="684"/>
+        <ListView Margin="1044,554,52,158" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Right" FontSize="20" Width="684">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -52,8 +52,8 @@
             </ListView.ItemsPanel>
         </ListView>
 
-        <TextBox HorizontalAlignment="Left" Margin="1058,883,0,0" Text="{Binding MessageBoxText}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="1654,883,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding Path=SendMessageCommand}">
+        <TextBox HorizontalAlignment="Left" Margin="1058,859,0,0" Text="{Binding MessageBoxText}" TextWrapping="Wrap" VerticalAlignment="Top" Width="575" Height="40" FontSize="20"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="1654,859,0,0" VerticalAlignment="Top" Height="40" Width="60" FontSize="16" FontWeight="Bold" Command="{Binding Path=SendMessageCommand}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>

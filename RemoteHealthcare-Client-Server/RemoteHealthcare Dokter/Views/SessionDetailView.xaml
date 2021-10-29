@@ -6,10 +6,9 @@
       xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       xmlns:local="clr-namespace:RemoteHealthcare_Dokter.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="1080"
-      Title="SessionDetailView" Width="1920">
+      d:DesignHeight="1000" Title="SessionDetailView" Width="1780">
 
-    <Grid Width="1920" Background="White">
+    <Grid Width="Auto" Height="Auto" Background="White">
         <Rectangle HorizontalAlignment="Left" Height="1080" Stroke="#FFC6002A" VerticalAlignment="Bottom" Width="350" Fill="#FFC6002A"/>
         <Button Content="Sessies" HorizontalAlignment="Left" Margin="0,370,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="White" BorderBrush="White" FontWeight="Bold" FontSize="22"/>
         <Button Content="Geschiedenis" HorizontalAlignment="Left" Margin="0,438,0,0" VerticalAlignment="Top" Width="352" Height="70" Background="#FFF3EEEE" BorderBrush="White" FontWeight="Bold" FontSize="22" Command="{Binding Path=SwitchToPatientView}"/>
@@ -18,17 +17,17 @@
         <Label Content="{Binding Path=Age}" HorizontalAlignment="Left" Margin="391,159,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
         <Label Content="{Binding Path=ID}" HorizontalAlignment="Left" Margin="391,217,0,0" VerticalAlignment="Top" FontSize="22" Height="37"/>
 
-        <Rectangle HorizontalAlignment="Left" Height="299" Margin="391,668,0,0" Stroke="Black" VerticalAlignment="Top" Width="515"/>
+        <Rectangle HorizontalAlignment="Left" Height="242" Margin="391,668,0,0" Stroke="Black" VerticalAlignment="Top" Width="445"/>
         <Label Content="Chat:&#xD;&#xA;" HorizontalAlignment="Left" Margin="389,608,0,0" VerticalAlignment="Top" FontSize="30" Height="44" FontWeight="Bold"/>
-        <TextBox HorizontalAlignment="Left" Margin="408,912,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="373" Height="40" FontSize="20"/>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="786,912,0,0" VerticalAlignment="Top" Height="40" Width="106" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
+        <TextBox HorizontalAlignment="Left" Margin="408,860,0,0" Text="{Binding Message}" TextWrapping="Wrap" VerticalAlignment="Top" Width="314" Height="40" FontSize="20"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="738,861,0,0" VerticalAlignment="Top" Height="40" Width="81" FontSize="16" FontWeight="Bold" Command="{Binding SendMessage}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,668,1014,151" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right" FontSize="20">
+        <ListView Margin="391,668,944,110" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right" FontSize="20" Width="445">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -37,21 +36,21 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="998,256,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1003,584,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1462,258,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1163,881,0,0" VerticalAlignment="Top" FontSize="22" Height="41"  FontStyle="Italic"/>
-        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1460,585,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1634,875,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontStyle="Italic"/>
+        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="971,238,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="969,536,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1384,230,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1081,774,0,0" VerticalAlignment="Top" FontSize="22" Height="41"  FontStyle="Italic"/>
+        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1389,533,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1491,777,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontStyle="Italic"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="392,414,0,0" VerticalAlignment="Top" Height="40" Width="225" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="392,414,0,0" VerticalAlignment="Top" Height="40" Width="190" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="668,414,0,0" VerticalAlignment="Top" Height="40" Width="225" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="652,414,0,0" VerticalAlignment="Top" Height="40" Width="190" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -60,18 +59,18 @@
         </Button>
         <Label Content="Sessie:&#xD;&#xA;" HorizontalAlignment="Left" Margin="391,363,0,0" VerticalAlignment="Top" FontSize="22" FontWeight="Bold" Height="41"/>
 
-        <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="410,556,0,0" VerticalAlignment="Top" Width="400" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
-        <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="854,522,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
+        <Slider x:Name="ResistanceSlider" Value="{Binding ResistanceValue}" HorizontalAlignment="Left" Margin="410,556,0,0" VerticalAlignment="Top" Width="350" Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True"/>
+        <Label Content="{Binding ElementName=ResistanceSlider, Path=Value}" HorizontalAlignment="Left" Margin="809,545,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Normal" Height="33"/>
         <Label Content="Gegevens:" HorizontalAlignment="Left" Margin="395,110,0,0" VerticalAlignment="Top" FontSize="30" FontWeight="Bold" Height="56"/>
-        <Button Content="X" HorizontalAlignment="Left" Margin="1812,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
+        <Button Content="X" HorizontalAlignment="Left" Margin="1712,54,0,0" VerticalAlignment="Top" Click="Button_Click" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="#FFC6002A" FontSize="36" FontWeight="Bold" Command="{Binding CloseDetailCommand}"/>
 
         <!-- Live graph section -->
 
         <!-- BPM Graph-->
-        <Grid Margin="981,126,500,692">
+        <Grid Margin="947,126,445,624">
             <Label Content="BPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
-            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
-                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" >
+                <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="242" Margin="121,29,0,18">
 
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
@@ -92,9 +91,9 @@
         </Grid>
 
         <!-- Speed -->
-        <Grid Margin="1443,126,12,692">
+        <Grid Margin="1360,126,33,624">
             <Label Content="Speed" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
-            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" >
                 <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
@@ -113,13 +112,13 @@
                 </lvc:CartesianChart>
             </Border>
         </Grid>
-        <GridSplitter HorizontalAlignment="Left" Margin="948,128,0,0" VerticalAlignment="Top" Width="3" Height="850"/>
+        <GridSplitter HorizontalAlignment="Left" Margin="904,128,0,0" VerticalAlignment="Top" Width="3" Height="800"/>
 
         <!-- RPM Graph -->
-        <Grid Margin="981,425,499,358">
+        <Grid Margin="947,425,445,324">
             <Label Content="RPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
-                <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="299" Margin="121,29,0,18">
+                <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="244" Margin="121,29,0,18">
 
                     <lvc:CartesianChart.RenderTransform>
                         <TransformGroup>
@@ -141,8 +140,8 @@
 
 
         <!-- Current w Graph-->
-        <Grid Margin="1443,427,12,356">
-            <Label Content="Huidig&#xD;&#xA;wattage" Width="100" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="15,104,0,109"/>
+        <Grid Margin="1363,427,26,322">
+            <Label Content="Huidig&#xD;&#xA;wattage" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="15,54,0,109" Height="80"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding CurrentWCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
                     <lvc:CartesianChart.RenderTransform>
@@ -163,14 +162,14 @@
             </Border>
         </Grid>
 
-        <Grid Margin="1443,753,12,74">
-            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,107"/>
+        <Grid Margin="1366,705,30,72">
+            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,-40,0,0"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
         </Grid>
 
-        <Grid Margin="983,753,499,74">
-            <Label Content="Afstand" Width="86" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,114"/>
-            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" Margin="0,0,-7,0"/>
+        <Grid Margin="947,703,449,74">
+            <Label Content="Afstand" Width="126" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0, -40, 0, 0"/>
+            <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" />
         </Grid>
 
     </Grid>
