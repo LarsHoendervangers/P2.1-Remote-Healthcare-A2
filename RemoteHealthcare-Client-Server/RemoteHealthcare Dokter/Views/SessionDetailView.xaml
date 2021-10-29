@@ -36,12 +36,12 @@
         </ListView>
 
         <!-- Current data -->
-        <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="971,238,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="969,536,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1384,230,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1081,774,0,0" VerticalAlignment="Top" FontSize="22" Height="41"  FontStyle="Italic"/>
-        <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1389,533,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1491,777,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontStyle="Italic"/>
+
+
+
+
+
+
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
         <Button Content="Stop" HorizontalAlignment="Left" Margin="392,414,0,0" VerticalAlignment="Top" Height="40" Width="190" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
             <Button.Resources>
@@ -67,8 +67,9 @@
         <!-- Live graph section -->
 
         <!-- BPM Graph-->
-        <Grid Margin="947,126,445,624">
+        <Grid Margin="937,126,455,624">
             <Label Content="BPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left"  VerticalAlignment="Center" FontSize="22" Margin="15, 40, 0, 0"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" >
                 <lvc:CartesianChart Series="{Binding BPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="242" Margin="121,29,0,18">
 
@@ -91,8 +92,9 @@
         </Grid>
 
         <!-- Speed -->
-        <Grid Margin="1360,126,33,624">
+        <Grid Margin="1350,126,43,624">
             <Label Content="Speed" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="15, 40,0,0" VerticalAlignment="Center" FontSize="22" Height="41"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" >
                 <lvc:CartesianChart Series="{Binding SpeedCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
                     <lvc:CartesianChart.RenderTransform>
@@ -115,8 +117,9 @@
         <GridSplitter HorizontalAlignment="Left" Margin="904,128,0,0" VerticalAlignment="Top" Width="3" Height="800"/>
 
         <!-- RPM Graph -->
-        <Grid Margin="947,425,445,324">
+        <Grid Margin="937,425,455,324">
             <Label Content="RPM" Width="100" HorizontalAlignment="Left" Height="50" FontSize="20" FontWeight="Bold" Margin="15"/>
+            <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="15, 40,0,0" VerticalAlignment="Center" FontSize="22" Height="41"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding RPMCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="244" Margin="121,29,0,18">
 
@@ -140,8 +143,9 @@
 
 
         <!-- Current w Graph-->
-        <Grid Margin="1363,427,26,322">
-            <Label Content="Huidig&#xD;&#xA;wattage" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="15,54,0,109" Height="80"/>
+        <Grid Margin="1353,427,36,322">
+            <Label Content="Huidig&#xD;&#xA;wattage" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="15,34,0,109" Height="80"/>
+            <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="15, 40,0,0" VerticalAlignment="Center" FontSize="22" Height="41"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10">
                 <lvc:CartesianChart Series="{Binding CurrentWCollection}" LegendLocation="None" AnimationsSpeed="0:0:01" Hoverable="True" RenderTransformOrigin="0.5,0.5" Margin="121,29,18,18">
                     <lvc:CartesianChart.RenderTransform>
@@ -162,14 +166,16 @@
             </Border>
         </Grid>
 
-        <Grid Margin="1366,705,30,72">
-            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,-40,0,0"/>
+        <Grid Margin="1356,705,40,72">
+            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
+            <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Height="41" FontStyle="Italic" Width="200" HorizontalContentAlignment="Center"/>
         </Grid>
 
-        <Grid Margin="947,703,449,74">
-            <Label Content="Afstand" Width="126" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0, -40, 0, 0"/>
+        <Grid Margin="937,703,459,74">
+            <Label Content="Afstand" Width="126" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Margin="15"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" />
+            <Label Content="{Binding Path=Distance}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" FontSize="22" Height="41"  FontStyle="Italic" HorizontalContentAlignment="Center"/>
         </Grid>
 
     </Grid>
