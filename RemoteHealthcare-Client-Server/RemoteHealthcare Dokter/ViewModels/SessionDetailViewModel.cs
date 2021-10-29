@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -200,6 +201,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _Message = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Message"));
             }
         }
 
@@ -285,28 +287,108 @@ namespace RemoteHealthcare_Dokter.ViewModels
             }
         }
 
+        private double _RPMxMax = 150;
+        public double RPMxMax
+        {
+            get { return _RPMxMax; }
+            set
+            {
+                _RPMxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RPMxMax"));
+            }
+        }
+
+        private double _RPMxMin = 0;
+        public double RPMxMin
+        {
+            get { return _RPMxMin; }
+            set
+            {
+                _RPMxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("RPMxMin"));
+            }
+        }
+
+        private double _DistancexMax = 150;
+        public double DistancexMax
+        {
+            get { return _DistancexMax; }
+            set
+            {
+                _DistancexMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistancexMax"));
+            }
+        }
+
+        private double _DistancexMin = 0;
+        public double DistancexMin
+        {
+            get { return _DistancexMin; }
+            set
+            {
+                _DistancexMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DistancexMin"));
+            }
+        }
+
+        private double _CurrentWxMax = 150;
+        public double CurrentWxMax
+        {
+            get { return _CurrentWxMax; }
+            set
+            {
+                _CurrentWxMax = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWxMax"));
+            }
+        }
+
+        private double _CurrentWxMin = 0;
+        public double CurrentWxMin
+        {
+            get { return _CurrentWxMin; }
+            set
+            {
+                _CurrentWxMin = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentWxMin"));
+            }
+        }
+
         #endregion
 
         #region Graphs
 
         public SeriesCollection BPMCollection { get; set; }
         public SeriesCollection SpeedCollection { get; set; }
+        public SeriesCollection RPMCollection { get; set; }
+        public SeriesCollection CurrentWCollection { get; set; }
+
+        private List<int> BPMList { get; set; }
+        private List<double> SpeedList { get; set; }
+        private List<int> RPMList { get; set; }
+        private List<double> CurrentWList { get; set; }
 
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
+        public List<string> RPMLabels { get; set; }
+        public List<string> CurrentWLabels { get; set; }
 
-        public Func<double, string> YFormatter { get; set; }
+        public Func<int, string> YFormatter { get; set; }
 
         
         private void SetupGraphs()
         {
+            this.BPMList = new List<int>();
+            this.SpeedList = new List<double>();
+            this.RPMList = new List<int>();
+            this.CurrentWList = new List<double>();
+
             // Setting up the BPM Graph
             BPMCollection = new SeriesCollection
             {
                 new LineSeries
                 {
                     Title = "BPM",
-                    Values = new ChartValues<double> {},
+                    Values = new ChartValues<int> {},
                     PointGeometry = null,
                     LineSmoothness = 10,
                     Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 1f, 0f, 0f)),
@@ -331,6 +413,33 @@ namespace RemoteHealthcare_Dokter.ViewModels
             };
             SpeedLabels = new List<string>();
 
+            RPMCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "RPM",
+                    Values = new ChartValues<int> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0f, 0.5f, 0f)),
+                    Stroke = Brushes.Green
+                }
+            };
+            RPMLabels = new List<string>();
+
+            CurrentWCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "CurrentW",
+                    Values = new ChartValues<double> {},
+                    PointGeometry = null,
+                    LineSmoothness = 10,
+                    Fill = new SolidColorBrush(Color.FromScRgb(0.5f, 0.5f, 0.5f, 0f)),
+                    Stroke = Brushes.Yellow
+                }
+            };
+            CurrentWLabels = new List<string>();
 
             YFormatter = value => value.ToString();
         }
@@ -339,6 +448,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = SpeedCollection[0].Values;
 
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.SpeedList.Count >= MAX_GRAPH_LENGHT)
+                this.SpeedList.RemoveAt(0);
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
+            {
+                list.Clear();
+                list = new ChartValues<double>(this.SpeedList);
+            }
+
             this.SpeedxMax = list.Count;
 
             // Checking if the offet of the list is greater that 0
@@ -346,12 +467,25 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.SpeedxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.SpeedList.Add(value);
             SpeedLabels.Add(time.ToString("HH:mm:ss"));
         }
 
-        private void UpdateBPMGraph(double value, DateTime time)
+        private void UpdateBPMGraph(int value, DateTime time)
         {
             var list = BPMCollection[0].Values;
+
+           // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.BPMList.Count >= MAX_GRAPH_LENGHT)
+                this.BPMList.RemoveAt(0);
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
+            {
+                list.Clear();
+                list = new ChartValues<int>(this.BPMList);
+            }
 
             this.BPMxMax = list.Count;
 
@@ -360,7 +494,65 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.BPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.BPMList.Add(value);
             BPMLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
+        private void UpdateRPMGraph(int value, DateTime time)
+        {
+            var list = RPMCollection[0].Values;
+
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.RPMList.Count >= MAX_GRAPH_LENGHT)
+                this.RPMList.RemoveAt(0);
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
+            {
+                list.Clear();
+                list = new ChartValues<int>(this.RPMList);
+            }
+                
+
+            this.RPMxMax = list.Count;
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.RPMxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            this.RPMList.Add(value);
+            RPMLabels.Add(time.ToString("HH:mm:ss"));
+        }
+
+        private void UpdateCurrentWGraph(double value, DateTime time)
+        {
+            var list = CurrentWCollection[0].Values;
+
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.CurrentWList.Count >= MAX_GRAPH_LENGHT)
+                this.CurrentWList.RemoveAt(0);
+
+            // Checking the list size, if to large unused data is deleted
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
+            {
+                list.Clear();
+                list = new ChartValues<double>(this.CurrentWList);
+            }
+            
+            
+            this.RPMxMax = list.Count;
+   
+
+            // Checking if the offet of the list is greater that 0
+            int minOffset = list.Count - MAX_GRAPH_LENGHT;
+            this.RPMxMin = minOffset < 0 ? 0 : minOffset;
+
+            list.Add(value);
+            this.CurrentWList.Add(value);
+            RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
         #endregion
@@ -376,26 +568,32 @@ namespace RemoteHealthcare_Dokter.ViewModels
                 if (BikeIndex >= 0)
                 {
                     double speed = this.manager.BikeMeasurements[BikeIndex].CurrentSpeed;
+                    int rpm = this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+                    double distance = Math.Round(this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f, 2);
+                    double CurrentWattage = this.manager.BikeMeasurements[BikeIndex].CurrentWattage;
+                    double TotalWattage = Math.Round(this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f, 2);
 
                     // setting the labels
-                    this.Speed = $"Snelheid: {speed} km/h";
-                    this.TotalW = $"Totaal: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalWattage / 1000f} kW";
-                    this.CurrentW = $"Huidig: {this.manager.BikeMeasurements[BikeIndex].CurrentWattage} Watt";
-                    this.Distance = $"Afstand: {this.manager.BikeMeasurements[BikeIndex].CurrentTotalDistance / 1000f} km";
-                    this.RPM = "RPM: " + this.manager.BikeMeasurements[BikeIndex].CurrentRPM;
+                    this.Speed = $"{speed} km/h";
+                    this.TotalW = $"{TotalWattage} kW";
+                    this.CurrentW = $"{CurrentWattage} W";
+                    this.Distance = $"{distance} km";
+                    this.RPM = $"{rpm}";
 
 
                     // updating the graphs
                     UpdateSpeedGraph(speed, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateRPMGraph(rpm, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
+                    UpdateCurrentWGraph(CurrentWattage, this.manager.BikeMeasurements[BikeIndex].MeasurementTime);
                 }
 
                 if (HeartIndex >= 0)
                 {
                     int BPM = this.manager.HRMeasurements[HeartIndex].CurrentHeartrate;
 
-                    this.BPM = "BPM: " + BPM;
+                    this.BPM = "" + BPM;
 
-                    UpdateBPMGraph((double)BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
+                    UpdateBPMGraph(BPM, this.manager.HRMeasurements[HeartIndex].MeasurementTime);
                 }
 
 
@@ -437,6 +635,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             this.manager.PersonalMessage(Message);
             UpdateListView();
+            this.Message = "";
         }
 
         private void UpdateListView()
@@ -456,9 +655,33 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void CloseDetail()
         {
             // Telling the manager this window is closing
-            this.manager.CloseManager();
+            this.manager.DeleteManager(this.manager);
 
             // Switching from active window
+            this.window.Content = new DashboardViewModel(this.window);
+
+            this.manager.SubscribeToPatient(this.Patient, false);
+        }
+
+        private ICommand _StopSessionCommand;
+        public ICommand StopSessionCommand
+        {
+            get
+            {
+                if (_StopSessionCommand == null)
+                {
+                    _StopSessionCommand = new GeneralCommand(
+                        param => SendStopSession()
+                        );
+                }
+                return _StopSessionCommand;
+            }
+
+        }
+
+        private void SendStopSession()
+        {
+            this.manager.StopSession(this.Patient);
             this.window.Content = new DashboardViewModel(this.window);
         }
     }

@@ -9,13 +9,14 @@ using System.Net;
 using System.Threading;
 using System.Windows;
 using RemoteHealthcare_Client.ClientVREngine.Scene;
+using RemoteHealthcare_Shared.Settings;
 
 namespace RemoteHealthcare_Client
 {
     public class StartupLoader
     {
-        private string ip = "127.0.0.1";
-        private int port = 6969;
+        private string ip = ServerSettings.IP;
+        private int port = ServerSettings.Port;
 
         private DataManager serverDataManager;
         private DataManager deviceDataManager;
@@ -52,7 +53,7 @@ namespace RemoteHealthcare_Client
             // The gui needs all the available vr servers to connect to
             // To get this list it is needed to start up the vrDataManager
             VRDataManager dataManager = new VRDataManager();
-            List<ClientData> clientVREngines =  dataManager.VRTunnelHandler.GetAvailableClients();
+            List<ClientData> clientVREngines = dataManager.VRTunnelHandler.GetAvailableClients();
             if (clientVREngines == null) return;
             clientVREngines.Reverse();
 
@@ -129,8 +130,8 @@ namespace RemoteHealthcare_Client
                 Application.Current.Dispatcher.Invoke(GetAvailableVRConnections);
                 Thread.Sleep(5000);
             }
-
         }
+
         private void UpdateBLEDevices()
         {
             while (true)
@@ -138,7 +139,6 @@ namespace RemoteHealthcare_Client
                 Application.Current.Dispatcher.Invoke(GetAvailableBLEDevices);
                 Thread.Sleep(5000);
             }
-
         }
     }
 }

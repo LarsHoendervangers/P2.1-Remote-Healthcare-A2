@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 namespace RemoteHealthcare_Client.Ergometer.Software
 {
-
     public class SimDataGenerator
     {
         //Variables.
@@ -37,7 +36,6 @@ namespace RemoteHealthcare_Client.Ergometer.Software
         public event EventHandler<int> GeneratedCurrentPower;
         public event EventHandler<int> GeneratedTotalPower;
 
-
         /// <summary>
         /// This is the constuctor SimDataGenetor with no need for ranges.
         /// 
@@ -56,17 +54,13 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             heartrateRange = new int[] { 50, 200 };
             powerlevelRange = new int[] { 150, 350 };
 
-
             new Thread(() =>
             {
                 //Needs signaling but it also works with a wait i guesss
                 //TODO Maybe fix with signaling because it can give some potential issues.
                 Thread.Sleep(3000);
-
                 Simulation();
-
             }).Start();
-
         }
 
         /// <summary>
@@ -91,14 +85,9 @@ namespace RemoteHealthcare_Client.Ergometer.Software
                 //Needs signaling but it also works with a wait i guesss
                 //TODO Maybe fix with signaling because it can give some potential issues.
                 Thread.Sleep(3000);
-
-
                 Simulation();
-
             }).Start();
-
         }
-
 
         /// <summary>
         /// This the simulation that sends data to the simulation device.
@@ -117,7 +106,6 @@ namespace RemoteHealthcare_Client.Ergometer.Software
                 elapsedTime += 1;
                 GeneratedTime?.Invoke(this, elapsedTime);
 
-
                 speed = speedRange[0] + SimplexNoiseGenerator(randomSpeedSeed, 0.01f) * speedRange[1];
                 GeneratedSpeed?.Invoke(this, speed);
 
@@ -126,7 +114,6 @@ namespace RemoteHealthcare_Client.Ergometer.Software
 
                 heartRate = (int)(heartrateRange[0] + SimplexNoiseGenerator(randomHeartSeed, 0.1f) * heartrateRange[1]);
                 GeneratedHeartrate?.Invoke(this, heartRate);
-
 
                 distance += speed / 3.6;
                 GeneratedDistance?.Invoke(this, distance);
@@ -155,14 +142,5 @@ namespace RemoteHealthcare_Client.Ergometer.Software
             float output = SimplexNoise.Noise.CalcPixel1D(startingpoint + (int)elapsedTime, scale);
             return output / 255;
         }
-
     }
-
-
-
-
-
-
-
 }
-

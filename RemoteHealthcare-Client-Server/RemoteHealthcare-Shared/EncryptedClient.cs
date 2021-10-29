@@ -13,6 +13,10 @@ namespace RemoteHealthcare_Shared
 {
     public class EncryptedClient : EncryptedSenderReceiver
     {
+        /// <summary>
+        /// Constructor. Will try to authenticate as client when creating this instance.
+        /// </summary>
+        /// <param name="network">The stream that should be encrypted.</param>
         public EncryptedClient(NetworkStream network)
         {
             base.sslStream = new SslStream(network, false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
@@ -35,16 +39,12 @@ namespace RemoteHealthcare_Shared
             }
         }
 
-        //#warning SERVER CERTIFICATE AUTHENTICATION IS DISABLED!
-
-        // The following method is invoked by the RemoteCertificateValidationDelegate.
-        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        /// <summary>
+        /// This method is invoked by constructor to validate the certificate of the server.
+        /// </summary>
+        /// <returns>True if the certificate is valid. Otherwise it will return false.</returns>
+        private bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
-            // Currently disabled for development purposes
-            /*Debug.Indent();
-            Debug.WriteLine("SERVER CERTIFICATE AUTHENTICATION DISABLED! DATA IS STILL ENCRYPTED OVER THE NETWORK!");
-            Debug.Unindent();*/
-
             if (sslPolicyErrors == SslPolicyErrors.None)
             {
                 return true;
@@ -52,7 +52,6 @@ namespace RemoteHealthcare_Shared
 
             Debug.WriteLine($"Certificate error: {sslPolicyErrors}");
 
-            // Do not allow this client to communicate with unauthenticated servers.
             return true;
         }
     }

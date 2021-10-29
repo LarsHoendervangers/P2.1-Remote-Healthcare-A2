@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EncryptedServer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISender.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlaneTextSender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Settings\ServerSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TCP\TCPClientHandler.cs" />
   </ItemGroup>
 </Project>

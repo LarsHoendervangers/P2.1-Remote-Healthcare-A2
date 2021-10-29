@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Client.TCP;
+using RemoteHealthcare_Shared.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public ServerDataManager()
         {
-            this.tcpClientHandler = new TCPClientHandler("192.168.68.104", 6969, true);
+            this.tcpClientHandler = new TCPClientHandler(ServerSettings.IP, ServerSettings.Port, true);
 
             this.tcpClientHandler.SetRunning(true);
 
@@ -26,23 +27,32 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override void ReceivedData(JObject data)
         {
-            Trace.WriteLine("OUTGOING " + data);
             this.tcpClientHandler.WriteMessage(data.ToString());
         }
 
         private void HandleServerMessage(JObject data)
         {
-            Trace.WriteLine("INCOMMING " + data);
             this.SendToManagers(data);
         }
 
         private void OnServerMessageReceived(object sender, string message)
         {
+            //Empty message == error in the connection
+            if (message == "") onNetworkError();
+
             JObject jObject = JsonConvert.DeserializeObject(message) as JObject;
 
             if (jObject == null) return;
 
             HandleServerMessage(jObject);
+        }
+
+        private void onNetworkError()
+        {
+            // Closing the tcp handler to prevent data from going there
+            this.tcpClientHandler.SetRunning(false);
+
+            // Notifying the user of the connection error
         }
     }
 }

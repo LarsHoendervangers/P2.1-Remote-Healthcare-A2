@@ -25,6 +25,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public DashboardViewModel(Window window)
         {
             this.window = window;
+            this.window.ResizeMode = ResizeMode.CanMinimize;
+            this.window.ResizeMode = ResizeMode.CanResize;
+            this.Messages = new ObservableCollection<string>();
 
             this.manager = new DashboardManager();
             this.manager.OnPatientUpdated += (s, d) =>
@@ -55,8 +58,31 @@ namespace RemoteHealthcare_Dokter.ViewModels
         private void SendMessage()
         {
             this.manager.BroadcastMessage(MessageBoxText);
+            UpdateListView();
+            this.MessageBoxText = "";
         }
 
+        private void UpdateListView()
+        {
+            ObservableCollection<string> TempList = Messages;
+
+            TempList.Add(MessageBoxText);
+
+            Messages = new ObservableCollection<string>(TempList);
+
+            MessageBoxText = "";
+        }
+
+        private ObservableCollection<string> _messages;
+        public ObservableCollection<string> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Messages"));
+            }
+        }
 
         private ObservableCollection<SharedPatient> mAllPatients;
         public ObservableCollection<SharedPatient> AllPatients
@@ -108,6 +134,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _MessageBoxText = value;
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("MessageBoxText"));
             }
         }
 
@@ -146,7 +173,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
         private void StartSessionPopUp()
         {
-            if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName, "Sessie", MessageBoxButton.YesNo) != MessageBoxResult.No)
+            if (MessageBox.Show("Start sessie met " + SelectedPatientWithoutSession.FirstName + " " + SelectedPatientWithoutSession.LastName + "?", "Sessie starten", MessageBoxButton.YesNo) != MessageBoxResult.No)
             {
                 this.manager.StartSession(SelectedPatientWithoutSession);
                 this.manager.RequestActiveClients();

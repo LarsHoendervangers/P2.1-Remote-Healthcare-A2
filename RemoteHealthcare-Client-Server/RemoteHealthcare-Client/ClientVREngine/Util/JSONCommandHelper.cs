@@ -210,6 +210,7 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 }
             };
         }
+
         /// <summary>
         /// Same method as above but without transform
         /// </summary>
@@ -565,7 +566,6 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 {
                     filename,
                     overwrite = true
-
                 }
             };
         }
@@ -586,10 +586,5 @@ namespace RemoteHealthcare.ClientVREngine.Util
                 }
             };
         }
-
-
     }
-
 }
-
-

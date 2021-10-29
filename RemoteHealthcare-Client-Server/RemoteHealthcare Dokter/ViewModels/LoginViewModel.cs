@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using RemoteHealthcare_Client;
 using RemoteHealthcare_Dokter.BackEnd;
+using RemoteHealthcare_Dokter.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,6 +30,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
 
             this.manager = new LoginManager();
 
+            App.Current.MainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            App.Current.MainWindow.Width = 350;
+            App.Current.MainWindow.Height = 250;
+            App.Current.MainWindow.Title = "Login";
 
             this.manager.OnLoginResponseReceived += (s, d) =>
             {
@@ -48,9 +53,15 @@ namespace RemoteHealthcare_Dokter.ViewModels
             {               
                 var win = new Window();
                 win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                win.WindowState = WindowState.Maximized;
+                win.Width = 1780;
+                win.Height = 1000;
                 win.Content = new DashboardViewModel(win);
+                win.Closed += (s, e) => Environment.Exit(Environment.ExitCode);
                 win.Show();
+
+                LoginView view = ((this.window) as LoginView);
+                if(view != null)
+                    view.Shutdown = false;
 
                 this.window.Close();
             });
@@ -80,29 +91,10 @@ namespace RemoteHealthcare_Dokter.ViewModels
             get { return _Password; }
             set
             {
-                Trace.WriteLine(value);
                 _Password = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Password"));
             }
         }
-
-        /*
-        private ICommand _SendLoginCommand;
-        public ICommand SendLoginCommand
-        {
-            get
-            {
-                if (_SendLoginCommand == null)
-                {
-                    _SendLoginCommand = new GeneralCommand(
-                        param => SendMessage(UserName, Password)
-                        );
-                }
-                return _SendLoginCommand;
-            }
-
-        }
-        */
 
         private void SendMessage(string UserName, string Password)
         {

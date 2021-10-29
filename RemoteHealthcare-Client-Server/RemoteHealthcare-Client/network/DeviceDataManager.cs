@@ -71,7 +71,6 @@ namespace RemoteHealthcare_Client
                         this.SendToManagers(wrappedCommand);
 
                         Thread.Sleep(DeviceDataManager.BufferDelay);
-
                     }
                 })).Start();
         }
@@ -91,9 +90,15 @@ namespace RemoteHealthcare_Client
                 return;
             }
 
-            // only data command comming to the device data manager is 'setresist'
+            // only two data command comming to the device data manager is 'setresist' and 'abort'
             if (value.ToString() == "setresist")
                 this.Device.OnResistanceCall(this, (int)data.GetValue("data"));
+            else if (value.ToString() == "abort")
+            {
+                this.Device.OnResistanceCall(this, 0);
+                //Waiting for exit
+                
+            }
             else
                 Trace.WriteLine("Error in DeviceDataManager, data received does not meet spec");
         }

@@ -7,19 +7,19 @@
         xmlns:viewmodels="clr-namespace:RemoteHealthcare_Dokter.ViewModels"
         mc:Ignorable="d"
         x:Name="Login"
-        Title="LoginView" Height="450" Width="800">
+        Title="LoginView" Height="250" Width="350">
     <Window.DataContext>
         <viewmodels:LoginViewModel/>
     </Window.DataContext>
     <Grid>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="296,135,0,0" VerticalAlignment="Top"/>
+        <Label Content="Gebruikersnaam:" HorizontalAlignment="Left" Margin="72,22,0,0" VerticalAlignment="Top" Width="180"/>
 
 
-        <Label Content="Password" HorizontalAlignment="Left" Margin="296,200,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="PassBox" HorizontalAlignment="Left" Margin="301,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Text="{Binding Password}"/>
+        <Label Content="Wachtwoord:" VerticalAlignment="Top" HorizontalAlignment="Left" Width="180" Margin="72,77,0,0"/>
+        <PasswordBox Name="PassBox"  VerticalAlignment="Top" HorizontalAlignment="Center" Width="180" PasswordChanged="PassBox_OnPasswordChanged" Margin="0,100,0,0"/>
 
-        <Button Content="Button" HorizontalAlignment="Left" Margin="379,307,0,0" VerticalAlignment="Top" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
-        <TextBox HorizontalAlignment="Left" Margin="301,163,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="181" Height="17"/>
+        <Button Content="Inloggen" HorizontalAlignment="Center" Margin="0,148,0,0" Width="100" Height="25" VerticalAlignment="Top" Command="{Binding Path=CloswWindowCommand}" CommandParameter="{Binding ElementName=Login}"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,47,0,0" Text="{Binding UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="180" Height="17"/>
 
     </Grid>
 </Window>

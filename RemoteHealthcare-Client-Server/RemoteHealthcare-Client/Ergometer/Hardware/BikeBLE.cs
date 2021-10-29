@@ -12,7 +12,6 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
 {
     class BikeBLE : BLE, IBLEDevice
     {
-
         public event EventHandler<byte[]> OnBikeData;
         private readonly PhysicalDevice device;
         private readonly string bikeName;
@@ -29,9 +28,7 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             Console.WriteLine("Initializing...");
             Task task = device.Initialize(bikeName,
                 "6e40fec1-b5a3-f393-e0a9-e50e24dcca9e", "6e40fec2-b5a3-f393-e0a9-e50e24dcca9e", this, this);
-            
         }
-
 
         /*
          * Starts the connection to the bike and subscribes to the correct value's
@@ -60,7 +57,6 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
          */
         public void OnDataReceived(object sender, BLESubscriptionValueChangedEventArgs e)
         {
-
             // check if the date was received correct, by checking the checksum
             if (ProtocolConverter.MichaelChecksum(e.Data))
             {
@@ -100,6 +96,4 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             return connectionAttempts;
         }
     }
-
 }
-

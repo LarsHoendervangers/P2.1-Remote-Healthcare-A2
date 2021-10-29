@@ -24,6 +24,5 @@ namespace RemoteHealthcare_Dokter.Views
         {
             InitializeComponent();
         }
-
     }
 }
