@@ -28,7 +28,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <ListView Margin="391,668,1014,151" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right">
+        <ListView Margin="391,668,1014,151" ItemsSource="{Binding MessageList}" HorizontalContentAlignment="Right" FontSize="20">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -40,25 +40,18 @@
         <Label Content="{Binding Path=BPM}" HorizontalAlignment="Left" Margin="998,256,0,0" VerticalAlignment="Top" FontSize="22"/>
         <Label Content="{Binding Path=RPM}" HorizontalAlignment="Left" Margin="1003,584,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
         <Label Content="{Binding Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="1462,258,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1163,881,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=Distance}" HorizontalAlignment="Left" Margin="1163,881,0,0" VerticalAlignment="Top" FontSize="22" Height="41"  FontStyle="Italic"/>
         <Label Content="{Binding Path=CurrentW}" HorizontalAlignment="Left" Margin="1460,585,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
-        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1634,875,0,0" VerticalAlignment="Top" FontSize="22" Height="41"/>
+        <Label Content="{Binding Path=TotalW}" HorizontalAlignment="Left" Margin="1634,875,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontStyle="Italic"/>
         <Label Content="Weerstand:" HorizontalAlignment="Left" Margin="387,475,0,0" VerticalAlignment="Top" FontSize="22" Height="41" FontWeight="Bold"/>
-        <Button Content="Start" HorizontalAlignment="Left" Margin="408,414,0,0" VerticalAlignment="Top" Height="40" Width="130" FontSize="18" IsEnabled="False">
+        <Button Content="Stop" HorizontalAlignment="Left" Margin="392,414,0,0" VerticalAlignment="Top" Height="40" Width="225" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button Content="Stop" HorizontalAlignment="Left" Margin="582,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding StopSessionCommand}">
-            <Button.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="763,414,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
+        <Button Content="Noodstop" HorizontalAlignment="Left" Margin="668,414,0,0" VerticalAlignment="Top" Height="40" Width="225" RenderTransformOrigin="0.5,0.5" FontSize="18" Command="{Binding AbortCommand}">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -171,12 +164,12 @@
         </Grid>
 
         <Grid Margin="1443,753,12,74">
-            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,107" FontStyle="Italic"/>
+            <Label Content="Totale wattage" Width="157" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,107"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10"/>
         </Grid>
 
         <Grid Margin="983,753,499,74">
-            <Label Content="Afstand" Width="86" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,114" FontStyle="Italic"/>
+            <Label Content="Afstand" Width="86" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0,80,0,114"/>
             <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="10" Margin="0,0,-7,0"/>
         </Grid>
 
