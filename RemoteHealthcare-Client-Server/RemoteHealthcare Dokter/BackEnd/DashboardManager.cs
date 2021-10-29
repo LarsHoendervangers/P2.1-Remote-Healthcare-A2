@@ -15,11 +15,22 @@ namespace RemoteHealthcare_Dokter.BackEnd
     class DashboardManager : DataManager
     {
         public event EventHandler<List<SharedPatient>> OnPatientUpdated;
+        private DashboardViewModel model;
 
-        public DashboardManager()
+        public DashboardManager(DashboardViewModel model)
         {
             // Oncreation the server wil ask the server for all active clients
-            RequestActiveClients();
+            this.model = model;
+
+
+            //Crappy fix for updating..
+            (new Thread(() => {
+                while (true)
+                {
+                    RequestActiveClients();
+                    Thread.Sleep(5000);
+                }
+            })).Start();
         }
 
         public override void ReceivedData(JObject data)

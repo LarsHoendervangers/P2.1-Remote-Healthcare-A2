@@ -29,7 +29,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window.ResizeMode = ResizeMode.CanResize;
             this.Messages = new ObservableCollection<string>();
 
-            this.manager = new DashboardManager();
+            this.manager = new DashboardManager(this);
             this.manager.OnPatientUpdated += (s, d) =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
