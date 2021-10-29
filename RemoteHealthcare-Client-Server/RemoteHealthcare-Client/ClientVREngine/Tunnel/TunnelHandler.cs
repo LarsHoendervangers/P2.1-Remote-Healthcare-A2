@@ -44,13 +44,12 @@ namespace RemoteHealthcare_Client.ClientVREngine.Tunnel
             new Thread(() =>
             {
 
-                this.TcpHandler = new TCPClientHandler("192.168.68.104", 6666, false);
-
+                this.TcpHandler = new TCPClientHandler("145.48.6.10", 6666, false);
 
                 // Setting the method to be performed when data is received
                 this.TcpHandler.OnMessageReceived += OnMessageReceived;
 
-            }).Start();   
+            }).Start();
         }
 
         /// <summary>

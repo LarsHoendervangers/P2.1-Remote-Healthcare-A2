@@ -361,6 +361,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
         public SeriesCollection RPMCollection { get; set; }
         public SeriesCollection CurrentWCollection { get; set; }
 
+        private List<int> BPMList { get; set; }
+        private List<double> SpeedList { get; set; }
+        private List<int> RPMList { get; set; }
+        private List<double> CurrentWList { get; set; }
+
         public List<string> BPMLabels { get; set; }
         public List<string> SpeedLabels { get; set; }
         public List<string> RPMLabels { get; set; }
@@ -371,6 +376,11 @@ namespace RemoteHealthcare_Dokter.ViewModels
         
         private void SetupGraphs()
         {
+            this.BPMList = new List<int>();
+            this.SpeedList = new List<double>();
+            this.RPMList = new List<int>();
+            this.CurrentWList = new List<double>();
+
             // Setting up the BPM Graph
             BPMCollection = new SeriesCollection
             {
@@ -437,15 +447,17 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = SpeedCollection[0].Values;
 
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.SpeedList.Count >= MAX_GRAPH_LENGHT)
+                this.SpeedList.RemoveAt(0);
+
             // Checking the list size, if to large unused data is deleted
-            /*
-            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
             {
-                double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
-                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
-                list = new ChartValues<double>(copyList);
+                list.Clear();
+                list = new ChartValues<double>(this.SpeedList);
             }
-            */
 
             this.SpeedxMax = list.Count;
 
@@ -454,6 +466,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.SpeedxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.SpeedList.Add(value);
             SpeedLabels.Add(time.ToString("HH:mm:ss"));
         }
 
@@ -461,15 +474,17 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = BPMCollection[0].Values;
 
+           // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.BPMList.Count >= MAX_GRAPH_LENGHT)
+                this.BPMList.RemoveAt(0);
+
             // Checking the list size, if to large unused data is deleted
-            /*
-            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
             {
-                int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
-                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
-                list = new ChartValues<int>(copyList);
+                list.Clear();
+                list = new ChartValues<int>(this.BPMList);
             }
-            */
 
             this.BPMxMax = list.Count;
 
@@ -478,6 +493,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.BPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.BPMList.Add(value);
             BPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
@@ -485,15 +501,18 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = RPMCollection[0].Values;
 
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.RPMList.Count >= MAX_GRAPH_LENGHT)
+                this.RPMList.RemoveAt(0);
+
             // Checking the list size, if to large unused data is deleted
-            /*
-            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
             {
-                int[] copyList = new int[list.Count - MAX_GRAPH_LENGHT];
-                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
-                list = new ChartValues<int>(copyList);
+                list.Clear();
+                list = new ChartValues<int>(this.RPMList);
             }
-            */
+                
 
             this.RPMxMax = list.Count;
 
@@ -502,6 +521,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.RPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.RPMList.Add(value);
             RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
@@ -509,22 +529,28 @@ namespace RemoteHealthcare_Dokter.ViewModels
         {
             var list = CurrentWCollection[0].Values;
 
+            // checking if the list is grader than the given max
+            // if so removing oldest item
+            if (this.CurrentWList.Count >= MAX_GRAPH_LENGHT)
+                this.CurrentWList.RemoveAt(0);
+
             // Checking the list size, if to large unused data is deleted
-            /*
-            if (list.Count >= MAX_GRAPH_LENGHT * 2)
+            if (list.Count >= MAX_GRAPH_LENGHT * 3)
             {
-                double[] copyList = new double[list.Count - MAX_GRAPH_LENGHT];
-                list.CopyTo(copyList.ToArray(), MAX_GRAPH_LENGHT);
-                list = new ChartValues<double>(copyList);
+                list.Clear();
+                list = new ChartValues<double>(this.CurrentWList);
             }
-            */
+            
+            
             this.RPMxMax = list.Count;
+   
 
             // Checking if the offet of the list is greater that 0
             int minOffset = list.Count - MAX_GRAPH_LENGHT;
             this.RPMxMin = minOffset < 0 ? 0 : minOffset;
 
             list.Add(value);
+            this.CurrentWList.Add(value);
             RPMLabels.Add(time.ToString("HH:mm:ss"));
         }
 
