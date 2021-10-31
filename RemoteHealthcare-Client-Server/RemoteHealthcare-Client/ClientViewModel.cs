@@ -65,6 +65,9 @@ namespace RemoteHealthcare_Client
             this.SelectedScene = scenes[0];
         }
 
+        /// <summary>
+        /// Binding to the text below the login, it tells the user if the login failed or succeded
+        /// </summary>
         private string mSubmitText = "Submit login";
         public string SubmitText
         {
@@ -72,7 +75,6 @@ namespace RemoteHealthcare_Client
             set
             {
                 mSubmitText = value;
-                Console.WriteLine("Nieuwe waarde voor knop: " + value);
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SubmitText"));
             }
         }
@@ -147,6 +149,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding with the selected scene from the scene combobox
+        /// </summary>
         private GeneralScene mSelectedScene = null;
         public GeneralScene SelectedScene
         {
@@ -185,6 +190,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding if the buttons to login is are enabled or disabled
+        /// </summary>
         private bool mIsEnabledCredentialBoxes = true;
         public bool IsEnabledCredentialBoxes
         {
@@ -196,6 +204,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding if the buttons to select a divece and VR-server is are enabled or disabled
+        /// </summary>
         private bool mIsEnabledComboBoxes = false;
         public bool IsEnabledComboBoxes
         {
@@ -207,6 +218,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding if the startbutton is enabled or disabled
+        /// </summary>
         private bool mIsEnabledStartButton = true;
         public bool IsEnabledStartButton
         {
@@ -218,6 +232,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding that sets the opacity for the login text if the login failed
+        /// </summary>
         private int mWrongCredentialsOpacity = 0;
         public int WrongCredentialsOpacity
         {
@@ -229,6 +246,9 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Binding that sets the opacity for the login text if the login succeded
+        /// </summary>
         private int mRightCredentialsOpacity = 0;
         public int RightCredentialsOpacity
         {
@@ -285,6 +305,10 @@ namespace RemoteHealthcare_Client
                 this.UserName != null;
         }
 
+
+        /// <summary>
+        /// Starts the application by calling the loader to start
+        /// </summary>
         private void StartApplicaton()
         {
 
@@ -294,6 +318,7 @@ namespace RemoteHealthcare_Client
             IsEnabledComboBoxes = false;
         }
 
+        [Obsolete] // No longer in use
         private void UpdateVRServers()
         {
             while (true)
@@ -303,6 +328,7 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        [Obsolete] // No longer in user
         private void UpdateBLEDevices()
         {
             while (true)
