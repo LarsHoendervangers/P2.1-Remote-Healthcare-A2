@@ -6,6 +6,9 @@ using System.Text;
 
 namespace RemoteHealthcare_Shared.DataStructs
 {
+    /// <summary>
+    /// Patient class that holds all the data for a patient with all the information that is save to sent over internet
+    /// </summary>
     public struct SharedPatient
     {
         public string FirstName { get; set; }
@@ -15,6 +18,7 @@ namespace RemoteHealthcare_Shared.DataStructs
         public DateTime DateOfBirth { get; set; }
         public string DateString
         {
+            // Formatting the Date to day/month/year
             get { return DateOfBirth.ToString("dd/MM/yyyy"); }
         }
 
