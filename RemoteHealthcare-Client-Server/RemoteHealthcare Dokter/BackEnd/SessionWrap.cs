@@ -26,7 +26,7 @@ namespace RemoteHealthcare_Dokter.BackEnd
 
         public override string ToString()
         {
-            return $"{this.Startdate.ToString("dddd d MMMM yyyy hh:mm:ss")} - {this.Enddate.Subtract(this.Startdate).Minutes} minuten";
+            return $"{this.Startdate.ToString("dddd d MMMM yyyy HH:mm:ss")} - {this.Enddate.Subtract(this.Startdate).Minutes} minuten";
         }
     }
 }

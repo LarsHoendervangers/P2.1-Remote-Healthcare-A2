@@ -10,7 +10,7 @@ namespace RemoteHealthcare_Shared.Settings
     public static class ServerSettings
     {
 
-        public static string IP = "127.0.0.1";
+        public static string IP = "192.168.68.115";
         public static int Port = 6969;
 
     }
