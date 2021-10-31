@@ -13,8 +13,17 @@ using RemoteHealthcare_Shared.Settings;
 
 namespace RemoteHealthcare_Client
 {
+    /// <summary>
+    /// Class handles all the setup that is needed for the client to start
+    /// This includes:
+    /// - Starting the connection to the server
+    /// - Login with the server
+    /// - Starting the connection to the Ergo device
+    /// - Starting the connection to the VR-server
+    /// </summary>
     public class StartupLoader
     {
+        // Getting the IP and Port from the serversettings
         private string ip = ServerSettings.IP;
         private int port = ServerSettings.Port;
 
@@ -22,15 +31,23 @@ namespace RemoteHealthcare_Client
         private DataManager deviceDataManager;
         private DataManager vrDataManager;
 
+        // Events
         public event EventHandler<List<ClientData>> OnVRConnectionsReceived;
         public event EventHandler<List<string>> OnBLEDeviceReceived;
         public event EventHandler<bool> OnLoginResponseReceived;
 
+        /// <summary>
+        /// Method is called on startup of the application
+        /// - Loads all Bike bluetooth devices
+        /// - Loads all available VR-servers
+        /// - Start connection with the server
+        /// </summary>
         public void Init()
         {
             GetAvailableVRConnections();
             GetAvailableBLEDevices();
 
+            // Logging in debug when login is received
             this.OnLoginResponseReceived += ((s, d) =>
             {
                 Debug.WriteLine("OnLoginResponseReceived fired");
@@ -40,6 +57,13 @@ namespace RemoteHealthcare_Client
             this.serverDataManager = new ServerDataManager(this.ip, this.port);
         }
 
+        /// <summary>
+        /// This method handles starting the client application
+        /// This is done after a device and Vr-server and scene is selected
+        /// </summary>
+        /// <param name="device">The device that the user selected</param>
+        /// <param name="vrServerID">The Vr-server that the user selected</param>
+        /// <param name="generalScene">The scene the user selected</param>
         public void Start(string device, string vrServerID, GeneralScene generalScene)
         {
             this.deviceDataManager = new DeviceDataManager(device, "Decathlon Dual HR");
@@ -48,6 +72,9 @@ namespace RemoteHealthcare_Client
             (this.vrDataManager as VRDataManager)?.Start(vrServerID);
         }
 
+        /// <summary>
+        /// Method gets all the VR-server that are running, it calls the event when the data is received
+        /// </summary>
         public void GetAvailableVRConnections()
         {
             // The gui needs all the available vr servers to connect to
@@ -59,16 +86,24 @@ namespace RemoteHealthcare_Client
 
             this.vrDataManager = dataManager;
 
+            // Invoking the event when the data is received
             this.OnVRConnectionsReceived?.Invoke(this, clientVREngines);
         }
 
+        /// <summary>
+        /// Gets all the bluetooth devices that are available
+        /// Calls the event when the deta is received
+        /// </summary>
         public void GetAvailableBLEDevices()
         {
             // Gets all the bluetooth devices available
             List<string> blDevices = PhysicalDevice.ReadAllDevices();
             blDevices.Add("Simulator");
             
+            // Invoking the event
             this.OnBLEDeviceReceived?.Invoke(this, blDevices);
+
+            // Starts the refresh system to get new bl devices
             new Thread(PhysicalDevice.ReadAllDevicesTask).Start();
         }
 
@@ -95,8 +130,14 @@ namespace RemoteHealthcare_Client
             this.serverDataManager.ReceivedData(JObject.FromObject(o));
         }
 
+        /// <summary>
+        /// Handles the login command between the user and the server
+        /// </summary>
+        /// <param name="userName">The username the user entered</param>
+        /// <param name="password">The password to log in with</param>
         public void Login(string userName, string password)
         {
+            // Reconnecting to the server if it failed the first time
             if ((this.serverDataManager as ServerDataManager).GetStream() == null)
             {
                 Debug.WriteLine("Reconnecting");
@@ -123,6 +164,7 @@ namespace RemoteHealthcare_Client
             this.serverDataManager?.ReceivedData(loginCommand);
         }
 
+        [Obsolete] //This was the old, ugly way of refreshing the VR-servers
         private void UpdateVRServers()
         {
             while (true)
@@ -132,6 +174,7 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        [Obsolete] //This was the old, ugly way of refreshing the BL devices
         private void UpdateBLEDevices()
         {
             while (true)

@@ -25,7 +25,9 @@ namespace CommClass
         /// <param name="message">String to send.</param>
         public void SendMessage(string message)
         {
+            // Returning if the stream is not readable
             if (!stream.CanWrite) return;
+
             Communications.WriteData(Encoding.ASCII.GetBytes(message), stream);
         }
 
