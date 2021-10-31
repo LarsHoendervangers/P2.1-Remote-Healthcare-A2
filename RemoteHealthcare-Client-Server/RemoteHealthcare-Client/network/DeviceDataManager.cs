@@ -56,6 +56,7 @@ namespace RemoteHealthcare_Client
             this.Device.OnDistance += (s, distance) => ReplaceInDictionary("dist", distance);
 
             this.sending = true;
+
             // Starting the thread to buffer the incomming data
             Trace.WriteLine("Started listener thread...");
             new Thread(
@@ -75,6 +76,10 @@ namespace RemoteHealthcare_Client
                 })).Start();
         }
 
+        /// <summary>
+        /// This method is called when a other datamager sends a Broadcast, it only checks for 'setresist' and 'abort' message
+        /// </summary>
+        /// <param name="data">The data received from the datamangers</param>
         public override void ReceivedData(JObject data)
         {
             // (See dataprotocol) receivedData wil allways be set resistance
@@ -115,6 +120,8 @@ namespace RemoteHealthcare_Client
 
             JObject data = new JObject();
             data.Add("time", DateTime.Now.ToString());
+
+            // Checking the values that the message can be, if found it is added into the buffer
             if (this.SendingDictionary.TryGetValue("rpm", out var rpm)) data.Add("rpm", rpm);
             if (this.SendingDictionary.TryGetValue("bpm", out var heartrate)) data.Add("bpm", heartrate);
             if (this.SendingDictionary.TryGetValue("speed", out var speed)) data.Add("speed", speed);
@@ -126,6 +133,11 @@ namespace RemoteHealthcare_Client
             return ergoObject;
         }
 
+        /// <summary>
+        /// Replaces a keven key with a new value
+        /// </summary>
+        /// <param name="key">The key to replace the value with</param>
+        /// <param name="value">The object that needs to be placed in the list</param>
         private void ReplaceInDictionary(string key, dynamic value)
         {
             if (this.SendingDictionary.Remove(key))
