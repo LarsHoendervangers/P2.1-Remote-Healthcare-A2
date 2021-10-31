@@ -35,6 +35,7 @@ namespace RemoteHealthcare_Client
         {
             for (int i = 0; i < DataManager.NetworkManagers.Count; i++)
             {
+                // Skip the this manger when sending a command
                 if (DataManager.NetworkManagers[i].Equals(this))
                     continue;
                 
@@ -42,6 +43,10 @@ namespace RemoteHealthcare_Client
             }
         }
 
+        /// <summary>
+        /// Deletes a manager from the communication, this can be this or an other manager
+        /// </summary>
+        /// <param name="manager">The manager to be deleted</param>
         public void DeleteManager(DataManager manager)
         {
             DataManager.NetworkManagers.Remove(manager);
