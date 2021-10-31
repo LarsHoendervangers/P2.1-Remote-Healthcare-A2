@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace RemoteHealthcare_Client.Ergometer.Hardware
 {
+    /// <summary>
+    /// This class reads the data from the hearrate monitor
+    /// </summary>
     class HRBLE : BLE, IBLEDevice
     {
 
@@ -31,6 +34,10 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             
         }
 
+        /// <summary>
+        /// This mehtod is called to start reading bluetooth data from a Heartrate sensor, it subscribes to the given device
+        /// </summary>
+        /// <returns></returns>
         private async Task Initialize()
         {
             // Open the correct device
@@ -60,21 +67,37 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
                 onHRData?.Invoke(this, e.Data);
         }
 
+        /// <summary>
+        /// Sets this.errorcode the the given errorcode
+        /// </summary>
+        /// <param name="errorcode">the errorcode to set this.errorcode to</param>
         public void SetErrorCode(int errorcode)
         {
             this.errorcode = errorcode;
         }
 
+        /// <summary>
+        /// Sets the amount of connection attempts to the given value
+        /// </summary>
+        /// <param name="connectionAttempts">The connection attempt to set this.connectionAttemps</param>
         public void SetConnectionAttempts(int connectionAttempts)
         {
             this.connectionAttempts = connectionAttempts;
         }
 
+        /// <summary>
+        /// Getter for this.errorcode
+        /// </summary>
+        /// <returns>this.errorcode</returns>
         public int GetErrorCode()
         {
             return errorcode;
         }
 
+        /// <summary>
+        /// Getter for this.connectionAttemps
+        /// </summary>
+        /// <returns>this.connectionAttemps</returns>
         public int GetConnectionAttempts()
         {
             return connectionAttempts;

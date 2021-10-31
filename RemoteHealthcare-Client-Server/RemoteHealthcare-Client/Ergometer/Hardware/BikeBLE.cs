@@ -76,21 +76,37 @@ namespace RemoteHealthcare_Client.Ergometer.Hardware
             WriteCharacteristic("6e40fec3-b5a3-f393-e0a9-e50e24dcca9e", data);
         }
 
+        /// <summary>
+        /// Sets this.errorcode the the given errorcode
+        /// </summary>
+        /// <param name="errorcode">the errorcode to set this.errorcode to</param>
         public void SetErrorCode(int errorcode)
         {
             this.errorcode = errorcode;
         }
 
+        /// <summary>
+        /// Sets the amount of connection attempts to the given value
+        /// </summary>
+        /// <param name="connectionAttempts">The connection attempt to set this.connectionAttemps</param>
         public void SetConnectionAttempts(int connectionAttempts)
         {
             this.connectionAttempts = connectionAttempts;
         }
 
+        /// <summary>
+        /// Getter for this.errorcode
+        /// </summary>
+        /// <returns>this.errorcode</returns>
         public int GetErrorCode()
         {
             return errorcode;
         }
 
+        /// <summary>
+        /// Getter for this.connectionAttemps
+        /// </summary>
+        /// <returns>this.connectionAttemps</returns>
         public int GetConnectionAttempts()
         {
             return connectionAttempts;
