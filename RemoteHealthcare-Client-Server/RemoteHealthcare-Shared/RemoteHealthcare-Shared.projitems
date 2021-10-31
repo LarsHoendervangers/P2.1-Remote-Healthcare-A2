@@ -9,16 +9,19 @@
     <Import_RootNamespace>RemoteHealthcare_Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Communication.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\Communication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataStructs\SharedPatient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GeneralCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EncryptedClient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EncryptedSenderReceiver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EncryptedServer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ISender.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PlaneTextSender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\EncryptedClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\Sender\EncryptedSenderReceiver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\EncryptedServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\Sender\ISender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\Sender\PlaneTextSender.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings\ServerSettings.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TCP\TCPClientHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Communication\TCP\TCPClientHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Communication\Sender\" />
   </ItemGroup>
 </Project>
