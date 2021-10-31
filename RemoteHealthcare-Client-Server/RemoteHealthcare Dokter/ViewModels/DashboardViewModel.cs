@@ -19,7 +19,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private Window window;
+        public Window window;
         private DashboardManager manager;
 
         public DashboardViewModel(Window window)
@@ -29,7 +29,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             this.window.ResizeMode = ResizeMode.CanResize;
             this.Messages = new ObservableCollection<string>();
 
-            this.manager = new DashboardManager();
+            this.manager = new DashboardManager(this);
             this.manager.OnPatientUpdated += (s, d) =>
             {
                 Application.Current.Dispatcher.Invoke(() =>
@@ -167,7 +167,9 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _SelectedPatientWithoutSession = value;
+
                 StartSessionPopUp();
+
             }
         }
 
@@ -190,6 +192,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
             set
             {
                 _SelectedPatientWithSession = value;
+
                 ShowDetailWindow();
             }
         }
@@ -222,6 +225,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         /// </summary>
         private void SwitchView()
         {
+            this.manager.running = false;
             this.window.Content = new PatientListViewModel(this.window);
         }
 
@@ -230,6 +234,7 @@ namespace RemoteHealthcare_Dokter.ViewModels
         /// </summary>
         private void ShowDetailWindow()
         {
+            this.manager.running = false;
             this.window.Content = new SessionDetailViewModel(this.window, SelectedPatientWithSession);
         }
 

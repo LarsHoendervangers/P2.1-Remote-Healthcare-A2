@@ -37,7 +37,7 @@ namespace RemoteHealthcare_Server
         public void StartServer()
         {
             PrintToGUI($"[Server debug] - Server started on {this.Ip}:{this.Port}.");
-            this.tcpListener.Start();
+            this.tcpListener?.Start();
             RunServer();
         }
 
