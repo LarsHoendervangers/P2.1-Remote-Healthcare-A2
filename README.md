@@ -4,7 +4,7 @@ Voor het groepsproject van periode 1 jaar 2 kregen wij een bijzondere opdracht.
 Een casus was opgesteld voor de groep om een proof-of-concept te maken.
 In 8 weken, met 6 man is er een concept opgesteld. Alle studenten zijn:
 - Luuk verhagen
-- Lars Hoendevanger
+- Lars Hoendevangers
 - Imre Fien
 - Teun Leenders
 - Twan van Noorloos
