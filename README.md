@@ -1,4 +1,4 @@
-#Remote Healthcare TI2.1
+# Remote Healthcare TI2.1
 
 Voor het groepsproject van periode 1 jaar 2 kregen wij een bijzondere opdracht.
 Een casus was opgesteld voor de groep om een proof-of-concept te maken.
